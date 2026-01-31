@@ -7,7 +7,7 @@ import { onClickOutside, onKeyStroke } from '@vueuse/core';
 import { Drama, HistoryIcon, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 
-//TODO: move this to the Auth module.
+// TODO: move this to the Auth module.
 
 interface Impersonation {
     user: User;
