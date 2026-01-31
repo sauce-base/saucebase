@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 abstract class ModuleServiceProvider extends ServiceProvider
 {
@@ -52,6 +54,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
         $this->registerCommandSchedules();
         $this->registerTranslations();
         $this->registerConfig();
+        $this->registerFactories();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
         $this->shareInertiaData();
     }
@@ -118,6 +121,39 @@ abstract class ModuleServiceProvider extends ServiceProvider
 
         $this->publishes([module_path($this->name, $configPath) => config_path($this->nameLower.'.php')], $configPath);
         $this->mergeConfigFrom(module_path($this->name, $configPath), $this->nameLower);
+    }
+
+    /**
+     * Register model factories.
+     */
+    protected function registerFactories(): void
+    {
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            $moduleNamespacePrefix = rtrim((string) config('modules.namespace', 'Modules\\'), '\\') . '\\';
+            if (str_starts_with($modelName, $moduleNamespacePrefix)) {
+
+                // get the first part of the string before Models and get the last part of the string for the model name
+                $modelNameArr = explode('\\', $modelName);
+
+                // get index of Models
+                $index = array_search('Models', $modelNameArr);
+
+                // Guard against missing 'Models' segment - fall back to non-module factory namespace
+                if ($index === false) {
+                    return 'Database\\Factories\\'.Str::afterLast($modelName, '\\').'Factory';
+                }
+
+                // get the first part of the string before Models index value
+                $moduleNamespace = implode('\\', array_slice($modelNameArr, 0, $index));
+
+                // get the last part of the string for the model name
+                $modelNameModel = end($modelNameArr);
+
+                return $moduleNamespace.'\\Database\\Factories\\'.$modelNameModel.'Factory';
+            }
+
+            return 'Database\\Factories\\'.Str::afterLast($modelName, '\\').'Factory';
+        });
     }
 
     /**

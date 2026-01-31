@@ -38,7 +38,7 @@ Navigation::add(
 
 Navigation::add(
     'Documentation',
-    'https://sauce-base.github.io/docs/getting-started/introduction',
+    'https://sauce-base.github.io/docs/',
     function (Section $section) {
         $section->attributes([
             'group' => 'secondary',

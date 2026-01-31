@@ -30,6 +30,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->spa()
             ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth('full')
+            ->unsavedChangesAlerts()
             ->userMenuItems([
                 Action::make('site')
                     ->label('Ver site')

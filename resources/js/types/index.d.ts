@@ -4,6 +4,7 @@ export interface User {
     email: string;
     avatar: string;
     last_login_at: string | null;
+    role?: string;
 }
 
 export interface Breadcrumb {

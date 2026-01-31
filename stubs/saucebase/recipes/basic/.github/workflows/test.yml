@@ -1,0 +1,120 @@
+name: ___Module___ Module Tests
+
+on:
+    pull_request:
+        branches: [main]
+    push:
+        branches: [main]
+
+permissions:
+    contents: read
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+
+        steps:
+            - name: Checkout ___Module___ module
+              uses: actions/checkout@v4
+              with:
+                  path: ___module___-module
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+                  coverage: none
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+
+            - name: Create fresh Saucebase project
+              run: composer create-project saucebase/saucebase saucebase --no-interaction
+
+            - name: Install ___Module___ module from local checkout
+              run: |
+                  # Remove any existing ___Module___ module
+                  rm -rf saucebase/modules/___Module___
+                  # Copy the checked out ___Module___ module
+                  cp -r ___module___-module saucebase/modules/___Module___
+                  # Enable the ___Module___ module
+                  cd saucebase
+                  jq '. + {"___Module___": true}' modules_statuses.json > modules_statuses.json.tmp
+                  mv modules_statuses.json.tmp modules_statuses.json
+
+            - name: Install Composer dependencies
+              working-directory: saucebase
+              run: composer install --prefer-dist --no-interaction --no-progress
+
+            - name: Copy environment file
+              working-directory: saucebase
+              run: |
+                  cp .env.example .env
+                  echo "DB_CONNECTION=sqlite" >> .env
+                  echo "DB_DATABASE=database/database.sqlite" >> .env
+                  echo "LOG_CHANNEL=stderr" >> .env
+                  echo "TELESCOPE_ENABLED=false" >> .env
+
+            - name: Set permissions
+              working-directory: saucebase
+              run: chmod -R 777 storage bootstrap/cache
+
+            - name: Create SQLite database
+              working-directory: saucebase
+              run: |
+                  mkdir -p database
+                  touch database/database.sqlite
+
+            - name: Generate app key
+              working-directory: saucebase
+              run: php artisan key:generate
+
+            - name: Run migrations
+              working-directory: saucebase
+              run: php artisan migrate --force --seed
+
+            - name: Install npm dependencies
+              working-directory: saucebase
+              run: npm ci
+
+            - name: Build frontend assets
+              working-directory: saucebase
+              run: npm run build
+
+            - name: Run ___Module___ module PHPUnit tests
+              working-directory: saucebase
+              run: php artisan test modules/___Module___/tests
+
+            - name: Install Playwright
+              working-directory: saucebase
+              run: npx playwright install chromium --with-deps
+
+            - name: Start Laravel server
+              working-directory: saucebase
+              run: php artisan serve --host=0.0.0.0 --port=8000 &
+
+            - name: Wait for server
+              run: |
+                  timeout 30 bash -c 'until curl -f http://localhost:8000 > /dev/null 2>&1; do
+                    echo "Waiting for server..."
+                    sleep 2
+                  done'
+                  echo "✅ Server is ready!"
+
+            - name: Run ___Module___ module E2E tests
+              working-directory: saucebase
+              env:
+                  APP_URL: http://localhost:8000
+              run: npx playwright test modules/___Module___/tests/e2e --max-failures=2
+
+            - name: Upload Playwright report
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: playwright-report
+                  path: saucebase/playwright-report/
+                  retention-days: 7
