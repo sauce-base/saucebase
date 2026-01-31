@@ -1,4 +1,4 @@
-name: __Module___ Module Tests
+name: ___Module___ Module Tests
 
 on:
     pull_request:
@@ -15,10 +15,10 @@ jobs:
         timeout-minutes: 20
 
         steps:
-            - name: Checkout __Module___ module
+            - name: Checkout ___Module___ module
               uses: actions/checkout@v4
               with:
-                  path: __module___-module
+                  path: ___module___-module
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -35,15 +35,15 @@ jobs:
             - name: Create fresh Saucebase project
               run: composer create-project saucebase/saucebase saucebase --no-interaction
 
-            - name: Install __Module___ module from local checkout
+            - name: Install ___Module___ module from local checkout
               run: |
-                  # Remove any existing __Module___ module
-                  rm -rf saucebase/modules/__Module___
-                  # Copy the checked out __Module___ module
-                  cp -r __module___-module saucebase/modules/__Module___
-                  # Enable the __Module___ module
+                  # Remove any existing ___Module___ module
+                  rm -rf saucebase/modules/___Module___
+                  # Copy the checked out ___Module___ module
+                  cp -r ___module___-module saucebase/modules/___Module___
+                  # Enable the ___Module___ module
                   cd saucebase
-                  jq '. + {"__Module___": true}' modules_statuses.json > modules_statuses.json.tmp
+                  jq '. + {"___Module___": true}' modules_statuses.json > modules_statuses.json.tmp
                   mv modules_statuses.json.tmp modules_statuses.json
 
             - name: Install Composer dependencies
@@ -85,9 +85,9 @@ jobs:
               working-directory: saucebase
               run: npm run build
 
-            - name: Run __Module___ module PHPUnit tests
+            - name: Run ___Module___ module PHPUnit tests
               working-directory: saucebase
-              run: php artisan test modules/__Module___/tests
+              run: php artisan test modules/___Module___/tests
 
             - name: Install Playwright
               working-directory: saucebase
@@ -105,11 +105,11 @@ jobs:
                   done'
                   echo "✅ Server is ready!"
 
-            - name: Run __Module___ module E2E tests
+            - name: Run ___Module___ module E2E tests
               working-directory: saucebase
               env:
                   APP_URL: http://localhost:8000
-              run: npx playwright test modules/__Module___/tests/e2e --max-failures=2
+              run: npx playwright test modules/___Module___/tests/e2e --max-failures=2
 
             - name: Upload Playwright report
               if: failure()
