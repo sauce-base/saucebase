@@ -138,6 +138,11 @@ abstract class ModuleServiceProvider extends ServiceProvider
                 // get index of Models
                 $index = array_search('Models', $modelNameArr);
 
+                // Guard against missing 'Models' segment - fall back to non-module factory namespace
+                if ($index === false) {
+                    return 'Database\\Factories\\'.Str::afterLast($modelName, '\\').'Factory';
+                }
+
                 // get the first part of the string before Models index value
                 $moduleNamespace = implode('\\', array_slice($modelNameArr, 0, $index));
 
