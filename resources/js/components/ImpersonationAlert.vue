@@ -7,7 +7,7 @@ import { onClickOutside, onKeyStroke } from '@vueuse/core';
 import { Drama, HistoryIcon, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 
-//TODO: move this to the Auth module.
+// TODO: move this to the Auth module.
 
 interface Impersonation {
     user: User;
@@ -93,7 +93,7 @@ const containerClasses = computed(() => cn('fixed bottom-3 right-3 z-50'));
             :aria-label="$t('Show impersonation details')"
             :aria-expanded="false"
         >
-            <Avatar class="bg-gray-00 size-10">
+            <Avatar class="bg-gray-100 size-10">
                 <AvatarImage
                     :src="impersonation.user.avatar"
                     :alt="impersonation.user.name"
