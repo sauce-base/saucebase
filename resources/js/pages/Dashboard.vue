@@ -287,6 +287,9 @@ const recentActivity = ref([
                                 </div>
                                 <Button variant="ghost" size="icon">
                                     <IconArrowRight class="h-4 w-4" />
+                                    <span class="sr-only">
+                                        {{ $t('View') }} {{ $t(feature.title) }}
+                                    </span>
                                 </Button>
                             </div>
                         </CardContent>
