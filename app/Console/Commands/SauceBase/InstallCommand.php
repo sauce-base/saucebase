@@ -71,6 +71,11 @@ class InstallCommand extends Command
             return;
         }
 
+        // Check for uncommitted changes
+        if (! $this->checkGitStatus()) {
+            return;
+        }
+
         // Check if ports are available
         if (! $this->option('force') && ! $this->checkPorts()) {
             return;
@@ -110,6 +115,9 @@ class InstallCommand extends Command
 
         // Install and setup modules (Auth, Settings)
         $this->setupModules();
+
+        // Run module migrations
+        $this->migrateModules();
 
         // Create storage link
         $this->createStorageLink();
@@ -263,6 +271,68 @@ class InstallCommand extends Command
         return false;
     }
 
+    /**
+     * Check if git repository has uncommitted changes
+     */
+    protected function checkGitStatus(): bool
+    {
+        // Check if git is available
+        $gitCheck = new Process(['git', '--version']);
+        $gitCheck->run();
+
+        if (! $gitCheck->isSuccessful()) {
+            return true; // Git not available, proceed without warning
+        }
+
+        // Check if we're in a git repository
+        $isRepo = new Process(['git', 'rev-parse', '--is-inside-work-tree']);
+        $isRepo->setWorkingDirectory(base_path());
+        $isRepo->run();
+
+        if (! $isRepo->isSuccessful()) {
+            return true; // Not a git repo, proceed without warning
+        }
+
+        // Check for uncommitted changes
+        $status = new Process(['git', 'status', '--porcelain']);
+        $status->setWorkingDirectory(base_path());
+        $status->run();
+
+        $changes = trim($status->getOutput());
+
+        if (! empty($changes) && $this->input->isInteractive()) {
+            $this->newLine();
+            $this->warn('You have uncommitted changes in your repository:');
+            $this->newLine();
+
+            // Show abbreviated status (first 10 files max)
+            $lines = explode("\n", $changes);
+            $shown = array_slice($lines, 0, 10);
+            foreach ($shown as $line) {
+                $this->line("  {$line}");
+            }
+            if (count($lines) > 10) {
+                $this->line('  ... and '.(count($lines) - 10).' more files');
+            }
+
+            $this->newLine();
+
+            if (! $this->confirm('The installation may modify files. Do you want to continue?', false)) {
+                $this->newLine();
+                $this->info('Installation cancelled. You can:');
+                $this->line('  • Commit your changes:  <fg=yellow>git add . && git commit -m "WIP"</>');
+                $this->line('  • Stash your changes:   <fg=yellow>git stash</>');
+                $this->line('  • Discard your changes: <fg=yellow>git checkout .</>');
+                $this->newLine();
+                $this->line('Then run: <fg=yellow>php artisan saucebase:install</>');
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     protected function shouldSetupSSL(): bool
     {
         // Check if mkcert is installed
@@ -292,17 +362,43 @@ class InstallCommand extends Command
         $this->newLine();
         $this->info('📦 Installing required modules...');
 
+        // Check if module directories already exist
+        $existingModules = [];
+        $moduleDirs = ['Auth', 'Settings'];
+
+        foreach ($moduleDirs as $moduleName) {
+            $modulePath = base_path("modules/{$moduleName}");
+            if (is_dir($modulePath)) {
+                $existingModules[] = $moduleName;
+            }
+        }
+
+        // Prompt user if modules exist (interactive mode only)
+        $skipModules = [];
+        if (! empty($existingModules) && $this->input->isInteractive()) {
+            $this->warn('The following module directories already exist:');
+            foreach ($existingModules as $moduleName) {
+                $this->line("  - modules/{$moduleName}/");
+            }
+            $this->newLine();
+
+            if (! $this->confirm('Do you want to overwrite these modules? (No will keep existing files)', false)) {
+                $skipModules = $existingModules;
+                $this->info('Keeping existing module directories.');
+            }
+        }
+
         // Check if modules are already installed
         $composerJson = json_decode(file_get_contents(base_path('composer.json')), true);
         $requireDev = $composerJson['require-dev'] ?? [];
 
         $modulesToInstall = [];
 
-        if (! isset($requireDev['saucebase/auth']) && ! Module::has('Auth')) {
+        if (! in_array('Auth', $skipModules) && ! isset($requireDev['saucebase/auth']) && ! Module::has('Auth')) {
             $modulesToInstall[] = 'saucebase/auth';
         }
 
-        if (! isset($requireDev['saucebase/settings']) && ! Module::has('Settings')) {
+        if (! in_array('Settings', $skipModules) && ! isset($requireDev['saucebase/settings']) && ! Module::has('Settings')) {
             $modulesToInstall[] = 'saucebase/settings';
         }
 
@@ -325,39 +421,15 @@ class InstallCommand extends Command
                 return $this->dumpAutoload();
             });
 
-            // Enable Auth module
-            $this->components->task('Enabling Auth module', function () {
-                $process = new Process(['docker', 'compose', 'exec', '-T', 'app', 'php', 'artisan', 'module:enable', 'Auth']);
+            // Enable modules
+            $this->components->task('Enabling modules', function () {
+                $process = new Process(['docker', 'compose', 'exec', '-T', 'app', 'php', 'artisan', 'module:enable', '--all']);
                 $process->run();
 
                 return $process->isSuccessful();
             });
 
-            // Migrate and seed Auth module
-            $this->components->task('Migrating Auth module', function () {
-                $process = new Process(['docker', 'compose', 'exec', '-T', 'app', 'php', 'artisan', 'module:migrate', 'Auth', '--seed']);
-                $process->setTimeout(60);
-                $process->run();
-
-                return $process->isSuccessful();
-            });
-
-            // Enable Settings module
-            $this->components->task('Enabling Settings module', function () {
-                $process = new Process(['docker', 'compose', 'exec', '-T', 'app', 'php', 'artisan', 'module:enable', 'Settings']);
-                $process->run();
-
-                return $process->isSuccessful();
-            });
-
-            // Migrate Settings module (no seed)
-            $this->components->task('Migrating Settings module', function () {
-                $process = new Process(['docker', 'compose', 'exec', '-T', 'app', 'php', 'artisan', 'module:migrate', 'Settings', '--seed']);
-                $process->setTimeout(60);
-                $process->run();
-
-                return $process->isSuccessful();
-            });
+            // Note: Migrations are handled by migrateModules() which runs after this
         } else {
             $this->info('✓ Auth and Settings modules already installed');
         }
@@ -456,13 +528,72 @@ class InstallCommand extends Command
 
     protected function startDockerServices(): void
     {
-        $this->components->task('Starting Docker services', function () {
-            $process = new Process(['docker', 'compose', 'up', '-d', '--wait']);
-            $process->setTimeout(180);
+        $this->newLine();
+        $this->info('🐳 Starting Docker services...');
+
+        // Services in dependency order (databases first, then app, then web server)
+        $services = [
+            'mysql' => ['label' => 'MySQL database', 'healthcheck' => true, 'timeout' => 60],
+            'redis' => ['label' => 'Redis cache', 'healthcheck' => true, 'timeout' => 30],
+            'mailpit' => ['label' => 'Mailpit (email testing)', 'healthcheck' => false, 'timeout' => 15],
+            'app' => ['label' => 'PHP-FPM application', 'healthcheck' => false, 'timeout' => 30],
+            'nginx' => ['label' => 'Nginx web server', 'healthcheck' => false, 'timeout' => 15],
+        ];
+
+        foreach ($services as $name => $config) {
+            $this->components->task("Starting {$config['label']}", function () use ($name, $config) {
+                // Start the service
+                $process = new Process(['docker', 'compose', 'up', '-d', $name]);
+                $process->setTimeout(30);
+                $process->run();
+
+                if (! $process->isSuccessful()) {
+                    return false;
+                }
+
+                // Wait for service to be ready
+                return $this->waitForService($name, $config['healthcheck'], $config['timeout']);
+            });
+        }
+
+        $this->newLine();
+    }
+
+    /**
+     * Wait for a Docker service to be ready
+     */
+    protected function waitForService(string $serviceName, bool $hasHealthcheck, int $timeout): bool
+    {
+        $startTime = time();
+
+        while ((time() - $startTime) < $timeout) {
+            $process = new Process([
+                'docker', 'compose', 'ps',
+                '--format', '{{.State}}:{{.Health}}',
+                $serviceName,
+            ]);
             $process->run();
 
-            return $process->isSuccessful();
-        });
+            $output = trim($process->getOutput());
+            if (empty($output)) {
+                sleep(1);
+
+                continue;
+            }
+
+            $parts = explode(':', $output);
+            $state = $parts[0] ?? '';
+            $health = $parts[1] ?? '';
+
+            // Service is ready when running and (no healthcheck OR healthy)
+            if ($state === 'running' && (! $hasHealthcheck || $health === 'healthy')) {
+                return true;
+            }
+
+            sleep(1);
+        }
+
+        return false;
     }
 
     protected function installComposerDependencies(): void
@@ -507,6 +638,17 @@ class InstallCommand extends Command
     {
         $this->components->task('Setting up database', function () {
             $process = new Process(['docker', 'compose', 'exec', '-T', 'app', 'php', 'artisan', 'migrate:fresh', '--seed', '--force']);
+            $process->setTimeout(300);
+            $process->run();
+
+            return $process->isSuccessful();
+        });
+    }
+
+    protected function migrateModules(): void
+    {
+        $this->components->task('Migrating modules', function () {
+            $process = new Process(['docker', 'compose', 'exec', '-T', 'app', 'php', 'artisan', 'module:migrate', '--all', '--seed']);
             $process->setTimeout(300);
             $process->run();
 
