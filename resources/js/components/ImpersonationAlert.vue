@@ -93,7 +93,7 @@ const containerClasses = computed(() => cn('fixed bottom-3 right-3 z-50'));
             :aria-label="$t('Show impersonation details')"
             :aria-expanded="false"
         >
-            <Avatar class="bg-gray-100 size-10">
+            <Avatar class="size-10 bg-gray-100">
                 <AvatarImage
                     :src="impersonation.user.avatar"
                     :alt="impersonation.user.name"
