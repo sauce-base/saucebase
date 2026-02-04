@@ -19,7 +19,7 @@
     <defs>
         <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(376.07,135.39,-135.39,376.07,231.46,875.253)">
             <stop offset="0" style="stop-color:rgb(255,255,255);stop-opacity:1"/>
-            <stop offset="1" style="stop-color:rgb(230,235,255);stop-opacity:1"/>
+            <stop offset="1" style="stop-color:rgb(235,230,255);stop-opacity:1"/>
         </linearGradient>
 
         <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-481.156,-26.6311,26.6311,-481.156,753.144,1025.92)">
