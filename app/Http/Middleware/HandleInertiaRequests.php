@@ -7,6 +7,7 @@ use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Inertia\Middleware;
+use Nwidart\Modules\Facades\Module;
 use Spatie\Navigation\Navigation;
 use Symfony\Component\HttpFoundation\Response;
 use Tighten\Ziggy\Ziggy;
@@ -40,9 +41,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-
         return array_merge(parent::share($request), [
             'locale' => app()->getLocale(),
+            'modules' => fn () => collect(Module::allEnabled())
+                ->mapWithKeys(fn ($module, $key) => [$key => $module->getName()])
+                ->all(),
             'navigation' => app(Navigation::class)->treeGrouped(),
             'breadcrumbs' => $this->getBreadcrumbs(),
             'toast' => fn () => $request->session()->pull('toast'),

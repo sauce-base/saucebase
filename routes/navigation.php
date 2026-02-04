@@ -65,3 +65,36 @@ Navigation::addWhen(
         ]);
     }
 );
+
+/*
+|--------------------------------------------------------------------------
+| Landing Page Navigation
+|--------------------------------------------------------------------------
+|
+| Anchor links for the landing page. These use 'external' => true to
+| render as regular <a> tags (Inertia Link doesn't handle anchors).
+|
+*/
+
+Navigation::add('Features', '/#features', function (Section $section) {
+    $section->attributes([
+        'group' => 'landing',
+        'slug' => 'features',
+        'external' => true,
+        'order' => 0,
+    ]);
+});
+
+Navigation::add(
+    'Docs',
+    'https://sauce-base.github.io/docs/',
+    function (Section $section) {
+        $section->attributes([
+            'group' => 'landing',
+            'slug' => 'documentation',
+            'external' => true,
+            'newPage' => true,
+            'order' => 1,
+        ]);
+    }
+);

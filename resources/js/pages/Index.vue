@@ -2,20 +2,20 @@
 import AppLogo from '@/components/AppLogo.vue';
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
-import ProductCard from '@/components/ProductCard.vue';
+import { modules } from '@/composables/useModules';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 import type { Product } from '@modules/Billing/resources/js/types';
+
+import ProductSection from '@modules/Billing/resources/js/components/ProductSection.vue';
 
 import IconGitHub from '~icons/heroicons/code-bracket';
 import IconAI from '~icons/heroicons/sparkles';
 import IconDashboard from '~icons/heroicons/squares-2x2';
 import IconUserPlus from '~icons/heroicons/user-plus';
 
-const props = defineProps<{
-    canLogin?: boolean;
-    canRegister?: boolean;
+defineProps<{
     products?: Product[];
 }>();
 
@@ -23,37 +23,11 @@ const page = usePage();
 const user = computed(() => page.props.auth?.user);
 const title = 'Sauce Base - Modern Laravel SaaS Starter Kit';
 
-// Billing toggle state
-const billingInterval = ref<'month' | 'year'>('month');
-
 // Mouse tracking for parallax effect
 const mouseX = ref(0);
 const mouseY = ref(0);
 
 const isServer = typeof window === 'undefined';
-
-// Filter products based on selected billing interval
-const filteredProducts = computed(() => {
-    if (!props.products) return [];
-
-    return props.products
-        .map((product) => ({
-            ...product,
-            prices: product.prices.filter((price) => {
-                if (billingInterval.value === 'month') {
-                    return (
-                        price.interval === 'month' ||
-                        price.interval === 'monthly'
-                    );
-                } else {
-                    return (
-                        price.interval === 'year' || price.interval === 'yearly'
-                    );
-                }
-            }),
-        }))
-        .filter((product) => product.prices.length > 0); // Only show products with prices for selected interval
-});
 
 const handleMouseMove = (e: MouseEvent) => {
     if (isServer) return;
@@ -82,7 +56,7 @@ onUnmounted(() => {
     </Head>
     <div class="relative isolate flex min-h-screen flex-col overflow-x-hidden">
         <!-- Header with theme toggle -->
-        <Header :canLogin="canLogin" :canRegister="canRegister" />
+        <Header />
 
         <!-- Top gradient blob -->
         <div
@@ -155,7 +129,7 @@ onUnmounted(() => {
                 >
                     <!-- Primary CTA -->
                     <Link
-                        v-if="canRegister && !user"
+                        v-if="modules().has('auth') && !user"
                         :href="route('register')"
                         class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-full px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden dark:focus:ring-offset-gray-950"
                     >
@@ -186,7 +160,7 @@ onUnmounted(() => {
 
                     <!-- Sign In Button -->
                     <Link
-                        v-if="canLogin && !user"
+                        v-if="modules().has('auth') && !user"
                         :href="route('login')"
                         class="text-primary hover:text-primary/90 dark:text-white dark:hover:text-white/80"
                     >
@@ -198,12 +172,13 @@ onUnmounted(() => {
 
         <!-- Features Section -->
         <div
+            id="features"
             class="relative isolate overflow-hidden border-t border-gray-200 bg-white/50 py-24 sm:py-32 dark:border-gray-800 dark:bg-gray-900/90"
         >
             <div class="absolute inset-0 -z-10 overflow-hidden">
                 <svg
                     aria-hidden="true"
-                    class="absolute top-0 left-[max(50%,25rem)] h-256 w-512 -translate-x-1/2 mask-[radial-gradient(64rem_64rem_at_top,white,transparent)] stroke-gray-300 dark:stroke-gray-700/50"
+                    class="absolute top-0 left-[max(50%,25rem)] h-256 w-512 -translate-x-1/2 mask-[radial-gradient(64rem_64rem_at_top,white,transparent)] stroke-gray-300/70 dark:stroke-gray-700/50"
                 >
                     <defs>
                         <pattern
@@ -242,7 +217,7 @@ onUnmounted(() => {
                     <div class="lg:pt-4 lg:pr-8">
                         <div class="lg:max-w-lg">
                             <h2
-                                class="text-base/7 font-semibold text-indigo-600 dark:text-indigo-400"
+                                class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400"
                             >
                                 {{ $t('Built for developers') }}
                             </h2>
@@ -348,90 +323,21 @@ onUnmounted(() => {
                         </div>
                     </div>
                     <img
-                        width="2432"
-                        height="1442"
                         src="/images/screenshots/dashboard-dark.png"
                         :alt="$t('Saucebase dashboard screenshot')"
-                        class="w-3xl max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 not-dark:hidden sm:w-228 md:-ml-4 lg:ml-0 dark:ring-white/30"
+                        class="w-3xl max-w-none rounded-xl p-3 shadow-xl ring-1 ring-gray-400/10 not-dark:hidden sm:w-228 md:-ml-4 lg:ml-0 dark:ring-white/30"
                     />
                     <img
-                        width="2432"
-                        height="1442"
                         src="/images/screenshots/dashboard-light.png"
                         :alt="$t('Saucebase dashboard screenshot')"
-                        class="w-3xl max-w-none rounded-xl shadow-2xl ring-1 shadow-black ring-gray-400/30 sm:w-228 md:-ml-4 lg:ml-0 dark:hidden dark:ring-white/30"
+                        class="w-3xl max-w-none rounded-xl p-3 shadow-2xl ring-1 shadow-black ring-gray-400/30 sm:w-228 md:-ml-4 lg:ml-0 dark:hidden dark:ring-white/30"
                     />
                 </div>
             </div>
         </div>
 
         <!-- Pricing Section -->
-        <section
-            class="relative isolate w-full bg-gray-50 px-6 py-24 sm:py-32 dark:bg-gray-900"
-        >
-            <div class="mx-auto max-w-4xl text-center">
-                <h2
-                    class="mt-2 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl dark:text-white"
-                >
-                    {{ $t('Pricing that grows with you') }}
-                </h2>
-                <p
-                    class="mx-auto mt-6 max-w-2xl text-lg text-gray-600 dark:text-gray-400"
-                >
-                    {{
-                        $t(
-                            "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales.",
-                        )
-                    }}
-                </p>
-            </div>
-
-            <!-- Billing Toggle -->
-            <div class="mt-10 flex justify-center">
-                <div
-                    class="relative flex items-center rounded-full bg-gray-100 p-1 shadow-lg dark:bg-white/5"
-                >
-                    <button
-                        @click="billingInterval = 'month'"
-                        :class="[
-                            'relative z-10 rounded-full px-6 py-2 text-sm font-medium transition-all duration-200',
-                            billingInterval === 'month'
-                                ? 'bg-primary text-white'
-                                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
-                        ]"
-                    >
-                        {{ $t('Monthly') }}
-                    </button>
-                    <button
-                        @click="billingInterval = 'year'"
-                        :class="[
-                            'relative z-10 rounded-full px-6 py-2 text-sm font-medium transition-all duration-200',
-                            billingInterval === 'year'
-                                ? 'bg-primary text-white'
-                                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
-                        ]"
-                    >
-                        {{ $t('Yearly') }}
-                    </button>
-                </div>
-            </div>
-
-            <!-- Pricing Cards -->
-            <div
-                class="mx-auto mt-4 grid max-w-6xl grid-cols-1 gap-6 sm:mt-10"
-                :class="{
-                    'lg:grid-cols-2': filteredProducts.length === 2,
-                    'lg:grid-cols-3': filteredProducts.length === 3,
-                    'lg:grid-cols-4': filteredProducts.length >= 4,
-                }"
-            >
-                <ProductCard
-                    v-for="product in filteredProducts"
-                    :key="product.id"
-                    :product="product"
-                />
-            </div>
-        </section>
+        <ProductSection v-if="products" :products="products" />
 
         <!-- Footer -->
         <Footer />

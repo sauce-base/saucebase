@@ -12,6 +12,8 @@ export interface Navigation {
     secondary: MenuItem[];
     settings: MenuItem[];
     user: MenuItem[];
+    landing: MenuItem[];
+    // Additional sections can be added as needed
 }
 
 /**
