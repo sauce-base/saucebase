@@ -85,6 +85,15 @@ Navigation::add('Features', '/#features', function (Section $section) {
     ]);
 });
 
+Navigation::add('FAQ', '/#faq', function (Section $section) {
+    $section->attributes([
+        'group' => 'landing',
+        'slug' => 'faq',
+        'external' => true,
+        'order' => 1,
+    ]);
+});
+
 Navigation::add(
     'Docs',
     'https://sauce-base.github.io/docs/',
@@ -94,7 +103,7 @@ Navigation::add(
             'slug' => 'documentation',
             'external' => true,
             'newPage' => true,
-            'order' => 1,
+            'order' => 2,
         ]);
     }
 );

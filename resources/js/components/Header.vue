@@ -2,6 +2,7 @@
 import { modules } from '@/composables/useModules';
 import type { MenuItem } from '@/types/navigation';
 import { Link, usePage } from '@inertiajs/vue3';
+import { ExternalLink } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import IconMenu from '~icons/heroicons/bars-3';
 import IconX from '~icons/heroicons/x-mark';
@@ -35,7 +36,7 @@ onBeforeUnmount(() => {
         class="fixed top-0 right-0 left-0 z-50 transition-all duration-300"
         :class="
             isScrolled
-                ? 'border-b bg-white/5 shadow-sm backdrop-blur-md'
+                ? 'border-b bg-white/5 shadow-2xl backdrop-blur-lg dark:border-b-gray-400/25'
                 : 'bg-transparent'
         "
     >
@@ -61,6 +62,10 @@ onBeforeUnmount(() => {
                         class="after:bg-primary relative px-4 py-2 text-sm font-semibold text-gray-700 transition-all duration-300 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:rounded-full after:transition-all after:duration-300 hover:text-gray-900 hover:after:w-3/4 dark:text-gray-300 dark:hover:text-white"
                     >
                         {{ $t(item.title) }}
+                        <ExternalLink
+                            v-if="item.newPage"
+                            class="-mt-1 ml-1 inline-block size-3.5"
+                        />
                     </a>
                 </div>
 
