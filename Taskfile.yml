@@ -56,7 +56,7 @@ tasks:
 
     test:e2e:
         desc: Run E2E tests
-        cmd: npm playwright test {{.CLI_ARGS}}
+        cmd: npm run test:e2e {{.CLI_ARGS}}
         interactive: true
 
     # ── Helpers ───────────────────────────────────────────────────
