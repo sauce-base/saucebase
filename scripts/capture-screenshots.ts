@@ -6,6 +6,7 @@ import {
     type BrowserContext,
     type Page,
 } from '@playwright/test';
+import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
@@ -288,6 +289,65 @@ async function capturePageScreenshot(
     }
 }
 
+// Generate an animated GIF preview from all captured screenshots
+function generatePreviewGif(outputDir: string): void {
+    const frames = screenshots.map((s) =>
+        path.join(outputDir, `${s.name}.png`),
+    );
+    const missingFrames = frames.filter((f) => !fs.existsSync(f));
+
+    if (missingFrames.length > 0) {
+        console.log(
+            `\n⚠️  Skipping GIF generation — missing ${missingFrames.length} frame(s)`,
+        );
+        return;
+    }
+
+    console.log('\n🎬 Generating preview GIF...');
+
+    const concatFile = path.join(outputDir, 'concat.txt');
+    const lastFrame = frames[frames.length - 1];
+    const concatContent =
+        frames.map((f) => `file '${f}'\nduration 2`).join('\n') +
+        `\nfile '${lastFrame}'`;
+
+    fs.writeFileSync(concatFile, concatContent);
+
+    const outputPath = path.join(outputDir, 'preview.gif');
+
+    try {
+        execFileSync(
+            'ffmpeg',
+            [
+                '-y',
+                '-f',
+                'concat',
+                '-safe',
+                '0',
+                '-i',
+                concatFile,
+                '-vf',
+                'scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=256:stats_mode=full[p];[s1][p]paletteuse=dither=floyd_steinberg',
+                '-loop',
+                '0',
+                outputPath,
+            ],
+            { stdio: 'pipe' },
+        );
+
+        const size = (fs.statSync(outputPath).size / 1024).toFixed(0);
+        console.log(`  ✓ preview.gif (${size}KB)`);
+    } catch {
+        console.error(
+            '  ✗ GIF generation failed. Make sure ffmpeg is installed (brew install ffmpeg)',
+        );
+    } finally {
+        if (fs.existsSync(concatFile)) {
+            fs.unlinkSync(concatFile);
+        }
+    }
+}
+
 // Main function
 async function main(): Promise<void> {
     // Parse CLI arguments
@@ -377,6 +437,9 @@ async function main(): Promise<void> {
     }
 
     console.log('\n✅ All screenshots captured successfully!');
+
+    // Generate animated GIF preview from key screenshots
+    generatePreviewGif(outputDir);
 }
 
 // Run the script

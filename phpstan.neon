@@ -3,7 +3,6 @@ includes:
     - vendor/nesbot/carbon/extension.neon
 
 parameters:
-    
     # Do not fail the analysis if an ignoreErrors pattern doesn't match any reported error.
     # This prevents "Ignored error pattern ... was not matched" failures when patterns are
     reportUnmatchedIgnoredErrors: false
@@ -18,10 +17,11 @@ parameters:
     ignoreErrors:
         - message: "#^Called 'env' outside of the config directory which returns null when the config is cached, use 'config'.$#"
           paths:
-            - modules/*/config/*.php
+              - modules/*/config/*.php
 
-#    ignoreErrors:
-#        - '#PHPDoc tag @var#'
-#
-#    excludePaths:
-#        - ./*/*/FileToBeExcluded.php
+    excludePaths:
+        - modules/*/vendor/*
+
+    #    ignoreErrors:
+    #        - '#PHPDoc tag @var#'
+    #
