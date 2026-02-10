@@ -16,6 +16,10 @@ tasks:
     # ── Development ───────────────────────────────────────────────
 
     dev:
+        desc: Start vite dev server (with HMR)
+        cmd: npm run dev
+
+    serve:
         desc: Start dev server (app, queue, logs, vite)
         cmd: composer dev
 
@@ -67,7 +71,6 @@ tasks:
         cmds:
             - docker compose exec app php artisan migrate:fresh --seed
             - docker compose exec app php artisan module:migrate-refresh --all --seed
-        interactive: true
 
     # ── Pipelines ─────────────────────────────────────────────────
 

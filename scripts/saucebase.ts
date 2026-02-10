@@ -16,9 +16,28 @@ function loadTasks(): TaskDef[] {
             stdio: ['pipe', 'pipe', 'pipe'],
         });
         const data = JSON.parse(json) as {
-            tasks: { name: string; desc: string }[];
+            tasks: {
+                name: string;
+                desc: string;
+                location: { line: number; taskfile: string };
+            }[];
         };
-        return data.tasks.map(({ name, desc }) => ({ name, desc }));
+
+        const rootTaskfile = data.tasks.find((t) => !t.name.includes(':'))
+            ?.location.taskfile;
+
+        return data.tasks
+            .sort((a, b) => {
+                const aIsRoot = a.location.taskfile === rootTaskfile ? 0 : 1;
+                const bIsRoot = b.location.taskfile === rootTaskfile ? 0 : 1;
+                if (aIsRoot !== bIsRoot) return aIsRoot - bIsRoot;
+                if (a.location.taskfile !== b.location.taskfile)
+                    return a.location.taskfile.localeCompare(
+                        b.location.taskfile,
+                    );
+                return a.location.line - b.location.line;
+            })
+            .map(({ name, desc }) => ({ name, desc }));
     } catch {
         p.log.error(
             'Failed to load tasks from Taskfile. Is the task binary installed?',
