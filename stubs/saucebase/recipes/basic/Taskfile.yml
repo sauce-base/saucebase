@@ -1,0 +1,8 @@
+# https://taskfile.dev
+version: '3'
+
+tasks:
+    # ── Testing ───────────────────────────────────────────────────
+    test:php:
+        desc: Run PHPUnit tests for {Module} module
+        cmd: php artisan test --testsuite=Modules --filter={Module}
