@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'modules' => fn () => collect(Module::allEnabled())
                 ->mapWithKeys(fn ($module, $key) => [$key => $module->getName()])
                 ->all(),
+            /* @phpstan-ignore method.notFound */
             'navigation' => app(Navigation::class)->treeGrouped(),
             'breadcrumbs' => $this->getBreadcrumbs(),
             'toast' => fn () => $request->session()->pull('toast'),
@@ -71,7 +72,7 @@ class HandleInertiaRequests extends Middleware
                 $breadcrumbs = Breadcrumbs::generate($routeName, ...request()->route()->parameters());
 
                 // Convert to array format compatible with frontend
-                return collect($breadcrumbs)->map(fn (object $crumb) => [
+                return collect($breadcrumbs)->map(fn (\stdClass $crumb) => [
                     'title' => 'breadcrumbs.'.$crumb->title,
                     'url' => $crumb->url,
                     'attributes' => $crumb->data ?? [],

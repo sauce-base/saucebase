@@ -9,12 +9,12 @@ import HeroSection from '@/pages/sections/HeroSection.vue';
 
 import { Head } from '@inertiajs/vue3';
 
-// import type { Product } from '@modules/Billing/resources/js/types';
-// import ProductSection from '@modules/Billing/resources/js/components/ProductSection.vue';
+import ProductSection from '@modules/Billing/resources/js/components/ProductSection.vue';
+import type { Product } from '@modules/Billing/resources/js/types';
 
-// defineProps<{
-//     products?: Product[];
-// }>();
+defineProps<{
+    products?: Product[];
+}>();
 </script>
 
 <template>
@@ -44,7 +44,7 @@ import { Head } from '@inertiajs/vue3';
         <FaqSection />
 
         <!-- Pricing Section -->
-        <!-- <ProductSection v-if="products" :products="products" /> -->
+        <ProductSection v-if="products?.length" :products="products" />
 
         <!-- Footer -->
         <Footer />

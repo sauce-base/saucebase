@@ -189,6 +189,12 @@ Saucebase-specific: `APP_HOST`, `APP_URL`, `APP_SLUG`, `VITE_LOCAL_STORAGE_KEY`
 
 SSL: Auto-enforced HTTPS in production/staging. Wildcard cert (`*.localhost`) for multi-tenancy support.
 
+## Workflow
+
+### Code Review Before Completion
+
+Before marking a plan as done, always launch the code review agent (`feature-dev:code-reviewer`) to review all changes made during the plan. Only mark the plan as completed after the review passes with no high-priority issues.
+
 ## Implementation Philosophy
 
 - **Minimum viable implementation** — simplest solution that solves the problem

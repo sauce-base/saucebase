@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,16 +10,18 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 // use Modules\Auth\Traits\useSocialite;
 
 class User extends Authenticatable implements HasMedia
-    // , MustVerifyEmail
 {
     use HasFactory,
         HasRoles,
         InteractsWithMedia,
-        // useSocialite,
         Notifiable;
+
+    // use MustVerifyEmail;
+    // use useSocialite;
 
     /**
      * The attributes that are mass assignable.
@@ -116,5 +117,15 @@ class User extends Authenticatable implements HasMedia
     public function isUser(): bool
     {
         return $this->hasRole(Role::USER);
+    }
+
+    /**
+     * Check if user is a subscriber
+     *
+     * @return bool True if the user has subscriber role
+     */
+    public function isSubscriber(): bool
+    {
+        return $this->hasRole(Role::SUBSCRIBER);
     }
 }
