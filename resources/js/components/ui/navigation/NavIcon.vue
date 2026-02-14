@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, type Component } from 'vue';
+import IconCreditCard from '~icons/lucide/credit-card';
 import IconHelpCircle from '~icons/lucide/help-circle';
 import IconLogOut from '~icons/lucide/log-out';
 import IconSettings from '~icons/lucide/settings';
 import IconShieldCheck from '~icons/lucide/shield-check';
+import IconSparkles from '~icons/lucide/sparkles';
 import IconSquareTerminal from '~icons/lucide/square-terminal';
 import IconUserCircle from '~icons/lucide/user-circle';
 import IconGithub from '~icons/mdi/github';
@@ -26,6 +28,8 @@ const iconMapping: Record<string, Component> = {
     github: IconGithub,
     admin: IconShieldCheck,
     documentation: IconHelpCircle,
+    billing: IconCreditCard,
+    upgrade: IconSparkles,
 };
 
 const iconComponent = computed<Component | null>(() => {

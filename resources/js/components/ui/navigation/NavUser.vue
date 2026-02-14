@@ -160,7 +160,10 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                     v-if="item.action"
                                     :class="['cursor-pointer', item.class]"
                                 >
-                                    <NavigationIcon :icon="item.slug" />
+                                    <NavigationIcon
+                                        :icon="item.slug"
+                                        :class="item.class && 'text-current'"
+                                    />
                                     <span>{{ $t(item.title) }}</span>
                                     <Badge
                                         v-if="getBadgeConfig(item)"
@@ -194,7 +197,10 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                     "
                                     :class="item.class"
                                 >
-                                    <NavigationIcon :icon="item.slug" />
+                                    <NavigationIcon
+                                        :icon="item.slug"
+                                        :class="item.class && 'text-current'"
+                                    />
                                     <span>{{ $t(item.title) }}</span>
                                     <Badge
                                         v-if="getBadgeConfig(item)"
@@ -223,7 +229,10 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                     "
                                     :class="item.class"
                                 >
-                                    <NavigationIcon :icon="item.slug" />
+                                    <NavigationIcon
+                                        :icon="item.slug"
+                                        :class="item.class && 'text-current'"
+                                    />
                                     <span>{{ $t(item.title) }}</span>
                                     <Badge
                                         v-if="getBadgeConfig(item)"
