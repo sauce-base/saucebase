@@ -6,12 +6,34 @@ use Illuminate\Console\Command;
 use Nwidart\Modules\Facades\Module;
 use Symfony\Component\Process\Process;
 
+use function Laravel\Prompts\multiselect;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\warning;
+
 class InstallCommand extends Command
 {
+    protected const AVAILABLE_MODULES = [
+        'Auth' => [
+            'package' => 'saucebase/auth',
+            'description' => 'Authentication with social login support',
+        ],
+        'Settings' => [
+            'package' => 'saucebase/settings',
+            'description' => 'Application settings management',
+            'depends' => ['Auth'],
+        ],
+        'Billing' => [
+            'package' => 'saucebase/billing',
+            'description' => 'Subscription billing and payments',
+            'depends' => ['Auth'],
+        ],
+    ];
+
     protected $signature = 'saucebase:install
                             {--no-docker : Skip Docker setup and use manual configuration}
                             {--no-ssl : Skip SSL certificate generation}
-                            {--force : Force reinstallation even if already set up}';
+                            {--force : Force reinstallation even if already set up}
+                            {--modules= : Comma-separated modules to install (Auth,Settings,Billing)}';
 
     protected $description = 'Install and configure Saucebase';
 
@@ -33,17 +55,99 @@ class InstallCommand extends Command
         return $this->handleAutomatedInstallation();
     }
 
+    protected function promptEnvironment(): string
+    {
+        return select(
+            label: 'How would you like to run Saucebase?',
+            options: [
+                'docker' => 'Docker (recommended)',
+                'native' => 'Native (PHP, MySQL, etc. installed locally)',
+            ],
+            default: 'docker',
+            hint: 'Herd and Valet support coming soon.',
+        );
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function promptModules(): array
+    {
+        $options = [];
+        foreach (self::AVAILABLE_MODULES as $name => $meta) {
+            $label = "{$name} — {$meta['description']}";
+            if (isset($meta['depends'])) {
+                $label .= ' (requires '.implode(', ', $meta['depends']).')';
+            }
+            $options[$name] = $label;
+        }
+
+        $selected = multiselect(
+            label: 'Which modules would you like to install?',
+            options: $options,
+            default: array_keys(self::AVAILABLE_MODULES),
+        );
+
+        return $this->validateModuleDependencies($selected);
+    }
+
+    /**
+     * @param  array<int, string>  $selected
+     * @return array<int, string>
+     */
+    protected function validateModuleDependencies(array $selected): array
+    {
+        foreach (self::AVAILABLE_MODULES as $name => $meta) {
+            if (! in_array($name, $selected) || ! isset($meta['depends'])) {
+                continue;
+            }
+
+            foreach ($meta['depends'] as $dependency) {
+                if (! in_array($dependency, $selected)) {
+                    warning("{$name} requires {$dependency}. {$dependency} was not selected — {$name} may not work correctly.");
+                }
+            }
+        }
+
+        return $selected;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function resolveModules(): array
+    {
+        $flag = $this->option('modules');
+
+        if (is_string($flag) && $flag !== '') {
+            $modules = array_map('trim', explode(',', $flag));
+            $invalid = array_filter($modules, fn (string $m) => ! isset(self::AVAILABLE_MODULES[$m]));
+
+            if (! empty($invalid)) {
+                $this->warn('Unknown modules will be skipped: '.implode(', ', $invalid));
+            }
+
+            $valid = array_values(array_filter($modules, fn (string $m) => isset(self::AVAILABLE_MODULES[$m])));
+
+            return $this->validateModuleDependencies($valid);
+        }
+
+        if ($this->input->isInteractive()) {
+            return $this->promptModules();
+        }
+
+        return array_keys(self::AVAILABLE_MODULES);
+    }
+
     protected function handleInteractiveInstallation(): int
     {
-        // Prompt: Use Docker?
-        $useDocker = $this->option('no-docker')
-            ? false
-            : $this->confirm('Use Docker for local development?', true);
+        $environment = $this->option('no-docker') ? 'native' : $this->promptEnvironment();
+        $modules = $this->resolveModules();
 
-        if ($useDocker) {
-            $this->installWithDocker();
+        if ($environment === 'docker') {
+            $this->installWithDocker($modules);
         } else {
-            $this->installManually();
+            $this->installManually($modules);
         }
 
         return self::SUCCESS;
@@ -51,17 +155,21 @@ class InstallCommand extends Command
 
     protected function handleAutomatedInstallation(): int
     {
-        // When --no-interaction is passed, use Docker by default unless --no-docker is specified
+        $modules = $this->resolveModules();
+
         if ($this->option('no-docker')) {
-            $this->installManually();
+            $this->installManually($modules);
         } else {
-            $this->installWithDocker();
+            $this->installWithDocker($modules);
         }
 
         return self::SUCCESS;
     }
 
-    protected function installWithDocker(): void
+    /**
+     * @param  array<int, string>  $modules
+     */
+    protected function installWithDocker(array $modules = []): void
     {
         $this->info('🐳 Setting up with Docker...');
         $this->newLine();
@@ -113,8 +221,8 @@ class InstallCommand extends Command
         // Setup database
         $this->setupDatabase();
 
-        // Install and setup modules (Auth, Settings)
-        $this->setupModules();
+        // Install and setup selected modules
+        $this->setupModules($modules);
 
         // Run module migrations
         $this->migrateModules();
@@ -135,7 +243,10 @@ class InstallCommand extends Command
         $this->displaySuccess();
     }
 
-    protected function installManually(): void
+    /**
+     * @param  array<int, string>  $modules
+     */
+    protected function installManually(array $modules = []): void
     {
         $this->info('📝 Manual setup mode...');
 
@@ -152,8 +263,18 @@ class InstallCommand extends Command
         $this->warn('You\'ll need to:');
         $this->line('  1. Configure your database in .env');
         $this->line('  2. Run: php artisan migrate');
-        $this->line('  3. Run: npm install && npm run dev');
-        $this->line('  4. Configure your web server');
+
+        if (! empty($modules)) {
+            $packages = array_map(fn (string $m) => self::AVAILABLE_MODULES[$m]['package'], $modules);
+            $this->line('  3. Run: composer require --dev '.implode(' ', $packages));
+            $this->line('  4. Run: php artisan module:enable --all');
+            $this->line('  5. Run: php artisan module:migrate --all --seed');
+            $this->line('  6. Run: npm install && npm run dev');
+            $this->line('  7. Configure your web server');
+        } else {
+            $this->line('  3. Run: npm install && npm run dev');
+            $this->line('  4. Configure your web server');
+        }
 
         $this->newLine();
         $this->info('Documentation: https://sauce-base.github.io/docs/');
@@ -357,18 +478,24 @@ class InstallCommand extends Command
         return $process->isSuccessful();
     }
 
-    protected function setupModules(): void
+    /**
+     * @param  array<int, string>  $selectedModules
+     */
+    protected function setupModules(array $selectedModules = []): void
     {
+        if (empty($selectedModules)) {
+            $this->info('No modules selected — skipping module installation.');
+
+            return;
+        }
+
         $this->newLine();
-        $this->info('📦 Installing required modules...');
+        $this->info('📦 Installing modules: '.implode(', ', $selectedModules).'...');
 
         // Check if module directories already exist
         $existingModules = [];
-        $moduleDirs = ['Auth', 'Settings'];
-
-        foreach ($moduleDirs as $moduleName) {
-            $modulePath = base_path("modules/{$moduleName}");
-            if (is_dir($modulePath)) {
+        foreach ($selectedModules as $moduleName) {
+            if (is_dir(base_path("modules/{$moduleName}"))) {
                 $existingModules[] = $moduleName;
             }
         }
@@ -393,13 +520,11 @@ class InstallCommand extends Command
         $requireDev = $composerJson['require-dev'] ?? [];
 
         $modulesToInstall = [];
-
-        if (! in_array('Auth', $skipModules) && ! isset($requireDev['saucebase/auth']) && ! Module::has('Auth')) {
-            $modulesToInstall[] = 'saucebase/auth';
-        }
-
-        if (! in_array('Settings', $skipModules) && ! isset($requireDev['saucebase/settings']) && ! Module::has('Settings')) {
-            $modulesToInstall[] = 'saucebase/settings';
+        foreach ($selectedModules as $moduleName) {
+            $package = self::AVAILABLE_MODULES[$moduleName]['package'];
+            if (! in_array($moduleName, $skipModules) && ! isset($requireDev[$package]) && ! Module::has($moduleName)) {
+                $modulesToInstall[] = $package;
+            }
         }
 
         if (! empty($modulesToInstall)) {
@@ -428,10 +553,8 @@ class InstallCommand extends Command
 
                 return $process->isSuccessful();
             });
-
-            // Note: Migrations are handled by migrateModules() which runs after this
         } else {
-            $this->info('✓ Auth and Settings modules already installed');
+            $this->info('✓ Selected modules already installed');
         }
     }
 
@@ -568,8 +691,11 @@ class InstallCommand extends Command
 
         while ((time() - $startTime) < $timeout) {
             $process = new Process([
-                'docker', 'compose', 'ps',
-                '--format', '{{.State}}:{{.Health}}',
+                'docker',
+                'compose',
+                'ps',
+                '--format',
+                '{{.State}}:{{.Health}}',
                 $serviceName,
             ]);
             $process->run();
