@@ -10,8 +10,9 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
+// use Modules\Auth\Traits\Sociable;
+// use Modules\Billing\Traits\Billable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-// use Modules\Auth\Traits\useSocialite;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -20,8 +21,9 @@ class User extends Authenticatable implements HasMedia
         InteractsWithMedia,
         Notifiable;
 
+    // use Billable;
     // use MustVerifyEmail;
-    // use useSocialite;
+    // use Sociable;
 
     /**
      * The attributes that are mass assignable.
