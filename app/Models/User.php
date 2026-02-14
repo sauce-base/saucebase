@@ -15,6 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class User extends Authenticatable implements HasMedia
+    // , MustVerifyEmail
 {
     use HasFactory,
         HasRoles,
@@ -22,7 +23,6 @@ class User extends Authenticatable implements HasMedia
         Notifiable;
 
     // use Billable;
-    // use MustVerifyEmail;
     // use Sociable;
 
     /**
