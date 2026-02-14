@@ -1,0 +1,9 @@
+<?php
+
+namespace Spatie\Navigation\Facades;
+
+/**
+ * @method static self add(string $title = '', string $url = '', ?callable $configure = null)
+ * @method static self addIf(mixed $condition, string $title = '', string $url = '', ?callable $configure = null)
+ */
+class Navigation extends \Illuminate\Support\Facades\Facade {}
