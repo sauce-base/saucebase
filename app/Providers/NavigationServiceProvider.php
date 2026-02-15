@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Facades\Navigation as NavigationFacade;
 use App\Services\Navigation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Navigation\Facades\Navigation as NavigationFacade;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 
 class NavigationServiceProvider extends ServiceProvider
@@ -24,14 +24,18 @@ class NavigationServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Override Spatie's scoped binding with our custom Navigation class
-        $this->app->scoped(\Spatie\Navigation\Navigation::class, function ($app) {
+        // Bind our custom Navigation class as scoped (fresh per request)
+        $this->app->scoped(Navigation::class, function ($app) {
             return new Navigation($app->make(ActiveUrlChecker::class));
         });
 
-        // Register global alias so IDE Helper can generate facade stubs
+        // Also bind Spatie's class to our implementation so existing DI still works
+        $this->app->alias(Navigation::class, \Spatie\Navigation\Navigation::class);
+
+        // Register global alias for the facade
         AliasLoader::getInstance(['Navigation' => NavigationFacade::class]);
 
+        // Auto-load navigation files when the Navigation instance is resolved
         $this->app->resolving(Navigation::class, function (Navigation $navigation): Navigation {
             return $navigation->load();
         });

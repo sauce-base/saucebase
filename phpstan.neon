@@ -14,9 +14,6 @@ parameters:
     # Level 10 is the highest level
     level: 5
 
-    stubFiles:
-        - stubs/phpstan/Navigation.stub
-
     ignoreErrors:
         - message: "#^Called 'env' outside of the config directory which returns null when the config is cached, use 'config'.$#"
           paths:

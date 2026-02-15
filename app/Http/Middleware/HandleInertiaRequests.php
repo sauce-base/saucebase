@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Inertia\Middleware;
 use Nwidart\Modules\Facades\Module;
-use Spatie\Navigation\Navigation;
+use App\Services\Navigation;
 use Symfony\Component\HttpFoundation\Response;
 use Tighten\Ziggy\Ziggy;
 
@@ -46,8 +46,7 @@ class HandleInertiaRequests extends Middleware
             'modules' => fn () => collect(Module::allEnabled())
                 ->mapWithKeys(fn ($module, $key) => [$key => $module->getName()])
                 ->all(),
-            /* @phpstan-ignore method.notFound */
-            'navigation' => app(Navigation::class)->treeGrouped(),
+            'navigation' => fn () => app(Navigation::class)->treeGrouped(),
             'breadcrumbs' => $this->getBreadcrumbs(),
             'toast' => fn () => $request->session()->pull('toast'),
             // Ziggy data is computed lazily so it can be skipped on partial reloads
