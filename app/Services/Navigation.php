@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Navigation\Section;
 use Illuminate\Support\Str;
 use Spatie\Navigation\Navigation as SpatieNavigation;
-use App\Navigation\Section;
 
 /**
  * Custom Navigation Service.

@@ -3,11 +3,11 @@
 namespace Tests\Unit\Services;
 
 use App\Facades\Navigation as NavigationFacade;
+use App\Navigation\Section;
 use App\Services\Navigation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
-use App\Navigation\Section;
 use Tests\TestCase;
 
 class NavigationTest extends TestCase

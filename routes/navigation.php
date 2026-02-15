@@ -1,8 +1,8 @@
 <?php
 
 use App\Facades\Navigation;
-use Illuminate\Support\Facades\Auth;
 use App\Navigation\Section;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
