@@ -75,6 +75,7 @@ services:
                     '${DB_USERNAME}',
                     '-p${DB_PASSWORD}',
                 ]
+            interval: 2s
             retries: 3
             timeout: 5s
 
@@ -89,6 +90,7 @@ services:
             - saucebase
         healthcheck:
             test: ['CMD', 'redis-cli', 'ping']
+            interval: 2s
             retries: 3
             timeout: 5s
 

@@ -522,7 +522,7 @@ class InstallCommand extends Command
         $modulesToInstall = [];
         foreach ($selectedModules as $moduleName) {
             $package = self::AVAILABLE_MODULES[$moduleName]['package'];
-            if (! in_array($moduleName, $skipModules) && ! isset($requireDev[$package]) && ! Module::has($moduleName)) {
+            if (! in_array($moduleName, $skipModules) && ! isset($requireDev[$package])) {
                 $modulesToInstall[] = $package;
             }
         }
