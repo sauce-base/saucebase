@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Str;
 use Spatie\Navigation\Navigation as SpatieNavigation;
-use Spatie\Navigation\Section;
+use App\Navigation\Section;
 
 /**
  * Custom Navigation Service.
@@ -14,6 +14,25 @@ use Spatie\Navigation\Section;
  */
 class Navigation extends SpatieNavigation
 {
+    /**
+     * Add a navigation item.
+     *
+     * Overrides Spatie's add() to create App\Navigation\Section instances
+     * instead of Spatie\Navigation\Section, keeping imports consistent.
+     */
+    public function add(string $title = '', string $url = '', ?callable $configure = null): self
+    {
+        $section = new Section($this, $title, $url);
+
+        if ($configure) {
+            $configure($section);
+        }
+
+        $this->children[] = $section;
+
+        return $this;
+    }
+
     /**
      * Add a navigation item with a runtime condition check.
      *

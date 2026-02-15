@@ -2,7 +2,7 @@
 
 use App\Facades\Navigation;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Navigation\Section;
+use App\Navigation\Section;
 
 /*
 |--------------------------------------------------------------------------

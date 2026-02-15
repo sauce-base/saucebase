@@ -7,7 +7,7 @@ use App\Services\Navigation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
-use Spatie\Navigation\Section;
+use App\Navigation\Section;
 use Tests\TestCase;
 
 class NavigationTest extends TestCase

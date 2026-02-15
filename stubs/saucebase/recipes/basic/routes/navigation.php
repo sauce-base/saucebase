@@ -1,7 +1,7 @@
 <?php
 
 use App\Facades\Navigation;
-use Spatie\Navigation\Section;
+use App\Navigation\Section;
 
 /*
 |--------------------------------------------------------------------------
