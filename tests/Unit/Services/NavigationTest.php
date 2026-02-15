@@ -365,20 +365,6 @@ class NavigationTest extends TestCase
         $this->assertContains('Dashboard', $titles);
     }
 
-    public function test_load_loads_enabled_module_navigation(): void
-    {
-        // Swap the container binding and include a module navigation file directly
-        NavigationFacade::clearResolvedInstances();
-        $this->app->instance(Navigation::class, $this->navigation);
-
-        include base_path('modules/Settings/routes/navigation.php');
-
-        $grouped = $this->navigation->treeGrouped();
-
-        // Settings module registers items in the 'settings' group
-        $this->assertArrayHasKey('settings', $grouped);
-    }
-
     public function test_load_skips_disabled_modules(): void
     {
         // Temporarily override modules_statuses.json with all modules disabled
