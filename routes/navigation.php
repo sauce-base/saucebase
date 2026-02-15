@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use App\Facades\Navigation;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Navigation\Section;
 
 /*
