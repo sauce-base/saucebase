@@ -659,7 +659,7 @@ class InstallCommand extends Command
             'mysql' => ['label' => 'MySQL database', 'healthcheck' => true, 'timeout' => 60],
             'redis' => ['label' => 'Redis cache', 'healthcheck' => true, 'timeout' => 30],
             'mailpit' => ['label' => 'Mailpit (email testing)', 'healthcheck' => false, 'timeout' => 15],
-            'app' => ['label' => 'PHP-FPM application', 'healthcheck' => false, 'timeout' => 30],
+            'app' => ['label' => 'PHP-FPM application', 'healthcheck' => false, 'timeout' => 120],
             'nginx' => ['label' => 'Nginx web server', 'healthcheck' => false, 'timeout' => 15],
         ];
 
@@ -667,7 +667,7 @@ class InstallCommand extends Command
             $this->components->task("Starting {$config['label']}", function () use ($name, $config) {
                 // Start the service
                 $process = new Process(['docker', 'compose', 'up', '-d', $name]);
-                $process->setTimeout(30);
+                $process->setTimeout($config['timeout']);
                 $process->run();
 
                 if (! $process->isSuccessful()) {
