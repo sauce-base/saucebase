@@ -17,6 +17,7 @@
         "filament/tables": "^5.0",
         "filament/widgets": "^5.0",
         "inertiajs/inertia-laravel": "^2.0",
+        "laravel/ai": "^0.1.2",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",

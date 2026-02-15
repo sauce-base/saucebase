@@ -129,7 +129,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
     protected function registerFactories(): void
     {
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            $moduleNamespacePrefix = rtrim((string) config('modules.namespace', 'Modules\\'), '\\') . '\\';
+            $moduleNamespacePrefix = rtrim((string) config('modules.namespace', 'Modules\\'), '\\').'\\';
             if (str_starts_with($modelName, $moduleNamespacePrefix)) {
 
                 // get the first part of the string before Models and get the last part of the string for the model name

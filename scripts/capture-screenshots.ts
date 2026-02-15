@@ -6,6 +6,7 @@ import {
     type BrowserContext,
     type Page,
 } from '@playwright/test';
+import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
@@ -70,6 +71,49 @@ const screenshots: ScreenshotConfig[] = [
         theme: 'light',
         auth: true,
     },
+
+    // Admin panel (authentication required)
+
+    {
+        name: 'admin-dashboard-light',
+        route: '/admin',
+        theme: 'light',
+        auth: true,
+    },
+    {
+        name: 'admin-dashboard-dark',
+        route: '/admin',
+        theme: 'dark',
+        auth: true,
+    },
+
+    // Users
+    {
+        name: 'admin-users-light',
+        route: '/admin/users',
+        theme: 'light',
+        auth: true,
+    },
+    {
+        name: 'admin-users-dark',
+        route: '/admin/users',
+        theme: 'dark',
+        auth: true,
+    },
+
+    // Products
+    {
+        name: 'admin-products-light',
+        route: '/admin/products',
+        theme: 'light',
+        auth: true,
+    },
+    {
+        name: 'admin-products-dark',
+        route: '/admin/products',
+        theme: 'dark',
+        auth: true,
+    },
 ];
 
 // Test user credentials (from modules/Auth/tests/e2e/fixtures/users.ts)
@@ -79,10 +123,22 @@ const TEST_USER = {
 };
 
 // Helper: Set theme via localStorage before page navigation
-async function setTheme(page: Page, theme: 'light' | 'dark'): Promise<void> {
-    await page.addInitScript((selectedTheme) => {
-        localStorage.setItem('vueuse-color-scheme', selectedTheme);
-    }, theme);
+async function setTheme(
+    page: Page,
+    theme: 'light' | 'dark',
+    route: string,
+): Promise<void> {
+    if (isFilamentRoute(route)) {
+        // Filament reads from localStorage key 'theme'
+        await page.addInitScript((selectedTheme) => {
+            localStorage.setItem('theme', selectedTheme);
+        }, theme);
+    } else {
+        // Vue frontend reads from localStorage key 'vueuse-color-scheme'
+        await page.addInitScript((selectedTheme) => {
+            localStorage.setItem('vueuse-color-scheme', selectedTheme);
+        }, theme);
+    }
 }
 
 // Helper: Authenticate user by performing login
@@ -103,12 +159,33 @@ async function authenticateUser(page: Page): Promise<void> {
     await page.waitForURL('/dashboard', { timeout: 10000 });
 }
 
-// Helper: Wait for page to be fully ready for screenshot
-async function waitForPageReady(page: Page): Promise<void> {
-    // Wait for network to be idle
-    await page.waitForLoadState('networkidle');
+// Helper: Check if route is a Filament admin panel page
+function isFilamentRoute(route: string): boolean {
+    return route.startsWith('/admin');
+}
 
-    // Wait for Inertia page data to be available (SSR hydration)
+// Helper: Wait for Filament (Livewire) page to be ready
+async function waitForFilamentReady(page: Page): Promise<void> {
+    await page.waitForFunction(
+        () => {
+            // Livewire components are initialized when wire:id attributes exist
+            const livewireEl = document.querySelector('[wire\\:id]');
+            if (!livewireEl) return false;
+
+            // Filament renders main content inside a Livewire component
+            // Check that the page body has meaningful content
+            const mainContent =
+                document.querySelector('.fi-page') ||
+                document.querySelector('.fi-dashboard') ||
+                document.querySelector('[wire\\:id]');
+            return !!mainContent;
+        },
+        { timeout: 15000 },
+    );
+}
+
+// Helper: Wait for Inertia page to be ready
+async function waitForInertiaReady(page: Page): Promise<void> {
     await page.waitForFunction(
         () => {
             const pageEl = document.querySelector('[data-page]');
@@ -119,6 +196,19 @@ async function waitForPageReady(page: Page): Promise<void> {
         },
         { timeout: 10000 },
     );
+}
+
+// Helper: Wait for page to be fully ready for screenshot
+async function waitForPageReady(page: Page, route: string): Promise<void> {
+    // Wait for network to be idle
+    await page.waitForLoadState('networkidle');
+
+    // Wait for the appropriate framework to hydrate
+    if (isFilamentRoute(route)) {
+        await waitForFilamentReady(page);
+    } else {
+        await waitForInertiaReady(page);
+    }
 
     // Wait for all images to load
     await page.evaluate(() => {
@@ -170,7 +260,7 @@ async function capturePageScreenshot(
 
     try {
         // Set theme before navigation
-        await setTheme(page, config.theme);
+        await setTheme(page, config.theme, config.route);
 
         // Authenticate if required
         if (config.auth) {
@@ -181,7 +271,7 @@ async function capturePageScreenshot(
         await page.goto(config.route);
 
         // Wait for page to be fully ready
-        await waitForPageReady(page);
+        await waitForPageReady(page, config.route);
 
         // Capture screenshot
         const filename = `${config.name}.png`;
@@ -196,6 +286,65 @@ async function capturePageScreenshot(
         throw error;
     } finally {
         await context.close();
+    }
+}
+
+// Generate an animated GIF preview from all captured screenshots
+function generatePreviewGif(outputDir: string): void {
+    const frames = screenshots.map((s) =>
+        path.join(outputDir, `${s.name}.png`),
+    );
+    const missingFrames = frames.filter((f) => !fs.existsSync(f));
+
+    if (missingFrames.length > 0) {
+        console.log(
+            `\n⚠️  Skipping GIF generation — missing ${missingFrames.length} frame(s)`,
+        );
+        return;
+    }
+
+    console.log('\n🎬 Generating preview GIF...');
+
+    const concatFile = path.join(outputDir, 'concat.txt');
+    const lastFrame = frames[frames.length - 1];
+    const concatContent =
+        frames.map((f) => `file '${f}'\nduration 2`).join('\n') +
+        `\nfile '${lastFrame}'`;
+
+    fs.writeFileSync(concatFile, concatContent);
+
+    const outputPath = path.join(outputDir, 'preview.gif');
+
+    try {
+        execFileSync(
+            'ffmpeg',
+            [
+                '-y',
+                '-f',
+                'concat',
+                '-safe',
+                '0',
+                '-i',
+                concatFile,
+                '-vf',
+                'scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=256:stats_mode=full[p];[s1][p]paletteuse=dither=floyd_steinberg',
+                '-loop',
+                '0',
+                outputPath,
+            ],
+            { stdio: 'pipe' },
+        );
+
+        const size = (fs.statSync(outputPath).size / 1024).toFixed(0);
+        console.log(`  ✓ preview.gif (${size}KB)`);
+    } catch {
+        console.error(
+            '  ✗ GIF generation failed. Make sure ffmpeg is installed (brew install ffmpeg)',
+        );
+    } finally {
+        if (fs.existsSync(concatFile)) {
+            fs.unlinkSync(concatFile);
+        }
     }
 }
 
@@ -288,6 +437,9 @@ async function main(): Promise<void> {
     }
 
     console.log('\n✅ All screenshots captured successfully!');
+
+    // Generate animated GIF preview from key screenshots
+    generatePreviewGif(outputDir);
 }
 
 // Run the script

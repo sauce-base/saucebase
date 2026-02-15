@@ -1,0 +1,82 @@
+# https://taskfile.dev
+version: '3'
+
+includes:
+    auth:
+        taskfile: ./modules/Auth/Taskfile.yml
+        optional: true
+    billing:
+        taskfile: ./modules/Billing/Taskfile.yml
+        optional: true
+    settings:
+        taskfile: ./modules/Settings/Taskfile.yml
+        optional: true
+
+tasks:
+    # ── Development ───────────────────────────────────────────────
+
+    dev:
+        desc: Start vite dev server (with HMR)
+        cmd: npm run dev
+
+    serve:
+        desc: Start dev server (app, queue, logs, vite)
+        cmd: composer dev
+
+    build:
+        desc: Production build (includes SSR)
+        cmd: npm run build
+
+    # ── Code quality ──────────────────────────────────────────────
+
+    lint:
+        desc: Run all linters (PHP + JS)
+        cmds:
+            - task: lint:php
+            - task: lint:js
+
+    lint:php:
+        internal: true
+        cmd: vendor/bin/pint
+
+    lint:js:
+        internal: true
+        cmd: npm run lint
+
+    format:
+        desc: Prettier write
+        cmd: npm run format
+
+    analyse:
+        desc: PHPStan static analysis (level 5)
+        cmd: vendor/bin/phpstan analyse --memory-limit=2G
+
+    # ── Testing ───────────────────────────────────────────────────
+
+    test:php:
+        desc: Run PHPUnit tests
+        cmd: php artisan test {{.CLI_ARGS}}
+        interactive: true
+
+    test:e2e:
+        desc: Run E2E tests
+        cmd: npm run test:e2e {{.CLI_ARGS}}
+        interactive: true
+
+    # ── Helpers ───────────────────────────────────────────────────
+
+    db:reset:
+        desc: Reset database (migrate:fresh + module seeds)
+        prompt: 'This will erase ALL data. Are you sure?'
+        cmds:
+            - docker compose exec app php artisan migrate:fresh --seed
+            - docker compose exec app php artisan module:migrate-refresh --all --seed
+
+    # ── Pipelines ─────────────────────────────────────────────────
+
+    check:
+        desc: Full quality pipeline (lint + analyse + test)
+        cmds:
+            - task: lint
+            - task: analyse
+            - task: test

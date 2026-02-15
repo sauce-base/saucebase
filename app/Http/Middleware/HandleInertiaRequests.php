@@ -2,12 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Navigation;
 use Closure;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Inertia\Middleware;
-use Spatie\Navigation\Navigation;
+use Nwidart\Modules\Facades\Module;
 use Symfony\Component\HttpFoundation\Response;
 use Tighten\Ziggy\Ziggy;
 
@@ -40,10 +41,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-
         return array_merge(parent::share($request), [
             'locale' => app()->getLocale(),
-            'navigation' => app(Navigation::class)->treeGrouped(),
+            'modules' => fn () => collect(Module::allEnabled())
+                ->mapWithKeys(fn ($module, $key) => [$key => $module->getName()])
+                ->all(),
+            'navigation' => fn () => app(Navigation::class)->treeGrouped(),
             'breadcrumbs' => $this->getBreadcrumbs(),
             'toast' => fn () => $request->session()->pull('toast'),
             // Ziggy data is computed lazily so it can be skipped on partial reloads
@@ -68,7 +71,7 @@ class HandleInertiaRequests extends Middleware
                 $breadcrumbs = Breadcrumbs::generate($routeName, ...request()->route()->parameters());
 
                 // Convert to array format compatible with frontend
-                return collect($breadcrumbs)->map(fn (object $crumb) => [
+                return collect($breadcrumbs)->map(fn (\stdClass $crumb) => [
                     'title' => 'breadcrumbs.'.$crumb->title,
                     'url' => $crumb->url,
                     'attributes' => $crumb->data ?? [],

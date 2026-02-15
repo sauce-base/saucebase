@@ -34,12 +34,12 @@ class AdminPanelProvider extends PanelProvider
             ->unsavedChangesAlerts()
             ->userMenuItems([
                 Action::make('site')
-                    ->label('Ver site')
+                    ->label('Site')
                     ->url(fn (): string => route('index'))
                     ->icon('heroicon-o-globe-alt')
                     ->openUrlInNewTab(),
                 Action::make('dashboard')
-                    ->label('Ver Dashboard')
+                    ->label('User Dashboard')
                     ->url(fn (): string => route('dashboard'))
                     ->icon('heroicon-o-home')
                     ->openUrlInNewTab(),

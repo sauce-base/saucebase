@@ -22,9 +22,11 @@
         "videos": "npm run build && tsx scripts/capture-videos.ts",
         "prepare": "husky",
         "commitlint": "commitlint --edit",
-        "lint": "eslint ./resources ./modules/*/resources --fix --no-error-on-unmatched-pattern"
+        "lint": "eslint ./resources ./modules/*/resources --fix --no-error-on-unmatched-pattern",
+        "saucebase": "tsx scripts/saucebase.ts"
     },
     "devDependencies": {
+        "@clack/prompts": "^1.0.0",
         "@commitlint/cli": "^19.8.1",
         "@commitlint/config-conventional": "^19.8.1",
         "@eslint/js": "^9.19.0",
@@ -45,6 +47,7 @@
         "husky": "^9.1.7",
         "laravel-vite-plugin": "^1.2.0",
         "lint-staged": "^16.2.3",
+        "picocolors": "^1.1.1",
         "postcss": "^8.4.31",
         "prettier": "^3.3.0",
         "prettier-plugin-organize-imports": "^4.0.0",

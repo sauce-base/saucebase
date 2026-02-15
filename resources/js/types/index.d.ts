@@ -46,6 +46,7 @@ export type PageProps<
     };
     locale?: string;
     locales?: Record<string, string>;
+    modules?: Record<string, string>;
     navigation?: Record<string, any>;
     breadcrumbs?: Breadcrumb[];
     toast?: Toast;

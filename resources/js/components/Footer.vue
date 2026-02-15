@@ -3,8 +3,8 @@ import IconHeart from '~icons/heroicons/heart';
 </script>
 
 <template>
-    <footer class="mt-auto w-full pt-8">
-        <div class="mx-auto max-w-7xl border-t px-6 py-8">
+    <footer class="mt-auto w-full">
+        <div class="mx-auto max-w-7xl px-6 py-8">
             <div
                 class="flex flex-col items-center justify-between gap-4 text-sm text-gray-600 md:flex-row dark:text-gray-400"
             >
