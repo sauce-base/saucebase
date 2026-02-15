@@ -16,8 +16,8 @@
   </p>
 
   <p>
+    <a href="https://sauce-base.github.io/docs/what-is-saucebase">What is Saucebase?</a> |
     <a href="https://sauce-base.github.io/docs/getting-started/installation">Installation</a> |
-    <a href="https://sauce-base.github.io/docs/getting-started">Getting Started</a> |
     <a href="https://sauce-base.github.io/docs/">Docs</a>
   </p>
 
