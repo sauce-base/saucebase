@@ -34,10 +34,5 @@ class NavigationServiceProvider extends ServiceProvider
 
         // Register global alias for the facade
         AliasLoader::getInstance(['Navigation' => NavigationFacade::class]);
-
-        // Auto-load navigation files when the Navigation instance is resolved
-        $this->app->resolving(Navigation::class, function (Navigation $navigation): Navigation {
-            return $navigation->load();
-        });
     }
 }

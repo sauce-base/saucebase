@@ -124,6 +124,17 @@ abstract class ModuleServiceProvider extends ServiceProvider
     }
 
     /**
+     * Fully replace a config key with a module config file.
+     *
+     * Unlike mergeConfigFrom, this overwrites the entire key,
+     * avoiding array-merge issues with numeric-keyed arrays.
+     */
+    protected function replaceConfig(string $path, string $key): void
+    {
+        $this->app['config']->set($key, require module_path($this->name, $path));
+    }
+
+    /**
      * Register model factories.
      */
     protected function registerFactories(): void

@@ -14,6 +14,16 @@ use Spatie\Navigation\Navigation as SpatieNavigation;
  */
 class Navigation extends SpatieNavigation
 {
+    protected bool $loaded = false;
+
+    protected function ensureLoaded(): void
+    {
+        if (! $this->loaded) {
+            $this->loaded = true;
+            $this->load();
+        }
+    }
+
     /**
      * Add a navigation item.
      *
@@ -79,6 +89,20 @@ class Navigation extends SpatieNavigation
      *               'user' => [...MenuItem[]],
      *               ]
      */
+    public function tree(): array
+    {
+        $this->ensureLoaded();
+
+        return parent::tree();
+    }
+
+    public function breadcrumbs(): array
+    {
+        $this->ensureLoaded();
+
+        return parent::breadcrumbs();
+    }
+
     public function treeGrouped(): array
     {
         $tree = $this->tree();
