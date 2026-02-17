@@ -577,7 +577,7 @@ class InstallCommand extends Command
             return (bool) preg_match('/^APP_KEY=base64:.+$/m', $env);
         });
 
-        $appUrl = env('APP_URL', 'https://localhost');
+        $appUrl = config('app.url', 'https://localhost');
         $this->components->task('Web server', function () use ($appUrl) {
             $ch = curl_init($appUrl.'/health');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
