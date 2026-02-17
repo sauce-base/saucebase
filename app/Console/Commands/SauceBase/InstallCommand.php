@@ -4,13 +4,14 @@ namespace App\Console\Commands\SauceBase;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
 use Nwidart\Modules\Facades\Module;
 
 class InstallCommand extends Command
 {
     protected $signature = 'saucebase:install
                             {--no-docker : Skip Docker setup and use manual configuration}
-                            {--no-ssl : Skip SSL certificate generation}
+                            {--no-ssl : Configure APP_URL without HTTPS}
                             {--force : Force reinstallation even if already set up}';
 
     protected $description = 'Install and configure Saucebase';
@@ -29,13 +30,15 @@ class InstallCommand extends Command
             return self::SUCCESS;
         }
 
-        $this->install();
-
-        return self::SUCCESS;
+        return $this->install();
     }
 
-    protected function install(): void
+    protected function install(): int
     {
+        if (! $this->ensureEnvFile()) {
+            return self::FAILURE;
+        }
+
         // Configure environment
         $setupSsl = ! $this->option('no-ssl') && $this->hasSslCertificates();
         $this->configureEnvironment($setupSsl);
@@ -60,6 +63,8 @@ class InstallCommand extends Command
 
         // Display success
         $this->displaySuccess();
+
+        return self::SUCCESS;
     }
 
     protected function installManually(): void
@@ -97,6 +102,27 @@ class InstallCommand extends Command
             && file_exists(base_path('docker/ssl/app.key.pem'));
     }
 
+    protected function ensureEnvFile(): bool
+    {
+        if (file_exists(base_path('.env'))) {
+            return true;
+        }
+
+        if (file_exists(base_path('.env.example'))) {
+            if (! copy(base_path('.env.example'), base_path('.env'))) {
+                $this->error('Failed to copy .env.example to .env. Check directory permissions.');
+
+                return false;
+            }
+
+            return true;
+        }
+
+        $this->error('.env file not found. Copy .env.example to .env and try again.');
+
+        return false;
+    }
+
     protected function configureEnvironment(bool $setupSsl): void
     {
         $this->components->task('Configuring environment', function () use ($setupSsl) {
@@ -119,17 +145,28 @@ class InstallCommand extends Command
                 return true;
             }
 
-            Artisan::call('key:generate', ['--force' => true]);
-
-            return true;
+            return Artisan::call('key:generate', ['--force' => true]) === 0;
         });
     }
 
     protected function setupDatabase(): void
     {
         $this->components->task('Setting up database', function () {
+            if (! $this->option('force') && $this->hasExistingMigrations()) {
+                return Artisan::call('migrate', ['--seed' => true, '--force' => true]) === 0;
+            }
+
             return Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]) === 0;
         });
+    }
+
+    protected function hasExistingMigrations(): bool
+    {
+        try {
+            return Schema::hasTable('migrations');
+        } catch (\Throwable) {
+            return false;
+        }
     }
 
     protected function setupModules(): void
@@ -137,38 +174,39 @@ class InstallCommand extends Command
         $this->newLine();
         $this->info('Installing modules...');
 
-        $modules = ['Auth', 'Settings'];
+        $modules = ['Auth', 'Billing', 'Settings'];
+        $installed = array_filter($modules, fn (string $m) => Module::has($m));
 
-        foreach ($modules as $module) {
-            if (Module::has($module)) {
-                $this->components->task("Enabling {$module} module", function () use ($module) {
-                    return Artisan::call('module:enable', ['module' => $module]) === 0;
-                });
+        if (empty($installed)) {
+            $this->warn('  No modules are currently installed.');
+            $this->line('  To install them, run:');
+            $this->line('    composer require saucebase/auth saucebase/settings');
 
-                $this->components->task("Migrating {$module} module", function () use ($module) {
-                    return Artisan::call('module:migrate', ['module' => $module, '--seed' => true]) === 0;
-                });
-            } else {
-                $this->warn("  Module {$module} not found - skipping");
-            }
+            return;
+        }
+
+        foreach ($installed as $module) {
+            $this->components->task("Enabling {$module} module", function () use ($module) {
+                return Artisan::call('module:enable', ['module' => $module]) === 0;
+            });
+
+            $this->components->task("Migrating {$module} module", function () use ($module) {
+                return Artisan::call('module:migrate', ['module' => $module, '--seed' => true, '--force' => true]) === 0;
+            });
         }
     }
 
     protected function createStorageLink(): void
     {
         $this->components->task('Creating storage link', function () {
-            Artisan::call('storage:link');
-
-            return true;
+            return Artisan::call('storage:link') === 0;
         });
     }
 
     protected function clearCaches(): void
     {
         $this->components->task('Clearing caches', function () {
-            Artisan::call('optimize:clear');
-
-            return true;
+            return Artisan::call('optimize:clear') === 0;
         });
     }
 
