@@ -13,6 +13,12 @@ includes:
         optional: true
 
 tasks:
+    # ── Installation ──────────────────────────────────────────────
+
+    install:
+        desc: Fresh installation (Docker + Node required)
+        cmd: bash bin/setup-env {{.CLI_ARGS}}
+
     # ── Development ───────────────────────────────────────────────
 
     dev:

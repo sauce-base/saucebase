@@ -1,478 +1,81 @@
 #!/bin/bash
 
-# Sauce Base Development Environment Setup Script
-# This script resets and initializes the development environment
+# Saucebase Bootstrap — gets Docker running, then hands off to artisan installer
+set -e
 
-set -e  # Exit on any error
-
-# Parse command line arguments
-FORCE_BUILD=false
-while [[ $# -gt 0 ]]; do
-    case $1 in
-        --force-build)
-            FORCE_BUILD=true
-            shift
-            ;;
-        -h|--help)
-            echo "Usage: $0 [options]"
-            echo ""
-            echo "Options:"
-            echo "  --force-build Force Docker image rebuilding (slower but ensures latest)"
-            echo "  -h, --help    Show this help message"
-            echo ""
-            exit 0
-            ;;
-        *)
-            echo "Unknown option: $1"
-            echo "Use --help for usage information"
-            exit 1
-            ;;
-    esac
-done
-
-echo "🍯 Sauce Base Development Environment Setup"
-echo "======================================"
+echo "Saucebase Development Environment Setup"
+echo "========================================"
 echo ""
 
-# Function to check command availability
-check_command() {
-    if ! command -v "$1" > /dev/null 2>&1; then
-        echo "❌ $1 is not installed or not in PATH"
-        return 1
-    fi
-    return 0
-}
-
-# Function to check version requirements
-check_version() {
-    local cmd="$1"
-    local min_version="$2"
-    local current_version="$3"
-    
-    if ! printf '%s\n%s\n' "$min_version" "$current_version" | sort -V -C > /dev/null 2>&1; then
-        echo "❌ $cmd version $current_version is below minimum required version $min_version"
-        return 1
-    fi
-    return 0
-}
-
-echo "🔍 Checking system requirements..."
-echo ""
-
-# Check required commands
-REQUIREMENTS_MET=true
-
-# Check Node.js
-if check_command "node"; then
-    NODE_VERSION=$(node --version | sed 's/v//')
-    MIN_NODE_VERSION="18.0.0"
-    if check_version "Node.js" "$MIN_NODE_VERSION" "$NODE_VERSION"; then
-        echo "✅ Node.js $NODE_VERSION (>= $MIN_NODE_VERSION required)"
-    else
-        REQUIREMENTS_MET=false
-    fi
-else
-    echo "❌ Node.js is not installed"
-    REQUIREMENTS_MET=false
-fi
-
-# Check npm
-if check_command "npm"; then
-    NPM_VERSION=$(npm --version)
-    MIN_NPM_VERSION="8.0.0"
-    if check_version "npm" "$MIN_NPM_VERSION" "$NPM_VERSION"; then
-        echo "✅ npm $NPM_VERSION (>= $MIN_NPM_VERSION required)"
-    else
-        REQUIREMENTS_MET=false
-    fi
-else
-    echo "❌ npm is not installed"
-    REQUIREMENTS_MET=false
-fi
-
-# Check Docker
-if check_command "docker"; then
-    DOCKER_VERSION=$(docker --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-    MIN_DOCKER_VERSION="20.0.0"
-    if check_version "Docker" "$MIN_DOCKER_VERSION" "$DOCKER_VERSION"; then
-        echo "✅ Docker $DOCKER_VERSION (>= $MIN_DOCKER_VERSION required)"
-    else
-        REQUIREMENTS_MET=false
-    fi
-else
-    echo "❌ Docker is not installed"
-    REQUIREMENTS_MET=false
-fi
-
-# Check Docker Compose
-if check_command "docker"; then
-    if docker compose version > /dev/null 2>&1; then
-        COMPOSE_VERSION=$(docker compose version --short 2>/dev/null || docker compose version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-        echo "✅ Docker Compose $COMPOSE_VERSION"
-    else
-        echo "❌ Docker Compose is not available"
-        REQUIREMENTS_MET=false
-    fi
-fi
-
-# Check if Docker is running
-if check_command "docker"; then
-    if docker info > /dev/null 2>&1; then
-        echo "✅ Docker daemon is running"
-    else
-        echo "❌ Docker daemon is not running"
-        REQUIREMENTS_MET=false
-    fi
-fi
-
-# Check for required files
-if [ -f "composer.json" ]; then
-    echo "✅ composer.json found"
-else
-    echo "❌ composer.json not found"
-    REQUIREMENTS_MET=false
-fi
-
-if [ -f "package.json" ]; then
-    echo "✅ package.json found"
-else
-    echo "❌ package.json not found"
-    REQUIREMENTS_MET=false
-fi
-
-if [ -f "docker-compose.yml" ]; then
-    echo "✅ docker-compose.yml found"
-else
-    echo "❌ docker-compose.yml not found"
-    REQUIREMENTS_MET=false
-fi
-
-# Check for .env file
-if [ -f ".env" ]; then
-    echo "✅ .env file found"
-else
-    if [ -f ".env.example" ]; then
-        echo "⚠️  .env file not found, but .env.example exists (will be created)"
-    else
-        echo "❌ .env file and .env.example not found"
-        REQUIREMENTS_MET=false
-    fi
-fi
-
-# Check mkcert (optional but recommended)
-if check_command "mkcert"; then
-    echo "✅ mkcert is available for SSL certificates"
-else
-    echo "⚠️  mkcert not found - SSL certificates will be skipped"
-    echo "   Install with: brew install mkcert (macOS) or choco install mkcert (Windows)"
-fi
-
-echo ""
-
-# Exit if requirements not met
-if [ "$REQUIREMENTS_MET" = false ]; then
-    echo "❌ System requirements not met!"
-    echo ""
-    echo "Please install missing dependencies:"
-    echo "• Node.js: https://nodejs.org/"
-    echo "• Docker: https://docs.docker.com/get-docker/"
-    echo "• Ensure Docker is running"
-    echo ""
-    exit 1
-fi
-
-echo "✅ All system requirements met!"
-echo ""
-echo "⚠️  WARNING: This script will perform destructive actions!"
-echo ""
-echo "The following will be REMOVED/RESET:"
-echo "• All Docker containers and volumes"
-echo "• Database data (will be recreated with fresh migrations and seeds)"
-echo "• Application caches and compiled assets"
-echo "• Frontend node_modules (will be reinstalled)"
-echo ""
-echo "The following will be CREATED/UPDATED:"
-echo "• SSL certificates (if mkcert available)"
-echo "• Fresh database with seed data"
-echo ""
-read -p "Do you want to continue? (y/N): " -n 1 -r
-echo ""
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "❌ Setup cancelled by user."
-    exit 1
-fi
-echo ""
-
-# Check for .env.backup and offer restoration
-if [ -f ".env.backup" ] && [ ! -f ".env" ]; then
-    echo "🔍 Found existing .env.backup file!"
-    echo ""
-    read -p "Do you want to restore .env from backup instead of using .env.example? (Y/n): " -n 1 -r
-    echo ""
-    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
-        echo "📝 Restoring .env from backup..."
-        cp .env.backup .env
-        echo "✅ .env restored from backup!"
-        echo ""
-    else
-        echo "📝 Using .env.example instead..."
-        if [ -f ".env.example" ]; then
-            cp .env.example .env
-            echo "✅ .env file created from .env.example!"
-            echo ""
-        else
-            echo "❌ .env.example not found!"
+# Non-Docker path: requires local PHP + Composer
+if [[ " $* " =~ " --no-docker " ]]; then
+    for cmd in php composer node npm; do
+        if ! command -v "$cmd" > /dev/null 2>&1; then
+            echo "Error: $cmd is required but not installed." >&2
             exit 1
         fi
-    fi
-elif [ -f ".env.backup" ] && [ -f ".env" ]; then
-    echo "🔍 Found both .env and .env.backup files!"
-    echo ""
-    read -p "Do you want to replace current .env with .env.backup? (y/N): " -n 1 -r
-    echo ""
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "📝 Backing up current .env file..."
-        cp .env .env.backup
-        echo "📝 Restoring .env from backup..."
-        cp .env.backup .env
-        echo "✅ .env restored from backup!"
-        echo ""
-    else
-        echo "📝 Keeping current .env file..."
-        echo "📝 Backing up existing .env file..."
-        cp .env .env.backup
-        echo "✅ Existing .env backed up!"
-        echo ""
-    fi
-else
-    # Create .env file if it doesn't exist, backup existing one
-    if [ -f ".env" ]; then
-        echo "📝 Backing up existing .env file..."
-        cp .env .env.backup
-        echo "✅ Existing .env backed up!"
-        echo ""
-    fi
+    done
 
-    if [ -f ".env.example" ]; then
-        echo "📝 Creating .env file from .env.example..."
+    if [ ! -f ".env" ]; then
         cp .env.example .env
-        echo "✅ .env file created successfully!"
-        echo ""
+        echo "Created .env from .env.example"
     fi
+
+    composer install
+    php artisan saucebase:install "$@"
+    npm install && npm run build
+    echo ""
+    echo "Setup complete! Run 'npm run dev' to start developing."
+    exit 0
 fi
 
-# Configure application with SSL (simplified)
-echo "🌐 Application Configuration"
-echo "============================"
-echo ""
+# Docker path: only Docker + Node required
+for cmd in docker node npm; do
+    if ! command -v "$cmd" > /dev/null 2>&1; then
+        echo "Error: $cmd is required but not installed." >&2
+        exit 1
+    fi
+done
 
-# Default to localhost with SSL
-APP_HOST="localhost"
-
-# Check if mkcert is available
-if command -v mkcert > /dev/null 2>&1; then
-    APP_URL="https://localhost"
-    USE_SSL=true
-    echo "✅ Using HTTPS (mkcert available)"
-else
-    APP_URL="http://localhost"
-    USE_SSL=false
-    echo "⚠️  Using HTTP (mkcert not installed)"
-    echo "   Install mkcert for HTTPS: brew install mkcert && mkcert -install"
+if ! docker info > /dev/null 2>&1; then
+    echo "Error: Docker daemon is not running." >&2
+    exit 1
 fi
 
-# Update .env file
-echo "📝 Updating .env configuration..."
-sed -i.bak "s|^APP_HOST=.*|APP_HOST=$APP_HOST|" .env
-sed -i.bak "s|^APP_URL=.*|APP_URL=$APP_URL|" .env
-rm -f .env.bak
+# Copy .env if needed
+if [ ! -f ".env" ]; then
+    cp .env.example .env
+    echo "Created .env from .env.example"
+fi
 
-echo "✅ Configuration updated:"
-echo "   APP_HOST=$APP_HOST"
-echo "   APP_URL=$APP_URL"
-echo ""
-
-# Stop any running containers
-echo "🛑 Stopping existing containers..."
-docker compose down --remove-orphans
-
-# Remove volumes to ensure clean state
-echo "🗑️  Removing volumes for clean reset..."
-docker compose down -v
-
-# Setup SSL certificates (simplified)
-if [ "$USE_SSL" = true ]; then
-    echo "🔒 Setting up SSL certificates..."
-
-    # Create SSL directory if it doesn't exist
-    mkdir -p docker/ssl
-
-    # Generate certificates if they don't exist
+# SSL certificates (if mkcert is available and --no-ssl not passed)
+if [[ ! " $* " =~ " --no-ssl " ]] && command -v mkcert > /dev/null 2>&1; then
     if [ ! -f "docker/ssl/app.pem" ] || [ ! -f "docker/ssl/app.key.pem" ]; then
-        echo "🔧 Generating SSL certificates (with wildcard for multi-tenancy)..."
-
-        # Install CA to system trust store
-        mkcert -install
-
-        # Generate certificates with wildcard support in docker/ssl directory
-        cd docker/ssl
-        mkcert -key-file app.key.pem -cert-file app.pem "*.localhost" localhost 127.0.0.1 ::1
-        cd ../..
-
-        echo "✅ SSL certificates generated!"
-        echo "   ✅ Supports: https://localhost"
-        echo "   ✅ Supports: https://*.localhost (multi-tenancy)"
-    else
-        echo "✅ SSL certificates already exist"
+        echo "Generating SSL certificates..."
+        mkdir -p docker/ssl
+        mkcert -install 2>/dev/null
+        mkcert -key-file docker/ssl/app.key.pem -cert-file docker/ssl/app.pem \
+            "*.localhost" localhost 127.0.0.1 ::1
     fi
-else
-    echo "⏭️  Skipping SSL setup (mkcert not available)"
-    echo "💡 Install mkcert: brew install mkcert && mkcert -install"
-    echo "💡 Or use ngrok for HTTPS: ngrok http 80"
 fi
 
-echo ""
-
-# Pull latest images and build containers (if forced)
-if [ "$FORCE_BUILD" = true ]; then
-    echo "📥 Pulling latest Docker images..."
-    docker compose pull
-
-    echo "🏗️  Building containers..."
-    docker compose build --no-cache
-else
-    echo "⚡ Using existing Docker images (use --force-build to rebuild)"
-fi
-
-# Start services
-echo "🚀 Starting services..."
-docker compose up -d
-
-# Wait for services to be healthy
-echo "⏳ Waiting for services to be healthy..."
+# Start Docker
+echo "Starting Docker services..."
 docker compose up -d --wait
 
 # Install PHP dependencies
-echo "📦 Installing PHP dependencies..."
-if ! docker compose exec -T app composer install; then
-    echo "❌ Failed to install PHP dependencies!"
-    echo "   Try running manually: docker compose exec app composer install"
-    exit 1
-fi
+echo "Installing PHP dependencies..."
+docker compose exec -T app composer install
 
-# Generate app key if not exists
-echo "🔑 Generating application key..."
-APP_KEY_VALUE=$(grep "^APP_KEY=" .env 2>/dev/null | cut -d'=' -f2 | tr -d ' ')
-if [ -z "$APP_KEY_VALUE" ] || [ "$APP_KEY_VALUE" = "" ]; then
-    echo "📝 Generating new application key..."
-    docker compose exec -T app php artisan key:generate
+# Hand off to artisan installer (pass all flags through)
+echo "Running artisan installer..."
+docker compose exec -T app php artisan saucebase:install "$@"
 
-    # Restart containers to reload environment variables with new APP_KEY
-    echo "🔄 Restarting containers to reload environment variables..."
-    docker compose down
-    docker compose up -d
+# Frontend (runs on host where Node lives)
+echo "Installing frontend dependencies..."
+npm install
+echo "Building frontend assets..."
+npm run build
 
-    # Wait for services to be ready again
-    echo "⏳ Waiting for services to be ready..."
-    sleep 10
-else
-    echo "✅ Application key already exists"
-fi
-
-# Run database migrations and seed
-echo "🗄️  Setting up database..."
-if ! docker compose exec -T app php artisan migrate:fresh --seed; then
-    echo "❌ Database migration failed!"
-    echo "   Check database connection and try: docker compose exec app php artisan migrate:fresh --seed"
-    exit 1
-fi
-
-# Migrate and seed enabled modules
-echo "📦 Setting up enabled modules..."
-if ! docker compose exec -T app php artisan module:migrate --all --seed; then
-    echo "❌ Module migrations failed!"
-    exit 1
-fi
-
-# Create storage link for media library
-echo "🔗 Creating storage link..."
-docker compose exec -T app php artisan storage:link
-
-# Clear all caches
-echo "🧹 Clearing caches..."
-docker compose exec -T app php artisan optimize:clear
-
-# Build frontend assets
-echo "🎨 Building frontend assets..."
-if ! npm install; then
-    echo "❌ npm install failed!"
-    exit 1
-fi
-
-if ! npm run build; then
-    echo "❌ Frontend build failed!"
-    echo "   Try running: npm run build"
-    exit 1
-fi
-
-# No hosts file setup needed (using localhost)
-
-# Post-setup verification
 echo ""
-echo "🔍 Verifying installation..."
-
-# Check database connection
-echo -n "   Database connection... "
-if docker compose exec -T app php artisan migrate:status > /dev/null 2>&1; then
-    echo "✅"
-else
-    echo "❌ Failed!"
-    echo "   Run: docker compose exec app php artisan migrate:status"
-fi
-
-# Check application key
-echo -n "   Application key... "
-if grep -q "^APP_KEY=base64:" .env; then
-    echo "✅"
-else
-    echo "❌ Missing or invalid!"
-fi
-
-# Check if Nginx is responding
-echo -n "   Web server... "
-if curl -sk "$APP_URL/health" > /dev/null 2>&1; then
-    echo "✅"
-else
-    echo "⚠️  Not responding yet (may need a moment)"
-fi
-
-# Check if admin user exists
-echo -n "   Admin user... "
-USER_CHECK=$(docker compose exec -T app php artisan tinker --execute="echo \App\Models\User::where('email', 'chef@saucebase.dev')->exists() ? 'yes' : 'no';" 2>/dev/null | tail -1)
-if [ "$USER_CHECK" = "yes" ]; then
-    echo "✅"
-else
-    echo "❌ Not created - module seeders may have failed"
-fi
-
-# Final status check
-echo ""
-echo "🎉 Setup complete!"
-echo ""
-echo "📋 Next steps:"
-echo "1. Access your app at: $APP_URL"
-echo "2. Login with admin credentials:"
-echo "   Email: chef@saucebase.dev"
-echo "   Password: secretsauce"
-echo "   ⚠️  Change these credentials after first login!"
-echo "3. Start development with: npm run dev"
-echo "4. Monitor queues with: docker compose exec app php artisan horizon"
-echo ""
-echo "🔧 Useful commands:"
-echo "• Run artisan: docker compose exec app php artisan <command>"
-echo "• Run tests: docker compose exec app php artisan test"
-echo "• Run E2E tests: npm run test:e2e"
-echo "• Format code: vendor/bin/pint"
-echo "• Lint frontend: npm run lint"
-echo ""
-echo "✅ Development environment is ready!"
+echo "Setup complete! Run 'npm run dev' to start developing."
