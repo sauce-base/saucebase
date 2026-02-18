@@ -39,6 +39,33 @@
     <a href="https://sauce-base.github.io/docs/">Docs</a>
   </p>
 
+  <h2>Quick Start</h2>
+
+  <table>
+    <tr>
+      <th>Environment</th>
+      <th>Command</th>
+    </tr>
+    <tr>
+      <td><strong>Docker</strong></td>
+      <td><code>bash bin/setup-env</code></td>
+    </tr>
+    <tr>
+      <td><strong>Laravel Herd</strong></td>
+      <td><code>composer install &amp;&amp; php artisan saucebase:install &amp;&amp; npm install &amp;&amp; npm run dev</code></td>
+    </tr>
+    <tr>
+      <td><strong>Laravel Sail</strong></td>
+      <td><code>sail artisan saucebase:install</code> (after <code>sail up -d &amp;&amp; sail composer install</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>Native PHP</strong></td>
+      <td><code>composer install &amp;&amp; php artisan saucebase:install &amp;&amp; npm install &amp;&amp; npm run dev</code></td>
+    </tr>
+  </table>
+
+  <p>Set <code>APP_URL</code> in <code>.env</code> before running the installer. See the <a href="https://sauce-base.github.io/docs/getting-started/installation">full installation guide</a> for details.</p>
+
   <h2>Modules</h2>
 
   <p>

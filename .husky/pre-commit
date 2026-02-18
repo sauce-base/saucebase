@@ -5,7 +5,11 @@
 # --------------------------------
 
 # Run PHP and JS linters
-composer lint
+if command -v composer &> /dev/null; then
+    composer lint
+else
+    echo "Warning: composer not found, skipping composer lint"
+fi
 
 # Run lint-staged if npx is available
 if command -v npx &> /dev/null; then
