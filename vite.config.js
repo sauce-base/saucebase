@@ -26,7 +26,10 @@ async function createConfig() {
             : {},
         plugins: [
             laravel({
-                input: 'resources/js/app.ts',
+                input: [
+                    'resources/js/app.ts',
+                    'resources/css/filament/admin/theme.css',
+                ],
                 refresh: true,
                 ssr: 'resources/js/ssr.ts',
             }),
