@@ -61,7 +61,8 @@ fi
 
 # Start Docker
 echo "Starting Docker services..."
-docker compose up -d --wait
+docker compose restart
+docker compose up -d --wait 
 
 # Install PHP dependencies
 echo "Installing PHP dependencies..."
@@ -73,7 +74,7 @@ docker compose exec -T app php artisan saucebase:install "$@"
 
 # Reload app container to pick up APP_KEY written to .env during install
 echo "Reloading app container..."
-docker compose up -d app
+docker compose up -d --wait 
 
 # Frontend (runs on host where Node lives)
 echo "Installing frontend dependencies..."

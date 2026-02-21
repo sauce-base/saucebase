@@ -167,8 +167,10 @@ class InstallCommand extends Command
             return [];
         }
 
+        $packages = $response->json('packages', []);
+
         return array_values(array_keys(array_filter(
-            $response->json('packages', []),
+            $packages,
             fn (array $p) => empty($p['abandoned'])
         )));
     }
