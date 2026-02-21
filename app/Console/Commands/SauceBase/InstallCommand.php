@@ -4,7 +4,8 @@ namespace App\Console\Commands\SauceBase;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\Process\Process;
 
 class InstallCommand extends Command
 {
@@ -103,14 +104,11 @@ class InstallCommand extends Command
 
     protected function setupModules(): void
     {
-        // After --fresh the DB is empty, so all modules need migration/seeding regardless
-        // of their enabled status in modules_statuses.json. Without --fresh, only offer
-        // disabled modules to avoid re-seeding non-idempotent seeders.
-        $available = ($this->option('fresh') || $this->option('all-modules'))
-            ? array_keys(Module::all())
-            : array_keys(Module::allDisabled());
+        $available = $this->fetchAvailableModules();
 
         if (empty($available)) {
+            $this->components->warn('Could not fetch module list from Packagist.');
+
             return;
         }
 
@@ -122,6 +120,29 @@ class InstallCommand extends Command
 
         $this->newLine();
 
+        // Phase 1: require all selected modules
+        foreach ($selected as $module) {
+            $package = 'saucebase/' . strtolower($module);
+
+            $this->components->task("Requiring {$package}", function () use ($package) {
+                $process = new Process(['composer', 'require', $package, '--no-interaction']);
+                $process->setTimeout(300);
+                $process->run();
+
+                return $process->isSuccessful();
+            });
+        }
+
+        // Phase 2: regenerate autoload once for all new modules
+        $this->components->task('Dumping autoload', function () {
+            $process = new Process(['composer', 'dump-autoload', '--no-interaction']);
+            $process->setTimeout(120);
+            $process->run();
+
+            return $process->isSuccessful();
+        });
+
+        // Phase 3: enable and migrate each module
         foreach ($selected as $module) {
             $this->components->task("Enabling {$module} module", function () use ($module) {
                 return Artisan::call('module:enable', ['module' => $module]) === 0;
@@ -131,6 +152,31 @@ class InstallCommand extends Command
                 return Artisan::call('module:migrate', ['module' => $module, '--seed' => true, '--force' => true]) === 0;
             });
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function fetchAvailableModules(): array
+    {
+        $response = Http::timeout(10)->get('https://packagist.org/packages/list.json', [
+            'vendor'   => 'saucebase',
+            'fields[]' => ['type', 'abandoned'],
+        ]);
+
+        if (! $response->ok()) {
+            return [];
+        }
+
+        $packages = $response->json('packages', []);
+
+        return array_values(array_map(
+            fn (string $name) => ucfirst(explode('/', $name)[1]),
+            array_keys(array_filter(
+                $packages,
+                fn (array $p) => ($p['type'] ?? '') === 'saucebase-module' && empty($p['abandoned'])
+            ))
+        ));
     }
 
     /**
