@@ -159,23 +159,23 @@ class InstallCommand extends Command
      */
     protected function fetchAvailableModules(): array
     {
-        $response = Http::timeout(10)->get('https://packagist.org/packages/list.json', [
-            'vendor' => 'saucebase',
-            'fields[]' => ['type', 'abandoned'],
-        ]);
+        $results = [];
+        $url = 'https://packagist.org/search.json';
 
-        if (! $response->ok()) {
-            return [];
-        }
+        do {
+            $response = Http::timeout(10)->get($url, ['type' => 'saucebase-module']);
 
-        $packages = $response->json('packages', []);
+            if (! $response->ok()) {
+                return [];
+            }
+
+            $results = array_merge($results, $response->json('results', []));
+            $url = $response->json('next', null);
+        } while ($url !== null);
 
         return array_values(array_map(
-            fn (string $name) => ucfirst(explode('/', $name)[1]),
-            array_keys(array_filter(
-                $packages,
-                fn (array $p) => ($p['type'] ?? '') === 'saucebase-module' && empty($p['abandoned'])
-            ))
+            fn (array $p) => ucfirst(explode('/', $p['name'])[1]),
+            array_filter($results, fn (array $p) => empty($p['abandoned']))
         ));
     }
 
