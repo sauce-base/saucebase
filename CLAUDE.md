@@ -191,11 +191,9 @@ SSL: Auto-enforced HTTPS in production/staging. Wildcard cert (`*.localhost`) fo
 
 ## Workflow
 
-### Code Review Before Completion
+### Code Review (on demand)
 
-Before marking a plan as done, always launch the code review agent (`feature-dev:code-reviewer`) to review all changes made during the plan. Only mark the plan as completed after the review passes with no high-priority issues.
-
-Skip code review for changes that only modify documentation or markdown files (`.md`).
+Run `/code-review` to launch the code review agent (`feature-dev:code-reviewer`). Do not run it automatically.
 
 ## Implementation Philosophy
 

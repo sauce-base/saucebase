@@ -106,7 +106,7 @@ class InstallCommand extends Command
         // After --fresh the DB is empty, so all modules need migration/seeding regardless
         // of their enabled status in modules_statuses.json. Without --fresh, only offer
         // disabled modules to avoid re-seeding non-idempotent seeders.
-        $available = $this->option('fresh')
+        $available = ($this->option('fresh') || $this->option('all-modules'))
             ? array_keys(Module::all())
             : array_keys(Module::allDisabled());
 
