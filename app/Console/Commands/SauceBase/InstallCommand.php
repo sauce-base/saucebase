@@ -4,7 +4,11 @@ namespace App\Console\Commands\SauceBase;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
+
+use function Laravel\Prompts\multiselect;
 
 class InstallCommand extends Command
 {
@@ -16,6 +20,12 @@ class InstallCommand extends Command
 
     protected $description = 'Install and configure Saucebase';
 
+    /** @var string[] */
+    protected array $selectedModules = [];
+
+    /** @var string[] */
+    protected array $availableModules = [];
+
     public function handle(): int
     {
         $this->displayWelcome();
@@ -24,7 +34,34 @@ class InstallCommand extends Command
             return $this->handleCIInstallation();
         }
 
+        $this->promptForModules();
+
         return $this->install();
+    }
+
+    protected function promptForModules(): void
+    {
+        if ($this->option('all-modules') || $this->option('modules')) {
+            return;
+        }
+
+        $available = $this->fetchAvailableModules();
+
+        if (empty($available)) {
+            return;
+        }
+
+        $options = collect($available)
+            ->mapWithKeys(fn (string $package) => [
+                $package => Str::studly(Str::after($package, '/')),
+            ])
+            ->all();
+
+        $this->selectedModules = multiselect(
+            label: 'Which modules would you like to install?',
+            options: $options,
+            default: [],
+        );
     }
 
     protected function install(): int
@@ -103,14 +140,11 @@ class InstallCommand extends Command
 
     protected function setupModules(): void
     {
-        // After --fresh the DB is empty, so all modules need migration/seeding regardless
-        // of their enabled status in modules_statuses.json. Without --fresh, only offer
-        // disabled modules to avoid re-seeding non-idempotent seeders.
-        $available = $this->option('fresh')
-            ? array_keys(Module::all())
-            : array_keys(Module::allDisabled());
+        $available = $this->fetchAvailableModules();
 
         if (empty($available)) {
+            $this->components->warn('Could not fetch module list from Packagist.');
+
             return;
         }
 
@@ -122,15 +156,70 @@ class InstallCommand extends Command
 
         $this->newLine();
 
-        foreach ($selected as $module) {
+        // Phase 1: require all selected packages
+        foreach ($selected as $package) {
+            $this->components->task("Requiring {$package}", function () use ($package) {
+                $process = new Process(['composer', 'require', $package, '--no-interaction']);
+                $process->setTimeout(300);
+                $process->run();
+
+                return $process->isSuccessful();
+            });
+        }
+
+        // Phase 2: regenerate autoload once for all new modules
+        $this->components->task('Dumping autoload', function () {
+            $process = new Process(['composer', 'dump-autoload', '--no-interaction']);
+            $process->setTimeout(120);
+            $process->run();
+
+            return $process->isSuccessful();
+        });
+
+        // Phase 3: enable and migrate each module (subprocess for fresh autoloader + module status)
+        foreach ($selected as $package) {
+            $module = Str::studly(explode('/', $package)[1]);
+
             $this->components->task("Enabling {$module} module", function () use ($module) {
-                return Artisan::call('module:enable', ['module' => $module]) === 0;
+                $process = new Process([PHP_BINARY, base_path('artisan'), 'module:enable', $module]);
+                $process->setTimeout(30);
+                $process->run();
+
+                return $process->isSuccessful();
             });
 
             $this->components->task("Migrating {$module} module", function () use ($module) {
-                return Artisan::call('module:migrate', ['module' => $module, '--seed' => true, '--force' => true]) === 0;
+                $process = new Process([PHP_BINARY, base_path('artisan'), 'module:migrate', $module, '--seed', '--force']);
+                $process->setTimeout(120);
+                $process->run();
+
+                return $process->isSuccessful();
             });
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function fetchAvailableModules(): array
+    {
+        if (! empty($this->availableModules)) {
+            return $this->availableModules;
+        }
+
+        $response = Http::timeout(10)
+            ->get('https://packagist.org/packages/list.json?type=saucebase-module&fields[]=abandoned');
+
+        if (! $response->ok()) {
+            return [];
+        }
+
+        $packages = $response->json('packages', []);
+
+        return $this->availableModules = array_keys(array_filter(
+            $packages,
+            fn (array $p) => empty($p['abandoned'])
+        ));
     }
 
     /**
@@ -139,30 +228,29 @@ class InstallCommand extends Command
      */
     protected function resolveModuleSelection(array $available): array
     {
+        // 1. Select all modules
         if ($this->option('all-modules')) {
             return $available;
         }
 
-        if ($input = $this->option('modules')) {
-            $requested = array_map('strtolower', array_map('trim', explode(',', (string) $input)));
+        // 2. Modules passed via --modules option
+        if ($modules = $this->option('modules')) {
+            $requested = collect(explode(',', $modules))
+                ->map(fn ($m) => strtolower(trim($m)))
+                ->filter()
+                ->values();
 
-            return array_values(array_filter($available, fn (string $m) => in_array($m, $requested)));
+            return collect($available)
+                ->filter(function (string $package) use ($requested) {
+                    $name = strtolower(Str::after($package, '/'));
+
+                    return $requested->contains($name);
+                })
+                ->values()
+                ->all();
         }
 
-        if (! $this->input->isInteractive()) {
-            return $available;
-        }
-
-        /** @var string[] $selection */
-        $selection = $this->choice(
-            'Which modules would you like to enable?',
-            $available,
-            implode(',', $available),
-            attempts: null,
-            multiple: true,
-        );
-
-        return $selection;
+        return $this->selectedModules;
     }
 
     protected function createStorageLink(): void
