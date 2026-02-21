@@ -305,29 +305,70 @@ function generatePreviewGif(outputDir: string): void {
 
     console.log('\n🎬 Generating preview GIF...');
 
-    const concatFile = path.join(outputDir, 'concat.txt');
-    const lastFrame = frames[frames.length - 1];
-    const concatContent =
-        frames.map((f) => `file '${f}'\nduration 2`).join('\n') +
-        `\nfile '${lastFrame}'`;
-
-    fs.writeFileSync(concatFile, concatContent);
-
+    const displayDuration = 1.5; // seconds each image is shown (clean, no fade)
+    const fadeDuration = 0.5; // seconds for crossfade transition between images
     const outputPath = path.join(outputDir, 'preview.gif');
+    const tempVideo = path.join(outputDir, '_preview_temp.mp4');
+    const N = frames.length;
 
     try {
+        // Build input args with per-frame durations:
+        //   first/last frame : D + F  (one fade side only)
+        //   middle frames    : D + 2F (fade-in + clean show + fade-out)
+        const inputArgs: string[] = [];
+        for (let i = 0; i < N; i++) {
+            const isMiddle = i > 0 && i < N - 1;
+            const dur = isMiddle
+                ? displayDuration + 2 * fadeDuration
+                : displayDuration + fadeDuration;
+            inputArgs.push('-loop', '1', '-t', String(dur), '-i', frames[i]);
+        }
+
+        // Build chained xfade filter.
+        // offset_i = i * displayDuration + (i - 1) * fadeDuration  (loop i from 1)
+        const filterParts: string[] = [];
+        let prevLabel = '[0:v]';
+        for (let i = 1; i < N; i++) {
+            const outLabel = i === N - 1 ? '[out]' : `[x${i}]`;
+            const offset = i * displayDuration + (i - 1) * fadeDuration;
+            filterParts.push(
+                `${prevLabel}[${i}:v]xfade=transition=fade:duration=${fadeDuration}:offset=${offset}${outLabel}`,
+            );
+            prevLabel = outLabel;
+        }
+
+        // Step 1: render intermediate video with crossfade transitions
         execFileSync(
             'ffmpeg',
             [
                 '-y',
-                '-f',
-                'concat',
-                '-safe',
-                '0',
+                ...inputArgs,
+                '-filter_complex',
+                filterParts.join(';'),
+                '-map',
+                '[out]',
+                '-r',
+                '12',
+                '-c:v',
+                'libx264',
+                '-pix_fmt',
+                'yuv420p',
+                '-preset',
+                'ultrafast',
+                tempVideo,
+            ],
+            { stdio: 'pipe' },
+        );
+
+        // Step 2: convert video → optimised GIF with palette
+        execFileSync(
+            'ffmpeg',
+            [
+                '-y',
                 '-i',
-                concatFile,
+                tempVideo,
                 '-vf',
-                'scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=256:stats_mode=full[p];[s1][p]paletteuse=dither=floyd_steinberg',
+                'fps=12,scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=256:stats_mode=full[p];[s1][p]paletteuse=dither=floyd_steinberg',
                 '-loop',
                 '0',
                 outputPath,
@@ -342,8 +383,8 @@ function generatePreviewGif(outputDir: string): void {
             '  ✗ GIF generation failed. Make sure ffmpeg is installed (brew install ffmpeg)',
         );
     } finally {
-        if (fs.existsSync(concatFile)) {
-            fs.unlinkSync(concatFile);
+        if (fs.existsSync(tempVideo)) {
+            fs.unlinkSync(tempVideo);
         }
     }
 }
