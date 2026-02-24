@@ -19,6 +19,13 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
+        /**
+         * Fix for event discovery paths in modules
+         *
+         * @link https://github.com/nWidart/laravel-modules/issues/2128#issuecomment-3515275319
+         */
+        $this->fixDiscoverEventsModulePathIssue();
     }
 
     /**
@@ -27,13 +34,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureSecureUrls();
-
-        /**
-         * Fix for event discovery paths in modules
-         *
-         * @link https://github.com/nWidart/laravel-modules/issues/2128#issuecomment-3515275319
-         */
-        $this->fixDiscoverEventsModulePathIssue();
     }
 
     protected function configureSecureUrls()
