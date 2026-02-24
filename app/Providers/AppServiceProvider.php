@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureSecureUrls();
     }
 
-    protected function configureSecureUrls()
+    protected function configureSecureUrls(): void
     {
         // Determine if HTTPS should be enforced
         $enforceHttps = $this->app->environment(['production', 'staging'])
