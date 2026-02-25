@@ -21,34 +21,31 @@ class ModuleEventDiscoveryTest extends TestCase
         $this->assertNotNull($callback);
 
         $file = new \SplFileInfo(
-            base_path('modules/Billing/app/Listeners/SyncSubscriberRole.php')
+            base_path('modules/NonExistentModule/app/Listeners/SomeListener.php')
         );
 
         $className = call_user_func($callback, $file, base_path());
 
         $this->assertEquals(
-            'Modules\Billing\Listeners\SyncSubscriberRole',
+            'Modules\NonExistentModule\Listeners\SomeListener',
             $className,
             'Module listener class name must not include the "app" folder in the namespace.'
         );
     }
 
-    public function test_disabled_module_listener_class_name_returns_null(): void
+    public function test_unregistered_module_listener_class_name_is_not_null(): void
     {
-        // Verifies disabled modules are properly skipped during event discovery
-        // This test uses a non-existent module so no real module is affected
         $callback = DiscoverEvents::$guessClassNamesUsingCallback;
         $this->assertNotNull($callback);
 
-        // A file from a module that doesn't exist → Module::isEnabled() returns false
-        // We can't easily test this without mocking, so we just ensure the callback
-        // handles the Billing module (which IS enabled) without returning null
+        // A file from a module not in the registry → Module::find() returns null
+        // → callback computes class name normally (only explicitly disabled modules return null)
         $file = new \SplFileInfo(
-            base_path('modules/Billing/app/Listeners/SyncSubscriberRole.php')
+            base_path('modules/NonExistentModule/app/Listeners/SomeListener.php')
         );
 
         $className = call_user_func($callback, $file, base_path());
 
-        $this->assertNotNull($className, 'Enabled module listeners must not return null.');
+        $this->assertNotNull($className, 'Listeners from unregistered modules must not return null.');
     }
 }
