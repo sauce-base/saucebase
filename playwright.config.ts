@@ -1,10 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
+import type { LaravelOptions } from '@saucebase/laravel-playwright';
 import 'dotenv/config';
 import { collectModulePlaywrightConfigs } from './module-loader.js';
 
-const BASE_URL = process.env.APP_URL || 'http://localhost';
+const BASE_URL = process.env.APP_URL ?? 'http://localhost';
 
-type ModulePlaywrightConfig = {
+export type ModulePlaywrightConfig = {
     name: string;
     testDir: string;
     use?: Record<string, unknown>;
@@ -15,8 +16,14 @@ type ModulePlaywrightConfig = {
 async function createConfig() {
     // Collect Playwright configs from all modules
     // cast to ModulePlaywrightConfig[] so modules can include extra keys beyond name/testDir/use
-    const modules = ((await collectModulePlaywrightConfigs()) ||
-        []) as ModulePlaywrightConfig[];
+    const { projects: moduleProjects, setups: moduleSetups } =
+        ((await collectModulePlaywrightConfigs()) || {
+            projects: [],
+            setups: [],
+        }) as {
+            projects: ModulePlaywrightConfig[];
+            setups: ModulePlaywrightConfig[];
+        };
 
     const testDevices = [
         'Desktop Chrome',
@@ -34,10 +41,11 @@ async function createConfig() {
             name: '@Core',
             testDir: './tests/e2e',
             use: {}, // will be extended below
+            dependencies: ['database.setup'], // Ensure database setup runs before core tests
         } as ModulePlaywrightConfig,
         // Add more projects here if needed
     ]
-        .concat(modules as ModulePlaywrightConfig[])
+        .concat(moduleProjects)
         .map((project) => {
             // Extend each project with the selected devices
             return testDevices.map((device) => {
@@ -53,7 +61,7 @@ async function createConfig() {
     /**
      * @see https://playwright.dev/docs/test-configuration
      */
-    return defineConfig({
+    return defineConfig<LaravelOptions>({
         /* Run tests in files in parallel */
         fullyParallel: true,
         /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -82,10 +90,24 @@ async function createConfig() {
 
             /* Ignore HTTPS errors */
             ignoreHTTPSErrors: true,
+
+            /** Laravel Playwright integration */
+            laravelBaseUrl: `${BASE_URL}/playwright`,
+            laravelSecret: process.env.PLAYWRIGHT_SECRET,
         },
 
         /* Configure projects for major browsers */
-        projects: projects,
+        projects: [
+            /**
+             * Global setup
+             */
+            {
+                name: 'database.setup',
+                testMatch: /database\.setup\.ts/,
+            },
+            ...moduleSetups,
+            ...projects,
+        ],
 
         /* Only start webServer locally (not in CI where we build assets) */
         ...(!process.env.CI && {
