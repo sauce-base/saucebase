@@ -32,7 +32,7 @@ runs:
           run: |
               cp .env.example .env
               echo "DB_CONNECTION=sqlite" >> .env
-              echo "DB_DATABASE=database/database.sqlite" >> .env
+              echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
               echo "LOG_CHANNEL=stderr" >> .env
               echo "TELESCOPE_ENABLED=false" >> .env
 
