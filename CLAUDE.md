@@ -90,6 +90,10 @@ export default {
 };
 ```
 
+> **Clean state:** The main repository has no modules committed (`modules/` is empty except for `.gitkeep`).
+> Modules (Auth, Billing, Settings, etc.) are installed locally for development via Composer and owned in-repo,
+> but they are NOT tracked in version control. CI runs against the clean state.
+
 **Asset discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from enabled modules. Don't bypass it.
 
 ### Frontend

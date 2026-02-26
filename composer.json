@@ -39,6 +39,7 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "phpunit/phpunit": "^12.3",
+        "saucebase/laravel-playwright": "^0.0.16",
         "saucebase/module-installer": "^0.0.6",
         "symfony/filesystem": "^7.3"
     },
@@ -74,9 +75,7 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade",
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta"
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
@@ -100,13 +99,19 @@
         "analyse": [
             "vendor/bin/phpstan analyse --memory-limit=2G"
         ],
+        "ide-helper": [
+            "@php artisan ide-helper:generate --ansi",
+            "@php artisan ide-helper:meta --ansi"
+        ],
         "lint": [
             "vendor/bin/pint"
         ]
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         },
         "merge-plugin": {
             "include": [

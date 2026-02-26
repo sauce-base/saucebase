@@ -13,14 +13,12 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void {}
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
+    public function register(): void
     {
-        $this->configureSecureUrls();
+        if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
 
         /**
          * Fix for event discovery paths in modules
@@ -30,7 +28,15 @@ class AppServiceProvider extends ServiceProvider
         $this->fixDiscoverEventsModulePathIssue();
     }
 
-    protected function configureSecureUrls()
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        $this->configureSecureUrls();
+    }
+
+    protected function configureSecureUrls(): void
     {
         // Determine if HTTPS should be enforced
         $enforceHttps = $this->app->environment(['production', 'staging'])
@@ -54,33 +60,25 @@ class AppServiceProvider extends ServiceProvider
 
         // Set up global middleware for security headers in production/staging
         if ($enforceHttps) {
-            $this->app['router']->pushMiddlewareToGroup('web', function ($request, $next) {
-                $response = $next($request);
-
-                return $response->withHeaders([
-                    'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
-                    'Content-Security-Policy' => 'upgrade-insecure-requests',
-                    'X-Content-Type-Options' => 'nosniff',
-                ]);
-            });
+            $this->app['router']->pushMiddlewareToGroup('web', \App\Http\Middleware\SecureHeaders::class);
         }
     }
 
     protected function fixDiscoverEventsModulePathIssue(): void
     {
         DiscoverEvents::guessClassNamesUsing(function (\SplFileInfo $file, $basePath) {
-            $class = trim(Str::replaceFirst($basePath, '', $file->getRealPath()), DIRECTORY_SEPARATOR);
+            $pathname = $file->getRealPath() ?: $file->getPathname();
+            $class = trim(Str::replaceFirst($basePath, '', $pathname), DIRECTORY_SEPARATOR);
 
             // Check if this is a module file and skip if module is disabled
             $modulesPath = config('modules.paths.modules');
-            $realPath = $file->getRealPath();
 
-            if ($modulesPath && str_starts_with($realPath, $modulesPath.DIRECTORY_SEPARATOR)) {
+            if ($modulesPath && str_starts_with($pathname, $modulesPath.DIRECTORY_SEPARATOR)) {
                 // Extract module name from path (e.g., "/path/to/modules/Auth/..." -> "Auth")
-                $relativePath = Str::after($realPath, $modulesPath.DIRECTORY_SEPARATOR);
+                $relativePath = Str::after($pathname, $modulesPath.DIRECTORY_SEPARATOR);
                 $moduleName = Str::before($relativePath, DIRECTORY_SEPARATOR);
 
-                if ($moduleName && ! Module::isEnabled($moduleName)) {
+                if ($moduleName && Module::find($moduleName)?->isEnabled() === false) {
                     return null;
                 }
             }

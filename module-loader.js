@@ -158,20 +158,23 @@ export async function collectModuleAssetsPaths(paths = []) {
 /**
  * Collects Playwright projects from enabled modules
  *
- * @returns {Promise<Object[]>} Array of Playwright projects
+ * @returns {Promise<{ projects: Object[], setups: Object[] }>} Module test projects and setup projects
  */
 export async function collectModulePlaywrightConfigs() {
     const projects = [];
+    const setups = [];
     const modulesDir = path.join(__dirname, MODULES_PATH);
     const enabledModules = await loadEnabledModuleNames(__dirname);
     const configFile = 'playwright.config.ts';
 
     for (const moduleName of enabledModules) {
-        // Add default module project
-        projects.push({
-            name: `@${moduleName}`,
-            testDir: path.join(MODULES_PATH, moduleName, 'tests', 'e2e'),
-        });
+        const moduleTestDir = path.join(
+            MODULES_PATH,
+            moduleName,
+            'tests',
+            'e2e',
+        );
+        const moduleSetupNames = [];
 
         const config = await importModuleFile(
             path.join(modulesDir, moduleName, configFile),
@@ -180,11 +183,33 @@ export async function collectModulePlaywrightConfigs() {
         );
 
         if (config?.default) {
-            projects.push(...config.default);
+            const rawSetups = Array.isArray(config.default)
+                ? config.default
+                : [config.default];
+
+            for (const setupConfig of rawSetups) {
+                if (!setupConfig || !setupConfig.name) {
+                    console.warn(
+                        `Module ${moduleName}: playwright.config.ts setup entry missing 'name' field — skipped`,
+                    );
+                    continue;
+                }
+                moduleSetupNames.push(setupConfig.name);
+                setups.push({
+                    ...setupConfig,
+                    testDir: setupConfig.testDir ?? moduleTestDir,
+                });
+            }
         }
+
+        projects.push({
+            name: `@${moduleName}`,
+            testDir: moduleTestDir,
+            dependencies: ['database.setup', ...moduleSetupNames],
+        });
     }
 
-    return projects;
+    return { projects, setups };
 }
 
 /**
