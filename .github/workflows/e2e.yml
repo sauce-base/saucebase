@@ -38,6 +38,7 @@ jobs:
             - name: Run E2E tests
               env:
                   APP_URL: http://localhost:8000
+                  PLAYWRIGHT_SECRET: saucebase-secret-key
               run: npm run test:e2e
 
             - name: Upload test report
