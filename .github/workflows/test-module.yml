@@ -31,11 +31,6 @@ jobs:
                   extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
                   coverage: none
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '22'
-
             - name: Create fresh Saucebase project
               run: composer create-project saucebase/saucebase saucebase --no-interaction
 
@@ -123,14 +118,6 @@ jobs:
               working-directory: saucebase
               run: php artisan migrate --force --seed
 
-            - name: Install npm dependencies
-              working-directory: saucebase
-              run: npm ci
-
-            - name: Build frontend assets
-              working-directory: saucebase
-              run: npm run build
-
             - name: Run PHPUnit tests
               working-directory: saucebase
               env:
@@ -178,6 +165,10 @@ jobs:
             - name: Install npm dependencies
               working-directory: saucebase
               run: npm ci
+
+            - name: Build frontend assets
+              working-directory: saucebase
+              run: npm run build
 
             - name: Install Playwright
               working-directory: saucebase
