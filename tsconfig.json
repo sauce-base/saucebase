@@ -14,6 +14,7 @@
         "paths": {
             "@/*": ["./resources/js/*"],
             "@modules/*": ["./modules/*"],
+            "@e2e/*": ["./tests/e2e/*"],
             "ziggy-js": ["./vendor/tightenco/ziggy"]
         }
     },
@@ -22,6 +23,9 @@
         "resources/js/**/*.vue",
         "modules/**/resources/js/**/*.ts",
         "modules/**/resources/js/**/*.vue",
-        "types/**/*.ts"
+        "types/**/*.ts",
+        "tests/e2e/**/*.ts",
+        "modules/**/tests/e2e/**/*.ts",
+        "playwright.config.ts"
     ]
 }
