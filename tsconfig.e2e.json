@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "paths": {
+            "@e2e/*": ["./tests/e2e/*"],
+            "@/*": ["./resources/js/*"],
+            "@modules/*": ["./modules/*"],
+            "ziggy-js": ["./vendor/tightenco/ziggy"]
+        }
+    },
+    "include": [
+        "tests/e2e/**/*.ts",
+        "modules/**/tests/e2e/**/*.ts",
+        "playwright.config.ts"
+    ]
+}
