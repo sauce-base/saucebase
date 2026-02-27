@@ -1,0 +1,211 @@
+name: Module Tests
+
+on:
+    workflow_call:
+        inputs:
+            module:
+                required: true
+                type: string
+                description: 'StudlyCase module name, e.g. Billing'
+            dependencies:
+                required: false
+                type: string
+                default: ''
+                description: 'Space-separated Composer packages, e.g. saucebase/auth'
+
+jobs:
+    phpunit:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+
+        steps:
+            - name: Checkout module
+              uses: actions/checkout@v4
+              with:
+                  path: module-src
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+                  coverage: none
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+
+            - name: Create fresh Saucebase project
+              run: composer create-project saucebase/saucebase saucebase --no-interaction
+
+            - name: Install module from local checkout
+              env:
+                  MODULE: ${{ inputs.module }}
+              run: |
+                  rm -rf saucebase/modules/$MODULE
+                  cp -r module-src saucebase/modules/$MODULE
+
+            - name: Install dependencies
+              if: inputs.dependencies != ''
+              working-directory: saucebase
+              env:
+                  DEPENDENCIES: ${{ inputs.dependencies }}
+              run: |
+                  for dep in $DEPENDENCIES; do
+                      composer require "$dep" --dev --no-interaction
+                  done
+
+            - name: Enable modules
+              working-directory: saucebase
+              env:
+                  MODULE: ${{ inputs.module }}
+                  DEPENDENCIES: ${{ inputs.dependencies }}
+              run: |
+                  jq ". + {\"$MODULE\": true}" modules_statuses.json > tmp.json && mv tmp.json modules_statuses.json
+                  for dep in $DEPENDENCIES; do
+                      pkg="${dep#saucebase/}"
+                      mod=$(echo "$pkg" | sed 's/-\([a-z]\)/\u\1/g; s/^\([a-z]\)/\u\1/')
+                      jq ". + {\"$mod\": true}" modules_statuses.json > tmp.json && mv tmp.json modules_statuses.json
+                  done
+
+            - name: Apply patches
+              env:
+                  MODULE: ${{ inputs.module }}
+                  DEPENDENCIES: ${{ inputs.dependencies }}
+              run: |
+                  apply_patches() {
+                      local dir="$1"
+                      for f in "$dir"/*.patch; do
+                          [ -f "$f" ] || continue
+                          echo "Applying patch: $f"
+                          patch -p1 -d saucebase < "$f"
+                      done
+                  }
+                  # Dependencies first (in declared order)
+                  for dep in $DEPENDENCIES; do
+                      pkg="${dep#saucebase/}"
+                      mod=$(echo "$pkg" | sed 's/-\([a-z]\)/\u\1/g; s/^\([a-z]\)/\u\1/')
+                      apply_patches "saucebase/modules/$mod/.github/patches"
+                  done
+                  # Primary module last
+                  apply_patches "saucebase/modules/$MODULE/.github/patches"
+
+            - name: Install Composer dependencies
+              working-directory: saucebase
+              run: composer update --prefer-dist --no-interaction --no-progress && composer dump-autoload
+
+            - name: Copy environment file
+              working-directory: saucebase
+              run: |
+                  cp .env.example .env
+                  echo "DB_CONNECTION=sqlite" >> .env
+                  echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+                  echo "LOG_CHANNEL=stderr" >> .env
+                  echo "TELESCOPE_ENABLED=false" >> .env
+                  echo "MAIL_MAILER=log" >> .env
+
+            - name: Set permissions
+              working-directory: saucebase
+              run: chmod -R 777 storage bootstrap/cache
+
+            - name: Create SQLite database
+              working-directory: saucebase
+              run: |
+                  mkdir -p database
+                  touch database/database.sqlite
+
+            - name: Generate app key
+              working-directory: saucebase
+              run: php artisan key:generate
+
+            - name: Run migrations
+              working-directory: saucebase
+              run: php artisan migrate --force --seed
+
+            - name: Install npm dependencies
+              working-directory: saucebase
+              run: npm ci
+
+            - name: Build frontend assets
+              working-directory: saucebase
+              run: npm run build
+
+            - name: Run PHPUnit tests
+              working-directory: saucebase
+              env:
+                  MODULE: ${{ inputs.module }}
+              run: php artisan test modules/$MODULE/tests
+
+            - name: Archive saucebase environment
+              run: tar --exclude='saucebase/node_modules' -czf saucebase-env.tar.gz saucebase/
+
+            - name: Upload environment artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: saucebase-env-${{ inputs.module }}
+                  path: saucebase-env.tar.gz
+                  retention-days: 1
+
+    e2e:
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        needs: phpunit
+
+        steps:
+            - name: Download environment artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: saucebase-env-${{ inputs.module }}
+
+            - name: Extract environment
+              run: tar -xzf saucebase-env.tar.gz
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+                  coverage: none
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+                  cache: npm
+                  cache-dependency-path: saucebase/package-lock.json
+
+            - name: Install npm dependencies
+              working-directory: saucebase
+              run: npm ci
+
+            - name: Install Playwright
+              working-directory: saucebase
+              run: npx playwright install chromium --with-deps
+
+            - name: Start Laravel server
+              working-directory: saucebase
+              run: php artisan serve --host=0.0.0.0 --port=8000 &
+
+            - name: Wait for server
+              run: |
+                  timeout 30 bash -c 'until curl -f http://localhost:8000 > /dev/null 2>&1; do
+                    echo "Waiting for server..."
+                    sleep 2
+                  done'
+                  echo "Server is ready!"
+
+            - name: Run E2E tests
+              working-directory: saucebase
+              env:
+                  APP_URL: http://localhost:8000
+                  MODULE: ${{ inputs.module }}
+              run: npx playwright test modules/$MODULE/tests/e2e --max-failures=2
+
+            - name: Upload Playwright report
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: playwright-report-${{ inputs.module }}
+                  path: saucebase/playwright-report/
+                  retention-days: 7
