@@ -14,6 +14,7 @@
         "paths": {
             "@/*": ["./resources/js/*"],
             "@modules/*": ["./modules/*"],
+            "@e2e/*": ["./tests/e2e/*"],
             "ziggy-js": ["./vendor/tightenco/ziggy"]
         }
     },
