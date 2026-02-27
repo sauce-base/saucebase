@@ -22,19 +22,19 @@ class AuthHelper
         $session->save();
 
         $cookieName = config('session.cookie');
-        $sessionId  = $session->getId();
+        $sessionId = $session->getId();
 
         // EncryptCookies middleware encrypts the session cookie on web routes.
         // Inject the same encrypted format so Laravel accepts the cookie.
-        $encrypter      = app('encrypter');
-        $prefix         = CookieValuePrefix::create($cookieName, $encrypter->getKey());
-        $encryptedValue = $encrypter->encrypt($prefix . $sessionId, false);
+        $encrypter = app('encrypter');
+        $prefix = CookieValuePrefix::create($cookieName, $encrypter->getKey());
+        $encryptedValue = $encrypter->encrypt($prefix.$sessionId, false);
 
         return [
-            'name'   => $cookieName,
-            'value'  => $encryptedValue,
+            'name' => $cookieName,
+            'value' => $encryptedValue,
             'domain' => parse_url(config('app.url'), PHP_URL_HOST) ?? 'localhost',
-            'path'   => '/',
+            'path' => '/',
         ];
     }
 }

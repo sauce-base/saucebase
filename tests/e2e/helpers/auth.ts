@@ -1,4 +1,3 @@
-import type { UserCredential } from '@e2e/fixtures/index.ts';
 import type { Page } from '@playwright/test';
 import type { Laravel } from '@saucebase/laravel-playwright';
 
@@ -12,7 +11,7 @@ type SessionCookie = {
 export async function loginAs(
     page: Page,
     laravel: Laravel,
-    user: UserCredential,
+    user: { email: string; password: string },
 ): Promise<void> {
     const cookie = await laravel.callFunction<SessionCookie>(
         'Tests\\Support\\AuthHelper::loginAs',
