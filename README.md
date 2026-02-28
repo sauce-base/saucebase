@@ -8,8 +8,7 @@
   <p>An enterprise-grade, modular Laravel SaaS starter kit. Own your code, ship faster.</p>
 
   <p>
-    <a href="https://github.com/sauce-base/saucebase/actions/workflows/phpunit.yml"><img src="https://github.com/sauce-base/saucebase/actions/workflows/phpunit.yml/badge.svg" alt="PHPUnit Tests" /></a>
-    <a href="https://github.com/sauce-base/saucebase/actions/workflows/e2e.yml"><img src="https://github.com/sauce-base/saucebase/actions/workflows/e2e.yml/badge.svg" alt="E2E Tests" /></a>
+    <a href="https://github.com/sauce-base/saucebase/actions/workflows/test.yml"><img src="https://github.com/sauce-base/saucebase/actions/workflows/test.yml/badge.svg" alt="Tests" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
     <a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.4%2B-777BB4?logo=php&logoColor=white" alt="PHP Version" /></a>
     <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-12.0-FF2D20?logo=laravel&logoColor=white" alt="Laravel" /></a>
