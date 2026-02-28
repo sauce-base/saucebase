@@ -13,27 +13,11 @@ permissions:
 jobs:
     sync:
         runs-on: ubuntu-latest
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             - name: Checkout saucebase
               uses: actions/checkout@v4
-
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.4'
-                  extensions: pdo, pdo_sqlite, mbstring, zip, pcntl, intl, exif
-                  coverage: none
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '22'
-                  cache: 'npm'
-
-            - name: Install Composer dependencies
-              run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
             - name: Discover modules from Packagist
               run: |
@@ -50,15 +34,6 @@ jobs:
                       mod=$(echo "$name" | sed 's/-\([a-z]\)/\u\1/g; s/^\([a-z]\)/\u\1/')
                       REPO=$(curl -s "https://packagist.org/packages/$pkg.json" | jq -r '.package.repository')
                       git clone --depth=1 "$REPO" "modules/$mod"
-                  done
-
-            - name: Enable modules
-              if: env.PACKAGES != ''
-              run: |
-                  for pkg in $PACKAGES; do
-                      name="${pkg#saucebase/}"
-                      mod=$(echo "$name" | sed 's/-\([a-z]\)/\u\1/g; s/^\([a-z]\)/\u\1/')
-                      jq ". + {\"$mod\": true}" modules_statuses.json > tmp.json && mv tmp.json modules_statuses.json
                   done
 
             - name: Apply patches
@@ -78,29 +53,17 @@ jobs:
                       apply_patches "modules/$mod/.github/patches"
                   done
 
-            - name: Update Composer lock with module dependencies
-              run: composer update --prefer-dist --no-interaction --no-scripts
-
-            - name: Regenerate autoloader
-              run: composer dump-autoload
-
-            - name: Copy environment file
-              run: cp .env.example .env
-
-            - name: Install Node dependencies
-              run: npm ci
-
-            - name: Build frontend assets
-              run: npm run build
-
             - name: Push to demo repository
               env:
                   DEMO_PAT: ${{ secrets.DEMO_PAT }}
               run: |
+                  if [ -z "$DEMO_PAT" ]; then
+                      echo "::error::DEMO_PAT secret is not set. Add it at Settings → Secrets → Actions in sauce-base/saucebase."
+                      exit 1
+                  fi
+
                   SAUCEBASE_SHA=$(git rev-parse --short HEAD)
 
-                  # Sync into a fresh directory so saucebase's .gitignore doesn't block
-                  # public/build, modules/, or modules_statuses.json
                   mkdir ../demo-push
                   rsync -a --delete \
                     --exclude='.git/' \
@@ -109,9 +72,6 @@ jobs:
                     ./ ../demo-push/
 
                   cd ../demo-push
-
-                  # Drop the gitignore entries that would block demo-specific files
-                  sed -i '/^\/public\/build/d; /^\/modules_statuses\.json/d' .gitignore
 
                   git init
                   git config user.name "github-actions[bot]"
