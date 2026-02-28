@@ -1,4 +1,4 @@
-name: E2E Tests
+name: Tests
 
 on:
     pull_request:
@@ -8,16 +8,27 @@ permissions:
     contents: read
 
 jobs:
-    test:
+    phpunit:
         runs-on: ubuntu-latest
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+            - uses: actions/checkout@v4
 
-            - name: Setup Laravel Application
-              uses: ./.github/actions/setup-laravel
+            - uses: ./.github/actions/setup-laravel
+
+            - name: Run tests
+              run: php artisan test
+
+    e2e:
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        needs: phpunit
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: ./.github/actions/setup-laravel
 
             - name: Install Playwright
               run: npx playwright install chromium --with-deps
@@ -27,18 +38,18 @@ jobs:
               env:
                   APP_ENV: testing
 
-            - name: Wait for server to be ready
+            - name: Wait for server
               run: |
                   timeout 30 bash -c 'until curl -f http://localhost:8000 > /dev/null 2>&1; do
                     echo "Waiting for Laravel server..."
                     sleep 2
                   done'
-                  echo "✅ Server is ready!"
+                  echo "Server is ready!"
 
             - name: Run E2E tests
+              run: npm run test:e2e
               env:
                   APP_URL: http://localhost:8000
-              run: npm run test:e2e
 
             - name: Upload test report
               if: failure()

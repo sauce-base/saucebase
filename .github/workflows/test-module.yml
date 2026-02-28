@@ -24,20 +24,12 @@ jobs:
               with:
                   path: module-src
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
+            - name: Clone Saucebase
+              uses: actions/checkout@v4
               with:
-                  php-version: '8.4'
-                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
-                  coverage: none
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '22'
-
-            - name: Create fresh Saucebase project
-              run: composer create-project saucebase/saucebase saucebase --no-interaction
+                  repository: sauce-base/saucebase
+                  ref: main
+                  path: saucebase
 
             - name: Install module from local checkout
               env:
@@ -95,42 +87,11 @@ jobs:
               working-directory: saucebase
               run: composer update --prefer-dist --no-interaction --no-progress && composer dump-autoload
 
-            - name: Copy environment file
-              working-directory: saucebase
-              run: |
-                  cp .env.example .env
-                  echo "DB_CONNECTION=sqlite" >> .env
-                  echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
-                  echo "LOG_CHANNEL=stderr" >> .env
-                  echo "TELESCOPE_ENABLED=false" >> .env
-                  echo "MAIL_MAILER=log" >> .env
-                  echo "APP_URL=http://localhost:8000" >> .env
-
-            - name: Set permissions
-              working-directory: saucebase
-              run: chmod -R 777 storage bootstrap/cache
-
-            - name: Create SQLite database
-              working-directory: saucebase
-              run: |
-                  mkdir -p database
-                  touch database/database.sqlite
-
-            - name: Generate app key
-              working-directory: saucebase
-              run: php artisan key:generate
-
-            - name: Run migrations
-              working-directory: saucebase
-              run: php artisan migrate --force --seed
-
-            - name: Install npm dependencies
-              working-directory: saucebase
-              run: npm ci
-
-            - name: Build frontend assets
-              working-directory: saucebase
-              run: npm run build
+            - name: Setup Laravel environment
+              uses: ./.github/actions/setup-laravel
+              with:
+                  working-directory: saucebase
+                  skip-composer: 'true'
 
             - name: Run PHPUnit tests
               working-directory: saucebase

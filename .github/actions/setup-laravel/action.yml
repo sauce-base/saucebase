@@ -10,6 +10,14 @@ inputs:
         description: 'Node.js version to use'
         required: false
         default: '22'
+    working-directory:
+        description: 'Directory where the Laravel app lives'
+        required: false
+        default: '.'
+    skip-composer:
+        description: 'Skip composer install (module workflow handles its own composer update)'
+        required: false
+        default: 'false'
 
 runs:
     using: 'composite'
@@ -29,6 +37,7 @@ runs:
 
         - name: Copy .env
           shell: bash
+          working-directory: ${{ inputs.working-directory }}
           run: |
               cp .env.example .env
               echo "DB_CONNECTION=sqlite" >> .env
@@ -36,33 +45,42 @@ runs:
               echo "LOG_CHANNEL=stderr" >> .env
               echo "TELESCOPE_ENABLED=false" >> .env
               echo "MAIL_MAILER=log" >> .env
+              echo "APP_URL=http://localhost:8000" >> .env
 
         - name: Install PHP dependencies
+          if: inputs.skip-composer != 'true'
           shell: bash
+          working-directory: ${{ inputs.working-directory }}
           run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
         - name: Install Node dependencies
           shell: bash
+          working-directory: ${{ inputs.working-directory }}
           run: npm ci
 
         - name: Directory Permissions
           shell: bash
+          working-directory: ${{ inputs.working-directory }}
           run: chmod -R 777 storage bootstrap/cache
 
         - name: Create SQLite Database
           shell: bash
+          working-directory: ${{ inputs.working-directory }}
           run: |
               mkdir -p database
               touch database/database.sqlite
 
         - name: Generate application key
           shell: bash
+          working-directory: ${{ inputs.working-directory }}
           run: php artisan key:generate
 
         - name: Run migrations
           shell: bash
+          working-directory: ${{ inputs.working-directory }}
           run: php artisan migrate --force --seed
 
         - name: Build frontend assets
           shell: bash
+          working-directory: ${{ inputs.working-directory }}
           run: npm run build
