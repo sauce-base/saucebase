@@ -21,6 +21,8 @@ createServer(
             title: (title) => `${title} - ${appName}`,
             resolve: resolveModularPageComponent,
             setup({ App: InertiaApp, props, plugin }) {
+                (globalThis as any).Ziggy = page.props.ziggy;
+
                 const app = createSSRApp({
                     render: () => h(App, {}, () => h(InertiaApp, props)),
                 })
