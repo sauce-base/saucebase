@@ -42,9 +42,15 @@ jobs:
                     | tr '\n' ' ')
                   echo "PACKAGES=$PACKAGES" >> $GITHUB_ENV
 
-            - name: Install modules
+            - name: Clone modules from GitHub
               if: env.PACKAGES != ''
-              run: composer require $PACKAGES --no-interaction
+              run: |
+                  for pkg in $PACKAGES; do
+                      name="${pkg#saucebase/}"
+                      mod=$(echo "$name" | sed 's/-\([a-z]\)/\u\1/g; s/^\([a-z]\)/\u\1/')
+                      REPO=$(curl -s "https://packagist.org/packages/$pkg.json" | jq -r '.package.repository')
+                      git clone --depth=1 "$REPO" "modules/$mod"
+                  done
 
             - name: Enable modules
               if: env.PACKAGES != ''
@@ -72,6 +78,9 @@ jobs:
                       apply_patches "modules/$mod/.github/patches"
                   done
 
+            - name: Update Composer lock with module dependencies
+              run: composer update --prefer-dist --no-interaction --no-scripts
+
             - name: Regenerate autoloader
               run: composer dump-autoload
 
@@ -88,9 +97,26 @@ jobs:
               env:
                   DEMO_PAT: ${{ secrets.DEMO_PAT }}
               run: |
+                  SAUCEBASE_SHA=$(git rev-parse --short HEAD)
+
+                  # Sync into a fresh directory so saucebase's .gitignore doesn't block
+                  # public/build, modules/, or modules_statuses.json
+                  mkdir ../demo-push
+                  rsync -a --delete \
+                    --exclude='.git/' \
+                    --exclude='node_modules/' \
+                    --exclude='vendor/' \
+                    ./ ../demo-push/
+
+                  cd ../demo-push
+
+                  # Drop the gitignore entries that would block demo-specific files
+                  sed -i '/^\/public\/build/d; /^\/modules_statuses\.json/d' .gitignore
+
+                  git init
                   git config user.name "github-actions[bot]"
                   git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git add -f modules/ public/build/ modules_statuses.json composer.lock composer.json
-                  git diff --staged --quiet || git commit -m "chore: sync demo from saucebase@$(git rev-parse --short HEAD)"
-                  git remote add demo "https://x-access-token:${DEMO_PAT}@github.com/sauce-base/demo.git"
-                  git push demo HEAD:main --force
+                  git remote add origin "https://x-access-token:${DEMO_PAT}@github.com/sauce-base/demo.git"
+                  git add -A
+                  git commit -m "chore: sync demo from saucebase@${SAUCEBASE_SHA}"
+                  git push origin HEAD:main --force
