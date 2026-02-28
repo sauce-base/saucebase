@@ -67,6 +67,7 @@ jobs:
                   mkdir ../demo-push
                   rsync -a --delete \
                     --exclude='.git/' \
+                    --exclude='.github/' \
                     --exclude='node_modules/' \
                     --exclude='vendor/' \
                     ./ ../demo-push/
