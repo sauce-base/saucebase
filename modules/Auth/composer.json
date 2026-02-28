@@ -1,0 +1,33 @@
+{
+    "name": "saucebase/auth",
+    "description": "",
+    "type": "saucebase-module",
+    "authors": [
+        {
+            "name": "Sauce Base",
+            "email": "hello@saucebase.dev"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Auth\\": "app/",
+            "Modules\\Auth\\Database\\Factories\\": "database/factories/",
+            "Modules\\Auth\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Auth\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "laravel/socialite": "^5.21",
+        "stechstudio/filament-impersonate": "^4.1"
+    }
+}

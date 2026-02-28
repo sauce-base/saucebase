@@ -1,0 +1,13 @@
+# https://taskfile.dev
+version: '3'
+
+tasks:
+    # ── Testing ───────────────────────────────────────────────────
+    test:php:
+        desc: Run PHPUnit tests for Settings module
+        cmd: php artisan test --testsuite=Modules --filter=Settings
+
+    test:e2e:
+        desc: Run E2E tests for Settings module
+        cmd: npx playwright test --project="@Settings [Desktop Chrome]" {{.CLI_ARGS}}
+        interactive: true

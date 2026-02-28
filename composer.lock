@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c78ec2619f1be7d12de9897f1a649174",
+    "content-hash": "7458f5369949b657b1526ecc35072b63",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -6675,6 +6675,140 @@
                 }
             ],
             "time": "2025-02-25T09:09:36+00:00"
+        },
+        {
+            "name": "saucebase/auth",
+            "version": "v0.0.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sauce-base/auth.git",
+                "reference": "99bcf36728ea53649223fe194785604504f6cf9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sauce-base/auth/zipball/99bcf36728ea53649223fe194785604504f6cf9d",
+                "reference": "99bcf36728ea53649223fe194785604504f6cf9d",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/socialite": "^5.21",
+                "stechstudio/filament-impersonate": "^4.1"
+            },
+            "type": "saucebase-module",
+            "extra": {
+                "laravel": {
+                    "aliases": [],
+                    "providers": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Auth\\": "app/",
+                    "Modules\\Auth\\Database\\Seeders\\": "database/seeders/",
+                    "Modules\\Auth\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Sauce Base",
+                    "email": "hello@saucebase.dev"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/sauce-base/auth/issues",
+                "source": "https://github.com/sauce-base/auth/tree/v0.0.15"
+            },
+            "time": "2026-02-27T20:01:12+00:00"
+        },
+        {
+            "name": "saucebase/billing",
+            "version": "v0.0.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sauce-base/billing.git",
+                "reference": "8baef2feb45c01d36ff58ca9ebb16b6e4a3d8f79"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sauce-base/billing/zipball/8baef2feb45c01d36ff58ca9ebb16b6e4a3d8f79",
+                "reference": "8baef2feb45c01d36ff58ca9ebb16b6e4a3d8f79",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.4",
+                "spatie/laravel-data": "^4.0",
+                "spatie/laravel-typescript-transformer": "^2.5",
+                "stripe/stripe-php": "^19.2"
+            },
+            "type": "saucebase-module",
+            "extra": {
+                "laravel": {
+                    "aliases": [],
+                    "providers": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Billing\\": "app/",
+                    "Modules\\Billing\\Database\\Seeders\\": "database/seeders/",
+                    "Modules\\Billing\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Sauce Base",
+                    "email": "hello@saucebase.dev"
+                }
+            ],
+            "description": "Payment gateway and subscription management module for Saucebase",
+            "support": {
+                "issues": "https://github.com/sauce-base/billing/issues",
+                "source": "https://github.com/sauce-base/billing/tree/v0.0.12"
+            },
+            "time": "2026-02-28T09:57:25+00:00"
+        },
+        {
+            "name": "saucebase/settings",
+            "version": "v0.0.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sauce-base/settings.git",
+                "reference": "52ff042c7c34b0153d857452fa561c33ce7607ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sauce-base/settings/zipball/52ff042c7c34b0153d857452fa561c33ce7607ea",
+                "reference": "52ff042c7c34b0153d857452fa561c33ce7607ea",
+                "shasum": ""
+            },
+            "type": "saucebase-module",
+            "extra": {
+                "laravel": {
+                    "aliases": [],
+                    "providers": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Settings\\": "app/",
+                    "Modules\\Settings\\Database\\Seeders\\": "database/seeders/",
+                    "Modules\\Settings\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Sauce Base",
+                    "email": "hello@saucebase.dev"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/sauce-base/settings/issues",
+                "source": "https://github.com/sauce-base/settings/tree/v0.0.16"
+            },
+            "time": "2026-02-27T20:06:46+00:00"
         },
         {
             "name": "scrivo/highlight.php",

@@ -1,0 +1,25 @@
+# https://taskfile.dev
+version: '3'
+
+tasks:
+    # ── Webhook ───────────────────────────────────────────────────
+
+    webhook:stripe:listen:
+        desc: Listen to Stripe webhooks and forward to local endpoint
+        cmd: stripe listen --forward-to https://localhost/billing/webhooks/stripe
+
+    # ── Code Generation ────────────────────────────────────────────
+
+    types:generate:
+        desc: Generate TypeScript types from PHP DTOs and enums
+        cmd: php artisan typescript:transform
+
+    # ── Testing ───────────────────────────────────────────────────
+    test:php:
+        desc: Run PHPUnit tests for Billing module
+        cmd: php artisan test --testsuite=Modules --filter=Billing
+
+    test:e2e:
+        desc: Run E2E tests for Billing module
+        cmd: npx playwright test --project="@Billing [Desktop Chrome]" {{.CLI_ARGS}}
+        interactive: true
