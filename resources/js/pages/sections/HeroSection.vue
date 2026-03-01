@@ -9,7 +9,10 @@ import IconUserPlus from '~icons/heroicons/user-plus';
 
 import { modules } from '@/composables/useModules';
 import { usePage } from '@inertiajs/vue3';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
+
+import { route as ziggyRoute } from 'ziggy-js';
+const route = inject<typeof ziggyRoute>('route')!;
 
 const page = usePage();
 const user = computed(() => page.props.auth?.user ?? null);
