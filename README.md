@@ -33,6 +33,7 @@
   </p>
 
   <p>
+    <a href="https://demo.saucebase.dev/">Online Demo</a> |
     <a href="https://sauce-base.github.io/docs/">Documentation</a>
   </p>
 
