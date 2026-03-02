@@ -43,4 +43,9 @@
     <a href="https://github.com/sauce-base/settings">Settings</a> |
     <a href="https://github.com/sauce-base/billing">Billing</a>
   </p>
+  <p>
+    Each module is a standalone Laravel package with its own routes, controllers, views, assets, and tests.
+    Copy the module's files into your app to own it 100% — no composer dependencies, no vendor:publish overrides.
+    Modules can depend on each other (e.g. Billing depends on Auth) but are otherwise decoupled for maximum flexibility.
+  </p>
 </div>
