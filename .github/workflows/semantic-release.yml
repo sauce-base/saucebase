@@ -52,8 +52,8 @@ jobs:
               uses: paulhatch/semantic-version@v5.4.0
               with:
                   tag_prefix: 'v'
-                  major_pattern: '(BREAKING CHANGE:|!):'
-                  minor_pattern: '^feat'
+                  major_pattern: '/!:|BREAKING CHANGE:/'
+                  minor_pattern: "/feat(\\(.+\\))?:/"
                   version_format: 'v${major}.${minor}.${patch}'
                   search_commit_body: true
                   bump_each_commit: false
