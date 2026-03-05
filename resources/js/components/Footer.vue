@@ -17,7 +17,7 @@ import IconHeart from '~icons/heroicons/heart';
                         {{ $t('GitHub') }}
                     </a>
                     <a
-                        href="https://sauce-base.github.io/docs/"
+                        href="https://saucebase-dev.github.io/docs/"
                         class="hover:text-gray-900 dark:hover:text-white"
                     >
                         {{ $t('Documentation') }}

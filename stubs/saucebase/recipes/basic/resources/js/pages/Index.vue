@@ -225,7 +225,7 @@ const recentActivity = ref([
                 </CardHeader>
                 <CardFooter class="relative z-10 flex gap-2">
                     <a
-                        href="https://sauce-base.github.io/docs/"
+                        href="https://saucebase-dev.github.io/docs/"
                         target="_blank"
                         rel="noopener"
                     >
