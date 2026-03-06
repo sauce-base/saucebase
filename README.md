@@ -42,7 +42,7 @@
   <p>
     <a href="https://github.com/saucebase-dev/auth">Auth</a> |
     <a href="https://github.com/saucebase-dev/settings">Settings</a> |
-    <a href="https://github.com/saucebase-dev/billing">Billing</a> | 
+    <a href="https://github.com/saucebase-dev/billing">Billing</a> |
     <a href="https://github.com/saucebase-dev/announcements">Announcements</a>
   </p>
   <p>
