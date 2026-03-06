@@ -108,6 +108,15 @@ async function createConfig() {
             ...moduleSetups,
             ...projects,
         ],
+
+        /* Only start webServer locally (not in CI where we build assets) */
+        ...(!process.env.CI && {
+            webServer: {
+                command: `npx vite --port 5173`,
+                timeout: 10 * 1000,
+                reuseExistingServer: true,
+            },
+        }),
     });
 }
 

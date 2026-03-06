@@ -8,7 +8,7 @@
         "build": "vite build && vite build --ssr",
         "build:ssr": "vite build && vite build --ssr",
         "dev": "vite",
-        "preview": "rm -f public/hot && vite build && vite build --ssr",
+        "preview": "vite preview",
         "host": "vite --host",
         "format": "prettier --write resources/ modules/**/resources/",
         "format:check": "prettier --check resources/ modules/**/resources/",
