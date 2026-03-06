@@ -11,7 +11,7 @@ import IconHeart from '~icons/heroicons/heart';
                 <div class="flex items-center gap-6">
                     <span>© {{ new Date().getFullYear() }} Saucebase</span>
                     <a
-                        href="https://github.com/sauce-base/saucebase"
+                        href="https://github.com/saucebase-dev/saucebase"
                         class="hover:text-gray-900 dark:hover:text-white"
                     >
                         {{ $t('GitHub') }}

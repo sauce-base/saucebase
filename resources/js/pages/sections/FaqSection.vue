@@ -43,7 +43,7 @@ const faqs = [
                         )
                     }}
                     <a
-                        href="https://github.com/sauce-base/saucebase/discussions"
+                        href="https://github.com/saucebase-dev/saucebase/discussions"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"

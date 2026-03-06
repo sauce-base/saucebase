@@ -29,7 +29,7 @@ jobs:
             - name: Clone Saucebase
               uses: actions/checkout@v4
               with:
-                  repository: sauce-base/saucebase
+                  repository: saucebase-dev/saucebase
                   ref: main
                   path: saucebase
 
