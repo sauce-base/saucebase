@@ -97,7 +97,7 @@ jobs:
               run: composer update --prefer-dist --no-interaction --no-progress --no-scripts && composer dump-autoload --no-scripts
 
             - name: Setup Laravel environment
-              uses: ./.github/actions/setup-laravel
+              uses: ./saucebase/.github/actions/setup-laravel
               with:
                   working-directory: saucebase
                   skip-composer: 'true'
