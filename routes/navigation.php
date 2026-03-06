@@ -24,7 +24,7 @@ Navigation::add('Dashboard', route('dashboard'), function (Section $section) {
 
 Navigation::add(
     'Star us on Github',
-    'https://github.com/sauce-base/saucebase',
+    'https://github.com/saucebase-dev/saucebase',
     function (Section $section) {
         $section->attributes([
             'group' => 'secondary',

@@ -10,7 +10,7 @@ permissions:
 
 jobs:
     release:
-        uses: sauce-base/saucebase/.github/workflows/semantic-release.yml@main
+        uses: saucebase-dev/saucebase/.github/workflows/semantic-release.yml@main
         with:
             prerelease: false
         secrets:
