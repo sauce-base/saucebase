@@ -12,8 +12,6 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-// use Modules\Auth\Traits\Sociable;
-// use Modules\Billing\Traits\Billable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class User extends Authenticatable implements FilamentUser, HasMedia
@@ -23,9 +21,6 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         HasRoles,
         InteractsWithMedia,
         Notifiable;
-
-    // use Billable;
-    // use Sociable;
 
     /**
      * The attributes that are mass assignable.
