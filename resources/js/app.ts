@@ -19,7 +19,7 @@ import '../css/app.css';
  */
 import App from '@/components/App.vue';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Sauce Base';
+const appName = import.meta.env.VITE_APP_NAME || 'Saucebase';
 const moduleSetups = discoverModuleSetups();
 
 createInertiaApp({

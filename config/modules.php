@@ -258,8 +258,8 @@ return [
     'composer' => [
         'vendor' => env('MODULE_VENDOR', 'saucebase'),
         'author' => [
-            'name' => env('MODULE_AUTHOR_NAME', 'Sauce Base'),
-            'email' => env('MODULE_AUTHOR_EMAIL', 'contact@saucebase.dev'),
+            'name' => env('MODULE_AUTHOR_NAME', 'Saucebase'),
+            'email' => env('MODULE_AUTHOR_EMAIL', 'hello@saucebase.dev'),
         ],
         'composer-output' => false,
     ],

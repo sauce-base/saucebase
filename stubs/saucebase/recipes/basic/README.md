@@ -2,12 +2,6 @@
 
 A Laravel module that extends Saucebase core functionality. Designed for seamless integration with the ecosystem.
 
-## Installation
+This module is part of **[Saucebase](https://github.com/saucebase-dev/saucebase)**
 
-To install the {Module} module, run the following commands:
-
-```bash
-composer require saucebase/{module_}
-composer dump-autoload
-php artisan module:enable {Module}
-```
+**[Documentation →](https://saucebase-dev.github.io/docs/modules)**

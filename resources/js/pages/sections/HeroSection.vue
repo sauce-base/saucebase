@@ -74,7 +74,7 @@ onUnmounted(() => {
                     />
                     {{ $t('Optimized for AI-assisted development') }}
                     <a
-                        href="https://sauce-base.github.io/docs/"
+                        href="https://saucebase-dev.github.io/docs/"
                         class="text-secondary font-semibold"
                     >
                         <span aria-hidden="true" class="absolute inset-0" />

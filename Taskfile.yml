@@ -11,6 +11,9 @@ includes:
     settings:
         taskfile: ./modules/Settings/Taskfile.yml
         optional: true
+    announcements:
+        taskfile: ./modules/Announcements/Taskfile.yml
+        optional: true
 
 tasks:
     # ── Installation ──────────────────────────────────────────────

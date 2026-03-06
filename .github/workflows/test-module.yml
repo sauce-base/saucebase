@@ -1,6 +1,7 @@
 name: Module Tests
 
 on:
+    pull_request:
     workflow_call:
         inputs:
             module:
@@ -17,6 +18,7 @@ jobs:
     phpunit:
         runs-on: ubuntu-latest
         timeout-minutes: 20
+        if: inputs.module != ''
 
         steps:
             - name: Checkout module
@@ -78,10 +80,10 @@ jobs:
                   for dep in $DEPENDENCIES; do
                       pkg="${dep#saucebase/}"
                       mod=$(echo "$pkg" | sed 's/-\([a-z]\)/\u\1/g; s/^\([a-z]\)/\u\1/')
-                      apply_patches "saucebase/modules/$mod/.github/patches"
+                      apply_patches "saucebase/modules/$mod/patches"
                   done
                   # Primary module last
-                  apply_patches "saucebase/modules/$MODULE/.github/patches"
+                  apply_patches "saucebase/modules/$MODULE/patches"
 
             - name: Install Composer dependencies
               working-directory: saucebase
@@ -113,6 +115,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         needs: phpunit
+        if: inputs.module != ''
 
         steps:
             - name: Download environment artifact

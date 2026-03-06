@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Sauce Base') }}</title>
+        <title inertia>{{ config('app.name', 'Saucebase') }}</title>
 
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">

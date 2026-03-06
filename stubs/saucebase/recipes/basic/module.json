@@ -2,7 +2,7 @@
     "name": "{Module}",
     "alias": "{module_}",
     "description": "{Module} module",
-    "author": "Sauce Base",
+    "author": "Saucebase",
     "version": "v1.0",
     "keywords": ["{module_}"],
     "priority": 0,

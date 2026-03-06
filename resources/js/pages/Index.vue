@@ -20,7 +20,7 @@ import { Head } from '@inertiajs/vue3';
 <template>
     <Head>
         <title>
-            {{ $t('Sauce Base - Modern Laravel SaaS Starter Kit') }}
+            {{ $t('Saucebase - Modern Laravel SaaS Starter Kit') }}
         </title>
         <meta
             name="description"

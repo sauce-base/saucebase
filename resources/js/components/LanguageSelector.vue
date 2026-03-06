@@ -12,7 +12,7 @@ import { useLocalization } from '@/composables/useLocalization';
 import { Globe } from 'lucide-vue-next';
 import { computed } from 'vue';
 import IconBR from '~icons/circle-flags/br';
-import IconUS from '~icons/circle-flags/us';
+import IconEN from '~icons/circle-flags/en';
 
 interface Props {
     /**
@@ -35,7 +35,7 @@ const { language, locales, setLanguage } = useLocalization();
 
 // Icon mapping for different locales
 const iconMap: Record<string, any> = {
-    en: IconUS,
+    en: IconEN,
     pt_BR: IconBR,
 };
 

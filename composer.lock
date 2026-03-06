@@ -13167,11 +13167,11 @@
             ],
             "authors": [
                 {
-                    "name": "Sauce Base",
+                    "name": "Saucebase",
                     "email": "hello@saucebase.dev"
                 }
             ],
-            "description": "Custom Composer installer for Sauce Base modules (type: saucebase-module). Installs to Modules/<Name> with configurable base dir.",
+            "description": "Custom Composer installer for Saucebase modules (type: saucebase-module). Installs to Modules/<Name> with configurable base dir.",
             "support": {
                 "issues": "https://github.com/sauce-base/module-installer/issues",
                 "source": "https://github.com/sauce-base/module-installer/tree/v0.0.6"

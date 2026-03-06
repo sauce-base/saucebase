@@ -38,7 +38,7 @@ Navigation::add(
 
 Navigation::add(
     'Documentation',
-    'https://sauce-base.github.io/docs/',
+    'https://saucebase-dev.github.io/docs/',
     function (Section $section) {
         $section->attributes([
             'group' => 'secondary',
@@ -96,7 +96,7 @@ Navigation::add('FAQ', '/#faq', function (Section $section) {
 
 Navigation::add(
     'Docs',
-    'https://sauce-base.github.io/docs/',
+    'https://saucebase-dev.github.io/docs/',
     function (Section $section) {
         $section->attributes([
             'group' => 'landing',
