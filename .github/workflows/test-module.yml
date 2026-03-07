@@ -40,6 +40,13 @@ jobs:
                   rm -rf saucebase/modules/$MODULE
                   cp -r module-src saucebase/modules/$MODULE
 
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: pdo, pdo_sqlite, mbstring, zip, pcntl, intl, exif
+                  coverage: none
+
             - name: Install dependencies
               if: inputs.dependencies != ''
               working-directory: saucebase
@@ -84,13 +91,6 @@ jobs:
                   done
                   # Primary module last
                   apply_patches "saucebase/modules/$MODULE/patches"
-
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.4'
-                  extensions: pdo, pdo_sqlite, mbstring, zip, pcntl, intl, exif
-                  coverage: none
 
             - name: Install Composer dependencies
               working-directory: saucebase

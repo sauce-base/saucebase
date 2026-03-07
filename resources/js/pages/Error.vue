@@ -49,7 +49,7 @@ const description = computed(() => {
             </div>
 
             <div class="space-y-4">
-                <Button as-child v-if="route().has('dashboard')">
+                <Button as-child>
                     <Link :href="route('dashboard')"> Go to Dashboard </Link>
                 </Button>
 
