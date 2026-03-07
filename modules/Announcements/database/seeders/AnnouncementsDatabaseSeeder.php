@@ -10,7 +10,7 @@ class AnnouncementsDatabaseSeeder extends Seeder
     public function run(): void
     {
         Announcement::updateOrCreate([
-            'text' => '🎉 <strong>Announcements module is live!</strong> Manage banners like this one from the <a href="/admin/announcements">admin panel</a>.',
+            'text' => '🧪 <strong>Demo Mode</strong> — This is a sandbox environment. No real charges will be made. The <a href="/admin/announcements" target="_blank">admin panel</a> is read-only.',
         ], [
             'is_active' => true,
             'is_dismissable' => true,

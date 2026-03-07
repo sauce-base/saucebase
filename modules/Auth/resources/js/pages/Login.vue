@@ -8,7 +8,8 @@ import { computed, ref } from 'vue';
 import SocialiteProviders from '../components/SocialiteProviders.vue';
 import AuthCardLayout from '../layouts/AuthCardLayout.vue';
 
-const emailRef = ref('');
+const emailRef = ref('chef@saucebase.dev');
+const passwordRef = ref('secretsauce');
 
 // compute forgot password url so the link updates as user types
 const forgotUrl = computed(() =>
@@ -19,7 +20,7 @@ const forgotUrl = computed(() =>
 <template>
     <AuthCardLayout
         :title="$t('Welcome back')"
-        :description="$t('Login to your Saucebase account to continue')"
+        :description="$t('Login to your Sauce Base account to continue')"
     >
         <SocialiteProviders />
 
@@ -50,6 +51,7 @@ const forgotUrl = computed(() =>
                 :placeholder="$t('Enter your password')"
                 autocomplete="current-password"
                 required
+                v-model="passwordRef"
             />
 
             <div class="flex items-center justify-between">

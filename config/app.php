@@ -131,6 +131,8 @@ return [
     |
     */
 
+    'demo_mode' => env('DEMO_MODE_ENABLED', false),
+
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),

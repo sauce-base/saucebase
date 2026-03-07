@@ -26,7 +26,9 @@ class UserForm
                 TextInput::make('email')
                     ->label(__('Email address'))
                     ->email()
-                    ->required(),
+                    ->required()
+                    ->formatStateUsing(fn ($state) => config('app.demo_mode') ? anonymize_email($state ?? '') : $state)
+                    ->disabled(fn () => config('app.demo_mode')),
                 Select::make('roles')
                     ->label(__('Role'))
                     ->relationship('roles', 'name')
