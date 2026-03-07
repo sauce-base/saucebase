@@ -27,7 +27,7 @@
         }
     },
     "require": {
-        "laravel/socialite": "^5.21",
-        "stechstudio/filament-impersonate": "^4.1"
+        "laravel/socialite": "^5.2",
+        "stechstudio/filament-impersonate": "^5.1"
     }
 }
