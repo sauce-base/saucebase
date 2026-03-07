@@ -1,0 +1,29 @@
+{
+    "name": "saucebase/announcements",
+    "description": "",
+    "type": "saucebase-module",
+    "authors": [
+        {
+            "name": "Saucebase",
+            "email": "hello@saucebase.dev"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Announcements\\": "app/",
+            "Modules\\Announcements\\Database\\Factories\\": "database/factories/",
+            "Modules\\Announcements\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Announcements\\Tests\\": "tests/"
+        }
+    }
+}

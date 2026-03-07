@@ -1,0 +1,10 @@
+--- a/app/Models/User.php
++++ b/app/Models/User.php
+@@ -14,2 +14,3 @@
+ use Modules\Auth\Traits\Sociable;
++use Modules\Billing\Traits\Billable;
+ 
+@@ -25,2 +26,3 @@
+     use Sociable;
++    use Billable;
+ 

@@ -9,5 +9,5 @@ tasks:
 
     test:e2e:
         desc: Run E2E tests for Auth module
-        cmd: npx playwright test --project="@Auth [Desktop Chrome]" {{.CLI_ARGS}}
+        cmd: npx playwright test --project="@Auth*" {{.CLI_ARGS}}
         interactive: true

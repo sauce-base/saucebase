@@ -9,5 +9,5 @@ tasks:
 
     test:e2e:
         desc: Run E2E tests for Settings module
-        cmd: npx playwright test --project="@Settings [Desktop Chrome]" {{.CLI_ARGS}}
+        cmd: npx playwright test --project="@Settings*" {{.CLI_ARGS}}
         interactive: true

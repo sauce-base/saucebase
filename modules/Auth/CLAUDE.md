@@ -70,7 +70,7 @@ Redirect URIs default to `/auth/socialite/{provider}/callback`. Providers config
 
 ```bash
 php artisan test --testsuite=Modules --filter=Auth  # PHPUnit
-npx playwright test --project=@Auth                 # E2E
+npx playwright test --project="@Auth*"                 # E2E
 ```
 
 **E2E coverage**: login (basic, errors, security/rate-limiting, social, logout), register (basic, errors), forgot-password (basic, errors), verify-email. Page objects in `tests/e2e/pages/`, fixtures in `tests/e2e/fixtures/users.ts`.

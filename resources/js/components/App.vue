@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { toastActionRegistry } from '@/lib/toastActions';
 import type { Toast } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
+import AnnouncementBanner from '@modules/Announcements/resources/js/components/AnnouncementBanner.vue';
 import { watch } from 'vue';
 import { toast } from 'vue-sonner';
 
@@ -100,6 +101,7 @@ watch(
 );
 </script>
 <template>
+    <AnnouncementBanner />
     <ImpersonationAlert />
     <slot />
     <Toaster />

@@ -1,0 +1,40 @@
+/*
+* Note: This file contains CSS modifications for the module.
+* Used to apply specific styling changes and customizations
+* to enhance the module's appearance and layout.
+*/
+
+:root {
+    --announcement-banner-spaces: 16;
+    --announcement-banner-height: calc(
+        var(--spacing) * var(--announcement-banner-spaces)
+    );
+}
+
+header,
+[data-slot='sidebar']:not([data-mobile='true']) > div:last-child {
+    transition: top 200ms ease-linear;
+}
+
+[data-slot='sidebar-wrapper'] {
+    transition: min-height 200ms ease-linear;
+}
+
+html:has([data-announcement-banner]) {
+    & header {
+        top: var(--announcement-banner-height);
+    }
+
+    & .h-screen {
+        height: calc(100vh - var(--announcement-banner-height));
+    }
+
+    & [data-slot='sidebar']:not([data-mobile='true']) > div:last-child {
+        top: var(--announcement-banner-height);
+        height: calc(100svh - var(--announcement-banner-height));
+    }
+
+    & [data-slot='sidebar-wrapper'] {
+        min-height: calc(100svh - var(--announcement-banner-height));
+    }
+}

@@ -1,0 +1,10 @@
+--- a/app/Models/User.php
++++ b/app/Models/User.php
+@@ -13,2 +13,3 @@
+ use Spatie\Permission\Traits\HasRoles;
++use Modules\Auth\Traits\Sociable;
+ 
+@@ -23,2 +24,3 @@
+         Notifiable;
++    use Sociable;
+ 

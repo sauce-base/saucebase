@@ -41,7 +41,6 @@ const page = usePage();
 const avatarFile = ref<File | null>(null);
 const isUpdatingAvatar = ref(false);
 const isRemovingAvatar = ref(false);
-const isWaitingForImageLoad = ref(false);
 const isDeleteDialogOpen = ref(false);
 
 // Reactive avatar preview - syncs with backend updates
@@ -83,24 +82,11 @@ const submitAvatarForm = () => {
     formData.append('avatar', avatarFile.value);
 
     router.post(route('settings.profile.update-avatar'), formData, {
-        onSuccess: () => {
+        onFinish: () => {
             avatarFile.value = null;
-            // Wait for the new image to load before hiding the loader
-            isWaitingForImageLoad.value = true;
-        },
-        onError: () => {
-            // If there's an error, immediately hide the loader
             isUpdatingAvatar.value = false;
         },
     });
-};
-
-const handleAvatarImageLoad = () => {
-    // Once the new avatar image has loaded, hide the loading indicator
-    if (isWaitingForImageLoad.value) {
-        isWaitingForImageLoad.value = false;
-        isUpdatingAvatar.value = false;
-    }
 };
 
 const removeAvatar = () => {
@@ -158,7 +144,6 @@ const userInitials = computed(() => {
                                 <AvatarImage
                                     :src="avatarPreview ?? ''"
                                     :alt="user?.name"
-                                    @load="handleAvatarImageLoad"
                                 />
                                 <AvatarFallback class="text-3xl">
                                     {{ userInitials }}

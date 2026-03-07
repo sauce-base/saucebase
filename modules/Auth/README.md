@@ -2,4 +2,6 @@
 
 Authentication, social login (Google, GitHub), email verification, password reset, and admin user impersonation for Saucebase.
 
-**[Documentation →](https://sauce-base.github.io/docs/modules/auth)**
+This module is part of **[Saucebase](https://github.com/saucebase-dev/saucebase)**
+
+**[Documentation →](https://saucebase-dev.github.io/docs/modules/auth)**

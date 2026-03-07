@@ -72,7 +72,7 @@ Other modules can add items to the `settings` group from their own `routes/navig
 
 ```bash
 php artisan test --testsuite=Modules --filter=Settings  # PHPUnit
-npx playwright test --project=@Settings                 # E2E
+npx playwright test --project="@Settings*"                 # E2E
 ```
 
 E2E tests in `tests/e2e/index.spec.ts` — basic settings page accessibility.
