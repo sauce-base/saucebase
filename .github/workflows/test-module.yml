@@ -101,6 +101,7 @@ jobs:
               with:
                   working-directory: saucebase
                   skip-composer: 'true'
+                  skip-php: 'true'
 
             - name: Run PHPUnit tests
               working-directory: saucebase
