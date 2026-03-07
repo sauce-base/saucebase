@@ -299,6 +299,6 @@ class InstallCommand extends Command
         $this->line('  2. Run: <fg=yellow>npm install && npm run dev</>');
         $this->line('  3. Open your app in the browser');
         $this->newLine();
-        $this->line('Learn more: <fg=cyan>https://github.com/sauce-base/saucebase</>');
+        $this->line('Learn more: <fg=cyan>https://github.com/saucebase-dev/saucebase</>');
     }
 }

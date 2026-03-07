@@ -11,7 +11,7 @@ import { resolveLanguage, resolveModularPageComponent } from './lib/utils';
  */
 import App from '@/components/App.vue';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Sauce Base';
+const appName = import.meta.env.VITE_APP_NAME || 'Saucebase';
 
 createServer(
     (page) =>

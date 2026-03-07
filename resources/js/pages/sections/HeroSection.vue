@@ -77,7 +77,7 @@ onUnmounted(() => {
                     />
                     {{ $t('Optimized for AI-assisted development') }}
                     <a
-                        href="https://sauce-base.github.io/docs/"
+                        href="https://saucebase-dev.github.io/docs/"
                         class="text-secondary font-semibold"
                     >
                         <span aria-hidden="true" class="absolute inset-0" />
@@ -127,7 +127,7 @@ onUnmounted(() => {
 
                 <!-- GitHub Button -->
                 <a
-                    href="https://github.com/sauce-base/saucebase"
+                    href="https://github.com/saucebase-dev/saucebase"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="focus:ring-primary inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-8 py-4 text-lg font-semibold text-gray-700 transition-all duration-200 hover:scale-105 hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:outline-hidden dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-950"

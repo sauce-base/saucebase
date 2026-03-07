@@ -19,7 +19,6 @@
         "test:e2e:debug": "playwright test --debug",
         "test:e2e:report": "playwright show-report",
         "screenshots": "npm run build && tsx scripts/capture-screenshots.ts",
-        "videos": "npm run build && tsx scripts/capture-videos.ts",
         "prepare": "husky",
         "commitlint": "commitlint --edit",
         "lint": "eslint ./resources ./modules/*/resources --fix --no-error-on-unmatched-pattern",

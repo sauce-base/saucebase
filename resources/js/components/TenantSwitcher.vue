@@ -23,7 +23,7 @@ import AppLogo from './AppLogo.vue';
 const { isMobile } = useSidebar();
 const tenants = [
     {
-        name: 'Sauce Base',
+        name: 'Saucebase',
         logo: markRaw(AppLogo),
         plan: 'SaaS',
     },

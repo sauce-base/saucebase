@@ -1,6 +1,7 @@
 name: Module Tests
 
 on:
+    pull_request:
     workflow_call:
         inputs:
             module:
@@ -17,6 +18,7 @@ jobs:
     phpunit:
         runs-on: ubuntu-latest
         timeout-minutes: 20
+        if: inputs.module != ''
 
         steps:
             - name: Checkout module
@@ -27,7 +29,7 @@ jobs:
             - name: Clone Saucebase
               uses: actions/checkout@v4
               with:
-                  repository: sauce-base/saucebase
+                  repository: saucebase-dev/saucebase
                   ref: main
                   path: saucebase
 
@@ -45,7 +47,7 @@ jobs:
                   DEPENDENCIES: ${{ inputs.dependencies }}
               run: |
                   for dep in $DEPENDENCIES; do
-                      composer require "$dep" --dev --no-interaction
+                      composer require "$dep" --dev --no-interaction --no-scripts
                   done
 
             - name: Enable modules
@@ -78,17 +80,24 @@ jobs:
                   for dep in $DEPENDENCIES; do
                       pkg="${dep#saucebase/}"
                       mod=$(echo "$pkg" | sed 's/-\([a-z]\)/\u\1/g; s/^\([a-z]\)/\u\1/')
-                      apply_patches "saucebase/modules/$mod/.github/patches"
+                      apply_patches "saucebase/modules/$mod/patches"
                   done
                   # Primary module last
-                  apply_patches "saucebase/modules/$MODULE/.github/patches"
+                  apply_patches "saucebase/modules/$MODULE/patches"
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: pdo, pdo_sqlite, mbstring, zip, pcntl, intl, exif
+                  coverage: none
 
             - name: Install Composer dependencies
               working-directory: saucebase
-              run: composer update --prefer-dist --no-interaction --no-progress && composer dump-autoload
+              run: composer update --prefer-dist --no-interaction --no-progress --no-scripts && composer dump-autoload --no-scripts
 
             - name: Setup Laravel environment
-              uses: ./.github/actions/setup-laravel
+              uses: ./saucebase/.github/actions/setup-laravel
               with:
                   working-directory: saucebase
                   skip-composer: 'true'
@@ -113,6 +122,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         needs: phpunit
+        if: inputs.module != ''
 
         steps:
             - name: Download environment artifact

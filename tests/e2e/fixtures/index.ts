@@ -1,6 +1,6 @@
 import { loginAs as doLoginAs } from '@e2e/helpers/auth';
 import { expect } from '@playwright/test';
-import { test as base } from '@saucebase/laravel-playwright';
+import { test as base, Laravel } from '@saucebase/laravel-playwright';
 
 export type UserCredential = { email: string; password: string };
 
@@ -16,6 +16,13 @@ export const test = base.extend<{
     credentials: TestCredentials;
     loginAs: (user: UserCredential) => Promise<void>;
 }>({
+    laravel: async (
+        { laravel }: { laravel: Laravel },
+        use: (arg: Laravel) => Promise<void>,
+    ) => {
+        await laravel.config('mail.default', 'log');
+        await use(laravel);
+    },
     credentials: async ({ laravel }, use) => {
         const creds = await laravel.callFunction<TestCredentials>(
             'Tests\\Support\\TestFixtures::credentials',
