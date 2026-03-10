@@ -16,10 +16,27 @@ const landingNav = computed<MenuItem[]>(
 );
 
 const isScrolled = ref(false);
+const isVisible = ref(true);
 const mobileMenuOpen = ref(false);
+const headerRef = ref<HTMLElement | null>(null);
+let lastScrollY = 0;
 
 const handleScroll = () => {
-    isScrolled.value = window.scrollY > 10;
+    const currentScrollY = window.scrollY;
+    const headerHeight = headerRef.value?.offsetHeight ?? 80;
+
+    isScrolled.value = currentScrollY > 10;
+
+    if (currentScrollY < headerHeight) {
+        isVisible.value = true;
+    } else if (currentScrollY < lastScrollY) {
+        isVisible.value = true;
+    } else if (currentScrollY > lastScrollY) {
+        isVisible.value = false;
+        mobileMenuOpen.value = false;
+    }
+
+    lastScrollY = currentScrollY;
 };
 
 onMounted(() => {
@@ -33,12 +50,14 @@ onBeforeUnmount(() => {
 
 <template>
     <header
+        ref="headerRef"
         class="fixed top-0 right-0 left-0 z-50 transition-all duration-300"
-        :class="
+        :class="[
             isScrolled
                 ? 'border-b bg-white/5 shadow-2xl backdrop-blur-lg dark:border-b-gray-400/25'
-                : 'bg-transparent'
-        "
+                : 'bg-transparent',
+            isVisible ? 'translate-y-0' : '-translate-y-full',
+        ]"
     >
         <nav class="mx-auto max-w-7xl px-6 py-3">
             <div class="flex items-center justify-between">

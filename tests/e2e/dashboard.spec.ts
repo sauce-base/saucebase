@@ -1,16 +1,31 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '@e2e/fixtures';
 
 test.describe('Dashboard page', () => {
-    test('responds successfully when navigating to dashboard', async ({
-        page,
-    }) => {
-        const response = await page.goto('/dashboard');
+    test('redirects unauthenticated user to login', async ({ page }) => {
+        await page.goto('/dashboard');
 
-        expect(response, 'Expected a navigation response').toBeTruthy();
-        // Note: This may redirect to login if not authenticated
-        // Adjust expectations based on your auth requirements
+        await expect(page).toHaveURL('/auth/login');
     });
 
-    // SSR test removed - covered by PHPUnit tests (InertiaSSRTest.php)
-    // Dashboard requires authentication which is not set up in E2E tests
+    test('loads successfully when authenticated', async ({
+        page,
+        loginAs,
+        credentials,
+    }) => {
+        await loginAs(credentials.user);
+
+        const response = await page.goto('/dashboard');
+
+        expect(response?.ok()).toBe(true);
+        await expect(page).toHaveURL('/dashboard');
+    });
+
+    test('user menu is present', async ({ page, loginAs, credentials }) => {
+        await loginAs(credentials.user);
+        await page.goto('/dashboard');
+
+        await expect(
+            page.locator('[data-testid="user-menu-trigger"]'),
+        ).toBeVisible();
+    });
 });

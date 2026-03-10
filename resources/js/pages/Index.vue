@@ -6,15 +6,9 @@ import FaqSection from '@/pages/sections/FaqSection.vue';
 import FeaturesSection from '@/pages/sections/FeaturesSection.vue';
 import FilamentSection from '@/pages/sections/FilamentSection.vue';
 import HeroSection from '@/pages/sections/HeroSection.vue';
+import Testimonial from '@/pages/sections/Testimonial.vue';
 
 import { Head } from '@inertiajs/vue3';
-
-// import ProductSection from '@modules/Billing/resources/js/components/ProductSection.vue';
-// import type { Product } from '@modules/Billing/resources/js/types';
-
-// defineProps<{
-//     products?: Product[];
-// }>();
 </script>
 
 <template>
@@ -43,8 +37,8 @@ import { Head } from '@inertiajs/vue3';
         <!-- FAQ Section -->
         <FaqSection />
 
-        <!-- Pricing Section -->
-        <!-- <ProductSection v-if="products?.length" :products="products" /> -->
+        <!-- Testimonial -->
+        <Testimonial />
 
         <!-- Footer -->
         <Footer />

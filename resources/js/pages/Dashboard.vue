@@ -112,7 +112,7 @@ const recentActivity = ref([
 </script>
 
 <template>
-    <AppLayout :title="title" :breadcrumbs="[{ title: title }]">
+    <AppLayout :title="$t(title)" :breadcrumbs="[{ title: $t(title) }]">
         <div class="flex flex-1 flex-col gap-6 p-6 pt-2">
             <!-- Header Section -->
             <div
@@ -120,13 +120,13 @@ const recentActivity = ref([
             >
                 <div>
                     <h1 class="text-3xl font-bold tracking-tight">
-                        {{ title }}
+                        {{ $t(title) }}
                     </h1>
                     <p class="text-muted-foreground mt-1">
                         {{ $t('Manage and monitor your module activities') }}
                     </p>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex gap-4" v-if="route().has('settings.index')">
                     <Link :href="route('settings.index')">
                         <Button variant="outline">
                             <IconCog class="h-4 w-4" />
