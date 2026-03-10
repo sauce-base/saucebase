@@ -6,7 +6,7 @@ import FaqSection from '@/pages/sections/FaqSection.vue';
 import FeaturesSection from '@/pages/sections/FeaturesSection.vue';
 import FilamentSection from '@/pages/sections/FilamentSection.vue';
 import HeroSection from '@/pages/sections/HeroSection.vue';
-import Testimonial from './sections/Testimonial.vue';
+import Testimonial from '@/pages/sections/Testimonial.vue';
 
 import { Head } from '@inertiajs/vue3';
 </script>
