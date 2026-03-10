@@ -5,4 +5,4 @@ tasks:
     # ── Testing ───────────────────────────────────────────────────
     test:php:
         desc: Run PHPUnit tests for {Module} module
-        cmd: php artisan test --testsuite=Modules --filter={Module}
+        cmd: php artisan test --testsuite=Modules --filter='^Modules\\{Module}\\Tests'
