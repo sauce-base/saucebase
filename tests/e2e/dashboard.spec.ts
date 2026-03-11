@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '@e2e/fixtures';
 
 test.describe('Dashboard page', () => {
     test('responds successfully when navigating to dashboard', async ({
@@ -10,7 +10,4 @@ test.describe('Dashboard page', () => {
         // Note: This may redirect to login if not authenticated
         // Adjust expectations based on your auth requirements
     });
-
-    // SSR test removed - covered by PHPUnit tests (InertiaSSRTest.php)
-    // Dashboard requires authentication which is not set up in E2E tests
 });

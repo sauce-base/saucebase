@@ -18,11 +18,16 @@ inputs:
         description: 'Skip composer install (module workflow handles its own composer update)'
         required: false
         default: 'false'
+    skip-php:
+        description: 'Skip PHP setup (caller already set up PHP before this action)'
+        required: false
+        default: 'false'
 
 runs:
     using: 'composite'
     steps:
         - name: Setup PHP
+          if: inputs.skip-php != 'true'
           uses: shivammathur/setup-php@v2
           with:
               php-version: ${{ inputs.php-version }}
