@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Inertia\Inertia;
+use Inertia\Response;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class InertiaSSRTest extends TestCase
@@ -35,7 +38,7 @@ class InertiaSSRTest extends TestCase
         $this->assertTrue(config('inertia.ssr.enabled'));
 
         // Verify it returns the response (chainable)
-        $this->assertInstanceOf(\Inertia\Response::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function test_inertia_response_without_with_ssr_keeps_ssr_disabled(): void
@@ -61,7 +64,7 @@ class InertiaSSRTest extends TestCase
         $this->assertTrue(config('inertia.ssr.enabled'));
 
         // Verify it's still a proper Inertia response
-        $this->assertInstanceOf(\Inertia\Response::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function test_home_page_uses_ssr(): void
@@ -90,7 +93,7 @@ class InertiaSSRTest extends TestCase
         $this->assertFalse(config('inertia.ssr.enabled'));
 
         // Verify it returns the response (chainable)
-        $this->assertInstanceOf(\Inertia\Response::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function test_without_ssr_is_chainable_with_other_methods(): void
@@ -107,7 +110,7 @@ class InertiaSSRTest extends TestCase
         $this->assertFalse(config('inertia.ssr.enabled'));
 
         // Verify it's still a proper Inertia response
-        $this->assertInstanceOf(\Inertia\Response::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function test_macros_can_override_each_other(): void
@@ -130,9 +133,9 @@ class InertiaSSRTest extends TestCase
         $this->assertTrue(config('inertia.ssr.enabled'), 'SSR should be enabled in config at boot');
 
         // Create a user for authentication with required role
-        /** @var \App\Models\User $user */
-        $user = \App\Models\User::factory()->create();
-        $role = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'user']);
+        /** @var User $user */
+        $user = User::factory()->create();
+        $role = Role::firstOrCreate(['name' => 'user']);
         $user->assignRole($role);
 
         // Make a request to a route that doesn't call ->withSSR()
