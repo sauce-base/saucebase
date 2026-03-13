@@ -6,7 +6,9 @@ import { Announcement } from '../types';
 
 const page = usePage();
 
-const announcement = computed(() => page.props?.announcement as Announcement ?? null);
+const announcement = computed(
+    () => (page.props?.announcement as Announcement) ?? null,
+);
 const isAuthenticated = computed(() => !!page.props?.auth?.user);
 const isDismissed = ref(false);
 

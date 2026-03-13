@@ -2,6 +2,7 @@
 
 namespace Modules\Billing\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,8 +16,8 @@ use Modules\Billing\Enums\PaymentMethodType;
  * @property array<string, mixed>|null $details
  * @property array<string, mixed>|null $metadata
  * @property bool $is_default
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class PaymentMethod extends Model
 {

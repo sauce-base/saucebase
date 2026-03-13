@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Billing\Enums\InvoiceStatus;
 use Modules\Billing\Enums\SubscriptionStatus;
+use Modules\Billing\Models\Customer;
 use Modules\Billing\Models\Invoice;
 use Modules\Billing\Services\BillingService;
 
@@ -17,12 +18,12 @@ class SettingsBillingController
     {
         $user = Auth::user();
 
-        /** @var \Modules\Billing\Models\Customer|null $customer */
+        /** @var Customer|null $customer */
         $customer = $user->billingCustomer;
 
         if ($sessionId = $request->query('session_id')) {
             $billingService->fulfillCheckoutIfNeeded($sessionId);
-            /** @var \Modules\Billing\Models\Customer|null $customer */
+            /** @var Customer|null $customer */
             $customer = $user->billingCustomer()->first();
         }
 

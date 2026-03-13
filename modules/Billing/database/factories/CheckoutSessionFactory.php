@@ -10,7 +10,7 @@ use Modules\Billing\Models\Customer;
 use Modules\Billing\Models\Price;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Billing\Models\CheckoutSession>
+ * @extends Factory<CheckoutSession>
  */
 class CheckoutSessionFactory extends Factory
 {

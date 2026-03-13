@@ -12,7 +12,7 @@ class DismissAnnouncementController
         return back()->withCookie(
             cookie(
                 config('announcements.cookie_name'),
-                $announcement->id,
+                (string) $announcement->id,
                 60 * 24 * 365, // 1 year
             )
         );

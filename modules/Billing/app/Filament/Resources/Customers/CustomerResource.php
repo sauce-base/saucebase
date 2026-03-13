@@ -26,7 +26,7 @@ class CustomerResource extends Resource
 
     public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
     {
-        /** @var \Modules\Billing\Models\Customer $record */
+        /** @var Customer $record */
         return $record->email ?? $record->name ?? "Customer #{$record->id}";
     }
 

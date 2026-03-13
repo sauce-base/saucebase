@@ -113,7 +113,7 @@ class CheckoutSessionValidationTest extends TestCase
         $owner = $this->createUser();
         $attacker = $this->createUser();
 
-        $customer = \Modules\Billing\Models\Customer::create([
+        $customer = Customer::create([
             'user_id' => $owner->id,
             'provider_customer_id' => 'cus_owner',
             'name' => $owner->name,

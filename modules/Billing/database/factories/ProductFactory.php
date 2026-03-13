@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Modules\Billing\Models\Product;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Billing\Models\Product>
+ * @extends Factory<Product>
  */
 class ProductFactory extends Factory
 {

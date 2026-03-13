@@ -9,7 +9,7 @@ use Modules\Billing\Models\Price;
 use Modules\Billing\Models\Product;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Billing\Models\Price>
+ * @extends Factory<Price>
  */
 class PriceFactory extends Factory
 {
