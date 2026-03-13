@@ -29,7 +29,7 @@ class ProductResource extends Resource
 
     public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
     {
-        /** @var \Modules\Billing\Models\Product $record */
+        /** @var Product $record */
         return $record->name;
     }
 

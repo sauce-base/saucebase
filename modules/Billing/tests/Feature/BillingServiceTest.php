@@ -25,12 +25,15 @@ use Modules\Billing\Events\SubscriptionCreated;
 use Modules\Billing\Events\SubscriptionUpdated;
 use Modules\Billing\Models\CheckoutSession;
 use Modules\Billing\Models\Customer;
+use Modules\Billing\Models\Payment;
 use Modules\Billing\Models\PaymentMethod;
 use Modules\Billing\Models\Price;
 use Modules\Billing\Models\Subscription;
 use Modules\Billing\Services\BillingService;
 use Modules\Billing\Services\Gateways\StripeGateway;
 use Modules\Billing\Services\PaymentGatewayManager;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 class BillingServiceTest extends TestCase
@@ -39,7 +42,7 @@ class BillingServiceTest extends TestCase
 
     private BillingService $billingService;
 
-    /** @var StripeGateway&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var StripeGateway&MockObject */
     private StripeGateway $gateway;
 
     protected function setUp(): void
@@ -198,7 +201,7 @@ class BillingServiceTest extends TestCase
         ]);
 
         // Checkout now also creates the initial payment for the subscription
-        $payment = \Modules\Billing\Models\Payment::where('subscription_id', $subscription->id)->first();
+        $payment = Payment::where('subscription_id', $subscription->id)->first();
         $this->assertNotNull($payment);
         $this->assertEquals($session->customer_id, $payment->customer_id);
         $this->assertEquals($session->price_id, $payment->price_id);
@@ -280,7 +283,7 @@ class BillingServiceTest extends TestCase
         $session->refresh();
         $this->assertEquals(CheckoutSessionStatus::Completed, $session->status);
 
-        $payment = \Modules\Billing\Models\Payment::where('provider_payment_id', 'pi_test_onetime')->first();
+        $payment = Payment::where('provider_payment_id', 'pi_test_onetime')->first();
         $this->assertNotNull($payment);
         $this->assertEquals($session->customer_id, $payment->customer_id);
         $this->assertEquals(29900, $payment->amount);
@@ -322,7 +325,7 @@ class BillingServiceTest extends TestCase
         $subscription = Subscription::where('provider_subscription_id', 'sub_test_sub_pay')->first();
         $this->assertNotNull($subscription);
 
-        $payment = \Modules\Billing\Models\Payment::where('subscription_id', $subscription->id)->first();
+        $payment = Payment::where('subscription_id', $subscription->id)->first();
         $this->assertNotNull($payment);
         $this->assertEquals($session->customer_id, $payment->customer_id);
         $this->assertEquals($session->price_id, $payment->price_id);
@@ -382,7 +385,7 @@ class BillingServiceTest extends TestCase
         // Simulate an orphaned payment created by an earlier invoice webhook
         // (price_id is null because createPaymentFromWebhook sets price_id = $subscription?->price_id,
         // which resolves to null when the subscription doesn't exist yet)
-        $orphanedPayment = \Modules\Billing\Models\Payment::create([
+        $orphanedPayment = Payment::create([
             'customer_id' => $session->customer_id,
             'subscription_id' => null,
             'price_id' => null,
@@ -432,7 +435,7 @@ class BillingServiceTest extends TestCase
         ]);
 
         // One-time payment created earlier (has price_id set — not an orphaned invoice payment)
-        $oneTimePayment = \Modules\Billing\Models\Payment::create([
+        $oneTimePayment = Payment::create([
             'customer_id' => $session->customer_id,
             'subscription_id' => null,
             'price_id' => Price::factory()->create()->id,
@@ -467,7 +470,7 @@ class BillingServiceTest extends TestCase
         $this->assertEquals(9900, $oneTimePayment->amount);
 
         // A new subscription payment was created separately
-        $subPayment = \Modules\Billing\Models\Payment::where('subscription_id', $subscription->id)->first();
+        $subPayment = Payment::where('subscription_id', $subscription->id)->first();
         $this->assertNotNull($subPayment);
         $this->assertEquals(2900, $subPayment->amount);
 
@@ -522,7 +525,7 @@ class BillingServiceTest extends TestCase
         $this->assertDatabaseCount('payments', 1);
 
         // Payment created by checkout has no provider_payment_id
-        $payment = \Modules\Billing\Models\Payment::where('subscription_id', $subscription->id)->first();
+        $payment = Payment::where('subscription_id', $subscription->id)->first();
         $this->assertNull($payment->provider_payment_id);
 
         // Process invoice webhook
@@ -686,7 +689,7 @@ class BillingServiceTest extends TestCase
         $this->billingService->handleWebhook('stripe', request());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('stripeStatusMappingProvider')]
+    #[DataProvider('stripeStatusMappingProvider')]
     public function test_webhook_subscription_updated_maps_stripe_statuses(string $stripeStatus, SubscriptionStatus $expectedStatus): void
     {
         Event::fake([SubscriptionUpdated::class]);
@@ -805,7 +808,7 @@ class BillingServiceTest extends TestCase
             'status' => PaymentStatus::Succeeded->value,
         ]);
 
-        $payment = \Modules\Billing\Models\Payment::where('provider_payment_id', 'pi_test_123')->first();
+        $payment = Payment::where('provider_payment_id', 'pi_test_123')->first();
         $this->assertNotNull($payment->payment_method_id);
 
         Event::assertDispatched(PaymentSucceeded::class);
@@ -855,7 +858,7 @@ class BillingServiceTest extends TestCase
             'status' => PaymentStatus::Failed->value,
         ]);
 
-        $payment = \Modules\Billing\Models\Payment::where('provider_payment_id', 'pi_test_456')->first();
+        $payment = Payment::where('provider_payment_id', 'pi_test_456')->first();
         $this->assertNotNull($payment->payment_method_id);
 
         Event::assertDispatched(PaymentFailed::class);
@@ -1243,7 +1246,7 @@ class BillingServiceTest extends TestCase
 
         $this->assertDatabaseCount('payment_methods', 1);
 
-        $payment = \Modules\Billing\Models\Payment::where('provider_payment_id', 'pi_pm_reuse')->first();
+        $payment = Payment::where('provider_payment_id', 'pi_pm_reuse')->first();
         $this->assertNotNull($payment->payment_method_id);
     }
 

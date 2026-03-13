@@ -10,7 +10,7 @@ use Modules\Billing\Models\Price;
 use Modules\Billing\Models\Subscription;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Billing\Models\Subscription>
+ * @extends Factory<Subscription>
  */
 class SubscriptionFactory extends Factory
 {

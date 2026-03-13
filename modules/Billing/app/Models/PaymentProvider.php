@@ -2,6 +2,7 @@
 
 namespace Modules\Billing\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,8 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $slug
  * @property array<string, mixed> $config
  * @property bool $is_active
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class PaymentProvider extends Model
 {

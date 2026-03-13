@@ -26,7 +26,7 @@ class SubscriptionResource extends Resource
 
     public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
     {
-        /** @var \Modules\Billing\Models\Subscription $record */
+        /** @var Subscription $record */
         return $record->provider_subscription_id ?? "Subscription #{$record->id}";
     }
 

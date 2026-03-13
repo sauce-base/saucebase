@@ -1,11 +1,10 @@
 --- a/resources/js/components/App.vue
 +++ b/resources/js/components/App.vue
-@@ -1,4 +1,5 @@
- <script setup lang="ts">
+@@ -6,3 +6,4 @@
+ import { router, usePage } from '@inertiajs/vue3';
 +import AnnouncementBanner from '@modules/Announcements/resources/js/components/AnnouncementBanner.vue';
- import ImpersonationAlert from '@/components/ImpersonationAlert.vue';
- import { Toaster } from '@/components/ui/sonner';
- import { toastActionRegistry } from '@/lib/toastActions';
+ import { watch } from 'vue';
+ import { toast } from 'vue-sonner';
 @@ -102,4 +103,5 @@
  <template>
 +    <AnnouncementBanner />

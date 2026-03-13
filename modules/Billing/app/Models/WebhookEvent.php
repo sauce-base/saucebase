@@ -2,6 +2,7 @@
 
 namespace Modules\Billing\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,9 +10,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $provider_event_id
  * @property string $provider
  * @property string|null $type
- * @property \Carbon\Carbon|null $processed_at
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $processed_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class WebhookEvent extends Model
 {

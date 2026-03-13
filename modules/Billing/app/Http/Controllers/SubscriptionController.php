@@ -2,10 +2,12 @@
 
 namespace Modules\Billing\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Modules\Billing\Enums\SubscriptionStatus;
 use Modules\Billing\Events\SubscriptionResumed;
+use Modules\Billing\Models\Customer;
 use Modules\Billing\Services\BillingService;
 
 class SubscriptionController
@@ -16,10 +18,10 @@ class SubscriptionController
 
     public function cancel(): RedirectResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
-        /** @var \Modules\Billing\Models\Customer|null $customer */
+        /** @var Customer|null $customer */
         $customer = $user->billingCustomer;
 
         $subscription = $customer
@@ -48,10 +50,10 @@ class SubscriptionController
 
     public function resume(): RedirectResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
-        /** @var \Modules\Billing\Models\Customer|null $customer */
+        /** @var Customer|null $customer */
         $customer = $user->billingCustomer;
 
         $subscription = $customer

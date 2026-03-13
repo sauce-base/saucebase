@@ -9,7 +9,7 @@ use Modules\Billing\Models\Customer;
 use Modules\Billing\Models\Payment;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Billing\Models\Payment>
+ * @extends Factory<Payment>
  */
 class PaymentFactory extends Factory
 {
