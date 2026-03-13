@@ -6656,16 +6656,16 @@
         },
         {
             "name": "saucebase/auth",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/auth.git",
-                "reference": "6f60a75b645371f00b21d925422e0fe302873edf"
+                "reference": "b7435cd0354161d17613b110bd949d4759548153"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/auth/zipball/6f60a75b645371f00b21d925422e0fe302873edf",
-                "reference": "6f60a75b645371f00b21d925422e0fe302873edf",
+                "url": "https://api.github.com/repos/saucebase-dev/auth/zipball/b7435cd0354161d17613b110bd949d4759548153",
+                "reference": "b7435cd0354161d17613b110bd949d4759548153",
                 "shasum": ""
             },
             "require": {
@@ -6695,9 +6695,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/auth/issues",
-                "source": "https://github.com/saucebase-dev/auth/tree/v1.1.1"
+                "source": "https://github.com/saucebase-dev/auth/tree/v1.2.0"
             },
-            "time": "2026-03-11T20:08:18+00:00"
+            "time": "2026-03-13T21:57:09+00:00"
         },
         {
             "name": "saucebase/billing",

@@ -112,7 +112,7 @@ class SocialiteService
     /**
      * Disconnect a provider from the given user.
      *
-     * @throws \Modules\Auth\Exceptions\SocialiteException
+     * @throws SocialiteException
      */
     public function disconnectProvider(User $user, string $provider): void
     {

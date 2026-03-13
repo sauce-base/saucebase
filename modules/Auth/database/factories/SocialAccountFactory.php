@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Auth\Models\SocialAccount;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Auth\Models\SocialAccount>
+ * @extends Factory<SocialAccount>
  */
 class SocialAccountFactory extends Factory
 {

@@ -3,6 +3,7 @@
 namespace Modules\Auth\Listeners;
 
 use App\Enums\Role;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 
 class AssignUserRole
@@ -12,7 +13,7 @@ class AssignUserRole
      */
     public function handle(Registered $event): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $event->user;
 
         if ($user->roles->isEmpty()) {

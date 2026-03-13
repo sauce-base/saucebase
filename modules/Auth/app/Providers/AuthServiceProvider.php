@@ -20,6 +20,11 @@ class AuthServiceProvider extends ModuleServiceProvider
         RouteServiceProvider::class,
     ];
 
+    public function boot(): void
+    {
+        parent::boot();
+    }
+
     /**
      * Share Inertia data globally.
      */

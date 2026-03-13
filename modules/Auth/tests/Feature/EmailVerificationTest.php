@@ -3,6 +3,7 @@
 namespace Modules\Auth\Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
@@ -71,6 +72,6 @@ class EmailVerificationTest extends TestCase
         $this->actingAs($user)
             ->post(route('verification.send'));
 
-        Notification::assertSentTo($user, \Illuminate\Auth\Notifications\VerifyEmail::class);
+        Notification::assertSentTo($user, VerifyEmail::class);
     }
 }
