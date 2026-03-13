@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\SecureHeaders;
 use Illuminate\Foundation\Events\DiscoverEvents;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -60,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Set up global middleware for security headers in production/staging
         if ($enforceHttps) {
-            $this->app['router']->pushMiddlewareToGroup('web', \App\Http\Middleware\SecureHeaders::class);
+            $this->app['router']->pushMiddlewareToGroup('web', SecureHeaders::class);
         }
     }
 
