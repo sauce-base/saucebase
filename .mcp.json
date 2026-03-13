@@ -5,10 +5,12 @@
             "args": ["artisan", "boost:mcp"]
         },
         "playwright": {
-          "command": "npx",
-          "args": [
-            "@playwright/mcp@latest"
-          ]
+            "command": "npx",
+            "args": ["@playwright/mcp@latest"]
+        },
+        "shadcnVue": {
+            "command": "npx",
+            "args": ["shadcn-vue@latest", "mcp"]
         }
     }
 }
