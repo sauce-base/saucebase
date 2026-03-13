@@ -79,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
                 $relativePath = Str::after($pathname, $modulesPath.DIRECTORY_SEPARATOR);
                 $moduleName = Str::before($relativePath, DIRECTORY_SEPARATOR);
 
-                if ($moduleName && Module::find($moduleName)?->isEnabled() === false) {
+                if ($moduleName && Module::find($moduleName)?->isEnabled() === false) { // @phpstan-ignore nullsafe.neverNull
                     return null;
                 }
             }
