@@ -36,7 +36,7 @@ test.describe.parallel('Settings Billing Basics', () => {
         await billingPage.openCancelDialog();
         await billingPage.expectCancelDialogVisible();
         await billingPage.closeCancelDialog();
-        await expect(billingPage.cancelDialogConfirm).not.toBeVisible();
+        await expect(billingPage.cancelDialogCancel).not.toBeVisible();
     });
 
     test('shows resume button for pending cancellation', async ({ page, loginAs, credentials }) => {
