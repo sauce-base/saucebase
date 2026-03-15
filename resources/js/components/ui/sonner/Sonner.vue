@@ -47,3 +47,9 @@ const props = defineProps<ToasterProps>();
         </template>
     </Sonner>
 </template>
+
+<style>
+.toaster [data-description] {
+    color: var(--muted-foreground) !important;
+}
+</style>
