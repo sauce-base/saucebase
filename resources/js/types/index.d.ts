@@ -1,3 +1,4 @@
+import type { Announcement } from '@modules/Announcements/resources/js/types';
 export interface User {
     id: number;
     name: string;
@@ -50,4 +51,5 @@ export type PageProps<
     navigation?: Record<string, any>;
     breadcrumbs?: Breadcrumb[];
     toast?: Toast;
+    announcement?: Announcement | null;
 };
