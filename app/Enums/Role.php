@@ -2,7 +2,10 @@
 
 namespace App\Enums;
 
-enum Role: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+
+enum Role: string implements HasColor, HasLabel
 {
     /**
      * Define role cases
@@ -18,16 +21,16 @@ enum Role: string
     /**
      * Get the human-readable label for the role
      */
-    public function label(): string
+    public function getLabel(): string
     {
         return match ($this) {
-            self::ADMIN => 'Administrator',
-            self::USER => 'User',
-            self::SUBSCRIBER => 'Subscriber',
+            self::ADMIN => __('Administrator'),
+            self::USER => __('User'),
+            self::SUBSCRIBER => __('Subscriber'),
         };
     }
 
-    public function color(): string
+    public function getColor(): string
     {
         return match ($this) {
             self::ADMIN => 'danger',
@@ -49,7 +52,7 @@ enum Role: string
      */
     public static function labels(): array
     {
-        return array_map(fn ($case) => $case->label(), self::cases());
+        return array_map(fn ($case) => $case->getLabel(), self::cases());
     }
 
     /**
