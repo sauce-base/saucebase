@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c8e923b5a54102defc1c3b18db39295",
+    "content-hash": "792125d2a27a234906959a1041cc7300",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -6746,6 +6746,47 @@
                 "source": "https://github.com/saucebase-dev/billing/tree/v1.1.0"
             },
             "time": "2026-03-13T22:04:10+00:00"
+        },
+        {
+            "name": "saucebase/roadmap",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saucebase-dev/roadmap.git",
+                "reference": "0ebb1bb7a98d4cfda728dbca3b851ad6eeacf569"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saucebase-dev/roadmap/zipball/0ebb1bb7a98d4cfda728dbca3b851ad6eeacf569",
+                "reference": "0ebb1bb7a98d4cfda728dbca3b851ad6eeacf569",
+                "shasum": ""
+            },
+            "type": "saucebase-module",
+            "extra": {
+                "laravel": {
+                    "aliases": [],
+                    "providers": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Roadmap\\": "app/",
+                    "Modules\\Roadmap\\Database\\Seeders\\": "database/seeders/",
+                    "Modules\\Roadmap\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Saucebase",
+                    "email": "hello@saucebase.dev"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/saucebase-dev/roadmap/issues",
+                "source": "https://github.com/saucebase-dev/roadmap/tree/v0.2.0"
+            },
+            "time": "2026-03-17T17:20:24+00:00"
         },
         {
             "name": "saucebase/settings",
