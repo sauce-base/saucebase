@@ -34,7 +34,7 @@ class UsersTable
                 TextColumn::make('roles.name')
                     ->label(__('Role'))
                     ->badge()
-                    ->color(fn (string $state): string => Role::fromString($state)->color()),
+                    ->color(fn (string $state): string => Role::fromString($state)->getColor()),
                 TextColumn::make('last_login_at')
                     ->dateTime()
                     ->sortable()
