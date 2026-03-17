@@ -16,6 +16,7 @@ interface ScreenshotConfig {
     route: string;
     theme: 'light' | 'dark';
     auth: boolean;
+    scrollTo?: string; // CSS selector to scroll into view before capturing
 }
 
 const screenshots: ScreenshotConfig[] = [
@@ -111,6 +112,50 @@ const screenshots: ScreenshotConfig[] = [
     {
         name: 'admin-products-dark',
         route: '/admin/products',
+        theme: 'dark',
+        auth: true,
+    },
+
+    // Home — pricing/product section
+    {
+        name: 'home-pricing-light',
+        route: '/',
+        theme: 'light',
+        auth: false,
+        scrollTo: '#pricing',
+    },
+    {
+        name: 'home-pricing-dark',
+        route: '/',
+        theme: 'dark',
+        auth: false,
+        scrollTo: '#pricing',
+    },
+
+    // Billing settings
+    {
+        name: 'settings-billing-light',
+        route: '/settings/billing',
+        theme: 'light',
+        auth: true,
+    },
+    {
+        name: 'settings-billing-dark',
+        route: '/settings/billing',
+        theme: 'dark',
+        auth: true,
+    },
+
+    // Roadmap
+    {
+        name: 'roadmap-light',
+        route: '/roadmap',
+        theme: 'light',
+        auth: true,
+    },
+    {
+        name: 'roadmap-dark',
+        route: '/roadmap',
         theme: 'dark',
         auth: true,
     },
@@ -272,6 +317,16 @@ async function capturePageScreenshot(
 
         // Wait for page to be fully ready
         await waitForPageReady(page, config.route);
+
+        // Scroll to a specific element if requested
+        if (config.scrollTo) {
+            await page.evaluate((selector) => {
+                document
+                    .querySelector(selector)
+                    ?.scrollIntoView({ behavior: 'instant' });
+            }, config.scrollTo);
+            await page.waitForTimeout(300);
+        }
 
         // Capture screenshot
         const filename = `${config.name}.png`;

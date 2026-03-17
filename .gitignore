@@ -28,6 +28,7 @@
 # Module-specific ignores
 /modules/*/node_modules
 /modules/*/vendor
+/modules/*/resources/js/types/generated.d.ts
 /modules/*/package-lock.json
 /modules/*/dist
 /modules/*/coverage

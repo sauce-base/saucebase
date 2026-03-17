@@ -158,6 +158,7 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                 <!-- Action button -->
                                 <div
                                     v-if="item.action"
+                                    :data-testid="`nav-action-${item.slug}`"
                                     :class="['cursor-pointer', item.class]"
                                 >
                                     <NavigationIcon
