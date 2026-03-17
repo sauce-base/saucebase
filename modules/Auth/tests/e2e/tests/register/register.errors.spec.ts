@@ -9,15 +9,15 @@ test.describe.parallel('Register Error Handling', () => {
         await registerPage.goto();
     });
 
-    test('shows error for duplicate email', async ({ page, credentials }) => {
+    test('shows error for duplicate email', async ({ credentials }) => {
         const user = credentials.user;
 
+        const responsePromise = registerPage.waitForLoginResponse();
         await registerPage.register('Test User', user.email, user.password);
+        await responsePromise;
 
         await expect(registerPage.page).toHaveURL(registerPage.signupEndpoint);
-
-        const errorAlert = page.locator('[role="alert"]').first();
-        await expect(errorAlert).toBeVisible();
+        await registerPage.expectEmailError();
     });
 
     test('handles network failure gracefully', async ({ credentials }) => {

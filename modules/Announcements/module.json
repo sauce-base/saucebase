@@ -3,7 +3,7 @@
   "alias": "announcements",
   "description": "Site-wide announcement banners",
   "author": "Saucebase",
-  "version": "v0.2.0",
+  "version": "v0.3.0",
   "priority": 0,
   "providers": [
     "Modules\\Announcements\\Providers\\AnnouncementsServiceProvider"
