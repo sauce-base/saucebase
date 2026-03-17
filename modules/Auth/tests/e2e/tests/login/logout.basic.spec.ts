@@ -20,10 +20,11 @@ test.describe.parallel('Logout Basics', () => {
         // Open user menu using the test ID
         const userMenuTrigger = page.getByTestId('user-menu-trigger');
         await userMenuTrigger.click();
-        await page.waitForTimeout(300);
 
-        // Click the 'Log out' menu item
-        await page.getByRole('menuitem', { name: /log out/i }).click();
+        // Wait for dropdown to be visible before clicking
+        const logoutMenuItem = page.getByTestId('nav-action-logout');
+        await expect(logoutMenuItem).toBeVisible();
+        await logoutMenuItem.click();
 
         // Confirm dialog should appear
         const confirmDialog = page.getByTestId('confirm-dialog');
@@ -48,9 +49,10 @@ test.describe.parallel('Logout Basics', () => {
 
         const userMenuTrigger = page.getByTestId('user-menu-trigger');
         await userMenuTrigger.click();
-        await page.waitForTimeout(300);
 
-        await page.getByRole('menuitem', { name: /log out/i }).click();
+        const logoutMenuItem = page.getByTestId('nav-action-logout');
+        await expect(logoutMenuItem).toBeVisible();
+        await logoutMenuItem.click();
 
         const confirmDialog = page.getByTestId('confirm-dialog');
         await expect(confirmDialog).toBeVisible();
@@ -72,10 +74,11 @@ test.describe.parallel('Logout Basics', () => {
         // Open user menu
         const userMenuTrigger = page.getByTestId('user-menu-trigger');
         await userMenuTrigger.click();
-        await page.waitForTimeout(300);
 
-        // Click the 'Log out' menu item
-        await page.getByRole('menuitem', { name: /log out/i }).click();
+        // Wait for dropdown to be visible before clicking
+        const logoutMenuItem = page.getByTestId('nav-action-logout');
+        await expect(logoutMenuItem).toBeVisible();
+        await logoutMenuItem.click();
 
         // Confirm dialog should appear
         const confirmDialog = page.getByTestId('confirm-dialog');

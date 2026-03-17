@@ -51,7 +51,6 @@ class BillingServiceProvider extends ModuleServiceProvider
         parent::registerConfig();
 
         $this->mergeConfigFrom(module_path($this->name, 'config/services.php'), 'services');
-        $this->replaceConfig('config/typescript-transformer.php', 'typescript-transformer');
     }
 
     protected function configureSchedules(Schedule $schedule): void

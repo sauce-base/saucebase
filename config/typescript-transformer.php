@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Spatie\LaravelData\Support\TypeScriptTransformer\DataTypeScriptTransformer;
@@ -17,7 +18,6 @@ return [
 
     'auto_discover_types' => [
         app_path(),
-        base_path('modules'),
     ],
 
     /*
@@ -53,14 +53,14 @@ return [
         DateTimeImmutable::class => 'string',
         CarbonInterface::class => 'string',
         CarbonImmutable::class => 'string',
-        Carbon\Carbon::class => 'string',
+        Carbon::class => 'string',
     ],
 
     /*
      * The package will write the generated TypeScript to this file.
      */
 
-    'output_file' => base_path('modules/Billing/resources/js/types/generated.d.ts'),
+    'output_file' => base_path('resources/js/types/generated.d.ts'),
 
     /*
      * When the package is writing types to the output file, a writer is used to

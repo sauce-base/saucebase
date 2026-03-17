@@ -27,7 +27,9 @@ test.describe.parallel('Register Basics', () => {
     test('registers with valid details and redirects to dashboard', async () => {
         const user = newUser(); // Using the newUser function to generate user details
 
+        const responsePromise = registerPage.waitForLoginResponse();
         await registerPage.register(user.name, user.email, user.password);
+        await responsePromise;
 
         await expectSuccessfulRegistration();
     });

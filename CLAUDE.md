@@ -4,6 +4,8 @@
 
 Saucebase is a modular Laravel SaaS starter kit (VILT stack). Modules are installed via Composer and owned directly in the repository (copy-and-own).
 
+**Core message:** The foundation is built. Focus on your product. See [`docs/CLAUDE.md`](../docs/CLAUDE.md) → _Saucebase Philosophy_ for tone and value-proposition guidance.
+
 **Stack:** Laravel 12, PHP 8.4+, Vue 3 Composition API, TypeScript 5.8, Inertia.js 2, Tailwind CSS 4, Vite 6.4, Filament 5 admin panel, Docker (Nginx, MySQL 8, Redis, Mailpit)
 
 **Quality tools:** PHPStan level 5 (Larastan), Laravel Pint, ESLint, Prettier, PHPUnit 12, Playwright
@@ -35,6 +37,10 @@ php artisan module:enable ModuleName
 php artisan module:disable ModuleName
 php artisan module:migrate ModuleName --seed
 # After enable/disable: rebuild with `npm run build` or restart `npm run dev`
+
+# TypeScript types (per-module, generated from PHP enums/DTOs)
+php artisan module:generate-types ModuleName   # single module
+php artisan module:generate-types              # all enabled modules
 ```
 
 ## Architecture
@@ -57,6 +63,8 @@ modules/<ModuleName>/
   resources/js/pages/     # Inertia pages
   resources/js/components/
   resources/js/app.ts     # Module lifecycle hooks (optional)
+  resources/js/types/
+    generated.d.ts        # Auto-generated from PHP enums/DTOs — do not edit manually
   resources/css/
   routes/web.php
   routes/api.php
@@ -64,8 +72,11 @@ modules/<ModuleName>/
   tests/Unit/
   tests/e2e/
   vite.config.js          # Module asset paths: { paths: ['css/app.css', 'js/app.ts'] }
+  Taskfile.yml            # Module tasks (test:php, test:e2e, types:generate)
   module.json
 ```
+
+**TypeScript type generation:** Each module generates its own `resources/js/types/generated.d.ts` from PHP classes annotated with `#[TypeScript]` (enums, Spatie Data objects). The core `config/typescript-transformer.php` only scans `app/`; module types are generated separately via `module:generate-types`. `tsconfig.json` includes `modules/**/resources/js/**/*.ts` so generated files are picked up automatically.
 
 **Module service provider pattern:**
 
@@ -146,6 +157,8 @@ Common patterns:
 **PHPUnit suites:** Unit (`tests/Unit/`), Feature (`tests/Feature/`), Modules (`modules/*/tests/`). SQLite in-memory by default.
 
 **Playwright:** Auto-discovers module E2E tests. Projects prefixed `@ModuleName`, core as `@Core`. Default browser: Desktop Chrome.
+
+**E2E selectors:** Always use `data-testid` attributes — never select by translated text, labels, or role names. Add `data-testid` to any interactive element that E2E tests need to target. Item-specific testids use the pattern `{action}-${item.id}` (e.g. `upvote-btn-${item.id}`).
 
 ## Patterns & Conventions
 
@@ -244,7 +257,7 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
-- php - 8.4.12
+- php - 8.4.18
 - filament/filament (FILAMENT) - v5
 - inertiajs/inertia-laravel (INERTIA_LARAVEL) - v2
 - laravel/ai (AI) - v0
@@ -271,6 +284,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 This project has domain-specific skills available. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
 
+- `socialite-development` — Manages OAuth social authentication with Laravel Socialite. Activate when adding social login providers; configuring OAuth redirect/callback flows; retrieving authenticated user details; customizing scopes or parameters; setting up community providers; testing with Socialite fakes; or when the user mentions social login, OAuth, Socialite, or third-party authentication.
 - `inertia-vue-development` — Develops Inertia.js v2 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using &lt;Link&gt;, &lt;Form&gt;, useForm, or router; working with deferred props, prefetching, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
 - `tailwindcss-development` — Styles applications using Tailwind CSS v4 utilities. Activates when adding styles, restyling components, working with gradients, spacing, layout, flex, grid, responsive design, dark mode, colors, typography, or borders; or when the user mentions CSS, styling, classes, Tailwind, restyle, hero section, cards, buttons, or any visual/UI changes.
 - `developing-with-ai-sdk` — Builds AI agents, generates text and chat responses, produces images, synthesizes audio, transcribes speech, generates vector embeddings, reranks documents, and manages files and vector stores using the Laravel AI SDK (laravel/ai). Supports structured output, streaming, tools, conversation memory, middleware, queueing, broadcasting, and provider failover. Use when building, editing, updating, debugging, or testing any AI functionality, including agents, LLMs, chatbots, text generation, image generation, audio, transcription, embeddings, RAG, similarity search, vector stores, prompting, structured output, or any AI provider (OpenAI, Anthropic, Gemini, Cohere, Groq, xAI, ElevenLabs, Jina, OpenRouter).
@@ -308,19 +322,23 @@ This project has domain-specific skills available. You MUST activate the relevan
 
 - Laravel Boost is an MCP server that comes with powerful tools designed specifically for this application. Use them.
 
-## Artisan
+## Artisan Commands
 
-- Use the `list-artisan-commands` tool when you need to call an Artisan command to double-check the available parameters.
+- Run Artisan commands directly via the command line (e.g., `php artisan route:list`, `php artisan tinker --execute &quot;...&quot;`).
+- Use `php artisan list` to discover available commands and `php artisan [command] --help` to check parameters.
 
 ## URLs
 
 - Whenever you share a project URL with the user, you should use the `get-absolute-url` tool to ensure you're using the correct scheme, domain/IP, and port.
 
-## Tinker / Debugging
+## Debugging
 
-- You should use the `tinker` tool when you need to execute PHP to debug code or query Eloquent models directly.
 - Use the `database-query` tool when you only need to read from the database.
 - Use the `database-schema` tool to inspect table structure before writing migrations or models.
+- To execute PHP code for debugging, run `php artisan tinker --execute &quot;your code here&quot;` directly.
+- To read configuration values, read the config files directly or run `php artisan config:show [key]`.
+- To inspect routes, run `php artisan route:list` directly.
+- To check environment variables, read the `.env` file directly.
 
 ## Reading Browser Logs With the `browser-logs` Tool
 
@@ -406,7 +424,7 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 # Do Things the Laravel Way
 
-- Use `php artisan make:` commands to create new files (i.e. migrations, controllers, models, etc.). You can list available Artisan commands using the `list-artisan-commands` tool.
+- Use `php artisan make:` commands to create new files (i.e. migrations, controllers, models, etc.). You can list available Artisan commands using `php artisan list` and check their parameters with `php artisan [command] --help`.
 - If you're creating a generic PHP class, use `php artisan make:class`.
 - Pass `--no-interaction` to all Artisan commands to ensure they work without user input. You should also pass the correct `--options` to ensure correct behavior.
 
@@ -420,7 +438,7 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 ### Model Creation
 
-- When creating new models, create useful factories and seeders for them too. Ask the user if they need any other things, using `list-artisan-commands` to check the available options to `php artisan make:model`.
+- When creating new models, create useful factories and seeders for them too. Ask the user if they need any other things, using `php artisan make:model --help` to check the available options.
 
 ### APIs & Eloquent Resources
 

@@ -60,6 +60,7 @@ class RecipeToModuleCommand extends Command
         }
 
         $this->generate();
+        $this->registerInTaskfile();
 
         info('Starter '.$this->moduleName.' module generated successfully.');
         info('You need to run: composer dump-autoload');
@@ -342,6 +343,45 @@ class RecipeToModuleCommand extends Command
         }
 
         return implode($separator, $parts);
+    }
+
+    protected function registerInTaskfile(): void
+    {
+        $taskfile = base_path('Taskfile.yml');
+
+        if (! file_exists($taskfile)) {
+            return;
+        }
+
+        $key = strtolower($this->moduleName);
+        $content = file_get_contents($taskfile);
+
+        if ($content === false) {
+            throw new RuntimeException("Unable to read Taskfile at path [{$taskfile}].");
+        }
+
+        if (str_contains($content, "taskfile: ./modules/{$this->moduleName}/Taskfile.yml")) {
+            return;
+        }
+
+        $entry = "    {$key}:\n        taskfile: ./modules/{$this->moduleName}/Taskfile.yml\n        optional: true\n";
+        $markerPrefix = '    # ── END MODULES';
+
+        $markerPosition = strpos($content, $markerPrefix);
+
+        if ($markerPosition === false) {
+            return;
+        }
+
+        $before = substr($content, 0, $markerPosition);
+        $after = substr($content, $markerPosition);
+        $updated = $before.$entry.$after;
+
+        if ($updated === $content) {
+            return;
+        }
+
+        file_put_contents($taskfile, $updated);
     }
 
     protected function append($sourceFile, $content): void

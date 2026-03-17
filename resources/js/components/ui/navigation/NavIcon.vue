@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, type Component } from 'vue';
+import IconMap from '~icons/heroicons/map';
 import IconCreditCard from '~icons/lucide/credit-card';
 import IconHelpCircle from '~icons/lucide/help-circle';
 import IconLogOut from '~icons/lucide/log-out';
@@ -30,6 +31,7 @@ const iconMapping: Record<string, Component> = {
     documentation: IconHelpCircle,
     billing: IconCreditCard,
     upgrade: IconSparkles,
+    roadmap: IconMap,
 };
 
 const iconComponent = computed<Component | null>(() => {
