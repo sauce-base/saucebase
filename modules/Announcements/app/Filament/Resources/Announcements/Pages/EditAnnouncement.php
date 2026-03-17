@@ -10,18 +10,10 @@ class EditAnnouncement extends EditRecord
 {
     protected static string $resource = AnnouncementResource::class;
 
-    protected function getFormActions(): array
-    {
-        return array_map(
-            fn ($action) => $action->disabled(config('app.demo_mode')),
-            parent::getFormActions(),
-        );
-    }
-
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make()->disabled(config('app.demo_mode')),
+            DeleteAction::make(),
         ];
     }
 }

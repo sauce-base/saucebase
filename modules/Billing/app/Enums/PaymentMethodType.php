@@ -24,18 +24,18 @@ enum PaymentMethodType: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::Card => 'Card',
-            self::PayPal => 'PayPal',
-            self::SepaDebit => 'SEPA Debit',
-            self::UsBankAccount => 'US Bank Account',
-            self::BacsDebit => 'Bacs Debit',
-            self::Link => 'Link',
-            self::CashApp => 'Cash App',
-            self::ApplePay => 'Apple Pay',
-            self::GooglePay => 'Google Pay',
-            self::Bancontact => 'Bancontact',
-            self::Ideal => 'iDEAL',
-            self::Unknown => 'Unknown',
+            self::Card => __('Card'),
+            self::PayPal => __('PayPal'),
+            self::SepaDebit => __('SEPA Debit'),
+            self::UsBankAccount => __('US Bank Account'),
+            self::BacsDebit => __('Bacs Debit'),
+            self::Link => __('Link'),
+            self::CashApp => __('Cash App'),
+            self::ApplePay => __('Apple Pay'),
+            self::GooglePay => __('Google Pay'),
+            self::Bancontact => __('Bancontact'),
+            self::Ideal => __('iDEAL'),
+            self::Unknown => __('Unknown'),
         };
     }
 

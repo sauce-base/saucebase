@@ -2,7 +2,9 @@
 
 namespace Modules\Auth\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,7 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        /** @var \Illuminate\Contracts\Auth\MustVerifyEmail&\App\Models\User $user */
+        /** @var MustVerifyEmail&User $user */
         $user = Auth::user();
 
         if ($user->hasVerifiedEmail()) {

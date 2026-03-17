@@ -3,6 +3,7 @@
 namespace Modules\Auth\Listeners;
 
 use App\Helpers\Toast;
+use App\Models\User;
 use STS\FilamentImpersonate\Events\EnterImpersonation;
 
 class Impersonation
@@ -12,7 +13,7 @@ class Impersonation
      */
     public function handle(EnterImpersonation $event): void
     {
-        /** @var \App\Models\User $impersonated */
+        /** @var User $impersonated */
         $impersonated = $event->impersonated;
 
         Toast::info(

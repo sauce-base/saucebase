@@ -12,19 +12,11 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
-    protected function getFormActions(): array
-    {
-        return array_map(
-            fn ($action) => $action->disabled(config('app.demo_mode')),
-            parent::getFormActions(),
-        );
-    }
-
     protected function getHeaderActions(): array
     {
         return [
             ViewAction::make(),
-            DeleteAction::make()->disabled(config('app.demo_mode')),
+            DeleteAction::make(),
             Impersonate::make()->record($this->getRecord()),
         ];
     }

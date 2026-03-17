@@ -1,0 +1,15 @@
+{
+  "name": "Roadmap",
+  "alias": "roadmap",
+  "description": "Roadmap module",
+  "author": "Saucebase",
+  "version": "v0.2.0",
+  "keywords": [
+    "roadmap"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\Roadmap\\Providers\\RoadmapServiceProvider"
+  ],
+  "files": []
+}

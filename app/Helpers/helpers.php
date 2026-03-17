@@ -1,5 +1,20 @@
 <?php
 
+function is_demo_mode(): bool
+{
+    if (! config('app.demo_mode')) {
+        return false;
+    }
+
+    $bypassEmail = config('app.demo_mode_bypass_email');
+
+    if (! $bypassEmail) {
+        return true;
+    }
+
+    return auth()->user()?->email !== $bypassEmail;
+}
+
 function anonymize_email(string $email): string
 {
     if (! str_contains($email, '@')) {

@@ -4,8 +4,10 @@ namespace Modules\Auth\Providers;
 
 use App\Models\User;
 use App\Providers\ModuleServiceProvider;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 use STS\FilamentImpersonate\ImpersonateManager;
 
 class AuthServiceProvider extends ModuleServiceProvider
@@ -35,10 +37,10 @@ class AuthServiceProvider extends ModuleServiceProvider
                 return null;
             }
 
-            /** @var \App\Models\User $user */
+            /** @var User $user */
             $user = Auth::user();
 
-            /** @var \Spatie\Permission\Models\Role|null $role */
+            /** @var Role|null $role */
             $role = $user->roles->first();
 
             return [
@@ -61,7 +63,7 @@ class AuthServiceProvider extends ModuleServiceProvider
 
         $impersonate = app(ImpersonateManager::class);
         $impersonatorGuard = $impersonate->getImpersonatorGuardUsingName();
-        $currentPanelGuard = \Filament\Facades\Filament::getAuthGuard();
+        $currentPanelGuard = Filament::getAuthGuard();
         $isImpersonating = $impersonate->isImpersonating();
 
         return $isImpersonating
@@ -82,7 +84,7 @@ class AuthServiceProvider extends ModuleServiceProvider
             return [];
         }
 
-        /** @var \App\Models\User $currentUser */
+        /** @var User $currentUser */
         $currentUser = Auth::user();
         $currentUserId = $currentUser->id;
 
@@ -97,9 +99,9 @@ class AuthServiceProvider extends ModuleServiceProvider
         $orderedUsers = [];
         foreach ($historyIds as $id) {
             if ($users->has($id) && $id !== $currentUserId) {
-                /** @var \App\Models\User $user */
+                /** @var User $user */
                 $user = $users->get($id);
-                /** @var \Spatie\Permission\Models\Role|null $userRole */
+                /** @var Role|null $userRole */
                 $userRole = $user->roles->first();
                 $orderedUsers[] = [
                     'id' => $user->id,

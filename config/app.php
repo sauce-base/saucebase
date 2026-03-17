@@ -132,6 +132,7 @@ return [
     */
 
     'demo_mode' => env('DEMO_MODE_ENABLED', false),
+    'demo_mode_bypass_email' => env('DEMO_MODE_BYPASS_EMAIL'),
 
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),

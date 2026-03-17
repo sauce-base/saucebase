@@ -44,10 +44,11 @@ defineProps<{
         <!-- FAQ Section -->
         <FaqSection />
 
-        <!-- Pricing Section -->
-        <ProductSection v-if="products?.length" :products="products" />
         <!-- Testimonial -->
         <Testimonial />
+
+        <!-- Pricing Section -->
+        <ProductSection v-if="products?.length" :products="products" />
 
         <!-- Footer -->
         <Footer />

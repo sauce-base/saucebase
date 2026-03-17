@@ -93,7 +93,12 @@ watch(priceKey, () => {
                     v-if="price?.metadata?.original_price"
                     class="text-2xl text-gray-400 line-through dark:text-gray-600"
                 >
-                    {{ formatPrice(price.metadata.original_price, price.currency) }}
+                    {{
+                        formatPrice(
+                            price.metadata.original_price,
+                            price.currency,
+                        )
+                    }}
                 </span>
                 <span
                     v-if="price?.metadata?.badge"

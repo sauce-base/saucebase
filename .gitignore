@@ -28,6 +28,7 @@
 # Module-specific ignores
 /modules/*/node_modules
 /modules/*/vendor
+/modules/*/resources/js/types/generated.d.ts
 /modules/*/package-lock.json
 /modules/*/dist
 /modules/*/coverage
@@ -51,6 +52,7 @@ public/vendor/livewire/
 /test-results/
 /playwright-report/
 /playwright/.cache/
+/playwright-mcp/
 /storage/laravel-playwright-config.json
 
 # SSL Certificates (generated locally, not tracked)
@@ -64,3 +66,4 @@ _ide_helper_models.php
 .phpstorm.meta.php
 
 .github/skills/*/*
+

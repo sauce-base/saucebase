@@ -51,3 +51,12 @@
     Modules can depend on each other (e.g. Billing depends on Auth) but are otherwise decoupled for maximum flexibility.
   </p>
 </div>
+
+## Licenses
+
+Saucebase is licensed under the [MIT License](LICENSE).
+
+Third-party dependency licenses:
+
+- [PHP / Composer dependencies](THIRD_PARTY_LICENSES.md)
+- [JavaScript / npm dependencies](THIRD_PARTY_PACKAGE_LICENSES.md)

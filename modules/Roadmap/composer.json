@@ -1,0 +1,29 @@
+{
+    "name": "saucebase/roadmap",
+    "description": "",
+    "type": "saucebase-module",
+    "authors": [
+        {
+            "name": "Saucebase",
+            "email": "hello@saucebase.dev"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Roadmap\\": "app/",
+            "Modules\\Roadmap\\Database\\Factories\\": "database/factories/",
+            "Modules\\Roadmap\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Roadmap\\Tests\\": "tests/"
+        }
+    }
+}

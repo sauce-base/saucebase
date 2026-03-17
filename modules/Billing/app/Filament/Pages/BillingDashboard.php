@@ -3,6 +3,7 @@
 namespace Modules\Billing\Filament\Pages;
 
 use BackedEnum;
+use Carbon\Carbon;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use Livewire\Attributes\Url;
@@ -41,8 +42,8 @@ class BillingDashboard extends Page
     public function mount(): void
     {
         if ($this->preset === 'custom' && $this->customStart && $this->customEnd) {
-            $start = \Carbon\Carbon::parse($this->customStart)->startOfDay()->toDateTimeString();
-            $end = \Carbon\Carbon::parse($this->customEnd)->endOfDay()->toDateTimeString();
+            $start = Carbon::parse($this->customStart)->startOfDay()->toDateTimeString();
+            $end = Carbon::parse($this->customEnd)->endOfDay()->toDateTimeString();
             $this->startDate = $start;
             $this->endDate = $end;
             $this->dispatch('billing-filter-updated', start: $start, end: $end);
@@ -64,8 +65,8 @@ class BillingDashboard extends Page
     public function updatedCustomStart(): void
     {
         if ($this->customStart && $this->customEnd) {
-            $start = \Carbon\Carbon::parse($this->customStart)->startOfDay()->toDateTimeString();
-            $end = \Carbon\Carbon::parse($this->customEnd)->endOfDay()->toDateTimeString();
+            $start = Carbon::parse($this->customStart)->startOfDay()->toDateTimeString();
+            $end = Carbon::parse($this->customEnd)->endOfDay()->toDateTimeString();
             $this->startDate = $start;
             $this->endDate = $end;
             $this->dispatch('billing-filter-updated', start: $start, end: $end);
@@ -75,8 +76,8 @@ class BillingDashboard extends Page
     public function updatedCustomEnd(): void
     {
         if ($this->customStart && $this->customEnd) {
-            $start = \Carbon\Carbon::parse($this->customStart)->startOfDay()->toDateTimeString();
-            $end = \Carbon\Carbon::parse($this->customEnd)->endOfDay()->toDateTimeString();
+            $start = Carbon::parse($this->customStart)->startOfDay()->toDateTimeString();
+            $end = Carbon::parse($this->customEnd)->endOfDay()->toDateTimeString();
             $this->startDate = $start;
             $this->endDate = $end;
             $this->dispatch('billing-filter-updated', start: $start, end: $end);

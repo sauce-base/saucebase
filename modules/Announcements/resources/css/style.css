@@ -6,7 +6,9 @@
 
 :root {
     --announcement-banner-spaces: 16;
-    --announcement-banner-height: calc(var(--spacing) * var(--announcement-banner-spaces));
+    --announcement-banner-height: calc(
+        var(--spacing) * var(--announcement-banner-spaces)
+    );
 }
 
 header,

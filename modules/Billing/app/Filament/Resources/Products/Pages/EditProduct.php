@@ -13,30 +13,17 @@ class EditProduct extends EditRecord
 {
     protected static string $resource = ProductResource::class;
 
-    protected function getFormActions(): array
-    {
-        return array_map(
-            fn ($action) => $action->disabled(config('app.demo_mode')),
-            parent::getFormActions(),
-        );
-    }
-
     protected function getHeaderActions(): array
     {
-        $isDemo = config('app.demo_mode');
-
         return [
             ViewAction::make(),
             DeleteAction::make()
                 ->requiresConfirmation()
-                ->successNotificationTitle(__('Product deleted successfully'))
-                ->disabled($isDemo),
+                ->successNotificationTitle(__('Product deleted successfully')),
             ForceDeleteAction::make()
-                ->requiresConfirmation()
-                ->disabled($isDemo),
+                ->requiresConfirmation(),
             RestoreAction::make()
-                ->successNotificationTitle(__('Product restored successfully'))
-                ->disabled($isDemo),
+                ->successNotificationTitle(__('Product restored successfully')),
         ];
     }
 }

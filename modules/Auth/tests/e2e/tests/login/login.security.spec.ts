@@ -44,8 +44,7 @@ test.describe('Login Security', () => {
             await expect(loginPage.page).toHaveURL(loginPage.loginEndpoint);
 
             // Verify the page can show errors (even if not rate limited yet)
-            const errorAlert = loginPage.page.locator('[role="alert"]').first();
-            await expect(errorAlert).toBeVisible();
+            await expect(loginPage.alertMessage).toBeVisible();
         });
     });
 

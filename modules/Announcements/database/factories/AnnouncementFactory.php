@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Announcements\Models\Announcement;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Announcements\Models\Announcement>
+ * @extends Factory<Announcement>
  */
 class AnnouncementFactory extends Factory
 {

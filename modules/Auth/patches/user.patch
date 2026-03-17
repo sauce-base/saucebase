@@ -1,10 +1,10 @@
 --- a/app/Models/User.php
 +++ b/app/Models/User.php
-@@ -13,2 +13,3 @@
- use Spatie\Permission\Traits\HasRoles;
+@@ -10,2 +10,3 @@
+ use Illuminate\Notifications\Notifiable;
 +use Modules\Auth\Traits\Sociable;
- 
+ use Spatie\MediaLibrary\HasMedia;
 @@ -23,2 +24,3 @@
          Notifiable;
 +    use Sociable;
- 
+

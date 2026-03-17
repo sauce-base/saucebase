@@ -27,8 +27,8 @@ class UserForm
                     ->label(__('Email address'))
                     ->email()
                     ->required()
-                    ->formatStateUsing(fn ($state) => config('app.demo_mode') ? anonymize_email($state ?? '') : $state)
-                    ->disabled(fn () => config('app.demo_mode')),
+                    ->formatStateUsing(fn ($state) => is_demo_mode() ? anonymize_email($state ?? '') : $state)
+                    ->disabled(fn () => is_demo_mode()),
                 Select::make('roles')
                     ->label(__('Role'))
                     ->relationship('roles', 'name')

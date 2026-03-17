@@ -38,15 +38,15 @@ class ProductsTable
 
                 ToggleColumn::make('is_active')
                     ->onColor('success')
-                    ->disabled(config('app.demo_mode')),
+                    ->disabled(fn () => is_demo_mode()),
 
                 ToggleColumn::make('is_visible')
                     ->onColor('success')
-                    ->disabled(config('app.demo_mode')),
+                    ->disabled(fn () => is_demo_mode()),
 
                 ToggleColumn::make('is_highlighted')
                     ->onColor('success')
-                    ->disabled(config('app.demo_mode')),
+                    ->disabled(fn () => is_demo_mode()),
 
                 TextColumn::make('created_at')
                     ->label(__('Created At'))

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Billing\Models\Customer;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Billing\Models\Customer>
+ * @extends Factory<Customer>
  */
 class CustomerFactory extends Factory
 {

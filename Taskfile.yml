@@ -2,6 +2,7 @@
 version: '3'
 
 includes:
+    # ── BEGIN MODULES ────────────────────────────────────────────────
     auth:
         taskfile: ./modules/Auth/Taskfile.yml
         optional: true
@@ -14,6 +15,10 @@ includes:
     announcements:
         taskfile: ./modules/Announcements/Taskfile.yml
         optional: true
+    roadmap:
+        taskfile: ./modules/Roadmap/Taskfile.yml
+        optional: true
+    # ── END MODULES ──────────────────────────────────────────────────
 
 tasks:
     # ── Installation ──────────────────────────────────────────────

@@ -6,6 +6,7 @@ use App\Filament\ModulePlugin;
 use Filament\Contracts\Plugin;
 use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
+use Filament\Support\Facades\FilamentView;
 use Filament\Support\Icons\Heroicon;
 
 class AuthPlugin implements Plugin
@@ -30,5 +31,7 @@ class AuthPlugin implements Plugin
                 ->icon(Heroicon::OutlinedShieldCheck)
                 ->collapsible(),
         ]);
+
+        FilamentView::spaUrlExceptions([config('filament-impersonate.redirect_to', '/')]);
     }
 }

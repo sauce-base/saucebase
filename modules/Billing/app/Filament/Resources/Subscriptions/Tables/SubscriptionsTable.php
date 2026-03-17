@@ -22,7 +22,7 @@ class SubscriptionsTable
 
                 TextColumn::make('customer.email')
                     ->label(__('Email'))
-                    ->state(fn ($record) => config('app.demo_mode') ? anonymize_email($record->customer->email) : $record->customer->email)
+                    ->state(fn ($record) => is_demo_mode() ? anonymize_email($record->customer->email) : $record->customer->email)
                     ->searchable(),
 
                 TextColumn::make('price.product.name')

@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class AuthDatabaseSeeder extends Seeder
@@ -11,7 +12,7 @@ class AuthDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminUser = \App\Models\User::firstOrCreate(
+        $adminUser = User::firstOrCreate(
             ['email' => 'chef@saucebase.dev'],
             [
                 'name' => 'Admin Chef',
@@ -23,7 +24,7 @@ class AuthDatabaseSeeder extends Seeder
         $adminUser->assignRole('admin');
 
         // Create test users for E2E tests
-        $user = \App\Models\User::firstOrCreate(
+        $user = User::firstOrCreate(
             ['email' => 'test@example.com'],
             [
                 'name' => 'Test User',

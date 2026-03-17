@@ -33,7 +33,7 @@ class UserInfolist
                                 ->weight(FontWeight::Medium),
                             TextEntry::make('email')
                                 ->label(__('Email address'))
-                                ->state(fn ($record) => config('app.demo_mode') ? anonymize_email($record->email) : $record->email)
+                                ->state(fn ($record) => is_demo_mode() ? anonymize_email($record->email) : $record->email)
                                 ->icon('heroicon-o-envelope'),
                             TextEntry::make('created_at')
                                 ->label(__('Created at'))

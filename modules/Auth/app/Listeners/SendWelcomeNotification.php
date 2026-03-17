@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Listeners;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Modules\Auth\Notifications\WelcomeNotification;
 
@@ -12,7 +13,7 @@ class SendWelcomeNotification
      */
     public function handle(Registered $event): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $event->user;
 
         $user->notify(new WelcomeNotification);

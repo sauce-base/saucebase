@@ -1,5 +1,8 @@
+import { useDialog } from '@/composables/useDialog';
 import { registerActionHandler } from '@/utils/actionHandlers';
 import { router } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
+import { LogOut } from 'lucide-vue-next';
 
 import '../css/style.css';
 
@@ -21,12 +24,22 @@ function registerAuthActions() {
     registerActionHandler('logout', async (event: MouseEvent) => {
         event.preventDefault();
 
-        // TODO: Use i18n for confirmation message
-        if (!confirm('Are you sure you want to log out?')) {
-            return;
+        const { confirm } = useDialog();
+        if (
+            await confirm({
+                title: trans('Log out'),
+                description: trans(
+                    'Are you sure you want to log out? You will need to sign in again.',
+                ),
+                confirmLabel: trans('Log out'),
+                cancelLabel: trans('Cancel'),
+                variant: 'destructive',
+                icon: LogOut,
+                align: 'left',
+            })
+        ) {
+            router.post(route('logout'));
         }
-
-        router.post(route('logout'));
     });
 }
 

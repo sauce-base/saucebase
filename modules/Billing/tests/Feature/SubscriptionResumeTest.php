@@ -8,13 +8,14 @@ use Modules\Billing\Enums\SubscriptionStatus;
 use Modules\Billing\Models\Customer;
 use Modules\Billing\Models\Subscription;
 use Modules\Billing\Services\PaymentGatewayManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 class SubscriptionResumeTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @var PaymentGatewayInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PaymentGatewayInterface&MockObject */
     private PaymentGatewayInterface $gateway;
 
     protected function setUp(): void

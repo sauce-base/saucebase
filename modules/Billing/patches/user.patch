@@ -1,10 +1,10 @@
 --- a/app/Models/User.php
 +++ b/app/Models/User.php
-@@ -14,2 +14,3 @@
+@@ -11,2 +11,3 @@
  use Modules\Auth\Traits\Sociable;
 +use Modules\Billing\Traits\Billable;
- 
-@@ -25,2 +26,3 @@
-     use Sociable;
+ use Spatie\MediaLibrary\HasMedia;
+@@ -20,2 +21,3 @@
+ {
 +    use Billable;
- 
+     use HasFactory,

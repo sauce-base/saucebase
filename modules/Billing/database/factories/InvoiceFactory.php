@@ -9,7 +9,7 @@ use Modules\Billing\Models\Customer;
 use Modules\Billing\Models\Invoice;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Billing\Models\Invoice>
+ * @extends Factory<Invoice>
  */
 class InvoiceFactory extends Factory
 {

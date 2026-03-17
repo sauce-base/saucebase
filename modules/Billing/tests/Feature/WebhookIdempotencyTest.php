@@ -17,10 +17,12 @@ use Modules\Billing\Events\PaymentSucceeded;
 use Modules\Billing\Events\SubscriptionCreated;
 use Modules\Billing\Models\CheckoutSession;
 use Modules\Billing\Models\Customer;
+use Modules\Billing\Models\Subscription;
 use Modules\Billing\Models\WebhookEvent;
 use Modules\Billing\Services\BillingService;
 use Modules\Billing\Services\Gateways\StripeGateway;
 use Modules\Billing\Services\PaymentGatewayManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 class WebhookIdempotencyTest extends TestCase
@@ -29,7 +31,7 @@ class WebhookIdempotencyTest extends TestCase
 
     private BillingService $billingService;
 
-    /** @var StripeGateway&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var StripeGateway&MockObject */
     private StripeGateway $gateway;
 
     protected function setUp(): void
@@ -179,7 +181,7 @@ class WebhookIdempotencyTest extends TestCase
         Event::fake([PaymentSucceeded::class]);
 
         $customer = Customer::factory()->create(['provider_customer_id' => 'cus_test_restore']);
-        $subscription = \Modules\Billing\Models\Subscription::factory()->create([
+        $subscription = Subscription::factory()->create([
             'customer_id' => $customer->id,
             'provider_subscription_id' => 'sub_test_restore',
             'status' => SubscriptionStatus::PastDue,
@@ -223,7 +225,7 @@ class WebhookIdempotencyTest extends TestCase
         ]);
 
         // Pre-create a subscription with the same provider ID (simulating race)
-        \Modules\Billing\Models\Subscription::create([
+        Subscription::create([
             'customer_id' => $session->customer_id,
             'price_id' => $session->price_id,
             'provider_subscription_id' => 'sub_test_foc',

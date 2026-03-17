@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Modules\Billing\Models\PaymentProvider;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Billing\Models\PaymentProvider>
+ * @extends Factory<PaymentProvider>
  */
 class PaymentProviderFactory extends Factory
 {

@@ -8,7 +8,7 @@ export class SettingsBillingPage {
     readonly resumeButton: Locator;
     readonly cancelDialog: Locator;
     readonly cancelDialogConfirm: Locator;
-    readonly cancelDialogClose: Locator;
+    readonly cancelDialogCancel: Locator;
     readonly noSubscription: Locator;
 
     constructor(page: Page) {
@@ -17,9 +17,9 @@ export class SettingsBillingPage {
         this.planName = page.getByTestId('plan-name');
         this.cancelButton = page.getByTestId('cancel-button');
         this.resumeButton = page.getByTestId('resume-button');
-        this.cancelDialog = page.getByTestId('cancel-dialog');
-        this.cancelDialogConfirm = page.getByTestId('cancel-dialog-confirm');
-        this.cancelDialogClose = page.getByTestId('cancel-dialog-close');
+        this.cancelDialog = page.getByTestId('confirm-dialog');
+        this.cancelDialogConfirm = page.getByTestId('confirm-dialog-confirm');
+        this.cancelDialogCancel = page.getByTestId('confirm-dialog-cancel');
         this.noSubscription = page.getByTestId('no-subscription');
     }
 
@@ -41,10 +41,10 @@ export class SettingsBillingPage {
 
     async expectCancelDialogVisible() {
         await expect(this.cancelDialogConfirm).toBeVisible();
-        await expect(this.cancelDialogClose).toBeVisible();
+        await expect(this.cancelDialogCancel).toBeVisible();
     }
 
     async closeCancelDialog() {
-        await this.cancelDialogClose.click();
+        await this.cancelDialogCancel.click();
     }
 }

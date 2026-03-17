@@ -6,6 +6,7 @@ use App\Helpers\Toast;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\User;
 use Modules\Auth\Exceptions\SocialiteException;
 use Modules\Auth\Services\SocialiteService;
 use Symfony\Component\HttpFoundation\Response as RedirectResponse;
@@ -37,7 +38,7 @@ class SocialiteController extends Controller
         // Check if user is already authenticated (account linking flow)
         if (Auth::check()) {
             try {
-                /** @var \Laravel\Socialite\Two\User $socialUser */
+                /** @var User $socialUser */
                 $socialUser = Socialite::driver($provider)->user();
                 $this->socialiteService->linkAccountToUser(Auth::user(), $provider, $socialUser);
                 Toast::success(trans('socialite.account_connected', ['provider' => ucfirst($provider)]));

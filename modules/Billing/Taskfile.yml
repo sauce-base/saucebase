@@ -8,12 +8,6 @@ tasks:
         desc: Listen to Stripe webhooks and forward to local endpoint
         cmd: stripe listen --forward-to https://localhost/billing/webhooks/stripe
 
-    # ── Code Generation ────────────────────────────────────────────
-
-    types:generate:
-        desc: Generate TypeScript types from PHP DTOs and enums
-        cmd: php artisan typescript:transform
-
     # ── Testing ───────────────────────────────────────────────────
     test:php:
         desc: Run PHPUnit tests for Billing module
@@ -23,3 +17,9 @@ tasks:
         desc: Run E2E tests for Billing module
         cmd: npx playwright test --project="@Billing*" {{.CLI_ARGS}}
         interactive: true
+
+    # ── Code Generation ────────────────────────────────────────────
+
+    types:generate:
+        desc: Generate TypeScript types from PHP DTOs and enums
+        cmd: php artisan module:generate-types Billing

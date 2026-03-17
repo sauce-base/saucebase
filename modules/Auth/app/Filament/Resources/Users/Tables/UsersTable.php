@@ -29,7 +29,6 @@ class UsersTable
                     ->sortable(),
                 TextColumn::make('email')
                     ->label(__('Email address'))
-                    ->state(fn ($record) => config('app.demo_mode') ? anonymize_email($record->email) : $record->email)
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->label(__('Role'))

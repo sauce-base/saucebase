@@ -2,6 +2,7 @@
 
 namespace Modules\Billing\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,11 +17,11 @@ use Modules\Billing\Enums\CheckoutSessionStatus;
  * @property string|null $provider_session_id
  * @property string|null $success_url
  * @property string|null $cancel_url
- * @property \Modules\Billing\Enums\CheckoutSessionStatus $status
+ * @property CheckoutSessionStatus $status
  * @property array<string, mixed>|null $metadata
- * @property \Carbon\Carbon|null $expires_at
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $expires_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class CheckoutSession extends Model
 {

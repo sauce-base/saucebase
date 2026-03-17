@@ -112,7 +112,7 @@ class CheckoutControllerTest extends TestCase
             'phone' => '+1234567890',
         ]);
 
-        $customer = \Modules\Billing\Models\Customer::where('user_id', $user->id)->first();
+        $customer = Customer::where('user_id', $user->id)->first();
         $this->assertEquals([
             'country' => 'US',
             'line1' => '123 Main St',
