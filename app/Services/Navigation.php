@@ -214,6 +214,11 @@ class Navigation extends SpatieNavigation
             $menuItem['url'] = $item['url'];
         }
 
+        // Add icon if specified
+        if (isset($attributes['icon'])) {
+            $menuItem['icon'] = $attributes['icon'];
+        }
+
         // Add optional attributes if they exist (internal attributes like 'when', 'group', 'order' are excluded)
         $optionalFields = ['action', 'type', 'external', 'newPage', 'class', 'badge'];
         foreach ($optionalFields as $field) {

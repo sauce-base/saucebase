@@ -16,6 +16,8 @@ use App\Navigation\Section;
 Navigation::add('{Module}', route('{module-}.index'), function (Section $section) {
     $section->attributes([
         'group' => 'main',
+        'slug' => '{module-}',
+        'icon' => '{module-}',
         'badge' => [
             'content' => 'New',
             'variant' => 'info',

@@ -34,7 +34,7 @@
         "@iconify/json": "^2.2.443",
         "@inertiajs/vue3": "^2.3.16",
         "@playwright/test": "^1.58.2",
-        "@saucebase/laravel-playwright": "^0.0.16",
+        "@saucebase/laravel-playwright": "^1.0",
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/postcss": "^4.2.1",
         "@tailwindcss/vite": "^4.2.1",
