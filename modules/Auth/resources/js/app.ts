@@ -1,8 +1,9 @@
 import { useDialog } from '@/composables/useDialog';
-import { registerActionHandler } from '@/utils/actionHandlers';
+import { registerAction, registerIcon } from '@/lib/navigation';
 import { router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { LogOut } from 'lucide-vue-next';
+import IconLogOut from '~icons/lucide/log-out';
 
 import '../css/style.css';
 
@@ -13,6 +14,7 @@ import '../css/style.css';
 export function setup() {
     console.debug('Auth module loaded');
 
+    registerIcon('logout', IconLogOut);
     registerAuthActions();
 }
 
@@ -21,7 +23,7 @@ export function setup() {
  */
 function registerAuthActions() {
     // Logout action
-    registerActionHandler('logout', async (event: MouseEvent) => {
+    registerAction('logout', async (event: MouseEvent) => {
         event.preventDefault();
 
         const { confirm } = useDialog();

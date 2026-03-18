@@ -1,3 +1,7 @@
+import { registerIcon } from '@/lib/navigation';
+import IconCreditCard from '~icons/lucide/credit-card';
+import IconSparkles from '~icons/lucide/sparkles';
+
 import '../css/style.css';
 
 /**
@@ -6,6 +10,9 @@ import '../css/style.css';
  */
 export function setup() {
     console.log('Billing module loaded');
+
+    registerIcon('billing', IconCreditCard);
+    registerIcon('upgrade', IconSparkles);
 }
 
 /**

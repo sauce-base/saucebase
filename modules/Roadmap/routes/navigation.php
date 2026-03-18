@@ -17,6 +17,7 @@ Navigation::add('Roadmap', route('roadmap.index'), function (Section $section) {
     $section->attributes([
         'group' => 'main',
         'slug' => 'roadmap',
+        'icon' => 'roadmap',
         'badge' => [
             'content' => 'New',
             'variant' => 'info',

@@ -1,3 +1,6 @@
+import { registerIcon } from '@/lib/navigation';
+import IconMap from '~icons/heroicons/map';
+
 import '../css/style.css';
 
 /**
@@ -6,6 +9,8 @@ import '../css/style.css';
  */
 export function setup() {
     console.log('Roadmap module loaded');
+
+    registerIcon('roadmap', IconMap);
 }
 
 /**

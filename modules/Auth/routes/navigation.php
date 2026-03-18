@@ -19,6 +19,7 @@ Navigation::add('Log out', '#', function (Section $section) {
         'group' => 'user',
         'action' => 'logout',
         'slug' => 'logout',
+        'icon' => 'logout',
         'order' => 100,
     ]);
 });
