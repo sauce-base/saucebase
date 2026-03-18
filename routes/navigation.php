@@ -18,6 +18,7 @@ Navigation::add('Dashboard', route('dashboard'), function (Section $section) {
     $section->attributes([
         'group' => 'main',
         'slug' => 'dashboard',
+        'icon' => 'dashboard',
         'order' => 0,
     ]);
 });
@@ -29,6 +30,7 @@ Navigation::add(
         $section->attributes([
             'group' => 'secondary',
             'slug' => 'github',
+            'icon' => 'github',
             'external' => true,
             'newPage' => true,
             'order' => 0,
@@ -43,6 +45,7 @@ Navigation::add(
         $section->attributes([
             'group' => 'secondary',
             'slug' => 'documentation',
+            'icon' => 'documentation',
             'external' => true,
             'newPage' => true,
             'order' => 0,
@@ -58,6 +61,7 @@ Navigation::addWhen(
         $section->attributes([
             'group' => 'secondary',
             'slug' => 'admin',
+            'icon' => 'admin',
             'order' => 10,
             'external' => true,
             'newPage' => true,

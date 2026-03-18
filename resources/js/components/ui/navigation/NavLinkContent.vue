@@ -7,6 +7,7 @@ import NavIcon from './NavIcon.vue';
 
 const props = defineProps<{
     slug?: string;
+    icon?: string | null;
     title: string;
     badge?: MenuBadge | null;
     showExternalIcon?: boolean;
@@ -26,7 +27,7 @@ const needsSpacer = computed(() => props.showExternalIcon && !props.badge);
 </script>
 
 <template>
-    <NavIcon :icon="slug" />
+    <NavIcon :icon="icon" />
     <span>{{ $t(title) }}</span>
     <NavBadge :config="badge ?? null" :class="badgeClass" />
     <span v-if="needsSpacer" class="ml-auto" />

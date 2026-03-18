@@ -19,9 +19,9 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar';
+import { handleAction } from '@/lib/navigation';
 import type { User } from '@/types';
 import type { MenuBadge, MenuItem } from '@/types/navigation';
-import { handleAction } from '@/utils/actionHandlers';
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import IconChevronsUpDown from '~icons/lucide/chevrons-up-down';
@@ -162,7 +162,7 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                     :class="['cursor-pointer', item.class]"
                                 >
                                     <NavigationIcon
-                                        :icon="item.slug"
+                                        :icon="item.icon"
                                         :class="item.class && 'text-current'"
                                     />
                                     <span>{{ $t(item.title) }}</span>
@@ -199,7 +199,7 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                     :class="item.class"
                                 >
                                     <NavigationIcon
-                                        :icon="item.slug"
+                                        :icon="item.icon"
                                         :class="item.class && 'text-current'"
                                     />
                                     <span>{{ $t(item.title) }}</span>
@@ -231,7 +231,7 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                     :class="item.class"
                                 >
                                     <NavigationIcon
-                                        :icon="item.slug"
+                                        :icon="item.icon"
                                         :class="item.class && 'text-current'"
                                     />
                                     <span>{{ $t(item.title) }}</span>

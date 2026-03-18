@@ -146,6 +146,23 @@ class NavigationTest extends TestCase
         $this->assertFalse($item['active']);
     }
 
+    public function test_transform_item_includes_icon_attribute(): void
+    {
+        $this->navigation->add('Roadmap', '/roadmap', function (Section $section) {
+            $section->attributes([
+                'group' => 'main',
+                'slug' => 'roadmap-slug',
+                'icon' => 'roadmap',
+            ]);
+        });
+
+        $grouped = $this->navigation->treeGrouped();
+        $item = $grouped['main'][0];
+
+        $this->assertEquals('roadmap-slug', $item['slug']);
+        $this->assertEquals('roadmap', $item['icon']);
+    }
+
     public function test_transform_item_includes_optional_attributes(): void
     {
         $this->navigation->add('Admin', '/admin', function (Section $section) {

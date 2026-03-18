@@ -13,8 +13,8 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import { handleAction } from '@/lib/navigation';
 import type { MenuBadge, MenuItem } from '@/types/navigation';
-import { handleAction } from '@/utils/actionHandlers';
 import { Link } from '@inertiajs/vue3';
 import { computed, inject } from 'vue';
 import IconChevronRight from '~icons/lucide/chevron-right';
@@ -104,6 +104,7 @@ function handleClick(event: MouseEvent) {
                 >
                     <NavLinkContent
                         :slug="item.slug"
+                        :icon="item.icon"
                         :title="item.title"
                         :badge="badgeConfig"
                     />
@@ -143,6 +144,7 @@ function handleClick(event: MouseEvent) {
                             >
                                 <NavLinkContent
                                     :slug="child.slug"
+                                    :icon="child.icon"
                                     :title="child.title"
                                     :badge="getChildBadgeConfig(child)"
                                     :show-external-icon="child.newPage"
@@ -157,6 +159,7 @@ function handleClick(event: MouseEvent) {
                             >
                                 <NavLinkContent
                                     :slug="child.slug"
+                                    :icon="child.icon"
                                     :title="child.title"
                                     :badge="getChildBadgeConfig(child)"
                                     :show-external-icon="child.newPage"
@@ -178,6 +181,7 @@ function handleClick(event: MouseEvent) {
         >
             <NavLinkContent
                 :slug="item.slug"
+                :icon="item.icon"
                 :title="item.title"
                 :badge="badgeConfig"
             />
@@ -201,6 +205,7 @@ function handleClick(event: MouseEvent) {
             >
                 <NavLinkContent
                     :slug="item.slug"
+                    :icon="item.icon"
                     :title="item.title"
                     :badge="badgeConfig"
                     :show-external-icon="openInNewTab"
@@ -215,6 +220,7 @@ function handleClick(event: MouseEvent) {
             >
                 <NavLinkContent
                     :slug="item.slug"
+                    :icon="item.icon"
                     :title="item.title"
                     :badge="badgeConfig"
                     :show-external-icon="openInNewTab"

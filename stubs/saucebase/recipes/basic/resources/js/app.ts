@@ -1,3 +1,6 @@
+// import { registerIcon } from '@/lib/navigation';
+// import IconExample from '~icons/lucide/example';
+
 import '../css/style.css';
 
 /**
@@ -6,6 +9,9 @@ import '../css/style.css';
  */
 export function setup() {
     console.log('{Module} module loaded');
+
+    // Register icons for navigation items defined in routes/navigation.php
+    // registerIcon('{module-}', IconExample);
 }
 
 /**
