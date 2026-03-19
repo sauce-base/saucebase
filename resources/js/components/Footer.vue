@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3';
 import IconHeart from '~icons/heroicons/heart';
 </script>
 
 <template>
     <footer class="mt-auto w-full">
-        <div class="mx-auto max-w-7xl px-6 py-8">
+        <div
+            class="mx-4 py-8 min-[450px]:mx-auto min-[450px]:max-w-7xl min-[450px]:px-6"
+        >
             <div
-                class="flex flex-col items-center justify-between gap-4 text-sm text-gray-600 md:flex-row dark:text-gray-400"
+                class="flex w-full flex-col items-center justify-between gap-4 text-sm text-gray-600 md:flex-row dark:text-gray-400"
             >
-                <div class="flex items-center gap-6">
+                <div
+                    class="flex flex-col items-center gap-y-1 md:flex-row md:items-center md:gap-x-6 md:gap-y-0"
+                >
                     <span>© {{ new Date().getFullYear() }} Saucebase</span>
                     <a
                         href="https://github.com/saucebase-dev/saucebase"
@@ -22,6 +27,18 @@ import IconHeart from '~icons/heroicons/heart';
                     >
                         {{ $t('Documentation') }}
                     </a>
+                    <Link
+                        :href="route('privacy')"
+                        class="hover:text-gray-900 dark:hover:text-white"
+                    >
+                        {{ $t('Privacy') }}
+                    </Link>
+                    <Link
+                        :href="route('terms')"
+                        class="hover:text-gray-900 dark:hover:text-white"
+                    >
+                        {{ $t('Terms') }}
+                    </Link>
                 </div>
                 <div class="flex items-center gap-1">
                     <span>{{ $t('Made with') }}</span>
