@@ -4,11 +4,11 @@ namespace App\Http\Middleware;
 
 use App\Services\Navigation;
 use Closure;
-use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Inertia\Middleware;
 use Nwidart\Modules\Facades\Module;
+use Saucebase\Breadcrumbs\Breadcrumbs;
 use Symfony\Component\HttpFoundation\Response;
 use Tighten\Ziggy\Ziggy;
 

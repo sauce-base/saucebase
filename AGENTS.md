@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Saucebase is a modular Laravel SaaS starter kit built on the VILT stack (Vue 3, Inertia.js, Laravel 12, Tailwind CSS 4). It follows a **copy-and-own philosophy** where modules are installed directly into the repository rather than being maintained as external packages. This is a Docker-first setup with hot reload, TypeScript, and built-in best practices.
+Saucebase is a modular Laravel SaaS starter kit built on the VILT stack (Vue 3, Inertia.js, Laravel 13, Tailwind CSS 4). It follows a **copy-and-own philosophy** where modules are installed directly into the repository rather than being maintained as external packages. This is a Docker-first setup with hot reload, TypeScript, and built-in best practices.
 
 **Key Technologies:**
 
-- Backend: Laravel 12, PHP 8.4+, Filament 4 admin panel
+- Backend: Laravel 13, PHP 8.4+, Filament 5 admin panel
 - Frontend: Vue 3 Composition API, TypeScript 5.8, Inertia.js 2.0, Tailwind CSS 4
 - Build: Vite 6.4 with HMR, SSR support
 - Testing: PHPUnit (backend), Playwright (E2E)
@@ -1337,16 +1337,16 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 - If you receive an "Illuminate\Foundation\ViteException: Unable to locate file in Vite manifest" error, you can run `npm run build` or ask the user to run `npm run dev` or `composer run dev`.
 
-=== laravel/v12 rules ===
+=== laravel/v13 rules ===
 
-# Laravel 12
+# Laravel 13
 
 - CRITICAL: ALWAYS use `search-docs` tool for version-specific Laravel documentation and updated code examples.
 - Since Laravel 11, Laravel has a new streamlined file structure which this project uses.
 
-## Laravel 12 Structure
+## Laravel 13 Structure
 
-- In Laravel 12, middleware are no longer registered in `app/Http/Kernel.php`.
+- In Laravel 13, middleware are no longer registered in `app/Http/Kernel.php`.
 - Middleware are configured declaratively in `bootstrap/app.php` using `Application::configure()->withMiddleware()`.
 - `bootstrap/app.php` is the file to register middleware, exceptions, and routing files.
 - `bootstrap/providers.php` contains application specific service providers.
@@ -1356,7 +1356,7 @@ protected function isAccessible(User $user, ?string $path = null): bool
 ## Database
 
 - When modifying a column, the migration must include all of the attributes that were previously defined on the column. Otherwise, they will be dropped and lost.
-- Laravel 12 allows limiting eagerly loaded records natively, without external packages: `$query->latest()->limit(10);`.
+- Laravel 13 allows limiting eagerly loaded records natively, without external packages: `$query->latest()->limit(10);`.
 
 ### Models
 
