@@ -9,10 +9,14 @@ import { Head } from '@inertiajs/vue3';
         <title>{{ $t('Privacy Policy') }}</title>
         <meta
             name="description"
-            :content="$t('How we collect, use, and protect your data.')"
+            :content="
+                $t(
+                    'Learn how Saucebase collects, uses, and protects your personal information.',
+                )
+            "
         />
     </Head>
-    <div class="relative isolate flex min-h-screen flex-col overflow-x-hidden">
+    <div class="py-10">
         <Header />
 
         <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-16">
@@ -20,11 +24,11 @@ import { Head } from '@inertiajs/vue3';
                 {{ $t('Privacy Policy') }}
             </h1>
             <p class="mb-10 text-sm text-gray-500 dark:text-gray-400">
-                {{ $t('Last updated: February 2026') }}
+                {{ $t('Last updated: January 1, 2026') }}
             </p>
 
-            <section class="space-y-8 text-gray-700 dark:text-gray-300">
-                <div>
+            <div class="space-y-10 text-gray-700 dark:text-gray-300">
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -33,13 +37,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'We collect information you provide directly when you create an account, such as your name, email address, and payment information. We also automatically collect certain usage data when you interact with our service, including log files, IP addresses, browser type, and pages visited.',
+                                'We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support. This may include your name, email address, payment information, and any other information you choose to provide.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -48,13 +52,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'We use the information we collect to provide, maintain, and improve our services, process transactions, send transactional and promotional communications, and comply with legal obligations. We do not sell your personal information to third parties.',
+                                'We use the information we collect to provide, maintain, and improve our services, process transactions, send you technical notices and support messages, and respond to your comments and questions.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -63,13 +67,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'We use cookies and similar tracking technologies to maintain your session, remember your preferences, and understand how you use our service. You can control cookie settings through your browser, though disabling cookies may affect certain features.',
+                                'We use cookies and similar tracking technologies to track activity on our service and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -78,13 +82,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'We may share your information with trusted third-party service providers who assist us in operating our platform, such as payment processors and email delivery services. These providers are contractually obligated to keep your information confidential and use it only as directed by us.',
+                                'We may employ third-party companies and individuals to facilitate our service, provide the service on our behalf, perform service-related tasks, or assist us in analyzing how our service is used. These third parties have access to your personal data only to perform these tasks.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -93,13 +97,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'We retain your personal information for as long as your account is active or as needed to provide services. You may request deletion of your account and associated data at any time by contacting us.',
+                                'We will retain your personal data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use your data to the extent necessary to comply with our legal obligations, resolve disputes, and enforce our policies.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -108,13 +112,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'We implement industry-standard security measures to protect your data, including encryption in transit and at rest. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.',
+                                'The security of your data is important to us but remember that no method of transmission over the Internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your personal data, we cannot guarantee its absolute security.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -123,12 +127,17 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'If you have any questions about this Privacy Policy or how we handle your data, please contact us at privacy@saucebase.dev.',
+                                'If you have any questions about this Privacy Policy, please contact us at',
                             )
                         }}
+                        <a
+                            href="mailto:hello@example.com"
+                            class="text-indigo-600 hover:underline dark:text-indigo-400"
+                            >hello@example.com</a
+                        >.
                     </p>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
 
         <Footer />

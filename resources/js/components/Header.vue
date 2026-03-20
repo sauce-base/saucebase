@@ -2,7 +2,7 @@
 import { modules } from '@/composables/useModules';
 import type { MenuItem } from '@/types/navigation';
 import { Link, usePage } from '@inertiajs/vue3';
-import { ExternalLink } from 'lucide-vue-next';
+import { ArrowRight, ExternalLink } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import IconMenu from '~icons/heroicons/bars-3';
 import IconX from '~icons/heroicons/x-mark';
@@ -175,41 +175,47 @@ onBeforeUnmount(() => {
                             {{ $t(item.title) }}
                         </a>
 
-                        <div class="flex flex-col space-y-3">
-                            <Link
+                        <!-- Mobile auth actions -->
+                        <div
+                            class="mt-2 border-t border-gray-200/60 pt-4 dark:border-gray-800/60"
+                        >
+                            <!-- Unauthenticated: side-by-side buttons -->
+                            <div
                                 v-if="
                                     modules().has('auth') &&
                                     !$page.props.auth?.user
                                 "
-                                :href="route('login')"
-                                class="hover:text-primary dark:hover:text-primary rounded-full px-4 py-3 text-base font-medium text-gray-900 transition-all duration-200 hover:bg-gray-50 dark:text-gray-100 dark:hover:bg-gray-800/50"
-                                @click="mobileMenuOpen = false"
+                                class="flex gap-3"
                             >
-                                {{ $t('Sign In') }}
-                            </Link>
+                                <Link
+                                    :href="route('login')"
+                                    class="flex-1 rounded-full border border-gray-300 px-4 py-2.5 text-center text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-100 dark:hover:bg-gray-800/50"
+                                    @click="mobileMenuOpen = false"
+                                >
+                                    {{ $t('Sign In') }}
+                                </Link>
+                                <Link
+                                    :href="route('register')"
+                                    class="bg-primary text-primary-foreground hover:bg-primary/90 flex flex-1 items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-200"
+                                    @click="mobileMenuOpen = false"
+                                >
+                                    {{ $t('Get Started') }}
+                                    <ArrowRight class="h-3.5 w-3.5" />
+                                </Link>
+                            </div>
 
-                            <Link
-                                v-if="
-                                    modules().has('auth') &&
-                                    !$page.props.auth?.user
-                                "
-                                :href="route('register')"
-                                class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-full px-4 py-3 text-base font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
-                                @click="mobileMenuOpen = false"
-                            >
-                                {{ $t('Get Started') }}
-                            </Link>
-
+                            <!-- Authenticated: single dashboard button -->
                             <Link
                                 v-if="
                                     modules().has('auth') &&
                                     $page.props.auth?.user
                                 "
                                 :href="route('dashboard')"
-                                class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-full px-4 py-3 text-base font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                                class="bg-primary text-primary-foreground hover:bg-primary/90 flex w-full items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-200"
                                 @click="mobileMenuOpen = false"
                             >
                                 {{ $t('Dashboard') }}
+                                <ArrowRight class="h-3.5 w-3.5" />
                             </Link>
                         </div>
                     </div>

@@ -3,10 +3,6 @@ import { expect, test } from '@e2e/fixtures';
 test.describe('Roadmap — suggest a feature (dialog)', () => {
     test.describe.configure({ mode: 'serial' });
 
-    test.beforeEach(async ({ laravel }) => {
-        await laravel.callFunction('Modules\\Roadmap\\Tests\\Support\\RoadmapTestHelper::clean');
-    });
-
     test('authenticated user sees the suggest button', async ({ page, credentials, loginAs }) => {
         await loginAs(credentials.user);
         await page.goto('/roadmap');

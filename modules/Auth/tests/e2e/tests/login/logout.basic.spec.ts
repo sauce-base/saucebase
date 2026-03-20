@@ -1,20 +1,11 @@
 import { test, expect } from '@e2e/fixtures';
-import { LoginPage } from '../../pages/LoginPage';
 
 test.describe.parallel('Logout Basics', () => {
-    let loginPage: LoginPage;
-
-    test.beforeEach(async ({ page }) => {
-        loginPage = new LoginPage(page);
-        await loginPage.goto();
-        await loginPage.expectToBeVisible();
-    });
-
-    test('logs out from user menu and redirects to login', async ({ page, credentials }) => {
+    test('logs out from user menu and redirects to login', async ({ page, credentials, loginAs }) => {
         const user = credentials.user;
 
-        // Login first
-        await loginPage.login(user.email, user.password);
+        await loginAs(user);
+        await page.goto('/dashboard');
         await expect(page).toHaveURL('/dashboard');
 
         // Open user menu using the test ID
@@ -41,10 +32,11 @@ test.describe.parallel('Logout Basics', () => {
         await expect(page).toHaveURL('/auth/login');
     });
 
-    test('clicking outside the logout dialog does not dismiss it', async ({ page, credentials }) => {
+    test('clicking outside the logout dialog does not dismiss it', async ({ page, credentials, loginAs }) => {
         const user = credentials.user;
 
-        await loginPage.login(user.email, user.password);
+        await loginAs(user);
+        await page.goto('/dashboard');
         await expect(page).toHaveURL('/dashboard');
 
         const userMenuTrigger = page.getByTestId('user-menu-trigger');
@@ -64,11 +56,11 @@ test.describe.parallel('Logout Basics', () => {
         await expect(confirmDialog).toBeVisible();
     });
 
-    test('cancelling logout dialog keeps user logged in', async ({ page, credentials }) => {
+    test('cancelling logout dialog keeps user logged in', async ({ page, credentials, loginAs }) => {
         const user = credentials.user;
 
-        // Login first
-        await loginPage.login(user.email, user.password);
+        await loginAs(user);
+        await page.goto('/dashboard');
         await expect(page).toHaveURL('/dashboard');
 
         // Open user menu

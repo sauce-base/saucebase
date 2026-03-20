@@ -23,7 +23,7 @@ const email = computed(() =>
         <Form
             :action="route('password.email')"
             method="post"
-            class="min-w-sm space-y-3"
+            class="w-full space-y-3"
             data-testid="forgot-password-form"
             disable-while-processing
             :reset-on-success="['email']"
@@ -38,10 +38,10 @@ const email = computed(() =>
                 autocomplete="email"
             />
 
-            <div class="flex items-center justify-between pt-1">
+            <div class="flex flex-col-reverse gap-2 pt-1 sm:flex-row sm:items-center sm:justify-between">
                 <Link
                     :href="route('login')"
-                    class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                    class="mt-4 text-center text-sm text-gray-600 hover:text-gray-900 sm:mt-0 sm:text-left dark:text-gray-400 dark:hover:text-gray-100"
                     data-testid="back-to-login-link"
                 >
                     {{ $t('Back to login') }}

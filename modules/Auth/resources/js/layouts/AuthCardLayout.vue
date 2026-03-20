@@ -29,8 +29,9 @@ defineProps<{
             </Link>
         </div>
 
-        <div class="grow">
-            <Card :class="['mx-4', cardClass]">
+        <div class="grow flex w-full flex-col items-center">
+            <div class="w-full px-4 min-[450px]:w-auto min-[450px]:px-0 min-[450px]:min-w-md">
+            <Card :class="cardClass">
                 <CardHeader class="px-8 text-center">
                     <CardTitle class="text-2xl">
                         {{ title }}
@@ -51,6 +52,7 @@ defineProps<{
                     </PageTransition>
                 </CardContent>
             </Card>
+            </div>
             <slot name="outside" />
         </div>
         <Footer class="mt-6 w-full" />

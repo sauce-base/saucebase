@@ -9,10 +9,14 @@ import { Head } from '@inertiajs/vue3';
         <title>{{ $t('Terms of Service') }}</title>
         <meta
             name="description"
-            :content="$t('Terms and conditions for using our service.')"
+            :content="
+                $t(
+                    'Read our Terms of Service to understand the rules and guidelines for using Saucebase.',
+                )
+            "
         />
     </Head>
-    <div class="relative isolate flex min-h-screen flex-col overflow-x-hidden">
+    <div class="py-10">
         <Header />
 
         <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-16">
@@ -20,11 +24,11 @@ import { Head } from '@inertiajs/vue3';
                 {{ $t('Terms of Service') }}
             </h1>
             <p class="mb-10 text-sm text-gray-500 dark:text-gray-400">
-                {{ $t('Last updated: February 2026') }}
+                {{ $t('Last updated: January 1, 2026') }}
             </p>
 
-            <section class="space-y-8 text-gray-700 dark:text-gray-300">
-                <div>
+            <div class="space-y-10 text-gray-700 dark:text-gray-300">
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -33,13 +37,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'By accessing or using our service, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our service.',
+                                'By accessing or using Saucebase, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our service.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -48,13 +52,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'You agree to use the service only for lawful purposes and in accordance with these terms. You must not use the service to transmit harmful, offensive, or illegal content, or to violate the rights of others.',
+                                'You agree to use Saucebase only for lawful purposes and in accordance with these Terms. You must not use the service in any way that violates applicable local, national, or international laws or regulations.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -63,13 +67,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account. You must notify us immediately of any unauthorized use of your account. We reserve the right to terminate accounts at our discretion.',
+                                'When you create an account with us, you must provide accurate and complete information. You are responsible for safeguarding your account credentials and for all activity that occurs under your account.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -78,28 +82,28 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'The service and its original content, features, and functionality are owned by us and are protected by applicable intellectual property laws. You may not copy, modify, or distribute our content without prior written consent.',
+                                'The service and its original content, features, and functionality are and will remain the exclusive property of Saucebase and its licensors. Our trademarks and trade dress may not be used without our prior written consent.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
-                        {{ $t('5. Payments and Billing') }}
+                        {{ $t('5. Payments and Refunds') }}
                     </h2>
                     <p>
                         {{
                             $t(
-                                'Paid plans are billed in advance on a recurring basis. You authorize us to charge your payment method for all fees associated with your plan. Refunds are issued at our sole discretion. You may cancel your subscription at any time, and access will continue until the end of the current billing period.',
+                                'Certain features of Saucebase may require payment. You agree to pay all applicable fees as described on our pricing page. All payments are non-refundable unless otherwise specified or required by law.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -108,13 +112,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'The service is provided "as is" without warranties of any kind, express or implied. We do not warrant that the service will be uninterrupted, error-free, or free of viruses. Your use of the service is at your own risk.',
+                                'Saucebase is provided on an "as is" and "as available" basis without any warranties of any kind, either express or implied. We do not warrant that the service will be uninterrupted, error-free, or completely secure.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -123,13 +127,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'To the fullest extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the service, even if we have been advised of the possibility of such damages.',
+                                'To the fullest extent permitted by law, Saucebase shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the service.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -138,13 +142,13 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'We reserve the right to modify these terms at any time. We will provide notice of significant changes by updating the date at the top of this page. Continued use of the service after changes constitutes acceptance of the new terms.',
+                                'We reserve the right to modify these terms at any time. We will notify users of significant changes by updating the date at the top of this page. Your continued use of the service after changes constitutes acceptance of the new terms.',
                             )
                         }}
                     </p>
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <h2
                         class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                     >
@@ -153,12 +157,17 @@ import { Head } from '@inertiajs/vue3';
                     <p>
                         {{
                             $t(
-                                'If you have any questions about these Terms of Service, please contact us at legal@saucebase.dev.',
+                                'If you have any questions about these Terms of Service, please contact us at',
                             )
                         }}
+                        <a
+                            href="mailto:hello@example.com"
+                            class="text-indigo-600 hover:underline dark:text-indigo-400"
+                            >hello@example.com</a
+                        >.
                     </p>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
 
         <Footer />

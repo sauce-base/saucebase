@@ -48,7 +48,7 @@ class SocialiteController extends Controller
                 Toast::error(trans('socialite.error'));
                 report($e);
             } finally {
-                return redirect()->route('settings.profile');
+                return back();
             }
         }
 
@@ -65,7 +65,8 @@ class SocialiteController extends Controller
             ]),
         );
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()->intended(route('dashboard'))
+            ->withCookie(cookie('last_social_provider', $provider, 60 * 24 * 365));
     }
 
     /**

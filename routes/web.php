@@ -11,6 +11,9 @@ Route::get('/', IndexController::class)->name('index');
 Route::get('/privacy', PrivacyController::class)->name('privacy');
 Route::get('/terms', TermsController::class)->name('terms');
 
+Route::get('/privacy', PrivacyController::class)->name('privacy');
+Route::get('/terms', TermsController::class)->name('terms');
+
 Route::post('/locale/{locale}', LocalizationController::class)->name('locale');
 
 Route::middleware(['auth', 'verified', 'role:admin|user'])->group(function () {

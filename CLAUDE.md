@@ -6,7 +6,7 @@ Saucebase is a modular Laravel SaaS starter kit (VILT stack). Modules are instal
 
 **Core message:** The foundation is built. Focus on your product. See [`docs/CLAUDE.md`](../docs/CLAUDE.md) → _Saucebase Philosophy_ for tone and value-proposition guidance.
 
-**Stack:** Laravel 12, PHP 8.4+, Vue 3 Composition API, TypeScript 5.8, Inertia.js 2, Tailwind CSS 4, Vite 6.4, Filament 5 admin panel, Docker (Nginx, MySQL 8, Redis, Mailpit)
+**Stack:** Laravel 13, PHP 8.4+, Vue 3 Composition API, TypeScript 5.8, Inertia.js 2, Tailwind CSS 4, Vite 6.4, Filament 5 admin panel, Docker (Nginx, MySQL 8, Redis, Mailpit)
 
 **Quality tools:** PHPStan level 5 (Larastan), Laravel Pint, ESLint, Prettier, PHPUnit 12, Playwright
 
@@ -32,6 +32,8 @@ npm run build            # Production build (includes SSR)
 npm run dev              # Vite dev server with HMR
 
 # Modules
+php artisan saucebase:recipe ModuleName     # Scaffold a new module from a recipe (stubs)
+# After scaffolding: composer dump-autoload && php artisan module:enable ModuleName
 php artisan module:list
 php artisan module:enable ModuleName
 php artisan module:disable ModuleName
@@ -202,7 +204,7 @@ Spatie Laravel Navigation, configured in `NavigationServiceProvider`.
 
 ### Environment Variables
 
-Saucebase-specific: `APP_HOST`, `APP_URL`, `APP_SLUG`, `VITE_LOCAL_STORAGE_KEY`
+Saucebase-specific: `APP_HOST`, `APP_URL`, `APP_SLUG`,
 
 SSL: Auto-enforced HTTPS in production/staging. Wildcard cert (`*.localhost`) for multi-tenancy support.
 
@@ -247,6 +249,131 @@ All lowercase, single-line only, max 150 chars. Enforced by commitlint + Husky.
 ===
 
 <laravel-boost-guidelines>
+=== .ai/saucebase-core rules ===
+
+## Saucebase
+
+Saucebase is a modular Laravel SaaS starter kit (VILT stack). All features are encapsulated as **modules** under `modules/<ModuleName>/`. Modules are copy-and-own: once installed they live in the repo and can be edited freely.
+
+### Module Creation
+
+Use `php artisan saucebase:recipe {ModuleName}` to scaffold a new module from stubs. After scaffolding: `composer dump-autoload` → `php artisan module:enable ModuleName` → rebuild assets.
+
+### Module System
+
+Modules are managed by `nwidart/laravel-modules`. Enable state is tracked in `modules_statuses.json`.
+
+**Module discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from enabled modules. Never bypass it.
+
+**Inertia page resolution:**
+
+<code-snippet name="Inertia rendering" lang="php">
+return inertia('Dashboard');           // resources/js/pages/Dashboard.vue
+return inertia('Auth::Login');         // modules/Auth/resources/js/pages/Login.vue
+return inertia('Roadmap::Index');      // modules/Roadmap/resources/js/pages/Index.vue
+</code-snippet>
+
+**SSR control** — opt in per response, not globally:
+
+<code-snippet name="SSR control macros" lang="php">
+return Inertia::render('Index')->withSSR();        // public/SEO pages
+return Inertia::render('Dashboard')->withoutSSR(); // authenticated pages
+</code-snippet>
+
+### Required: Dark Mode
+
+Every Vue component **must** include both light and dark variants using `dark:` prefix. Standard patterns:
+
+- Backgrounds: `bg-white dark:bg-gray-900`
+- Text primary: `text-gray-900 dark:text-white`
+- Text secondary: `text-gray-600 dark:text-gray-400`
+- Borders: `border-gray-200 dark:border-gray-800`
+
+### Required: E2E Selectors
+
+Always use `data-testid` attributes — never select by translated text, labels, or role names. Item-specific IDs: `{action}-${item.id}` (e.g. `upvote-btn-${item.id}`).
+
+### Module Service Provider Pattern
+
+Every module's main service provider must extend `App\Providers\ModuleServiceProvider` and define `$name` and `$nameLower`. Both properties are required — the base class throws a `LogicException` if either is missing.
+
+<code-snippet name="Module service provider" lang="php">
+class FeatureServiceProvider extends ModuleServiceProvider
+{
+    protected string $name = 'Feature';
+    protected string $nameLower = 'feature';
+
+    protected array $providers = [
+        RouteServiceProvider::class,
+    ];
+
+    // Optional: override to share data on every Inertia response
+    protected function shareInertiaData(): void
+    {
+        Inertia::share('key', fn () => ...);
+    }
+
+}
+</code-snippet>
+
+### Filament Plugin Pattern
+
+Every module that adds Filament resources must have a plugin class implementing `Filament\Contracts\Plugin` and using the `App\Filament\ModulePlugin` trait. The plugin is auto-discovered by convention: `Modules\{Name}\Filament\{Name}Plugin`.
+
+<code-snippet name="Filament module plugin" lang="php">
+class FeaturePlugin implements Plugin
+{
+    use ModulePlugin;
+
+    public function getModuleName(): string { return 'Feature'; }
+    public function getId(): string { return 'feature'; }
+    public function boot(Panel $panel): void { /* navigation groups, etc. */ }
+
+}
+</code-snippet>
+
+### Navigation
+
+Frontend navigation is registered in `routes/navigation.php` per module. If a module has no frontend pages (admin-only), leave this file empty.
+
+<code-snippet name="Module navigation registration" lang="php">
+Navigation::add('Feature', route('feature.index'), function (Section $section) {
+    $section->attributes([
+        'group' => 'main',
+        'slug' => 'feature',
+        'icon' => 'feature-icon-name',
+    ]);
+});
+</code-snippet>
+
+Icons are registered in the module's `resources/js/app.ts` via `registerIcon()`.
+
+### TypeScript Types
+
+Module types are generated separately from the core app:
+
+```bash
+php artisan module:generate-types FeatureName   # regenerate after PHP enum/DTO changes
+
+```
+
+Never edit `resources/js/types/generated.d.ts` manually — it is auto-generated.
+
+### Testing Commands
+
+```bash
+
+# PHPUnit — single module
+
+php -d memory_limit=2048M artisan test --testsuite=Modules --filter='^Modules\FeatureName\Tests'
+
+# E2E — single module
+
+npx playwright test --project="@FeatureName*"
+```
+
+Always run with `php -d memory_limit=2048M` to avoid OOM errors in the Modules suite.
+
 === foundation rules ===
 
 # Laravel Boost Guidelines
@@ -257,7 +384,7 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
-- php - 8.4.18
+- php - 8.4
 - filament/filament (FILAMENT) - v5
 - inertiajs/inertia-laravel (INERTIA_LARAVEL) - v2
 - laravel/ai (AI) - v0
@@ -285,8 +412,8 @@ This application is a Laravel application and its main Laravel ecosystems packag
 This project has domain-specific skills available. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
 
 - `socialite-development` — Manages OAuth social authentication with Laravel Socialite. Activate when adding social login providers; configuring OAuth redirect/callback flows; retrieving authenticated user details; customizing scopes or parameters; setting up community providers; testing with Socialite fakes; or when the user mentions social login, OAuth, Socialite, or third-party authentication.
-- `inertia-vue-development` — Develops Inertia.js v2 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using &lt;Link&gt;, &lt;Form&gt;, useForm, or router; working with deferred props, prefetching, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
-- `tailwindcss-development` — Styles applications using Tailwind CSS v4 utilities. Activates when adding styles, restyling components, working with gradients, spacing, layout, flex, grid, responsive design, dark mode, colors, typography, or borders; or when the user mentions CSS, styling, classes, Tailwind, restyle, hero section, cards, buttons, or any visual/UI changes.
+- `inertia-vue-development` — Develops Inertia.js v2 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using <Link>, <Form>, useForm, or router; working with deferred props, prefetching, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
+- `tailwindcss-development` — Always invoke when the user's message includes 'tailwind' in any form. Also invoke for: building responsive grid layouts (multi-column card grids, product grids), flex/grid page structures (dashboards with sidebars, fixed topbars, mobile-toggle navs), styling UI components (cards, tables, navbars, pricing sections, forms, inputs, badges), adding dark mode variants, fixing spacing or typography, and Tailwind v3/v4 work. The core use case: writing or fixing Tailwind utility classes in HTML templates (Blade, JSX, Vue). Skip for backend PHP logic, database queries, API routes, JavaScript with no HTML/CSS component, CSS file audits, build tool configuration, and vanilla CSS.
 - `developing-with-ai-sdk` — Builds AI agents, generates text and chat responses, produces images, synthesizes audio, transcribes speech, generates vector embeddings, reranks documents, and manages files and vector stores using the Laravel AI SDK (laravel/ai). Supports structured output, streaming, tools, conversation memory, middleware, queueing, broadcasting, and provider failover. Use when building, editing, updating, debugging, or testing any AI functionality, including agents, LLMs, chatbots, text generation, image generation, audio, transcription, embeddings, RAG, similarity search, vector stores, prompting, structured output, or any AI provider (OpenAI, Anthropic, Gemini, Cohere, Groq, xAI, ElevenLabs, Jina, OpenRouter).
 
 ## Conventions
@@ -324,7 +451,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 
 ## Artisan Commands
 
-- Run Artisan commands directly via the command line (e.g., `php artisan route:list`, `php artisan tinker --execute &quot;...&quot;`).
+- Run Artisan commands directly via the command line (e.g., `php artisan route:list`, `php artisan tinker --execute "..."`).
 - Use `php artisan list` to discover available commands and `php artisan [command] --help` to check parameters.
 
 ## URLs
@@ -335,7 +462,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 
 - Use the `database-query` tool when you only need to read from the database.
 - Use the `database-schema` tool to inspect table structure before writing migrations or models.
-- To execute PHP code for debugging, run `php artisan tinker --execute &quot;your code here&quot;` directly.
+- To execute PHP code for debugging, run `php artisan tinker --execute "your code here"` directly.
 - To read configuration values, read the config files directly or run `php artisan config:show [key]`.
 - To inspect routes, run `php artisan route:list` directly.
 - To check environment variables, read the `.env` file directly.
@@ -475,26 +602,26 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 - If you receive an "Illuminate\Foundation\ViteException: Unable to locate file in Vite manifest" error, you can run `npm run build` or ask the user to run `npm run dev` or `composer run dev`.
 
-=== laravel/v12 rules ===
+=== laravel/v13 rules ===
 
-# Laravel 12
+# Laravel 13
 
 - CRITICAL: ALWAYS use `search-docs` tool for version-specific Laravel documentation and updated code examples.
 - Since Laravel 11, Laravel has a new streamlined file structure which this project uses.
 
-## Laravel 12 Structure
+## Laravel 13 Structure
 
-- In Laravel 12, middleware are no longer registered in `app/Http/Kernel.php`.
+- In Laravel 13, middleware are no longer registered in `app/Http/Kernel.php`.
 - Middleware are configured declaratively in `bootstrap/app.php` using `Application::configure()->withMiddleware()`.
 - `bootstrap/app.php` is the file to register middleware, exceptions, and routing files.
 - `bootstrap/providers.php` contains application specific service providers.
-- The `app\Console\Kernel.php` file no longer exists; use `bootstrap/app.php` or `routes/console.php` for console configuration.
+- The `app/Console/Kernel.php` file no longer exists; use `bootstrap/app.php` or `routes/console.php` for console configuration.
 - Console commands in `app/Console/Commands/` are automatically available and do not require manual registration.
 
 ## Database
 
 - When modifying a column, the migration must include all of the attributes that were previously defined on the column. Otherwise, they will be dropped and lost.
-- Laravel 12 allows limiting eagerly loaded records natively, without external packages: `$query->latest()->limit(10);`.
+- Laravel 13 allows limiting eagerly loaded records natively, without external packages: `$query->latest()->limit(10);`.
 
 ### Models
 
@@ -532,14 +659,6 @@ protected function isAccessible(User $user, ?string $path = null): bool
 Vue components must have a single root element.
 
 - IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
-
-=== tailwindcss/core rules ===
-
-# Tailwind CSS
-
-- Always use existing Tailwind conventions; check project patterns before adding new ones.
-- IMPORTANT: Always use `search-docs` tool for version-specific Tailwind CSS documentation and updated code examples. Never rely on training data.
-- IMPORTANT: Activate `tailwindcss-development` every time you're working with a Tailwind CSS or styling-related task.
 
 === filament/filament rules ===
 

@@ -1,7 +1,7 @@
 <?php
 
-use Diglactic\Breadcrumbs\Breadcrumbs;
-use Diglactic\Breadcrumbs\Generator as Trail;
+use Saucebase\Breadcrumbs\Breadcrumbs;
+use Saucebase\Breadcrumbs\Generator as Trail;
 
 // Billing settings
 Breadcrumbs::for('settings.billing', function (Trail $trail) {

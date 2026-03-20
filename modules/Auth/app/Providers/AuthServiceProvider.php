@@ -31,6 +31,7 @@ class AuthServiceProvider extends ModuleServiceProvider
     protected function shareInertiaData(): void
     {
         Inertia::share('auth.user', fn () => Auth::user());
+        Inertia::share('auth.last_social_provider', fn () => request()->cookie('last_social_provider'));
 
         Inertia::share('impersonation', function () {
             if (! $this->isUserImpersonated()) {
