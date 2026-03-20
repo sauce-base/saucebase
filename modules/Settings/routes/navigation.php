@@ -18,6 +18,7 @@ Navigation::add('Settings', route('settings.index'), function (Section $section)
     $section->attributes([
         'group' => 'user',
         'slug' => 'settings',
+        'icon' => 'settings',
         'order' => 10,
     ]);
 });
@@ -27,6 +28,7 @@ Navigation::add('General', route('settings.index'), function (Section $section) 
     $section->attributes([
         'group' => 'settings',
         'slug' => 'settings',
+        'icon' => 'settings',
         'order' => 10,
     ]);
 });
@@ -36,6 +38,7 @@ Navigation::add('Profile', route('settings.profile'), function (Section $section
     $section->attributes([
         'group' => 'settings',
         'slug' => 'profile',
+        'icon' => 'profile',
         'order' => 20,
     ]);
 });
@@ -45,6 +48,7 @@ Navigation::add('Settings', route('settings.index'), function (Section $section)
     $section->attributes([
         'group' => 'secondary',
         'slug' => 'settings',
+        'icon' => 'settings',
         'order' => 10,
         'badge' => [
             'content' => '1',

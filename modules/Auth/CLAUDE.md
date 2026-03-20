@@ -49,7 +49,7 @@ Also prevents account takeover: linking a social ID already owned by another use
 Uses `lab404/laravel-impersonate` + `filament-impersonate`. Session stores history at `impersonation.recent_history` (max 4 user IDs). `ReimpersonateController` lets admins re-impersonate from recent list (max 3 shown in UI, filters deleted users and self). Stop via `filament-impersonate.leave` route.
 
 ### Logout Action Handler
-`app.ts` registers a frontend action handler (`registerActionHandler('logout', ...)`) that shows a confirmation dialog and posts to `route('logout')`.
+`app.ts` registers a logout icon and action handler via `registerIcon('logout', ...)` and `registerAction('logout', ...)` from `@/lib/navigation`. The action shows a confirmation dialog and posts to `route('logout')`.
 
 ## ENV Variables
 

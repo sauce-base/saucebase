@@ -30,6 +30,7 @@ Navigation::addWhen(fn () => ! Auth::user()?->isSubscriber(), 'Upgrade', '/#pric
     $section->attributes([
         'group' => 'user',
         'slug' => 'upgrade',
+        'icon' => 'upgrade',
         'order' => 0,
         'class' => 'text-yellow-600 hover:text-yellow-700 dark:hover:text-yellow-400',
     ]);
@@ -40,6 +41,7 @@ Navigation::add('Billing', route('settings.billing'), function (Section $section
     $section->attributes([
         'group' => 'settings',
         'slug' => 'billing',
+        'icon' => 'billing',
         'order' => 30,
     ]);
 });

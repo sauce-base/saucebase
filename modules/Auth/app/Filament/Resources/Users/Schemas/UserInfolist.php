@@ -54,7 +54,7 @@ class UserInfolist
                             TextEntry::make('roles.name')
                                 ->label(__('Role'))
                                 ->badge()
-                                ->color(fn (string $state): string => Role::fromString($state)->color())
+                                ->color(fn (string $state): string => Role::fromString($state)->getColor())
                                 ->default(__('No role assigned')),
                         ])
                         ->columnSpan(1),

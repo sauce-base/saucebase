@@ -1,4 +1,6 @@
-// import type { App } from 'vue';
+import { registerIcon } from '@/lib/navigation';
+import IconSettings from '~icons/lucide/settings';
+import IconUserCircle from '~icons/lucide/user-circle';
 
 import '../css/style.css';
 
@@ -10,6 +12,9 @@ import '../css/style.css';
  */
 export function setup() {
     console.debug('Settings module loaded');
+
+    registerIcon('settings', IconSettings);
+    registerIcon('profile', IconUserCircle);
 }
 
 /**
