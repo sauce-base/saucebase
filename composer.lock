@@ -380,16 +380,16 @@
         },
         {
             "name": "chillerlan/php-settings-container",
-            "version": "3.2.1",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chillerlan/php-settings-container.git",
-                "reference": "95ed3e9676a1d47cab2e3174d19b43f5dbf52681"
+                "reference": "a0a487cbf5344f721eb504bf0f59bada40c381b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chillerlan/php-settings-container/zipball/95ed3e9676a1d47cab2e3174d19b43f5dbf52681",
-                "reference": "95ed3e9676a1d47cab2e3174d19b43f5dbf52681",
+                "url": "https://api.github.com/repos/chillerlan/php-settings-container/zipball/a0a487cbf5344f721eb504bf0f59bada40c381b7",
+                "reference": "a0a487cbf5344f721eb504bf0f59bada40c381b7",
                 "shasum": ""
             },
             "require": {
@@ -397,11 +397,13 @@
                 "php": "^8.1"
             },
             "require-dev": {
+                "phan/phan": "^5.5.2",
                 "phpmd/phpmd": "^2.15",
-                "phpstan/phpstan": "^1.11",
-                "phpstan/phpstan-deprecation-rules": "^1.2",
+                "phpstan/phpstan": "^2.1.31",
+                "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^10.5",
-                "squizlabs/php_codesniffer": "^3.10"
+                "slevomat/coding-standard": "^8.22",
+                "squizlabs/php_codesniffer": "^4.0"
             },
             "type": "library",
             "autoload": {
@@ -426,7 +428,8 @@
                 "Settings",
                 "configuration",
                 "container",
-                "helper"
+                "helper",
+                "property hook"
             ],
             "support": {
                 "issues": "https://github.com/chillerlan/php-settings-container/issues",
@@ -442,7 +445,7 @@
                     "type": "ko_fi"
                 }
             ],
-            "time": "2024-07-16T11:13:48+00:00"
+            "time": "2026-03-20T21:10:52+00:00"
         },
         {
             "name": "cocur/slugify",
@@ -6348,16 +6351,16 @@
         },
         {
             "name": "saucebase/announcements",
-            "version": "v0.3.1",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/announcements.git",
-                "reference": "64e62922d3d044588424a81ca31710687e667f35"
+                "reference": "0678d7b47f111ef5f17a06900a1b43fcac92582d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/announcements/zipball/64e62922d3d044588424a81ca31710687e667f35",
-                "reference": "64e62922d3d044588424a81ca31710687e667f35",
+                "url": "https://api.github.com/repos/saucebase-dev/announcements/zipball/0678d7b47f111ef5f17a06900a1b43fcac92582d",
+                "reference": "0678d7b47f111ef5f17a06900a1b43fcac92582d",
                 "shasum": ""
             },
             "type": "saucebase-module",
@@ -6383,22 +6386,22 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/announcements/issues",
-                "source": "https://github.com/saucebase-dev/announcements/tree/v0.3.1"
+                "source": "https://github.com/saucebase-dev/announcements/tree/v0.4.0"
             },
-            "time": "2026-03-18T19:54:37+00:00"
+            "time": "2026-03-21T14:51:00+00:00"
         },
         {
             "name": "saucebase/auth",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/auth.git",
-                "reference": "92c761972a69a8d609f682d05c4a703ecc9b764d"
+                "reference": "5de06db0517d987ee12c6efa1c0528e2bcedec32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/auth/zipball/92c761972a69a8d609f682d05c4a703ecc9b764d",
-                "reference": "92c761972a69a8d609f682d05c4a703ecc9b764d",
+                "url": "https://api.github.com/repos/saucebase-dev/auth/zipball/5de06db0517d987ee12c6efa1c0528e2bcedec32",
+                "reference": "5de06db0517d987ee12c6efa1c0528e2bcedec32",
                 "shasum": ""
             },
             "require": {
@@ -6428,9 +6431,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/auth/issues",
-                "source": "https://github.com/saucebase-dev/auth/tree/v1.5.0"
+                "source": "https://github.com/saucebase-dev/auth/tree/v1.6.0"
             },
-            "time": "2026-03-19T16:54:56+00:00"
+            "time": "2026-03-21T14:50:52+00:00"
         },
         {
             "name": "saucebase/billing",
