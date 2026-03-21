@@ -47,15 +47,18 @@ class MagicLinkController extends Controller implements HasMiddleware
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
-            MagicLinkToken::where('user_id', $user->id)->delete();
-
             $plainToken = Str::random(64);
 
-            $token = MagicLinkToken::create([
-                'user_id' => $user->id,
-                'token' => hash('sha256', $plainToken),
-                'expires_at' => now()->addMinutes(config('auth.magic_link.expiry', 15)),
-            ]);
+            MagicLinkToken::upsert(
+                [[
+                    'user_id' => $user->id,
+                    'token' => hash('sha256', $plainToken),
+                    'expires_at' => now()->addMinutes(config('auth.magic_link.expiry', 15)),
+                    'used_at' => null,
+                ]],
+                ['user_id'],
+                ['token', 'expires_at', 'used_at']
+            );
 
             $url = route('magic-link.authenticate', ['token' => $plainToken]);
 
@@ -74,15 +77,21 @@ class MagicLinkController extends Controller implements HasMiddleware
      */
     public function authenticate(Request $request, string $token): \Symfony\Component\HttpFoundation\Response
     {
-        $record = MagicLinkToken::where('token', hash('sha256', $token))->first();
+        $hashed = hash('sha256', $token);
 
-        if (! $record || ! $record->isValid()) {
+        $now = now();
+
+        $consumed = MagicLinkToken::where('token', $hashed)
+            ->whereNull('used_at')
+            ->where('expires_at', '>', $now)
+            ->update(['used_at' => $now]);
+
+        if (! $consumed) {
             return redirect()->route('login')->with('error', __('auth.magic-link-expired'));
         }
 
-        $record->markAsUsed();
-
-        $user = $record->user;
+        $record = MagicLinkToken::where('token', $hashed)->with('user')->first();
+        $user = $record?->user;
 
         if ($user === null) {
             return redirect()->route('login')->with('error', __('auth.magic-link-expired'));

@@ -13,7 +13,7 @@ test.describe.parallel('Magic Link Config', () => {
         expect(response?.status()).toBe(404);
     });
 
-    test('magic link link is hidden on login page when feature is disabled', async ({
+    test('magic link is hidden on login page when feature is disabled', async ({
         page,
         laravel,
     }) => {

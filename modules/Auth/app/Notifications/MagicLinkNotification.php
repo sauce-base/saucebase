@@ -30,7 +30,9 @@ class MagicLinkNotification extends Notification
         return (new MailMessage)
             ->subject(__('Your magic login link for :app', ['app' => config('app.name')]))
             ->greeting(__('Hello :name,', ['name' => $notifiable->name]))
-            ->line(__('Click the button below to log in. This link expires in 15 minutes and can only be used once.'))
+            ->line(__('Click the button below to log in. This link expires in :expiry and can only be used once.', [
+                'expiry' => trans_choice(':count minute|:count minutes', config('auth.magic_link.expiry', 15)),
+            ]))
             ->action(__('Log in'), $this->url)
             ->line(__('If you did not request this link, you can safely ignore this email.'));
     }

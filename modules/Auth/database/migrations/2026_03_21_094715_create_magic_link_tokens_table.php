@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('magic_link_tokens', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
             $table->string('token')->unique();
             $table->timestamp('expires_at');
             $table->timestamp('used_at')->nullable();
