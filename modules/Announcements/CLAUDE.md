@@ -48,13 +48,14 @@ Two boolean flags on the model:
 ### Creator Tracking
 `CreateAnnouncement::mutateFormDataBeforeCreate()` sets `created_by = auth()->id()` automatically.
 
-### Core Integration (Manual Steps)
-The module ships two patches that must be applied to the core app:
+### Core Integration
+The module ships one patch that must be applied to the core app:
 
 | Patch | Change |
 |-------|--------|
 | `patches/app-vue.patch` | Imports `AnnouncementBanner` and adds it to `App.vue` template |
-| `patches/types.patch` | Adds `Announcement` import and `announcement?: Announcement \| null` to `PageProps` in `resources/js/types/index.d.ts` |
+
+The `announcement` TypeScript type is handled automatically via `resources/js/types/page-props.d.ts`, which augments `@inertiajs/vue3`'s `PageProps` — no manual core edit required.
 
 ## Configuration
 
@@ -79,6 +80,6 @@ npx playwright test --project="@Announcements*"                         # E2E
 ## Gotchas
 
 - No frontend routes or pages — this module is admin-only; the banner is rendered by core `App.vue`
-- The two core patches (`app-vue.patch`, `types.patch`) are required for the banner to appear; without them the component is never mounted
+- Only `app-vue.patch` is required for the banner to appear; without it the component is never mounted. TypeScript types are automatic via `page-props.d.ts`
 - Cookie is set for 1 year (60 × 24 × 365 minutes); users (or the app) can clear/overwrite it to re-show the same announcement, but if you want to re-show to users who dismissed it without touching cookies, publish a new announcement (new ID)
 - `show_on_frontend` / `show_on_dashboard` are independent — an announcement can target one or both audiences

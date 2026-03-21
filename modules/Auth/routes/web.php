@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Http\Controllers\EmailVerificationNotificationController;
+use Modules\Auth\Http\Controllers\MagicLinkController;
 use Modules\Auth\Http\Controllers\EmailVerificationPromptController;
 use Modules\Auth\Http\Controllers\ForgotPasswordController;
 use Modules\Auth\Http\Controllers\LoginController;
@@ -37,6 +38,13 @@ Route::prefix('auth')->group(function () {
         Route::post('reset-password', [ResetPasswordController::class, 'store'])
             ->middleware('throttle:6,1')
             ->name('password.store');
+
+        Route::get('magic-link', [MagicLinkController::class, 'create'])
+            ->name('magic-link.create');
+
+        Route::post('magic-link', [MagicLinkController::class, 'store'])
+            ->middleware('throttle:5,1')
+            ->name('magic-link.store');
     });
 
     Route::middleware('auth')->group(function () {
@@ -76,4 +84,14 @@ Route::prefix('auth')->group(function () {
 
     Route::get('socialite/{provider}/callback', [SocialiteController::class, 'callback'])
         ->name('auth.socialite.callback');
+
+    /**
+     * Magic Link Authentication
+     *
+     * Placed outside guest/auth groups because the user clicking the link
+     * is not yet authenticated (they are in their email client).
+     */
+    Route::get('magic-link/{token}', [MagicLinkController::class, 'authenticate'])
+        ->middleware('throttle:10,1')
+        ->name('magic-link.authenticate');
 });

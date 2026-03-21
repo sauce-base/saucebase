@@ -18,4 +18,6 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'verification-link-sent' => 'A fresh verification link has been sent to your email address.',
+    'magic-link-sent' => "If an account with that email exists, we've sent a magic login link.",
+    'magic-link-expired' => 'This magic link has expired or has already been used.',
 ];

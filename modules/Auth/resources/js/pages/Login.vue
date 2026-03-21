@@ -91,8 +91,19 @@ const forgotUrl = computed(() =>
                 {{ $t('Log in') }}
             </Button>
 
+            <p class="mt-2 text-center text-sm">
+                <Link
+                    v-if="$page.props.auth.magic_link_enabled"
+                    :href="route('magic-link.create')"
+                    class="text-gray-600 hover:text-indigo-500 hover:underline dark:text-gray-400 dark:hover:text-indigo-300"
+                    data-testid="magic-link-login-link"
+                >
+                    {{ $t('Login with magic link') }}
+                </Link>
+            </p>
+
             <p
-                class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400"
+                class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400"
             >
                 {{ $t("Don't have an account?") }}
                 <Link
