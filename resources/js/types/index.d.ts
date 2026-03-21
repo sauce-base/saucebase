@@ -1,4 +1,5 @@
-import type { Announcement } from '@modules/Announcements/resources/js/types';
+import type { PageProps as InertiaPageProps } from '@inertiajs/vue3';
+
 export interface User {
     id: number;
     name: string;
@@ -41,15 +42,12 @@ export interface Toast {
 
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
-> = T & {
-    auth: {
-        user: User;
+> = T &
+    InertiaPageProps & {
+        locale?: string;
+        locales?: Record<string, string>;
+        modules?: Record<string, string>;
+        navigation?: Record<string, any>;
+        breadcrumbs?: Breadcrumb[];
+        toast?: Toast;
     };
-    locale?: string;
-    locales?: Record<string, string>;
-    modules?: Record<string, string>;
-    navigation?: Record<string, any>;
-    breadcrumbs?: Breadcrumb[];
-    toast?: Toast;
-    announcement?: Announcement | null;
-};
