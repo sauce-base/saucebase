@@ -101,7 +101,7 @@ function getToggleLabel(interval: string): string {
                         'relative z-10 rounded-full px-6 py-2 text-sm font-medium transition-all duration-200',
                         billingInterval === interval
                             ? 'bg-primary text-white'
-                            : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
+                            : 'text-gray-600 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white',
                     ]"
                 >
                     {{ $t(getToggleLabel(interval)) }}
@@ -125,6 +125,15 @@ function getToggleLabel(interval: string): string {
                 :price="product.prices[0]"
             />
         </div>
+
+        <p class="mt-10 text-center text-base text-gray-500 dark:text-gray-400">
+            {{ $t('This is a live example, products and prices are pulled from your Stripe account and fully manageable from the') }}
+            <a
+                href="/admin/billing/products"
+                class="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+            >{{ $t('admin panel') }}</a>.
+        </p>
+
         <div class="absolute top-30 -z-10 h-2/3 w-full opacity-50">
             <div
                 class="from-primary/20 to-secondary/20 dark:from-primary/30 dark:to-secondary/10 absolute inset-0 -top-50 -z-10 -skew-10 rounded-4xl bg-radial"
