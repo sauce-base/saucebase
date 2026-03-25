@@ -15,7 +15,7 @@ import { usePage } from '@inertiajs/vue3';
  * if (modules().has('Billing')) { ... }
  */
 export function useModules() {
-    const page = usePage<PageProps & { modules?: Record<string, string> }>();
+    const page = usePage<PageProps>();
 
     return {
         /**
