@@ -62,11 +62,6 @@ onUnmounted(() => {
             ></div>
         </div>
         <div class="mx-auto max-w-4xl text-center">
-            <!-- Logo -->
-            <!-- <div class="mb-12 flex justify-center">
-                <AppLogo showText size="xxl" showSubtitle centered />
-            </div> -->
-
             <div class="hidden sm:mb-8 sm:flex sm:justify-center">
                 <div
                     class="relative flex items-center gap-x-2 rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 dark:text-gray-400 dark:ring-white/10 dark:hover:ring-white/20"
