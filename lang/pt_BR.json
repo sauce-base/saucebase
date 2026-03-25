@@ -218,5 +218,16 @@
     "Open mobile menu": "Abrir menu móvel",
     "Close mobile menu": "Fechar menu móvel",
     "Go to Dashboard": "Ir para o Painel",
+    "Go to Home": "Ir para o Início",
+    "Error": "Erro",
+    "503: Service Unavailable": "503: Serviço Indisponível",
+    "500: Server Error": "500: Erro no Servidor",
+    "404: Page Not Found": "404: Página Não Encontrada",
+    "403: Forbidden": "403: Acesso Proibido",
+    "Sorry, we are doing some maintenance. Please check back soon.": "Desculpe, estamos em manutenção. Por favor, volte em breve.",
+    "Whoops, something went wrong on our servers.": "Ops, algo deu errado em nossos servidores.",
+    "Sorry, the page you are looking for could not be found.": "Desculpe, a página que você está procurando não foi encontrada.",
+    "Sorry, you are forbidden from accessing this page.": "Desculpe, você não tem permissão para acessar esta página.",
+    "An error occurred.": "Ocorreu um erro.",
     "Your secret sauce for success": "Seu molho secreto para o sucesso"
 }

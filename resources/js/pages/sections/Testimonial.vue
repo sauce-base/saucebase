@@ -24,10 +24,9 @@
                     class="text-center text-xl/8 font-semibold text-gray-900 sm:text-2xl/9 dark:text-white"
                 >
                     <p>
-                        “Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Nemo expedita voluptas culpa sapiente alias
-                        molestiae. Numquam corrupti in laborum sed rerum et
-                        corporis.”
+                        “We shipped our SaaS in two weeks instead of two months.
+                        Auth, billing, and the admin panel were already wired
+                        up, we just built the actual product.”
                     </p>
                 </blockquote>
                 <figcaption class="mt-10">
@@ -54,7 +53,7 @@
                             <circle r="1" cx="1" cy="1" />
                         </svg>
                         <div class="text-gray-600 dark:text-gray-400">
-                            CEO of Saucebase
+                            Founder, Sauceable
                         </div>
                     </div>
                 </figcaption>

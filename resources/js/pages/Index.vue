@@ -2,10 +2,13 @@
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
 
+import CtaSection from '@/pages/sections/CtaSection.vue';
 import FaqSection from '@/pages/sections/FaqSection.vue';
 import FeaturesSection from '@/pages/sections/FeaturesSection.vue';
 import FilamentSection from '@/pages/sections/FilamentSection.vue';
 import HeroSection from '@/pages/sections/HeroSection.vue';
+import ModulesSection from '@/pages/sections/ModulesSection.vue';
+import TechStackSection from '@/pages/sections/TechStackSection.vue';
 import Testimonial from '@/pages/sections/Testimonial.vue';
 
 import { Head } from '@inertiajs/vue3';
@@ -21,11 +24,19 @@ defineProps<{
 <template>
     <Head>
         <title>
-            {{ $t('Saucebase - Modern Laravel SaaS Starter Kit') }}
+            {{
+                $t(
+                    'Saucebase — Free Laravel SaaS Starter Kit | VILT Stack, Auth, Billing & More',
+                )
+            }}
         </title>
         <meta
             name="description"
-            :content="$t('Your secret sauce for success')"
+            :content="
+                $t(
+                    'Free, open-source Laravel SaaS starter kit. Ships with auth, billing, admin panel, and a modular copy-and-own architecture. Built on Laravel 13, Vue 3, Inertia.js, and Tailwind CSS 4.',
+                )
+            "
         />
     </Head>
     <div class="relative isolate flex min-h-screen flex-col overflow-x-hidden">
@@ -38,8 +49,17 @@ defineProps<{
         <!-- Features Section -->
         <FeaturesSection />
 
+        <!-- Modules Section -->
+        <ModulesSection />
+
         <!-- Filament Admin Section -->
         <FilamentSection />
+
+        <!-- Tech Stack Section -->
+        <TechStackSection />
+
+        <!-- CTA Section -->
+        <CtaSection />
 
         <!-- FAQ Section -->
         <FaqSection />

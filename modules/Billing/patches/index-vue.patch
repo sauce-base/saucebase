@@ -1,9 +1,6 @@
 --- a/resources/js/pages/Index.vue
 +++ b/resources/js/pages/Index.vue
-@@ -8,7 +8,14 @@
- import HeroSection from '@/pages/sections/HeroSection.vue';
- import Testimonial from '@/pages/sections/Testimonial.vue';
-
+@@ -14,2 +14,9 @@
  import { Head } from '@inertiajs/vue3';
 +
 +import ProductSection from '@modules/Billing/resources/js/components/ProductSection.vue';
@@ -13,11 +10,7 @@
 +    products?: Product[];
 +}>();
  </script>
-
- <template>
-@@ -40,6 +47,9 @@
-         <!-- Testimonial -->
-         <Testimonial />
+@@ -62,4 +69,7 @@
 
 +        <!-- Pricing Section -->
 +        <ProductSection v-if="products?.length" :products="products" />

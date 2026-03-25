@@ -2,27 +2,27 @@
 const faqs = [
     {
         question: 'What is the copy-and-own philosophy?',
-        answer: 'Unlike traditional packages that stay in vendor/, Saucebase modules copy directly into your repository. You own every line of code and can modify, refactor, or rebuild features to match your exact needs.',
+        answer: 'Unlike traditional packages that stay in vendor/, Saucebase modules copy directly into your repository. You own every line of code and can modify, refactor, or rebuild any feature, with no forking, no pull requests, no waiting for maintainers.',
     },
     {
         question: 'How do I install modules?',
-        answer: 'Run composer require saucebase/module-name, then enable it with php artisan module:enable ModuleName and run migrations. The code is copied to your modules/ directory where you can customize it freely.',
+        answer: 'Run php artisan saucebase:install to launch the interactive installer. It prompts you to select modules, runs composer require, enables them, and runs migrations. The code lands in modules/. Open the files and customize freely.',
     },
     {
         question: 'Do I need Docker to use Saucebase?',
-        answer: "Docker is recommended for consistent development environments, but it's optional. You can use your local PHP, MySQL, and Node.js setup. The saucebase:install command supports both approaches.",
+        answer: 'Docker is recommended for a consistent environment, but optional. You can use a local PHP, MySQL, and Node.js setup. The bin/setup-env script handles Docker automatically; skip it and configure .env manually if you prefer.',
     },
     {
         question: 'What tech stack does Saucebase use?',
-        answer: 'Saucebase uses the VILT stack: Vue 3, Inertia.js, Laravel 12, and Tailwind CSS 4. It also includes TypeScript, Filament admin panel, PHPStan, and Playwright for testing.',
+        answer: 'Saucebase uses the VILT stack: Vue 3 (Composition API), Inertia.js 2, Laravel 13, and Tailwind CSS 4. It also includes TypeScript, Filament 5 admin panel, PHPStan level 5, and Playwright for E2E testing.',
     },
     {
         question: 'Can I customize the modules after installation?',
-        answer: "Absolutely! That's the whole point. Since modules live in your repository, you can edit controllers, modify Vue components, add database fields, or completely rewrite features to fit your needs.",
+        answer: 'Completely. Since modules live in your repository, you can edit controllers, modify Vue components, add database columns, or rewrite features entirely. There are no APIs to override or packages to fork.',
     },
     {
         question: 'Is Saucebase free to use?',
-        answer: 'Yes! Saucebase is open-source software licensed under the MIT license. You can use it freely in your projects, modify it, and even use it commercially without restrictions.',
+        answer: 'Yes. Saucebase is open-source software licensed under MIT. Use it freely in personal or commercial projects, modify it, and distribute it without restrictions.',
     },
 ];
 </script>

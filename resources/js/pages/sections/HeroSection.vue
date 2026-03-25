@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppLogo from '@/components/AppLogo.vue';
 import { Link } from '@inertiajs/vue3';
 
 import IconGitHub from '~icons/heroicons/code-bracket';
@@ -47,7 +46,7 @@ onUnmounted(() => {
             aria-hidden="true"
         >
             <div
-                class="from-secondary to-primary relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr opacity-30 transition-transform duration-300 ease-out sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                class="from-secondary to-primary relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr opacity-30 transition-transform duration-300 ease-out sm:left-[calc(50%-30rem)] sm:w-288.75"
                 :style="`clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%); transform: translate(${mouseX}px, ${mouseY}px)`"
             ></div>
         </div>
@@ -58,15 +57,15 @@ onUnmounted(() => {
             aria-hidden="true"
         >
             <div
-                class="from-secondary to-primary relative left-[calc(50%-10rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 translate-y-1/4 bg-gradient-to-tr opacity-30 transition-transform duration-300 ease-out sm:left-[calc(50%+10rem)] sm:w-[72.1875rem]"
+                class="from-secondary to-primary relative left-[calc(50%-10rem)] aspect-1155/678 w-144.5 -translate-x-1/2 translate-y-1/4 bg-linear-to-tr opacity-30 transition-transform duration-300 ease-out sm:left-[calc(50%+10rem)] sm:w-288.75"
                 :style="`clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%); transform: translate(${-mouseX}px, ${-mouseY}px)`"
             ></div>
         </div>
         <div class="mx-auto max-w-4xl text-center">
             <!-- Logo -->
-            <div class="mb-12 flex justify-center">
+            <!-- <div class="mb-12 flex justify-center">
                 <AppLogo showText size="xxl" showSubtitle centered />
-            </div>
+            </div> -->
 
             <div class="hidden sm:mb-8 sm:flex sm:justify-center">
                 <div
@@ -77,7 +76,7 @@ onUnmounted(() => {
                     />
                     {{ $t('Optimized for AI-assisted development') }}
                     <a
-                        href="https://saucebase-dev.github.io/docs/"
+                        href="https://saucebase-dev.github.io/docs/development/ai"
                         class="text-secondary font-semibold"
                     >
                         <span aria-hidden="true" class="absolute inset-0" />
@@ -89,14 +88,17 @@ onUnmounted(() => {
 
             <!-- Main Headline -->
             <h1 class="mb-6 text-4xl font-bold tracking-tight sm:text-6xl">
-                {{ $t('Modern Laravel SaaS Starter Kit') }}
+                {{ $t('Skip the Boilerplate.') }}
+                <span class="text-primary block">{{
+                    $t('Ship Your Product.')
+                }}</span>
             </h1>
 
             <!-- Subheadline -->
-            <p class="mb-8 text-xl text-gray-600 dark:text-gray-400">
+            <p class="mb-8 text-2xl text-gray-600 dark:text-gray-300">
                 {{
                     $t(
-                        'Clone the repo, start building scalable and maintainable SaaS applications quickly. Built with the VILT stack - completely free and open source.',
+                        'An open-source Laravel boilerplate with authentication, billing, and an admin panel built in. Modular, customizable, production-ready. Clone it, own it, ship it.',
                     )
                 }}
             </p>
@@ -135,16 +137,37 @@ onUnmounted(() => {
                     <IconGitHub class="mr-2 h-5 w-5" />
                     {{ $t('View on GitHub') }}
                 </a>
-
-                <!-- Sign In Button -->
-                <Link
-                    v-if="hasAuthModule && !user"
-                    :href="route('login')"
-                    class="text-primary hover:text-primary/90 dark:text-white dark:hover:text-white/80"
-                >
-                    {{ $t('Already have an account? Sign In') }}
-                </Link>
             </div>
+
+            <!-- Trust Bar -->
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-2">
+                <span
+                    v-for="label in [
+                        'Laravel 13',
+                        'Filament 5',
+                        'Tailwind 4',
+                        'Vue 3',
+                    ]"
+                    :key="label"
+                    class="inline-flex items-center rounded-full border border-gray-900/10 bg-gray-900/5 px-4 py-1.5 text-sm font-semibold text-gray-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-300"
+                >
+                    {{ label }}
+                </span>
+            </div>
+
+            <!-- Docs link -->
+            <p
+                class="mt-4 text-center text-sm text-gray-500 dark:text-gray-400"
+            >
+                {{ $t('Explore everything that comes out of the box') }},
+                <a
+                    href="https://saucebase-dev.github.io/docs/what-is-saucebase"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                    >{{ $t('see all features') }} &rarr;</a
+                >
+            </p>
         </div>
     </main>
 </template>
