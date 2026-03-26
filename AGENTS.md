@@ -69,10 +69,10 @@ php artisan saucebase:install --no-interaction  # CI/CD mode
 
 #### Available Official Modules
 
-| Module       | Description                                               | Repository                                                    |
-| ------------ | --------------------------------------------------------- | ------------------------------------------------------------- |
-| **Auth**     | Authentication with social login support (Google, GitHub) | [sauce-base/auth](https://github.com/sauce-base/auth)         |
-| **Settings** | Settings management module                                | [sauce-base/settings](https://github.com/sauce-base/settings) |
+| Module       | Description                                               | Repository                                                          |
+| ------------ | --------------------------------------------------------- | ------------------------------------------------------------------- |
+| **Auth**     | Authentication with social login support (Google, GitHub) | [saucebase-dev/auth](https://github.com/saucebase-dev/auth)         |
+| **Settings** | Settings management module                                | [saucebase-dev/settings](https://github.com/saucebase-dev/settings) |
 
 #### Installation Steps
 
