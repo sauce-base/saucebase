@@ -132,7 +132,7 @@ Common patterns:
 - Text primary: `text-gray-900 dark:text-white`
 - Text secondary: `text-gray-600 dark:text-gray-400`
 - Borders: `border-gray-200 dark:border-gray-800`
-- Links: `text-indigo-600 dark:text-indigo-400`
+- Links: `font-medium text-primary/70 hover:underline underline-offset-4`
 
 **Translations:** `laravel-vue-i18n` with async loading. Core in `lang/`, modules in `modules/<Name>/lang/`. Portuguese and English.
 
@@ -159,6 +159,8 @@ Common patterns:
 **PHPUnit suites:** Unit (`tests/Unit/`), Feature (`tests/Feature/`), Modules (`modules/*/tests/`). SQLite in-memory by default.
 
 **Playwright:** Auto-discovers module E2E tests. Projects prefixed `@ModuleName`, core as `@Core`. Default browser: Desktop Chrome.
+
+**Playwright MCP screenshots:** Always save to `.playwright-mcp/` (already in `.gitignore`). Never save screenshots to `public/`, `resources/`, or any other tracked directory.
 
 **E2E selectors:** Always use `data-testid` attributes — never select by translated text, labels, or role names. Add `data-testid` to any interactive element that E2E tests need to target. Item-specific testids use the pattern `{action}-${item.id}` (e.g. `upvote-btn-${item.id}`).
 
@@ -228,9 +230,9 @@ Run `/code-review` to launch the code review agent (`feature-dev:code-reviewer`)
 
 Format: `type(scope): subject` or `type: subject`
 
-All lowercase, single-line only, max 150 chars. Enforced by commitlint + Husky.
+All lowercase, single-line only, max 150 chars. Enforced by Husky (pre-commit only).
 
-**Pre-commit hooks:** `composer lint` (PHP), `lint-staged` (ESLint + Prettier on JS/TS/Vue), `commitlint` (message validation).
+**Pre-commit hooks:** `composer lint` (PHP), `lint-staged` (ESLint + Prettier on JS/TS/Vue).
 
 | Type       | Description                  |
 | ---------- | ---------------------------- |

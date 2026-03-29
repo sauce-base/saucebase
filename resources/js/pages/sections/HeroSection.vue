@@ -35,7 +35,7 @@ onUnmounted(() => {
 
 <template>
     <main
-        class="relative flex flex-1 flex-col items-center justify-center bg-white/50 px-6 py-24 sm:py-32 dark:bg-gray-900/50"
+        class="bg-background/50 relative flex flex-1 flex-col items-center justify-center px-6 py-24 sm:py-32"
     >
         <!-- Top gradient blob -->
         <div
@@ -66,11 +66,9 @@ onUnmounted(() => {
 
             <div class="hidden sm:mb-8 sm:flex sm:justify-center">
                 <div
-                    class="relative flex items-center gap-x-2 rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 dark:text-gray-400 dark:ring-white/10 dark:hover:ring-white/20"
+                    class="text-muted-foreground ring-foreground/30 hover:ring-border/90 relative flex items-center gap-x-2 rounded-xl px-3 py-1 text-sm/6 ring-1"
                 >
-                    <IconAI
-                        class="size-4 text-indigo-500 dark:text-indigo-400"
-                    />
+                    <IconAI class="size-4" />
                     {{ $t('Optimized for AI-assisted development') }}
                     <a
                         href="https://saucebase-dev.github.io/docs/development/ai"
@@ -92,7 +90,7 @@ onUnmounted(() => {
             </h1>
 
             <!-- Subheadline -->
-            <p class="mb-8 text-2xl text-gray-600 dark:text-gray-300">
+            <p class="text-muted-foreground mb-8 text-2xl">
                 {{
                     $t(
                         'An open-source Laravel boilerplate with authentication, billing, and an admin panel built in. Modular, customizable, production-ready. Clone it, own it, ship it.',
@@ -108,7 +106,7 @@ onUnmounted(() => {
                 <Link
                     v-if="hasAuthModule && !user"
                     :href="route('register')"
-                    class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-full px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden dark:focus:ring-offset-gray-950"
+                    class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary focus:ring-offset-background inline-flex items-center justify-center rounded-xl px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
                 >
                     <IconUserPlus class="mr-2 h-5 w-5" />
                     {{ $t('Get Started Free') }}
@@ -118,7 +116,7 @@ onUnmounted(() => {
                 <Link
                     v-if="hasDashboardRoute && user"
                     :href="route('dashboard')"
-                    class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-full px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden dark:focus:ring-offset-gray-950"
+                    class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary focus:ring-offset-background inline-flex items-center justify-center rounded-xl px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
                 >
                     <IconDashboard class="mr-2 h-5 w-5" />
                     {{ $t('Go to Dashboard') }}
@@ -129,7 +127,7 @@ onUnmounted(() => {
                     href="https://github.com/saucebase-dev/saucebase"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="focus:ring-primary inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-8 py-4 text-lg font-semibold text-gray-700 transition-all duration-200 hover:scale-105 hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:outline-hidden dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-950"
+                    class="focus:ring-primary border-border bg-background text-foreground hover:bg-accent focus:ring-offset-background inline-flex items-center justify-center rounded-xl border px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
                 >
                     <IconGitHub class="mr-2 h-5 w-5" />
                     {{ $t('View on GitHub') }}
@@ -146,23 +144,21 @@ onUnmounted(() => {
                         'Vue 3',
                     ]"
                     :key="label"
-                    class="inline-flex items-center rounded-full border border-gray-900/10 bg-gray-900/5 px-4 py-1.5 text-sm font-semibold text-gray-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-300"
+                    class="border-border/30 bg-foreground/5 text-muted-foreground inline-flex items-center rounded-xl border px-4 py-1.5 text-sm font-semibold"
                 >
                     {{ label }}
                 </span>
             </div>
 
             <!-- Docs link -->
-            <p
-                class="mt-4 text-center text-sm text-gray-500 dark:text-gray-400"
-            >
+            <p class="text-muted-foreground mt-4 text-center text-sm">
                 {{ $t('Explore everything that comes out of the box') }},
                 <a
                     href="https://saucebase-dev.github.io/docs/what-is-saucebase"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
-                    >{{ $t('see all features') }} &rarr;</a
+                    class="text-primary font-medium underline-offset-4 hover:underline"
+                    >{{ $t('see all features') }}</a
                 >
             </p>
         </div>

@@ -517,16 +517,9 @@ Husky automatically runs these checks before each commit:
 - Affected files: `**/*.{js,ts,vue}`
 - Auto-fixes and formats code before commit
 
-**Commit Message Validation:**
-
-- `commitlint` - Validates commit message format (runs on commit-msg hook)
-
 ### Manual Validation
 
 ```bash
-# Test commit message format
-echo "feat: test commit" | npx commitlint
-
 # Run linters manually
 composer lint          # PHP
 npm run lint          # JavaScript/TypeScript

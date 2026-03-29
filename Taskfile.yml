@@ -18,6 +18,9 @@ includes:
     roadmap:
         taskfile: ./modules/Roadmap/Taskfile.yml
         optional: true
+    themes:
+        taskfile: ./modules/Themes/Taskfile.yml
+        optional: true
     # ── END MODULES ──────────────────────────────────────────────────
 
 tasks:

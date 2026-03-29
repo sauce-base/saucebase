@@ -53,6 +53,7 @@ public/vendor/livewire/
 /playwright-report/
 /playwright/.cache/
 /playwright-mcp/
+/.playwright-mcp/
 /storage/laravel-playwright-config.json
 
 # SSL Certificates (generated locally, not tracked)
