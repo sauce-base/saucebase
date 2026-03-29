@@ -41,9 +41,6 @@ export interface Toast {
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
 > = T & {
-    auth: {
-        user: User;
-    };
     locale?: string;
     locales?: Record<string, string>;
     modules?: Record<string, string>;
@@ -51,3 +48,14 @@ export type PageProps<
     breadcrumbs?: Breadcrumb[];
     toast?: Toast;
 };
+
+declare module '@inertiajs/core' {
+    interface PageProps {
+        locale?: string;
+        locales?: Record<string, string>;
+        modules?: Record<string, string>;
+        navigation?: Record<string, any>;
+        breadcrumbs?: Breadcrumb[];
+        toast?: Toast;
+    }
+}
