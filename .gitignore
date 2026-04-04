@@ -37,6 +37,7 @@
 /modules/*/.cache
 /modules/*.diff
 /modules/*.patch
+/modules/*/.claude
 
 Homestead.json
 Homestead.yaml
