@@ -1,4 +1,20 @@
 <script setup lang="ts">
+import { useColorMode } from '@vueuse/core';
+import { computed } from 'vue';
+
+const colorMode = useColorMode();
+
+const primaryFill = computed(() =>
+    colorMode.value === 'dark'
+        ? 'url(#logo-dark-bottom-grad)'
+        : 'url(#logo-primary-grad)',
+);
+const secondaryFill = computed(() =>
+    colorMode.value === 'dark'
+        ? 'url(#logo-dark-top-grad)'
+        : 'url(#logo-secondary-grad)',
+);
+
 defineProps<{
     size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
     showText?: boolean;
@@ -115,6 +131,66 @@ const logoAlt = 'Saucebase logo';
                             "
                         />
                     </linearGradient>
+                    <!-- Dark mode: lighter top semi-circle (light → slightly less light) -->
+                    <linearGradient
+                        id="logo-dark-top-grad"
+                        gradientUnits="objectBoundingBox"
+                        x1="0.5"
+                        y1="0"
+                        x2="0.5"
+                        y2="1"
+                    >
+                        <stop
+                            offset="0"
+                            style="
+                                stop-color: color-mix(
+                                    in oklch,
+                                    var(--primary) 45%,
+                                    white
+                                );
+                            "
+                        />
+                        <stop
+                            offset="1"
+                            style="
+                                stop-color: color-mix(
+                                    in oklch,
+                                    var(--primary) 65%,
+                                    white
+                                );
+                            "
+                        />
+                    </linearGradient>
+                    <!-- Dark mode: darker bottom semi-circle (primary → darkened primary) -->
+                    <linearGradient
+                        id="logo-dark-bottom-grad"
+                        gradientUnits="objectBoundingBox"
+                        x1="0.5"
+                        y1="0"
+                        x2="0.5"
+                        y2="1"
+                    >
+                        <stop
+                            offset="0"
+                            style="
+                                stop-color: color-mix(
+                                    in oklch,
+                                    var(--primary) 88%,
+                                    white
+                                );
+                            "
+                        />
+                        <stop
+                            offset="1"
+                            style="
+                                stop-color: color-mix(
+                                    in oklch,
+                                    var(--primary) 75%,
+                                    black
+                                );
+                            "
+                        />
+                    </linearGradient>
                 </defs>
                 <g transform="matrix(1,0,0,1,-923,-1301)">
                     <g
@@ -129,7 +205,7 @@ const logoAlt = 'Saucebase logo';
                                     :fill="
                                         variant === 'light'
                                             ? 'rgba(255,255,255,0.7)'
-                                            : 'url(#logo-primary-grad)'
+                                            : primaryFill
                                     "
                                 />
                             </g>
@@ -141,7 +217,7 @@ const logoAlt = 'Saucebase logo';
                                     :fill="
                                         variant === 'light'
                                             ? 'white'
-                                            : 'url(#logo-secondary-grad)'
+                                            : secondaryFill
                                     "
                                 />
                             </g>
@@ -168,8 +244,10 @@ const logoAlt = 'Saucebase logo';
                         : 'leading-none font-bold text-gray-900 dark:text-white',
                 ]"
             >
-                <span class="text-secondary">sauce</span>
-                <span class="text-primary">base</span>
+                <span class="text-secondary dark:text-muted-foreground"
+                    >sauce</span
+                >
+                <span class="text-primary dark:text-foreground">base</span>
             </h1>
             <p
                 v-if="showSubtitle !== false"

@@ -75,7 +75,7 @@ const features = [
 
             <!-- Centered Image with Fade Overlay -->
             <div
-                class="relative mx-auto mt-8 max-w-5xl overflow-hidden rounded-2xl shadow-2xl xl:h-130"
+                class="relative mx-auto mt-8 max-w-5xl overflow-hidden rounded-xl shadow-2xl xl:h-130"
             >
                 <img
                     src="/images/screenshots/admin-dashboard-light.png"

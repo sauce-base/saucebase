@@ -83,7 +83,7 @@ const groups: { label: string; icon: Component; items: string[] }[] = [
                 <div
                     v-for="group in groups"
                     :key="group.label"
-                    class="border-border bg-card rounded-2xl border p-6"
+                    class="border-border bg-card rounded-xl border p-6"
                 >
                     <!-- Category header -->
                     <div class="mb-4 flex items-center gap-2">

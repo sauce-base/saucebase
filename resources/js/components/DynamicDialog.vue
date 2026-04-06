@@ -31,7 +31,7 @@ const contentClass = computed(() =>
 );
 
 const iconClass = computed(() => [
-    'flex size-14 items-center justify-center rounded-2xl',
+    'flex size-14 items-center justify-center rounded-xl',
     isCentered.value ? 'mb-4' : 'shrink-0',
     iconContainerClass.value,
 ]);
@@ -42,7 +42,7 @@ const headerClass = computed(() =>
 </script>
 
 <template>
-    <AlertDialog :open="isOpen">
+    <AlertDialog :open="isOpen" class="z-auto">
         <AlertDialogContent class="overflow-hidden p-0 sm:max-w-sm">
             <div data-testid="confirm-dialog">
                 <div

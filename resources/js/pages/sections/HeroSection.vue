@@ -8,29 +8,12 @@ import IconUserPlus from '~icons/heroicons/user-plus';
 
 import { modules } from '@/composables/useModules';
 import { usePage } from '@inertiajs/vue3';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed } from 'vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth?.user ?? null);
 const hasAuthModule = computed(() => modules().has('auth'));
 const hasDashboardRoute = computed(() => route().has('dashboard'));
-
-// Mouse tracking for parallax effect
-const mouseX = ref(0);
-const mouseY = ref(0);
-
-const handleMouseMove = (e: MouseEvent) => {
-    mouseX.value = (e.clientX / window?.innerWidth - 0.5) * 60;
-    mouseY.value = (e.clientY / window?.innerHeight - 0.5) * 60;
-};
-
-onMounted(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-});
-
-onUnmounted(() => {
-    window.removeEventListener('mousemove', handleMouseMove);
-});
 </script>
 
 <template>
@@ -44,7 +27,7 @@ onUnmounted(() => {
         >
             <div
                 class="from-secondary to-primary relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr opacity-30 transition-transform duration-300 ease-out sm:left-[calc(50%-30rem)] sm:w-288.75"
-                :style="`clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%); transform: translate(${mouseX}px, ${mouseY}px)`"
+                :style="`clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);)`"
             ></div>
         </div>
 
@@ -55,7 +38,7 @@ onUnmounted(() => {
         >
             <div
                 class="from-secondary to-primary relative left-[calc(50%-10rem)] aspect-1155/678 w-144.5 -translate-x-1/2 translate-y-1/4 bg-linear-to-tr opacity-30 transition-transform duration-300 ease-out sm:left-[calc(50%+10rem)] sm:w-288.75"
-                :style="`clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%); transform: translate(${-mouseX}px, ${-mouseY}px)`"
+                :style="`clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);)`"
             ></div>
         </div>
         <div class="mx-auto max-w-4xl text-center">
