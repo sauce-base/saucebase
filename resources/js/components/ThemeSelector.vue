@@ -144,6 +144,7 @@ function handleInlineClick(
                 { 'flex-1': fullWidth },
                 { 'font-semibold': colorMode === theme.code },
             ]"
+            :data-testid="`color-mode-${theme.code}`"
             :aria-label="$t(theme.name)"
             @click="handleInlineClick(theme.code, $event)"
         >
