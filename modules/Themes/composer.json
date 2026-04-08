@@ -1,0 +1,29 @@
+{
+    "name": "saucebase/themes",
+    "description": "",
+    "type": "saucebase-module",
+    "authors": [
+        {
+            "name": "Saucebase",
+            "email": "hello@saucebase.dev"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Themes\\": "app/",
+            "Modules\\Themes\\Database\\Factories\\": "database/factories/",
+            "Modules\\Themes\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Themes\\Tests\\": "tests/"
+        }
+    }
+}

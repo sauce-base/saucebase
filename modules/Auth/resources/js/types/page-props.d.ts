@@ -1,6 +1,6 @@
 import type { User } from '@/types';
 
-declare module '@inertiajs/vue3' {
+declare module '@inertiajs/core' {
     interface PageProps {
         auth: {
             user: User | null;

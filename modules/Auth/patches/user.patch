@@ -5,6 +5,6 @@
 +use Modules\Auth\Traits\Sociable;
  use Spatie\MediaLibrary\HasMedia;
 @@ -23,2 +24,3 @@
-         Notifiable;
+     use Notifiable;
 +    use Sociable;
 
