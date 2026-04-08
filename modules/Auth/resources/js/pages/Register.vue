@@ -63,7 +63,7 @@ import AuthCardLayout from '../layouts/AuthCardLayout.vue';
                 {{ $t('Already registered?') }}
                 <Link
                     :href="route('login')"
-                    class="font-medium text-indigo-600 hover:text-indigo-500 hover:underline dark:text-indigo-400 dark:hover:text-indigo-300"
+                    class="font-medium text-primary/70 hover:underline underline-offset-4"
                     data-testid="login-link"
                 >
                     {{ $t('Log in') }}

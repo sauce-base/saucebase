@@ -1,15 +1,15 @@
 {
     "agents": ["claude_code", "copilot"],
     "guidelines": true,
-    "herd_mcp": false,
     "mcp": true,
     "nightwatch_mcp": false,
     "packages": ["filament/filament", "laravel/ai"],
     "sail": false,
     "skills": [
+        "laravel-best-practices",
         "socialite-development",
         "inertia-vue-development",
         "tailwindcss-development",
-        "developing-with-ai-sdk"
+        "ai-sdk-development"
     ]
 }

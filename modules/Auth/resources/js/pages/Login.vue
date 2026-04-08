@@ -15,6 +15,7 @@ const passwordRef = ref('secretsauce');
 const forgotUrl = computed(() =>
     route('password.request', { email: emailRef.value }),
 );
+
 </script>
 
 <template>
@@ -75,7 +76,7 @@ const forgotUrl = computed(() =>
                 <Link
                     v-if="route().has('password.request')"
                     :href="forgotUrl"
-                    class="ml-auto inline-block text-sm underline-offset-4 hover:text-indigo-500 hover:underline dark:hover:text-indigo-300"
+                    class="ml-auto inline-block text-sm font-medium text-primary hover:underline underline-offset-4"
                     data-testid="forgot-password-link"
                     :data-invalid="false"
                 >
@@ -95,7 +96,7 @@ const forgotUrl = computed(() =>
                 <Link
                     v-if="$page.props.auth.magic_link_enabled"
                     :href="route('magic-link.create')"
-                    class="text-gray-600 hover:text-indigo-500 hover:underline dark:text-gray-400 dark:hover:text-indigo-300"
+                    class="font-medium text-primary/70 hover:underline underline-offset-4"
                     data-testid="magic-link-login-link"
                 >
                     {{ $t('Login with magic link') }}
@@ -108,7 +109,7 @@ const forgotUrl = computed(() =>
                 {{ $t("Don't have an account?") }}
                 <Link
                     :href="route('register')"
-                    class="font-medium text-indigo-600 hover:text-indigo-500 hover:underline dark:text-indigo-400 dark:hover:text-indigo-300"
+                    class="font-medium text-primary hover:underline underline-offset-4"
                     data-testid="sign-up-link"
                 >
                     {{ $t('Sign up') }}

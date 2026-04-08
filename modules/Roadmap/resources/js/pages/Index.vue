@@ -176,7 +176,7 @@ function formatDate(dateStr: string): string {
                 <!-- Header -->
                 <div class="flex flex-col gap-4 mt-6 mb-10 sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="bg-primary/10 text-primary rounded-full p-4">
+                        <div class="bg-primary/10 text-primary rounded-xl p-4">
                             <IconMap class="size-10" />
                         </div>
                         <div>

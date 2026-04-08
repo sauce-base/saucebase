@@ -22,7 +22,7 @@ test.describe('Profile Avatar', () => {
             buffer: tinyPng,
         });
 
-        const loadingOverlay = page.locator('div.rounded-full.bg-black\\/50');
+        const loadingOverlay = page.locator('div.rounded-xl.bg-black\\/50');
 
         // Spinner must appear while the upload request is in flight
         await expect(loadingOverlay).toBeVisible();
@@ -43,7 +43,7 @@ test.describe('Profile Avatar', () => {
         });
 
         // Wait for upload to complete
-        const loadingOverlay = page.locator('div.rounded-full.bg-black\\/50');
+        const loadingOverlay = page.locator('div.rounded-xl.bg-black\\/50');
         await expect(loadingOverlay).toBeVisible();
         await expect(loadingOverlay).not.toBeVisible({ timeout: 10000 });
 

@@ -1,5 +1,3 @@
-import type { PageProps as InertiaPageProps } from '@inertiajs/vue3';
-
 export interface User {
     id: number;
     name: string;
@@ -42,12 +40,22 @@ export interface Toast {
 
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
-> = T &
-    InertiaPageProps & {
+> = T & {
+    locale?: string;
+    locales?: Record<string, string>;
+    modules?: Record<string, string>;
+    navigation?: Record<string, any>;
+    breadcrumbs?: Breadcrumb[];
+    toast?: Toast;
+};
+
+declare module '@inertiajs/core' {
+    interface PageProps {
         locale?: string;
         locales?: Record<string, string>;
         modules?: Record<string, string>;
         navigation?: Record<string, any>;
         breadcrumbs?: Breadcrumb[];
         toast?: Toast;
-    };
+    }
+}

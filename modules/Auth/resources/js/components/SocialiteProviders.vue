@@ -32,7 +32,7 @@ const lastUsed = computed(() => usePage().props.auth.last_social_provider);
             <span
                 v-if="lastUsed === name"
                 :data-testid="`last-used-badge-${name}`"
-                class="absolute -top-2 -right-2 rounded-full bg-muted/80 border px-2 py-0.5 text-xs text-muted-foreground drop-shadow-lg"
+                class="absolute -top-2 -right-2 rounded-xl bg-muted/80 border px-2 py-0.5 text-xs text-muted-foreground drop-shadow-lg"
             >
                 {{ $t('Last used') }}
             </span>

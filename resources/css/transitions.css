@@ -31,6 +31,47 @@
     z-index: 9999;
 }
 
+/* Animated gradient border */
+@property --gradient-border-angle {
+    inherits: false;
+    initial-value: 0deg;
+    syntax: '<angle>';
+}
+
+@layer utilities {
+    /* Gradient border via ::before + mask — clips gradient to the border area only,
+       so it correctly follows border-radius on all sides. */
+    .gradient-border-spin::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 3px; /* border thickness — must match wrapper padding */
+        background: conic-gradient(
+            from var(--gradient-border-angle),
+            transparent 75%,
+            var(--primary) 99%,
+            color-mix(in oklch, var(--primary), white 60%) 99%
+        );
+        animation: gradient-border-spin 3s linear infinite;
+        /* Mask out the inner content area, leaving only the 2px border ring visible */
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+    }
+
+    @keyframes gradient-border-spin {
+        to {
+            --gradient-border-angle: 360deg;
+        }
+    }
+}
+
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
     .page-enter-active,
@@ -42,6 +83,10 @@
     ::view-transition-group(*),
     ::view-transition-old(*),
     ::view-transition-new(*) {
+        animation: none !important;
+    }
+
+    .gradient-border-spin::before {
         animation: none !important;
     }
 }

@@ -6,6 +6,7 @@ import { toastActionRegistry } from '@/lib/toastActions';
 import type { Toast } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import AnnouncementBanner from '@modules/Announcements/resources/js/components/AnnouncementBanner.vue';
+import ThemePanel from '@modules/Themes/resources/js/components/ThemePanel.vue';
 import { watch } from 'vue';
 import { toast } from 'vue-sonner';
 
@@ -104,6 +105,7 @@ watch(
 <template>
     <AnnouncementBanner />
     <ImpersonationAlert />
+    <ThemePanel />
     <slot />
     <Toaster />
     <DynamicDialog />

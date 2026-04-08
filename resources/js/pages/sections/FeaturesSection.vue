@@ -69,7 +69,7 @@ const features = [
 <template>
     <div
         id="features"
-        class="relative isolate overflow-hidden border-t border-gray-200 bg-white/50 py-24 sm:py-32 dark:border-gray-800 dark:bg-gray-900/90"
+        class="border-border bg-background/50 relative isolate overflow-hidden border-t py-24 sm:py-32"
     >
         <div class="absolute inset-0 -z-10 overflow-hidden">
             <svg
@@ -78,7 +78,7 @@ const features = [
             >
                 <defs>
                     <pattern
-                        id="e813992c-7d03-4cc4-a2bd-151760b470a0"
+                        id="features-pattern"
                         width="200"
                         height="200"
                         x="50%"
@@ -91,7 +91,7 @@ const features = [
                 <svg
                     x="50%"
                     y="-1"
-                    class="overflow-visible fill-gray-200 dark:fill-gray-800/50"
+                    class="fill-primary/5 dark:fill-foreground/5 overflow-visible"
                 >
                     <path
                         d="M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z"
@@ -101,7 +101,7 @@ const features = [
                 <rect
                     width="100%"
                     height="100%"
-                    fill="url(#e813992c-7d03-4cc4-a2bd-151760b470a0)"
+                    fill="url(#features-pattern)"
                     stroke-width="0"
                 />
             </svg>
@@ -112,19 +112,15 @@ const features = [
             >
                 <div class="lg:col-span-3 lg:pt-4 lg:pr-8">
                     <div class="lg:max-w-none">
-                        <h2
-                            class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400"
-                        >
+                        <h2 class="text-primary text-2xl font-semibold">
                             {{ $t('Built for developers') }}
                         </h2>
                         <p
-                            class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl dark:text-white"
+                            class="text-foreground mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
                         >
                             {{ $t('Everything configured. Nothing missing.') }}
                         </p>
-                        <p
-                            class="mt-6 text-lg/8 text-gray-700 dark:text-gray-300"
-                        >
+                        <p class="text-muted-foreground mt-6 text-lg/8">
                             {{
                                 $t(
                                     'A production-ready foundation with the architecture, tooling, and philosophy to support your product long-term.',
@@ -141,7 +137,7 @@ const features = [
                                 class="flex items-start gap-3"
                             >
                                 <div
-                                    class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400"
+                                    class="bg-primary/10 text-primary mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg"
                                 >
                                     <component
                                         :is="feature.icon"
@@ -151,12 +147,12 @@ const features = [
                                 </div>
                                 <div>
                                     <p
-                                        class="text-base font-semibold text-gray-900 dark:text-white"
+                                        class="text-foreground text-base font-semibold"
                                     >
                                         {{ $t(feature.name) }}
                                     </p>
                                     <p
-                                        class="mt-0.5 text-sm text-gray-500 dark:text-gray-400"
+                                        class="text-muted-foreground mt-0.5 text-sm"
                                     >
                                         {{ $t(feature.description) }}
                                     </p>

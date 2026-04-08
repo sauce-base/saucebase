@@ -1,3 +1,4 @@
+import inertia from '@inertiajs/vite';
 import vue from '@vitejs/plugin-vue';
 import fs from 'fs';
 import laravel from 'laravel-vite-plugin';
@@ -31,8 +32,8 @@ async function createConfig() {
                     'resources/css/filament/admin/theme.css',
                 ],
                 refresh: true,
-                ssr: 'resources/js/ssr.ts',
             }),
+            inertia(),
             vue({
                 template: {
                     transformAssetUrls: {

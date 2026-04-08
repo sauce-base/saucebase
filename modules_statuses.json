@@ -3,5 +3,6 @@
     "Auth": true,
     "Billing": true,
     "Settings": true,
-    "Roadmap": true
+    "Roadmap": true,
+    "Themes": true
 }

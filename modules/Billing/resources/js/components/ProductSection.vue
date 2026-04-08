@@ -91,14 +91,14 @@ function getToggleLabel(interval: string): string {
             class="mt-16 flex justify-center"
         >
             <div
-                class="relative flex items-center rounded-full bg-gray-100 p-1 shadow-lg dark:bg-white/5"
+                class="relative flex items-center rounded-xl bg-gray-100 p-1 shadow-lg dark:bg-white/5"
             >
                 <button
                     v-for="interval in availableIntervals"
                     :key="interval"
                     @click="billingInterval = interval"
                     :class="[
-                        'relative z-10 rounded-full px-6 py-2 text-sm font-medium transition-all duration-200',
+                        'relative z-10 rounded-xl px-6 py-2 text-sm font-medium transition-all duration-200',
                         billingInterval === interval
                             ? 'bg-primary text-white'
                             : 'text-gray-600 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white',
@@ -127,19 +127,24 @@ function getToggleLabel(interval: string): string {
         </div>
 
         <p class="mt-10 text-center text-base text-gray-500 dark:text-gray-400">
-            {{ $t('This is a live example, products and prices are pulled from your Stripe account and fully manageable from the') }}
+            {{
+                $t(
+                    'This is a live example, products and prices are pulled from your Stripe account and fully manageable from the',
+                )
+            }}
             <a
-                href="/admin/billing/products"
-                class="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
-            >{{ $t('admin panel') }}</a>.
+                :href="route('filament.admin.pages.dashboard')"
+                class="font-medium text-primary hover:underline underline-offset-4"
+                >{{ $t('admin panel') }}</a
+            >.
         </p>
 
         <div class="absolute top-30 -z-10 h-2/3 w-full opacity-50">
             <div
-                class="from-primary/20 to-secondary/20 dark:from-primary/30 dark:to-secondary/10 absolute inset-0 -top-50 -z-10 -skew-10 rounded-4xl bg-radial"
+                class="from-primary/20 to-secondary/20 dark:from-primary/30 dark:to-secondary/10 absolute inset-0 -top-50 -z-10 -skew-10 rounded-xl bg-radial"
             />
             <div
-                class="from-primary/20 to-secondary/20 dark:from-primary/30 dark:to-secondary/10 absolute inset-0 -top-30 -z-20 skew-30 rounded-4xl bg-radial"
+                class="from-primary/20 to-secondary/20 dark:from-primary/30 dark:to-secondary/10 absolute inset-0 -top-30 -z-20 skew-30 rounded-xl bg-radial"
             />
         </div>
     </section>

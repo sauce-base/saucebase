@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Http\Controllers\EmailVerificationNotificationController;
-use Modules\Auth\Http\Controllers\MagicLinkController;
 use Modules\Auth\Http\Controllers\EmailVerificationPromptController;
 use Modules\Auth\Http\Controllers\ForgotPasswordController;
 use Modules\Auth\Http\Controllers\LoginController;
+use Modules\Auth\Http\Controllers\MagicLinkController;
 use Modules\Auth\Http\Controllers\PasswordController;
 use Modules\Auth\Http\Controllers\RegisterController;
 use Modules\Auth\Http\Controllers\ReimpersonateController;

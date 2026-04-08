@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Saucebase') }}</title>
+        <title data-inertia>{{ config('app.name', 'Saucebase') }}</title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
@@ -37,7 +37,7 @@
     @inertiaHead
 </head>
 
-<body class="font-sans antialiased bg-background text-foreground dark:bg-background dark:text-foreground">
+<body class="antialiased bg-background text-foreground dark:bg-background dark:text-foreground">
     <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WTRCPLVS" height="0" width="0"

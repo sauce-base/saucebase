@@ -21,10 +21,10 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     // , MustVerifyEmail
 {
     use Billable;
-    use HasFactory,
-        HasRoles,
-        InteractsWithMedia,
-        Notifiable;
+    use HasFactory;
+    use HasRoles;
+    use InteractsWithMedia;
+    use Notifiable;
     use Sociable;
 
     /**

@@ -153,7 +153,7 @@ const userInitials = computed(() => {
                             <!-- Loading Overlay -->
                             <div
                                 v-if="isUpdatingAvatar || isRemovingAvatar"
-                                class="absolute inset-0 flex items-center justify-center rounded-full bg-black/50"
+                                class="absolute inset-0 flex items-center justify-center rounded-xl bg-black/50"
                             >
                                 <Loader2
                                     class="size-8 animate-spin text-white"
@@ -178,7 +178,7 @@ const userInitials = computed(() => {
                                     !isRemovingAvatar
                                 "
                                 for="avatar-upload"
-                                class="bg-primary text-primary-foreground absolute right-0 bottom-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow-md transition-transform hover:scale-110"
+                                class="bg-primary text-primary-foreground absolute right-0 bottom-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl shadow-md transition-transform hover:scale-110"
                             >
                                 <Camera class="h-5 w-5" />
                             </label>
@@ -192,7 +192,7 @@ const userInitials = computed(() => {
                                 "
                                 type="button"
                                 @click="removeAvatar"
-                                class="absolute right-0 bottom-0 flex h-10 w-10 items-center justify-center rounded-full bg-red-500 text-white shadow-md transition-transform hover:scale-110"
+                                class="absolute right-0 bottom-0 flex h-10 w-10 items-center justify-center rounded-xl bg-red-500 text-white shadow-md transition-transform hover:scale-110"
                             >
                                 <Trash2 class="h-5 w-5" />
                             </button>
@@ -239,7 +239,7 @@ const userInitials = computed(() => {
                                 <Button
                                     type="submit"
                                     size="lg"
-                                    class="rounded-full"
+                                    class="rounded-xl"
                                 >
                                     {{ $t('Update Profile') }}
                                 </Button>

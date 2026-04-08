@@ -1,0 +1,12 @@
+[
+  { "family": "Playfair Display", "category": "serif", "variants": ["400", "500", "600", "700", "800", "900"], "variable": true },
+  { "family": "Merriweather", "category": "serif", "variants": ["300", "400", "700", "900"] },
+  { "family": "Lora", "category": "serif", "variants": ["400", "500", "600", "700"], "variable": true },
+  { "family": "PT Serif", "category": "serif", "variants": ["400", "700"] },
+  { "family": "EB Garamond", "category": "serif", "variants": ["400", "500", "600", "700", "800"], "variable": true },
+  { "family": "Libre Baskerville", "category": "serif", "variants": ["400", "700"] },
+  { "family": "Cormorant Garamond", "category": "serif", "variants": ["300", "400", "500", "600", "700"] },
+  { "family": "Source Serif 4", "category": "serif", "variants": ["200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
+  { "family": "Noto Serif", "category": "serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
+  { "family": "Crimson Text", "category": "serif", "variants": ["400", "600", "700"] }
+]

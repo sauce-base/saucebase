@@ -357,7 +357,7 @@ function resumeSubscription() {
                                                 "
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                                class="text-sm font-medium text-primary/70 hover:underline underline-offset-4"
                                             >
                                                 {{ $t('View') }}
                                             </a>
