@@ -34,7 +34,7 @@ const getUserInitials = (name: string) => {
 // Role badge helper
 const getRoleBadgeClasses = (role: string) => {
     const baseClasses =
-        'shrink-0 rounded-full px-1 py-0.5 text-[9px] text-white uppercase';
+        'shrink-0 rounded-xl px-1 py-0.5 text-[9px] text-white uppercase';
     const colorClasses = role === 'admin' ? 'bg-red-800' : 'bg-cyan-700';
 
     return cn(baseClasses, colorClasses);
@@ -89,7 +89,7 @@ const containerClasses = computed(() => cn('fixed bottom-3 right-3 z-50'));
             v-if="!isExpanded"
             @click="toggleExpanded"
             :title="`Impersonating ${impersonation.user.name}`"
-            class="animate-in fade-in zoom-in-95 relative cursor-pointer rounded-full shadow-lg ring-2 ring-orange-500 transition-all duration-300 hover:shadow-xl hover:ring-orange-600"
+            class="animate-in fade-in zoom-in-95 relative cursor-pointer rounded-xl shadow-lg ring-2 ring-orange-500 transition-all duration-300 hover:shadow-xl hover:ring-orange-600"
             :aria-label="$t('Show impersonation details')"
             :aria-expanded="false"
         >
@@ -104,7 +104,7 @@ const containerClasses = computed(() => cn('fixed bottom-3 right-3 z-50'));
             </Avatar>
             <!-- Impersonation icon badge -->
             <div
-                class="absolute -top-3 -left-3 flex size-7 items-center justify-center rounded-full bg-orange-500 shadow-lg"
+                class="absolute -top-3 -left-3 flex size-7 items-center justify-center rounded-xl bg-orange-500 shadow-lg"
             >
                 <Drama class="size-5 text-white" />
             </div>
@@ -113,14 +113,14 @@ const containerClasses = computed(() => cn('fixed bottom-3 right-3 z-50'));
         <!-- Expanded state: Full card with user info and action button -->
         <div
             v-else
-            class="bg-foreground animate-in fade-in slide-in-from-right-5 relative flex w-80 flex-col gap-3 rounded-4xl p-3 shadow-2xl duration-300"
+            class="bg-foreground animate-in fade-in slide-in-from-right-5 relative flex w-80 flex-col gap-3 rounded-xl p-3 shadow-2xl duration-300"
             role="region"
             :aria-label="$t('Impersonation alert')"
         >
             <!-- Close button -->
             <button
                 @click="collapse"
-                class="text-background/60 hover:bg-background/10 hover:text-background absolute top-3 right-3 rounded-full p-1 transition-colors"
+                class="text-background/60 hover:bg-background/10 hover:text-background absolute top-3 right-3 rounded-xl p-1 transition-colors"
                 :aria-label="$t('Close')"
             >
                 <X class="size-5" />
@@ -158,7 +158,7 @@ const containerClasses = computed(() => cn('fixed bottom-3 right-3 z-50'));
             </div>
             <a
                 :href="impersonation.route"
-                class="bg-background text-foreground hover:bg-background/90 w-full rounded-full px-3 py-2 text-center text-sm font-medium transition-colors"
+                class="bg-background text-foreground hover:bg-background/90 w-full rounded-xl px-3 py-2 text-center text-sm font-medium transition-colors"
             >
                 {{ impersonation.label }}
             </a>
@@ -180,7 +180,7 @@ const containerClasses = computed(() => cn('fixed bottom-3 right-3 z-50'));
                         v-for="user in impersonation.recent"
                         :key="user.id"
                         @click="reimpersonate(user.id)"
-                        class="hover:bg-background/20 flex w-full items-center rounded-full text-left transition-colors"
+                        class="hover:bg-background/20 flex w-full items-center rounded-xl text-left transition-colors"
                     >
                         <Avatar
                             class="border-background/20 m-1 size-10 border-2"

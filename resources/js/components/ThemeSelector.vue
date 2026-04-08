@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -27,12 +29,24 @@ interface Props {
      * Disable animated theme transitions using View Transitions API
      */
     disableAnimation?: boolean;
+    /**
+     * Render as an inline ButtonGroup instead of a dropdown
+     */
+    inline?: boolean;
+    /**
+     * Hide the Auto/Device theme option
+     */
+    hideDevice?: boolean;
+    /**
+     * Makes the inline ButtonGroup full-width with equal-width buttons
+     */
+    fullWidth?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     mode: 'standalone',
     triggerClass:
-        'flex items-center rounded-lg p-2 text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
+        'flex items-center rounded-lg p-2 text-muted-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground',
 });
 
 const colorMode = useColorMode({
@@ -47,7 +61,14 @@ const themes = [
     { code: 'auto', name: 'Device', icon: IconAuto },
 ] as const;
 
-const switchTheme = async (themeCode: 'light' | 'dark' | 'auto') => {
+const visibleThemes = computed(() =>
+    props.hideDevice ? themes.filter((t) => t.code !== 'auto') : [...themes],
+);
+
+const switchTheme = async (
+    themeCode: 'light' | 'dark' | 'auto',
+    triggerEl?: HTMLElement,
+) => {
     // Check if browser supports View Transitions API
     if (
         props.disableAnimation ||
@@ -62,11 +83,9 @@ const switchTheme = async (themeCode: 'light' | 'dark' | 'auto') => {
     let x = 0;
     let y = 0;
 
-    if (
-        triggerRef.value &&
-        typeof triggerRef.value.getBoundingClientRect === 'function'
-    ) {
-        const rect = triggerRef.value.getBoundingClientRect();
+    const el = triggerEl ?? triggerRef.value;
+    if (el && typeof el.getBoundingClientRect === 'function') {
+        const rect = el.getBoundingClientRect();
         x = rect.left + rect.width / 2;
         y = rect.top + rect.height / 2;
     }
@@ -104,11 +123,38 @@ const switchTheme = async (themeCode: 'light' | 'dark' | 'auto') => {
 const currentTheme = computed(
     () => themes.find((theme) => theme.code === colorMode.value) || themes[0],
 );
+
+function handleInlineClick(
+    themeCode: 'light' | 'dark' | 'auto',
+    event: MouseEvent,
+) {
+    switchTheme(themeCode, event.currentTarget as HTMLElement);
+}
 </script>
 
 <template>
+    <!-- Inline Mode (ButtonGroup) -->
+    <ButtonGroup v-if="inline" :class="{ 'w-full': fullWidth }">
+        <Button
+            v-for="theme in visibleThemes"
+            :key="theme.code"
+            :variant="colorMode === theme.code ? 'default' : 'outline'"
+            size="sm"
+            :class="[
+                { 'flex-1': fullWidth },
+                { 'font-semibold': colorMode === theme.code },
+            ]"
+            :data-testid="`color-mode-${theme.code}`"
+            :aria-label="$t(theme.name)"
+            @click="handleInlineClick(theme.code, $event)"
+        >
+            <component :is="theme.icon" class="size-4" />
+            {{ $t(theme.name) }}
+        </Button>
+    </ButtonGroup>
+
     <!-- Standalone Mode (Landing Page) -->
-    <DropdownMenu v-if="mode === 'standalone'">
+    <DropdownMenu v-else-if="mode === 'standalone'">
         <DropdownMenuTrigger as-child>
             <button
                 ref="triggerRef"
@@ -122,7 +168,7 @@ const currentTheme = computed(
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" class="min-w-40">
             <DropdownMenuItem
-                v-for="theme in themes"
+                v-for="theme in visibleThemes"
                 :key="theme.code"
                 @click="switchTheme(theme.code)"
                 :class="{
@@ -149,7 +195,7 @@ const currentTheme = computed(
         </DropdownMenuSubTrigger>
         <DropdownMenuSubContent>
             <DropdownMenuItem
-                v-for="theme in themes"
+                v-for="theme in visibleThemes"
                 :key="theme.code"
                 @click="switchTheme(theme.code)"
                 :class="{ 'bg-accent': colorMode === theme.code }"

@@ -38,11 +38,6 @@ createServer(
 
                 return app;
             },
-            defaults: {
-                future: {
-                    useScriptElementForInitialPage: true,
-                },
-            },
         }),
     {
         cluster: true,

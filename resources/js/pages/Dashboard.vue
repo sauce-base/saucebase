@@ -259,7 +259,7 @@ const recentActivity = ref([
                                 class="hover:bg-accent flex items-start gap-4 rounded-lg border p-4 transition-colors"
                             >
                                 <div
-                                    class="bg-primary/10 text-primary rounded-full p-4"
+                                    class="bg-primary/10 text-primary rounded-xl p-4"
                                 >
                                     <component
                                         :is="feature.icon"
@@ -313,10 +313,10 @@ const recentActivity = ref([
                                 >
                                     <div class="flex items-start gap-4">
                                         <div
-                                            class="bg-primary/10 flex size-10 items-center justify-center rounded-full"
+                                            class="bg-primary/10 flex size-10 items-center justify-center rounded-xl"
                                         >
                                             <div
-                                                class="bg-primary size-2 rounded-full"
+                                                class="bg-primary size-2 rounded-xl"
                                             ></div>
                                         </div>
                                         <div class="flex-1 space-y-1">

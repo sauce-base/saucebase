@@ -1,5 +1,4 @@
-import { usePage } from '@inertiajs/vue3';
-import axios from 'axios';
+import { useHttp, usePage } from '@inertiajs/vue3';
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 import { computed, readonly, ref, watch, type Ref } from 'vue';
 
@@ -34,9 +33,10 @@ export const useLocalization = () => {
      * Updates both the backend session and frontend i18n
      */
     const setLanguage = async (lang: string) => {
+        const { post } = useHttp();
         try {
             // Update backend session
-            await axios.post(route('locale', { locale: lang }));
+            await post(route('locale', { locale: lang }));
 
             // Update local state
             if (languageState) {

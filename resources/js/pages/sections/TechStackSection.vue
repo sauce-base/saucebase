@@ -20,7 +20,7 @@ const groups: { label: string; icon: Component; items: string[] }[] = [
         icon: Monitor,
         items: [
             'Vue 3 Composition API',
-            'Inertia.js 2',
+            'Inertia.js 3',
             'Tailwind CSS 4',
             'TypeScript',
             'shadcn-vue',
@@ -55,24 +55,19 @@ const groups: { label: string; icon: Component; items: string[] }[] = [
 </script>
 
 <template>
-    <div
-        id="stack"
-        class="border-t border-gray-200 bg-gray-50 py-24 sm:py-32 dark:border-gray-800 dark:bg-gray-900/40"
-    >
+    <div id="stack" class="border-border bg-muted/50 border-t py-24 sm:py-32">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <!-- Header -->
             <div class="mx-auto max-w-2xl text-center">
-                <h2
-                    class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400"
-                >
+                <h2 class="text-primary text-2xl font-semibold">
                     {{ $t('No surprises') }}
                 </h2>
                 <p
-                    class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl dark:text-white"
+                    class="text-foreground mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
                 >
                     {{ $t('Boring technology. Exceptional results.') }}
                 </p>
-                <p class="mt-6 text-lg/8 text-gray-600 dark:text-gray-400">
+                <p class="text-muted-foreground mt-6 text-lg/8">
                     {{
                         $t(
                             'No experimental tools, no new frameworks to learn. Just the proven Laravel ecosystem, configured for production from day one.',
@@ -88,21 +83,21 @@ const groups: { label: string; icon: Component; items: string[] }[] = [
                 <div
                     v-for="group in groups"
                     :key="group.label"
-                    class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800/50"
+                    class="border-border bg-card rounded-xl border p-6 shadow-lg hover:shadow-xl"
                 >
                     <!-- Category header -->
                     <div class="mb-4 flex items-center gap-2">
                         <div
-                            class="flex size-7 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700"
+                            class="bg-muted flex size-7 items-center justify-center rounded-lg"
                         >
                             <component
                                 :is="group.icon"
-                                class="size-3.5 text-gray-500 dark:text-gray-400"
+                                class="text-muted-foreground size-3.5"
                                 aria-hidden="true"
                             />
                         </div>
                         <h3
-                            class="text-sm font-semibold tracking-wide text-gray-900 uppercase dark:text-white"
+                            class="text-foreground text-sm font-semibold tracking-wide uppercase"
                         >
                             {{ $t(group.label) }}
                         </h3>
@@ -113,7 +108,7 @@ const groups: { label: string; icon: Component; items: string[] }[] = [
                         <span
                             v-for="item in group.items"
                             :key="item"
-                            class="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            class="border-border bg-muted/50 text-muted-foreground inline-flex items-center rounded-xl border px-2.5 py-1 text-xs font-medium"
                         >
                             {{ $t(item) }}
                         </span>

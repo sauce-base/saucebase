@@ -14,7 +14,7 @@ const faqs = [
     },
     {
         question: 'What tech stack does Saucebase use?',
-        answer: 'Saucebase uses the VILT stack: Vue 3 (Composition API), Inertia.js 2, Laravel 13, and Tailwind CSS 4. It also includes TypeScript, Filament 5 admin panel, PHPStan level 5, and Playwright for E2E testing.',
+        answer: 'Saucebase uses the VILT stack: Vue 3 (Composition API), Inertia.js 3, Laravel 13, and Tailwind CSS 4. It also includes TypeScript, Filament 5 admin panel, PHPStan level 5, and Playwright for E2E testing.',
     },
     {
         question: 'Can I customize the modules after installation?',
@@ -32,11 +32,11 @@ const faqs = [
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-2xl text-center">
                 <h2
-                    class="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl dark:text-white"
+                    class="text-foreground text-4xl font-semibold tracking-tight sm:text-5xl"
                 >
                     {{ $t('Frequently asked questions') }}
                 </h2>
-                <p class="mt-6 text-lg/8 text-gray-600 dark:text-gray-300">
+                <p class="text-muted-foreground mt-6 text-lg/8">
                     {{
                         $t(
                             "Have a different question and can't find the answer you're looking for? Reach out to our support team by",
@@ -46,7 +46,7 @@ const faqs = [
                         href="https://github.com/saucebase-dev/saucebase/discussions"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                        class="text-primary hover:text-primary/80 font-semibold"
                     >
                         {{ $t('opening a discussion') }}
                     </a>
@@ -57,14 +57,10 @@ const faqs = [
                 class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3"
             >
                 <div v-for="(faq, index) in faqs" :key="index">
-                    <h3
-                        class="text-base/7 font-semibold text-gray-900 dark:text-white"
-                    >
+                    <h3 class="text-foreground text-base/7 font-semibold">
                         {{ $t(faq.question) }}
                     </h3>
-                    <p
-                        class="mt-2 text-base/7 text-gray-600 dark:text-gray-400"
-                    >
+                    <p class="text-muted-foreground mt-2 text-base/7">
                         {{ $t(faq.answer) }}
                     </p>
                 </div>

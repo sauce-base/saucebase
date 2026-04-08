@@ -1,8 +1,3 @@
-/** 
- * Theme variables using OKLCH color space
- * Generate your own theme at https://tweakcn.com/
- */
-
 :root {
     --background: oklch(0.9383 0.0042 236.4993);
     --foreground: oklch(0.3211 0 0);
@@ -20,7 +15,7 @@
     --accent-foreground: oklch(0.3791 0.1378 265.5222);
     --destructive: oklch(0.6368 0.2078 25.3313);
     --destructive-foreground: oklch(1 0 0);
-    --border: oklch(0.9022 0.0052 247.8822);
+    --border: oklch(83.823% 0.00114 201.761);
     --input: oklch(90.309% 0.00889 264.603);
     --ring: oklch(0.4829 0.1749 272.2833);
     --chart-1: oklch(0.7156 0.0605 248.6845);
@@ -39,9 +34,10 @@
     --font-sans: Outfit, sans-serif;
     --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
     --font-mono: monospace;
+    --font-body: var(--font-sans);
     --radius: 1.225rem;
-    --shadow-x: 0px;
-    --shadow-y: 1px;
+    --shadow-offset-x: 0px;
+    --shadow-offset-y: 1px;
     --shadow-blur: 30px;
     --shadow-spread: -10px;
     --shadow-opacity: 0.2;
@@ -101,15 +97,6 @@
     --sidebar-accent-foreground: oklch(0.8823 0.0571 254.1284);
     --sidebar-border: oklch(0.3843 0.0301 269.7337);
     --sidebar-ring: oklch(0.323 0.1656 267.8352);
-    --font-sans: Inter, sans-serif;
-    --font-serif: Source Serif 4, serif;
-    --font-mono: JetBrains Mono, monospace;
-    --radius: 1.225rem;
-    --shadow-x: 0px;
-    --shadow-y: 1px;
-    --shadow-blur: 30px;
-    --shadow-spread: -10px;
-    --shadow-opacity: 0.2;
     --shadow-color: hsl(0 0% 0%);
     --shadow-2xs: 0px 1px 30px -10px hsl(0 0% 0% / 0.1);
     --shadow-xs: 0px 1px 30px -10px hsl(0 0% 0% / 0.1);
@@ -173,6 +160,9 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
+    --radius-2xl: calc(var(--radius) + 8px);
+    --radius-3xl: calc(var(--radius) + 12px);
+    --radius-4xl: calc(var(--radius) + 16px);
 
     --shadow-2xs: var(--shadow-2xs);
     --shadow-xs: var(--shadow-xs);
@@ -182,4 +172,10 @@
     --shadow-lg: var(--shadow-lg);
     --shadow-xl: var(--shadow-xl);
     --shadow-2xl: var(--shadow-2xl);
+}
+
+@layer base {
+    body {
+        letter-spacing: var(--tracking-normal);
+    }
 }

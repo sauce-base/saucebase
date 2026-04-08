@@ -179,7 +179,7 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                         </template>
                                         <template v-else>
                                             <span
-                                                class="size-1.5 rounded-full bg-current"
+                                                class="size-1.5 rounded-xl bg-current"
                                             ></span>
                                         </template>
                                     </Badge>
@@ -216,7 +216,7 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                         </template>
                                         <template v-else>
                                             <span
-                                                class="size-1.5 rounded-full bg-current"
+                                                class="size-1.5 rounded-xl bg-current"
                                             ></span>
                                         </template>
                                     </Badge>
@@ -248,7 +248,7 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                         </template>
                                         <template v-else>
                                             <span
-                                                class="size-1.5 rounded-full bg-current"
+                                                class="size-1.5 rounded-xl bg-current"
                                             ></span>
                                         </template>
                                     </Badge>

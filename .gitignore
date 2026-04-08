@@ -37,6 +37,7 @@
 /modules/*/.cache
 /modules/*.diff
 /modules/*.patch
+/modules/*/.claude
 
 Homestead.json
 Homestead.yaml
@@ -53,6 +54,7 @@ public/vendor/livewire/
 /playwright-report/
 /playwright/.cache/
 /playwright-mcp/
+/.playwright-mcp/
 /storage/laravel-playwright-config.json
 
 # SSL Certificates (generated locally, not tracked)

@@ -121,24 +121,22 @@ const modules = [
 </script>
 
 <template>
-    <div
+    <section
         id="modules"
-        class="border-t border-gray-200 bg-gray-50 py-24 sm:py-32 dark:border-gray-800 dark:bg-gray-900/40"
+        class="border-border bg-muted/30 border-t py-24 sm:py-32"
     >
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <!-- Header -->
             <div class="mx-auto max-w-2xl text-center">
-                <h2
-                    class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400"
-                >
+                <h2 class="text-primary text-2xl font-semibold">
                     {{ $t('Ready-made modules') }}
                 </h2>
                 <p
-                    class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl dark:text-white"
+                    class="text-foreground mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
                 >
                     {{ $t('Install what you need.') }}
                 </p>
-                <p class="mt-6 text-lg/8 text-gray-600 dark:text-gray-400">
+                <p class="text-muted-foreground mt-6 text-lg/8">
                     {{
                         $t(
                             'Each module copies directly into your repository. Modify models, migrations, controllers, or components, no packages to fork, no APIs to override.',
@@ -154,17 +152,17 @@ const modules = [
                 <div
                     v-for="mod in modules"
                     :key="mod.id"
-                    class="group relative flex flex-col rounded-2xl border bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg dark:bg-gray-800/50 dark:hover:bg-gray-800"
+                    class="group bg-card relative flex flex-col rounded-xl border p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
                     :class="
                         mod.badge === 'coming-soon'
-                            ? 'border-dashed border-gray-200 opacity-60 dark:border-gray-700'
-                            : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
+                            ? 'border-border border-dashed opacity-60'
+                            : 'border-border hover:border-border/70'
                     "
                 >
                     <!-- Icon + Badge -->
                     <div class="flex items-center justify-between">
                         <div
-                            class="flex size-10 items-center justify-center rounded-full"
+                            class="flex size-10 items-center justify-center rounded-xl"
                             :style="{
                                 backgroundColor: mod.color + '20',
                                 color: mod.color,
@@ -178,27 +176,23 @@ const modules = [
                         </div>
                         <span
                             v-if="mod.badge === 'free'"
-                            class="inline-flex items-center rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset dark:bg-green-400/10 dark:text-green-400 dark:ring-green-400/20"
+                            class="inline-flex items-center rounded-xl bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset dark:bg-green-400/10 dark:text-green-400 dark:ring-green-400/20"
                         >
                             {{ $t('Free') }}
                         </span>
                         <span
                             v-else
-                            class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-500 ring-1 ring-gray-500/10 ring-inset dark:bg-gray-400/10 dark:text-gray-400 dark:ring-gray-400/20"
+                            class="bg-muted text-muted-foreground ring-border/20 inline-flex items-center rounded-xl px-2.5 py-1 text-xs font-medium ring-1 ring-inset"
                         >
                             {{ $t('Coming soon') }}
                         </span>
                     </div>
 
                     <!-- Name + Description -->
-                    <h3
-                        class="mt-5 text-base font-semibold text-gray-900 dark:text-white"
-                    >
+                    <h3 class="text-foreground mt-5 text-base font-semibold">
                         {{ $t(mod.title) }}
                     </h3>
-                    <p
-                        class="mt-1.5 text-sm leading-6 text-gray-600 dark:text-gray-300"
-                    >
+                    <p class="text-muted-foreground mt-1.5 text-sm leading-6">
                         {{ $t(mod.description) }}
                     </p>
 
@@ -207,7 +201,7 @@ const modules = [
                         <li
                             v-for="feature in mod.features"
                             :key="feature"
-                            class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                            class="text-foreground flex items-center gap-2 text-sm font-medium"
                         >
                             <Check
                                 class="size-3.5 shrink-0"
@@ -235,7 +229,7 @@ const modules = [
 
             <!-- Build your own -->
             <div class="mt-16 text-center">
-                <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                <p class="text-foreground text-2xl font-bold">
                     {{ $t('Build your own module:') }}
                 </p>
                 <div
@@ -248,5 +242,5 @@ const modules = [
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
