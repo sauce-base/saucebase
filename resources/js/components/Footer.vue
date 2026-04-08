@@ -9,7 +9,7 @@ import IconHeart from '~icons/heroicons/heart';
             class="mx-4 py-8 min-[450px]:mx-auto min-[450px]:max-w-7xl min-[450px]:px-6"
         >
             <div
-                class="flex w-full flex-col items-center justify-between gap-4 text-sm text-gray-600 md:flex-row dark:text-gray-400"
+                class="text-muted-foreground flex w-full flex-col items-center justify-between gap-4 text-sm md:flex-row"
             >
                 <div
                     class="flex flex-col items-center gap-y-1 md:flex-row md:items-center md:gap-x-6 md:gap-y-0"
@@ -17,26 +17,23 @@ import IconHeart from '~icons/heroicons/heart';
                     <span>© {{ new Date().getFullYear() }} Saucebase</span>
                     <a
                         href="https://github.com/saucebase-dev/saucebase"
-                        class="hover:text-gray-900 dark:hover:text-white"
+                        class="hover:text-foreground"
                     >
                         {{ $t('GitHub') }}
                     </a>
                     <a
                         href="https://saucebase-dev.github.io/docs/"
-                        class="hover:text-gray-900 dark:hover:text-white"
+                        class="hover:text-foreground"
                     >
                         {{ $t('Documentation') }}
                     </a>
                     <Link
                         :href="route('privacy')"
-                        class="hover:text-gray-900 dark:hover:text-white"
+                        class="hover:text-foreground"
                     >
                         {{ $t('Privacy') }}
                     </Link>
-                    <Link
-                        :href="route('terms')"
-                        class="hover:text-gray-900 dark:hover:text-white"
-                    >
+                    <Link :href="route('terms')" class="hover:text-foreground">
                         {{ $t('Terms') }}
                     </Link>
                 </div>

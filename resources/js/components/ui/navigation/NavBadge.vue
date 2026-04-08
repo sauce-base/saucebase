@@ -31,7 +31,7 @@ const dotColor = computed(() => {
     <!-- Dot badge - just a small circle -->
     <span
         v-if="config && isDotBadge"
-        class="size-2 rounded-full"
+        class="size-2 rounded-xl"
         :class="[dotColor, config.class]"
     />
     <!-- Content badge - use Badge component -->

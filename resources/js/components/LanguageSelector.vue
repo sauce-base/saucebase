@@ -28,7 +28,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     mode: 'standalone',
     triggerClass:
-        'flex items-center rounded-lg p-2 text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
+        'flex items-center rounded-lg p-2 text-muted-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground',
 });
 
 const { language, locales, setLanguage } = useLocalization();

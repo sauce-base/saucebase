@@ -162,7 +162,7 @@ import { Head } from '@inertiajs/vue3';
                         }}
                         <a
                             href="mailto:hello@example.com"
-                            class="text-indigo-600 hover:underline dark:text-indigo-400"
+                            class="text-primary/70 font-medium underline-offset-4 hover:underline"
                             >hello@example.com</a
                         >.
                     </p>

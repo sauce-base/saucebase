@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
         class="fixed top-0 right-0 left-0 z-50 transition-all duration-300"
         :class="[
             isScrolled
-                ? 'border-b bg-white/5 shadow-2xl backdrop-blur-lg dark:border-b-gray-400/25'
+                ? 'dark:border-b-border/25 border-b bg-white/5 shadow-2xl backdrop-blur-lg'
                 : 'bg-transparent',
             isVisible ? 'translate-y-0' : '-translate-y-full',
         ]"
@@ -78,7 +78,7 @@ onBeforeUnmount(() => {
                         :key="item.slug"
                         :href="item.url"
                         :target="item.newPage ? '_blank' : '_self'"
-                        class="after:bg-primary relative px-4 py-2 text-sm font-semibold text-gray-700 transition-all duration-300 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:rounded-full after:transition-all after:duration-300 hover:text-gray-900 hover:after:w-3/4 dark:text-gray-300 dark:hover:text-white"
+                        class="after:bg-primary text-muted-foreground hover:text-foreground relative px-4 py-2 text-sm font-semibold transition-all duration-300 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:rounded-xl after:transition-all after:duration-300 hover:after:w-3/4"
                     >
                         {{ $t(item.title) }}
                         <ExternalLink
@@ -98,7 +98,7 @@ onBeforeUnmount(() => {
                     <Link
                         v-if="modules().has('Auth') && !$page.props.auth?.user"
                         :href="route('login')"
-                        class="rounded-full px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                        class="text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200"
                     >
                         {{ $t('Sign In') }}
                     </Link>
@@ -106,7 +106,7 @@ onBeforeUnmount(() => {
                     <Link
                         v-if="modules().has('Auth') && !$page.props.auth?.user"
                         :href="route('register')"
-                        class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                        class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                     >
                         {{ $t('Get Started') }}
                     </Link>
@@ -116,14 +116,14 @@ onBeforeUnmount(() => {
                             route().has('dashboard') && $page.props.auth?.user
                         "
                         :href="route('dashboard')"
-                        class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                        class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                     >
                         {{ $t('Dashboard') }}
                     </Link>
                     <Link
                         v-if="route().has('logout') && $page.props.auth?.user"
                         :href="route('logout')"
-                        class="rounded-full px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                        class="text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200"
                     >
                         {{ $t('Logout') }}
                     </Link>
@@ -141,7 +141,7 @@ onBeforeUnmount(() => {
                                 : $t('Open mobile menu')
                         "
                         :aria-expanded="mobileMenuOpen"
-                        class="rounded-full p-2 text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                        class="text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-xl p-2 transition-colors duration-200"
                     >
                         <IconMenu v-if="!mobileMenuOpen" class="h-6 w-6" />
                         <IconX v-else class="h-6 w-6" />
@@ -160,7 +160,7 @@ onBeforeUnmount(() => {
             >
                 <div
                     v-if="mobileMenuOpen"
-                    class="mx-2 mt-4 rounded-lg border-t border-gray-200/40 bg-white/80 pb-6 backdrop-blur-sm lg:hidden dark:border-gray-800/40 dark:bg-gray-950/80"
+                    class="border-border/40 bg-background/80 mx-2 mt-4 rounded-lg border-t pb-6 backdrop-blur-sm lg:hidden"
                 >
                     <div class="flex flex-col space-y-1 px-2 pt-4">
                         <!-- Landing navigation (anchor links) -->
@@ -169,16 +169,14 @@ onBeforeUnmount(() => {
                             :key="item.slug"
                             :href="item.url"
                             :target="item.newPage ? '_blank' : '_self'"
-                            class="after:bg-primary hover:text-primary dark:hover:text-primary relative px-4 py-3 text-base font-semibold text-gray-900 transition-all duration-300 after:absolute after:bottom-1 after:left-4 after:h-0.5 after:w-0 after:rounded-full after:transition-all after:duration-300 hover:after:w-1/2 dark:text-gray-100"
+                            class="after:bg-primary hover:text-primary text-foreground relative px-4 py-3 text-base font-semibold transition-all duration-300 after:absolute after:bottom-1 after:left-4 after:h-0.5 after:w-0 after:rounded-xl after:transition-all after:duration-300 hover:after:w-1/2"
                             @click="mobileMenuOpen = false"
                         >
                             {{ $t(item.title) }}
                         </a>
 
                         <!-- Mobile auth actions -->
-                        <div
-                            class="mt-2 border-t border-gray-200/60 pt-4 dark:border-gray-800/60"
-                        >
+                        <div class="border-border/60 mt-2 border-t pt-4">
                             <!-- Unauthenticated: side-by-side buttons -->
                             <div
                                 v-if="
@@ -189,14 +187,14 @@ onBeforeUnmount(() => {
                             >
                                 <Link
                                     :href="route('login')"
-                                    class="flex-1 rounded-full border border-gray-300 px-4 py-2.5 text-center text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-100 dark:hover:bg-gray-800/50"
+                                    class="border-border text-foreground hover:bg-accent flex-1 rounded-xl border px-4 py-2.5 text-center text-sm font-medium transition-all duration-200"
                                     @click="mobileMenuOpen = false"
                                 >
                                     {{ $t('Sign In') }}
                                 </Link>
                                 <Link
                                     :href="route('register')"
-                                    class="bg-primary text-primary-foreground hover:bg-primary/90 flex flex-1 items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-200"
+                                    class="bg-primary text-primary-foreground hover:bg-primary/90 flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200"
                                     @click="mobileMenuOpen = false"
                                 >
                                     {{ $t('Get Started') }}
@@ -211,7 +209,7 @@ onBeforeUnmount(() => {
                                     $page.props.auth?.user
                                 "
                                 :href="route('dashboard')"
-                                class="bg-primary text-primary-foreground hover:bg-primary/90 flex w-full items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-200"
+                                class="bg-primary text-primary-foreground hover:bg-primary/90 flex w-full items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200"
                                 @click="mobileMenuOpen = false"
                             >
                                 {{ $t('Dashboard') }}
