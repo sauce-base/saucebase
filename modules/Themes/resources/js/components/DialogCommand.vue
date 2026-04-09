@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { trans } from 'laravel-vue-i18n';
+import { computed } from 'vue';
 import { toast } from 'vue-sonner';
 
 import IconCopy from '~icons/lucide/copy';
@@ -20,9 +21,11 @@ const props = defineProps<{
     themeId: string;
 }>();
 
+const command = computed(() => `php artisan saucebase:theme:apply ${props.themeId}`);
+
 async function handleCopy() {
     navigator.clipboard
-        .writeText(props.themeId)
+        .writeText(command.value)
         .then(() => toast.success(trans('Copied to clipboard')))
         .catch(() => toast.error(trans('Failed to copy to clipboard')));
 }
@@ -39,7 +42,7 @@ async function handleCopy() {
             </DialogHeader>
             <ButtonGroup class="w-full">
                 <Input
-                    :model-value="`php artisan saucebase:theme:apply ${themeId}`"
+                    :model-value="command"
                     readonly
                     class="flex-1 font-mono text-sm"
                 />

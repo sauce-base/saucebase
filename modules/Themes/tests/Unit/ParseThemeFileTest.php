@@ -2,18 +2,14 @@
 
 namespace Modules\Themes\Tests\Unit;
 
-use Modules\Themes\Providers\ThemesServiceProvider;
-use ReflectionMethod;
+use Modules\Themes\Services\ThemeService;
 use Tests\TestCase;
 
 class ParseThemeFileTest extends TestCase
 {
     private function parse(string $file): ?array
     {
-        $provider = new ThemesServiceProvider(app());
-        $method = new ReflectionMethod($provider, 'parseThemeFile');
-
-        return $method->invoke($provider, $file);
+        return ThemeService::parseThemeFile($file);
     }
 
     private function writeTempTheme(array $data): string

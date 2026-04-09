@@ -3,6 +3,7 @@
 namespace Modules\Themes\Console\Commands;
 
 use Illuminate\Console\Command;
+use Modules\Themes\Services\ThemeService;
 
 class ApplyThemeCommand extends Command
 {
@@ -12,18 +13,17 @@ class ApplyThemeCommand extends Command
 
     public function handle(): int
     {
-        $themeId = $this->argument('theme');
-        $jsonPath = module_path('Themes', "resources/themes/{$themeId}.json");
+        $theme = $this->argument('theme');
 
-        if (! file_exists($jsonPath)) {
-            $this->error("Theme '{$themeId}' not found. Expected: {$jsonPath}");
+        if (! ThemeService::themeExists($theme)) {
+            $this->error("Theme '{$theme}' not found.");
 
             return self::FAILURE;
         }
 
-        $content = file_get_contents($jsonPath);
+        $content = ThemeService::getTheme($theme);
         if ($content === false) {
-            $this->error("Could not read theme file: {$jsonPath}");
+            $this->error("Could not read theme: {$theme}");
 
             return self::FAILURE;
         }
@@ -31,14 +31,8 @@ class ApplyThemeCommand extends Command
         /** @var array<string, mixed>|null $data */
         $data = json_decode($content, true);
 
-        if (! is_array($data)) {
-            $this->error("Invalid theme file format: {$jsonPath}");
-
-            return self::FAILURE;
-        }
-
-        if (! isset($data['cssVars'])) {
-            $this->error("Invalid theme file format: {$jsonPath}");
+        if (! is_array($data) || ! isset($data['cssVars']) || ! is_array($data['cssVars'])) {
+            $this->error('Invalid theme file format');
 
             return self::FAILURE;
         }
@@ -72,7 +66,7 @@ class ApplyThemeCommand extends Command
         $dark = $darkVars; // theme vars belong in :root only, not .dark
 
         if (empty($light) && empty($dark)) {
-            $this->error("Invalid theme file format: {$jsonPath}");
+            $this->error('Invalid theme: no CSS variables found');
 
             return self::FAILURE;
         }
@@ -113,7 +107,7 @@ class ApplyThemeCommand extends Command
 
         $lightCount = count($light);
         $darkCount = count($dark);
-        $this->info("Theme '{$themeId}' applied: {$lightCount} light vars, {$darkCount} dark vars patched.");
+        $this->info("Theme '{$theme}' applied: {$lightCount} light vars, {$darkCount} dark vars patched.");
         $this->line('Run <comment>npm run build</comment> to compile the changes.');
 
         return self::SUCCESS;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bf3b6eb164848b67a7d36303c9840a4",
+    "content-hash": "beada6dcf5e577adf557e6f71110da38",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -1199,7 +1199,7 @@
         },
         {
             "name": "filament/actions",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/actions.git",
@@ -1247,16 +1247,16 @@
         },
         {
             "name": "filament/filament",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/panels.git",
-                "reference": "bb070b71dc443e4c231e30a50cfb5d1a681a1c0b"
+                "reference": "2bacfe5143d9106881af8e527faf87b07b60c9ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/panels/zipball/bb070b71dc443e4c231e30a50cfb5d1a681a1c0b",
-                "reference": "bb070b71dc443e4c231e30a50cfb5d1a681a1c0b",
+                "url": "https://api.github.com/repos/filamentphp/panels/zipball/2bacfe5143d9106881af8e527faf87b07b60c9ff",
+                "reference": "2bacfe5143d9106881af8e527faf87b07b60c9ff",
                 "shasum": ""
             },
             "require": {
@@ -1300,20 +1300,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-04-07T09:47:19+00:00"
+            "time": "2026-04-09T08:08:14+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
-                "reference": "2f65bfc96448d9e6f60f905b46bc78ce1e903b24"
+                "reference": "e9c2aea05d761c110f571f873b6eaa96c18048cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/forms/zipball/2f65bfc96448d9e6f60f905b46bc78ce1e903b24",
-                "reference": "2f65bfc96448d9e6f60f905b46bc78ce1e903b24",
+                "url": "https://api.github.com/repos/filamentphp/forms/zipball/e9c2aea05d761c110f571f873b6eaa96c18048cc",
+                "reference": "e9c2aea05d761c110f571f873b6eaa96c18048cc",
                 "shasum": ""
             },
             "require": {
@@ -1350,11 +1350,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-04-07T09:47:07+00:00"
+            "time": "2026-04-09T08:09:54+00:00"
         },
         {
             "name": "filament/infolists",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/infolists.git",
@@ -1399,7 +1399,7 @@
         },
         {
             "name": "filament/notifications",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
@@ -1446,7 +1446,7 @@
         },
         {
             "name": "filament/query-builder",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/query-builder.git",
@@ -1492,7 +1492,7 @@
         },
         {
             "name": "filament/schemas",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/schemas.git",
@@ -1537,7 +1537,7 @@
         },
         {
             "name": "filament/spatie-laravel-media-library-plugin",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-media-library-plugin.git",
@@ -1574,7 +1574,7 @@
         },
         {
             "name": "filament/support",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
@@ -1632,7 +1632,7 @@
         },
         {
             "name": "filament/tables",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
@@ -1678,7 +1678,7 @@
         },
         {
             "name": "filament/widgets",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/widgets.git",
@@ -2331,16 +2331,16 @@
         },
         {
             "name": "inertiajs/inertia-laravel",
-            "version": "v3.0.3",
+            "version": "v3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inertiajs/inertia-laravel.git",
-                "reference": "9cb520f18c425ffd523293af54dd3c31ec9b1e79"
+                "reference": "871255862da13682bb9e5dae5466590678be89ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/9cb520f18c425ffd523293af54dd3c31ec9b1e79",
-                "reference": "9cb520f18c425ffd523293af54dd3c31ec9b1e79",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/871255862da13682bb9e5dae5466590678be89ff",
+                "reference": "871255862da13682bb9e5dae5466590678be89ff",
                 "shasum": ""
             },
             "require": {
@@ -2398,9 +2398,9 @@
             ],
             "support": {
                 "issues": "https://github.com/inertiajs/inertia-laravel/issues",
-                "source": "https://github.com/inertiajs/inertia-laravel/tree/v3.0.3"
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v3.0.5"
             },
-            "time": "2026-04-08T12:12:17+00:00"
+            "time": "2026-04-09T15:13:38+00:00"
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
@@ -6708,16 +6708,16 @@
         },
         {
             "name": "saucebase/themes",
-            "version": "v0.2.1",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/themes.git",
-                "reference": "17b04457eeebce617e8f8ee950efa4ef0b523492"
+                "reference": "50bb063a03c52b7b1f82cf232b5a9e99f230af26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/themes/zipball/17b04457eeebce617e8f8ee950efa4ef0b523492",
-                "reference": "17b04457eeebce617e8f8ee950efa4ef0b523492",
+                "url": "https://api.github.com/repos/saucebase-dev/themes/zipball/50bb063a03c52b7b1f82cf232b5a9e99f230af26",
+                "reference": "50bb063a03c52b7b1f82cf232b5a9e99f230af26",
                 "shasum": ""
             },
             "type": "saucebase-module",
@@ -6743,9 +6743,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/themes/issues",
-                "source": "https://github.com/saucebase-dev/themes/tree/v0.2.1"
+                "source": "https://github.com/saucebase-dev/themes/tree/v1.0.0"
             },
-            "time": "2026-04-08T19:40:52+00:00"
+            "time": "2026-04-09T19:40:16+00:00"
         },
         {
             "name": "scrivo/highlight.php",
@@ -12454,16 +12454,16 @@
         },
         {
             "name": "php-debugbar/php-debugbar",
-            "version": "v3.7.3",
+            "version": "v3.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-debugbar/php-debugbar.git",
-                "reference": "ea965a77f10b3824881b0ae7dba70d2038a9df84"
+                "reference": "af82a54530c56919ce3c6fba1942a247ac9f6777"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-debugbar/php-debugbar/zipball/ea965a77f10b3824881b0ae7dba70d2038a9df84",
-                "reference": "ea965a77f10b3824881b0ae7dba70d2038a9df84",
+                "url": "https://api.github.com/repos/php-debugbar/php-debugbar/zipball/af82a54530c56919ce3c6fba1942a247ac9f6777",
+                "reference": "af82a54530c56919ce3c6fba1942a247ac9f6777",
                 "shasum": ""
             },
             "require": {
@@ -12540,7 +12540,7 @@
             ],
             "support": {
                 "issues": "https://github.com/php-debugbar/php-debugbar/issues",
-                "source": "https://github.com/php-debugbar/php-debugbar/tree/v3.7.3"
+                "source": "https://github.com/php-debugbar/php-debugbar/tree/v3.7.4"
             },
             "funding": [
                 {
@@ -12552,7 +12552,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-08T07:22:30+00:00"
+            "time": "2026-04-09T11:28:41+00:00"
         },
         {
             "name": "php-debugbar/symfony-bridge",
