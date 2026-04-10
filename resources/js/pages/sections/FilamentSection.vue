@@ -53,7 +53,7 @@ const features = [
         id="admin"
         class="bg-background/50 relative isolate overflow-hidden py-24"
     >
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
             <!-- Centered Header -->
             <div class="mx-auto max-w-2xl text-center">
                 <h2 class="text-primary text-2xl font-semibold">
@@ -75,29 +75,11 @@ const features = [
 
             <!-- Centered Image with Fade Overlay -->
             <div
-                class="relative mx-auto mt-8 max-w-5xl overflow-hidden rounded-xl shadow-2xl xl:h-130"
-            >
-                <img
-                    src="/images/screenshots/admin-dashboard-light.png"
-                    :alt="$t('Filament admin panel screenshot')"
-                    class="w-full rounded-xl rounded-b-none bg-gray-50/50 p-4 shadow-xl ring-gray-400/10 dark:hidden dark:bg-gray-500/10 dark:ring-white/20"
-                />
-                <img
-                    src="/images/screenshots/admin-dashboard-dark.png"
-                    :alt="$t('Filament admin panel screenshot')"
-                    class="relative mx-auto mt-8 w-full max-w-5xl rounded-xl rounded-b-none bg-gray-50/50 p-4 shadow-xl ring-gray-400/10 not-dark:hidden dark:bg-gray-500/10 dark:ring-white/20"
-                />
-                <!-- Bottom fade overlay -->
-                <div
-                    class="pointer-events-none absolute inset-x-0 bottom-0 h-14 rounded-b-none border-b bg-linear-to-t from-gray-900/30 to-transparent blur dark:from-white/15"
-                />
-                <div
-                    class="absolute inset-x-0 bottom-0 mx-auto w-full border-b-14"
-                />
-            </div>
+                class="bg-background mx-auto mt-8 -mb-60 h-130 max-w-5xl rounded-xl bg-[url(/images/screenshots/admin-dashboard-light.png)] mask-b-from-20% mask-b-to-60% bg-cover shadow-lg/90 xl:h-160 dark:bg-[url(/images/screenshots/admin-dashboard-dark.png)]"
+            />
 
             <!-- 2-Column Features Grid -->
-            <div class="mx-auto mt-16 max-w-2xl lg:max-w-4xl">
+            <div class="relative z-10 mx-auto max-w-2xl lg:max-w-4xl">
                 <dl
                     class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 lg:gap-y-16"
                 >

@@ -68,11 +68,13 @@ const hasDashboardRoute = computed(() => route().has('dashboard'));
             </div>
 
             <!-- Main Headline -->
-            <h1 class="mb-6 text-4xl font-bold tracking-tight sm:text-6xl">
+            <h1
+                class="mb-6 text-4xl font-bold tracking-tight text-shadow-lg/5 sm:text-6xl"
+            >
                 {{ $t('Skip the Boilerplate.') }}
-                <span class="text-primary block">{{
-                    $t('Ship Your Product.')
-                }}</span>
+                <span class="text-primary block">
+                    {{ $t('Ship Your Product.') }}
+                </span>
             </h1>
 
             <!-- Subheadline -->
@@ -92,7 +94,7 @@ const hasDashboardRoute = computed(() => route().has('dashboard'));
                 <Link
                     v-if="hasAuthModule && !user"
                     :href="route('register')"
-                    class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary focus:ring-offset-background inline-flex items-center justify-center rounded-xl px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
+                    class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary focus:ring-offset-background inline-flex items-center justify-center rounded-xl px-8 py-4 text-lg font-semibold shadow-lg transition-all duration-200  focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
                 >
                     <IconUserPlus class="mr-2 h-5 w-5" />
                     {{ $t('Get Started Free') }}
@@ -102,7 +104,7 @@ const hasDashboardRoute = computed(() => route().has('dashboard'));
                 <Link
                     v-if="hasDashboardRoute && user"
                     :href="route('dashboard')"
-                    class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary focus:ring-offset-background inline-flex items-center justify-center rounded-xl px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
+                    class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary focus:ring-offset-background inline-flex items-center justify-center rounded-xl px-8 py-4 text-lg font-semibold shadow-lg transition-all duration-200  focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
                 >
                     <IconDashboard class="mr-2 h-5 w-5" />
                     {{ $t('Go to Dashboard') }}
@@ -113,7 +115,7 @@ const hasDashboardRoute = computed(() => route().has('dashboard'));
                     href="https://github.com/saucebase-dev/saucebase"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="focus:ring-primary border-border bg-background text-foreground hover:bg-accent focus:ring-offset-background inline-flex items-center justify-center rounded-xl border px-8 py-4 text-lg font-semibold transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
+                    class="focus:ring-primary border-border bg-background text-foreground hover:bg-accent focus:ring-offset-background inline-flex items-center justify-center rounded-xl border px-8 py-4 text-lg font-semibold shadow-lg transition-all duration-200  focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
                 >
                     <IconGitHub class="mr-2 h-5 w-5" />
                     {{ $t('View on GitHub') }}
@@ -130,7 +132,7 @@ const hasDashboardRoute = computed(() => route().has('dashboard'));
                         'Vue 3',
                     ]"
                     :key="label"
-                    class="border-border/30 bg-foreground/5 text-muted-foreground inline-flex items-center rounded-xl border px-4 py-1.5 text-sm font-semibold"
+                    class="shadow-lg border-border/50 bg-background text-muted-foreground inline-flex items-center rounded-xl border px-4 py-1.5 text-sm font-semibold"
                 >
                     {{ label }}
                 </span>

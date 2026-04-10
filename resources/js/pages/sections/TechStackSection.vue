@@ -78,21 +78,21 @@ const groups: { label: string; icon: Component; items: string[] }[] = [
 
             <!-- Stack Grid -->
             <div
-                class="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+                class="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
             >
                 <div
                     v-for="group in groups"
                     :key="group.label"
-                    class="border-border bg-card rounded-xl border p-6 shadow-lg hover:shadow-xl"
+                    class="border-border bg-card rounded-sm border p-6 shadow-lg hover:shadow-xl"
                 >
                     <!-- Category header -->
                     <div class="mb-4 flex items-center gap-2">
                         <div
-                            class="bg-muted flex size-7 items-center justify-center rounded-lg"
+                            class="bg-primary/10 flex size-8 items-center justify-center rounded-lg"
                         >
                             <component
                                 :is="group.icon"
-                                class="text-muted-foreground size-3.5"
+                                class="text-muted-foreground size-4"
                                 aria-hidden="true"
                             />
                         </div>
@@ -115,6 +115,19 @@ const groups: { label: string; icon: Component; items: string[] }[] = [
                     </div>
                 </div>
             </div>
+            <p class="text-muted-foreground mt-8 text-center">
+                {{
+                    $t(
+                        'If you want to learn more, check out our documentation',
+                    )
+                }},
+                <a
+                    href="https://saucebase-dev.github.io/docs/what-is-saucebase"
+                    class="text-primary font-medium underline-offset-4 hover:underline"
+                >
+                    {{ $t('documentation') }}
+                </a>
+            </p>
         </div>
     </div>
 </template>
