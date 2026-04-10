@@ -8,7 +8,7 @@ import '../css/style.css';
  * Called during app initialization before mounting
  */
 export function setup() {
-    console.log('{Module} module loaded');
+    console.debug('{Module} module loaded');
 
     // Register icons for navigation items defined in routes/navigation.php
     // registerIcon('{module-}', IconExample);
@@ -19,5 +19,5 @@ export function setup() {
  * Called after the app has been mounted
  */
 export function afterMount() {
-    console.log('{Module} module after mount logic executed');
+    console.debug('{Module} module after mount logic executed');
 }

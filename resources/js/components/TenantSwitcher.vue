@@ -36,7 +36,7 @@ const activeTenant = ref(tenants[0]);
     <SidebarMenu>
         <SidebarMenuItem>
             <template v-if="tenants.length > 1">
-                <DropdownMenu>
+                <DropdownMenu :modal="false">
                     <DropdownMenuTrigger as-child>
                         <SidebarMenuButton
                             size="lg"
