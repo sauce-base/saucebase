@@ -13,13 +13,13 @@
     <a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.4%2B-777BB4?logo=php&logoColor=white" alt="PHP Version" /></a>
     <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-13.0-FF2D20?logo=laravel&logoColor=white" alt="Laravel" /></a>
     <a href="https://vuejs.org"><img src="https://img.shields.io/badge/Vue.js-3.4-4FC08D?logo=vue.js&logoColor=white" alt="Vue.js" /></a>
-    <a href="https://typescriptlang.org"><img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white" alt="TypeScript" /></a>
-    <a href="https://vitejs.dev"><img src="https://img.shields.io/badge/Vite-6.4-646CFF?logo=vite&logoColor=white" alt="Vite" /></a>
-    <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind%20CSS-4.1-06B6D4?logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
+    <a href="https://typescriptlang.org"><img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript" /></a>
+    <a href="https://vitejs.dev"><img src="https://img.shields.io/badge/Vite-8.0-646CFF?logo=vite&logoColor=white" alt="Vite" /></a>
+    <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind%20CSS-4.2-06B6D4?logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
     <a href="https://nodejs.org"><img src="https://img.shields.io/badge/Node.js-22.0%2B-339933?logo=node.js&logoColor=white" alt="Node.js" /></a>
     <a href="https://inertiajs.com"><img src="https://img.shields.io/badge/Inertia.js-3.0-9553E9?logo=inertia&logoColor=white" alt="Inertia.js" /></a>
     <a href="https://filamentphp.com"><img src="https://img.shields.io/badge/Filament-5.0-10B981?logo=filament&logoColor=white" alt="Filament" /></a>
-    <a href="https://playwright.dev"><img src="https://img.shields.io/badge/Playwright-1.40-000000?logo=playwright&logoColor=white" alt="Playwright" /></a>
+    <a href="https://playwright.dev"><img src="https://img.shields.io/badge/Playwright-1.58-000000?logo=playwright&logoColor=white" alt="Playwright" /></a>
     <a href="https://phpstan.org"><img src="https://img.shields.io/badge/PHPStan-level%205-brightgreen.svg?style=flat" alt="PHPStan" /></a>
   </p>
 
@@ -43,7 +43,8 @@
     <a href="https://github.com/saucebase-dev/settings">Settings</a> |
     <a href="https://github.com/saucebase-dev/billing">Billing</a> |
     <a href="https://github.com/saucebase-dev/announcements">Announcements</a> |
-    <a href="https://github.com/saucebase-dev/roadmap">Roadmap</a>
+    <a href="https://github.com/saucebase-dev/roadmap">Roadmap</a> |
+    <a href="https://github.com/saucebase-dev/themes">Themes</a>
   </p>
   <p>
     Each module is a standalone Laravel package with its own routes, controllers, views, assets, and tests.

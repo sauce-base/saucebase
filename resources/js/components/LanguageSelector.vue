@@ -66,7 +66,7 @@ const currentLanguage = computed(() => {
 
 <template>
     <!-- Standalone Mode (Landing Page) -->
-    <DropdownMenu v-if="mode === 'standalone'">
+    <DropdownMenu v-if="mode === 'standalone'" :modal="false">
         <DropdownMenuTrigger as-child>
             <button
                 :class="props.triggerClass"
