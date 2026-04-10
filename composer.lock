@@ -1725,12 +1725,12 @@
             "version": "v7.0.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/firebase/php-jwt.git",
+                "url": "https://github.com/googleapis/php-jwt.git",
                 "reference": "47ad26bab5e7c70ae8a6f08ed25ff83631121380"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/47ad26bab5e7c70ae8a6f08ed25ff83631121380",
+                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/47ad26bab5e7c70ae8a6f08ed25ff83631121380",
                 "reference": "47ad26bab5e7c70ae8a6f08ed25ff83631121380",
                 "shasum": ""
             },
@@ -1779,8 +1779,8 @@
                 "php"
             ],
             "support": {
-                "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v7.0.5"
+                "issues": "https://github.com/googleapis/php-jwt/issues",
+                "source": "https://github.com/googleapis/php-jwt/tree/v7.0.5"
             },
             "time": "2026-04-01T20:38:03+00:00"
         },
@@ -2331,16 +2331,16 @@
         },
         {
             "name": "inertiajs/inertia-laravel",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inertiajs/inertia-laravel.git",
-                "reference": "871255862da13682bb9e5dae5466590678be89ff"
+                "reference": "c255b1ea050cf563b240542a76f7f756ccdb2d67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/871255862da13682bb9e5dae5466590678be89ff",
-                "reference": "871255862da13682bb9e5dae5466590678be89ff",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/c255b1ea050cf563b240542a76f7f756ccdb2d67",
+                "reference": "c255b1ea050cf563b240542a76f7f756ccdb2d67",
                 "shasum": ""
             },
             "require": {
@@ -2398,9 +2398,9 @@
             ],
             "support": {
                 "issues": "https://github.com/inertiajs/inertia-laravel/issues",
-                "source": "https://github.com/inertiajs/inertia-laravel/tree/v3.0.5"
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v3.0.6"
             },
-            "time": "2026-04-09T15:13:38+00:00"
+            "time": "2026-04-10T14:29:45+00:00"
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
@@ -4988,16 +4988,16 @@
         },
         {
             "name": "phpdocumentor/reflection",
-            "version": "6.4.4",
+            "version": "6.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/Reflection.git",
-                "reference": "5e5db15b34e6eae755cb97beaa7fe076ae9e8d4c"
+                "reference": "70ad4ae38901a1c71623d29192983274671e9113"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/Reflection/zipball/5e5db15b34e6eae755cb97beaa7fe076ae9e8d4c",
-                "reference": "5e5db15b34e6eae755cb97beaa7fe076ae9e8d4c",
+                "url": "https://api.github.com/repos/phpDocumentor/Reflection/zipball/70ad4ae38901a1c71623d29192983274671e9113",
+                "reference": "70ad4ae38901a1c71623d29192983274671e9113",
                 "shasum": ""
             },
             "require": {
@@ -5054,9 +5054,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpDocumentor/Reflection/issues",
-                "source": "https://github.com/phpDocumentor/Reflection/tree/6.4.4"
+                "source": "https://github.com/phpDocumentor/Reflection/tree/6.5.0"
             },
-            "time": "2025-11-25T21:21:18+00:00"
+            "time": "2026-04-10T12:00:48+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -5310,16 +5310,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.50",
+            "version": "3.0.51",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "aa6ad8321ed103dc3624fb600a25b66ebf78ec7b"
+                "reference": "d59c94077f9c9915abb51ddb52ce85188ece1748"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/aa6ad8321ed103dc3624fb600a25b66ebf78ec7b",
-                "reference": "aa6ad8321ed103dc3624fb600a25b66ebf78ec7b",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d59c94077f9c9915abb51ddb52ce85188ece1748",
+                "reference": "d59c94077f9c9915abb51ddb52ce85188ece1748",
                 "shasum": ""
             },
             "require": {
@@ -5400,7 +5400,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.50"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.51"
             },
             "funding": [
                 {
@@ -5416,7 +5416,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-19T02:57:58+00:00"
+            "time": "2026-04-10T01:33:53+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -6432,16 +6432,16 @@
         },
         {
             "name": "saucebase/announcements",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/announcements.git",
-                "reference": "0678d7b47f111ef5f17a06900a1b43fcac92582d"
+                "reference": "4d280f09a0a9b0cf1f2b84c892a8a44ed4c5935c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/announcements/zipball/0678d7b47f111ef5f17a06900a1b43fcac92582d",
-                "reference": "0678d7b47f111ef5f17a06900a1b43fcac92582d",
+                "url": "https://api.github.com/repos/saucebase-dev/announcements/zipball/4d280f09a0a9b0cf1f2b84c892a8a44ed4c5935c",
+                "reference": "4d280f09a0a9b0cf1f2b84c892a8a44ed4c5935c",
                 "shasum": ""
             },
             "type": "saucebase-module",
@@ -6467,9 +6467,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/announcements/issues",
-                "source": "https://github.com/saucebase-dev/announcements/tree/v0.4.0"
+                "source": "https://github.com/saucebase-dev/announcements/tree/v0.5.0"
             },
-            "time": "2026-03-21T14:51:00+00:00"
+            "time": "2026-04-10T20:08:32+00:00"
         },
         {
             "name": "saucebase/auth",
@@ -6518,16 +6518,16 @@
         },
         {
             "name": "saucebase/billing",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/billing.git",
-                "reference": "143888cff6289cf8b3ce5381c35ab3f071ce0601"
+                "reference": "3c3c2cf3ee4f1252d71cd9c2c41992a6dfdd0f90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/billing/zipball/143888cff6289cf8b3ce5381c35ab3f071ce0601",
-                "reference": "143888cff6289cf8b3ce5381c35ab3f071ce0601",
+                "url": "https://api.github.com/repos/saucebase-dev/billing/zipball/3c3c2cf3ee4f1252d71cd9c2c41992a6dfdd0f90",
+                "reference": "3c3c2cf3ee4f1252d71cd9c2c41992a6dfdd0f90",
                 "shasum": ""
             },
             "require": {
@@ -6560,9 +6560,9 @@
             "description": "Payment gateway and subscription management module for Saucebase",
             "support": {
                 "issues": "https://github.com/saucebase-dev/billing/issues",
-                "source": "https://github.com/saucebase-dev/billing/tree/v1.6.0"
+                "source": "https://github.com/saucebase-dev/billing/tree/v1.6.1"
             },
-            "time": "2026-04-08T19:53:18+00:00"
+            "time": "2026-04-10T20:01:28+00:00"
         },
         {
             "name": "saucebase/breadcrumbs",
@@ -6626,16 +6626,16 @@
         },
         {
             "name": "saucebase/roadmap",
-            "version": "v0.3.2",
+            "version": "v0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/roadmap.git",
-                "reference": "46fc619e0a2e3d00c17c8dea6c39c92ce20bc385"
+                "reference": "add0c9f9b339b474ec86ce4c19b139efee1dea12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/roadmap/zipball/46fc619e0a2e3d00c17c8dea6c39c92ce20bc385",
-                "reference": "46fc619e0a2e3d00c17c8dea6c39c92ce20bc385",
+                "url": "https://api.github.com/repos/saucebase-dev/roadmap/zipball/add0c9f9b339b474ec86ce4c19b139efee1dea12",
+                "reference": "add0c9f9b339b474ec86ce4c19b139efee1dea12",
                 "shasum": ""
             },
             "type": "saucebase-module",
@@ -6661,9 +6661,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/roadmap/issues",
-                "source": "https://github.com/saucebase-dev/roadmap/tree/v0.3.2"
+                "source": "https://github.com/saucebase-dev/roadmap/tree/v0.3.3"
             },
-            "time": "2026-04-08T19:53:29+00:00"
+            "time": "2026-04-10T20:02:31+00:00"
         },
         {
             "name": "saucebase/settings",
@@ -6708,16 +6708,16 @@
         },
         {
             "name": "saucebase/themes",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/themes.git",
-                "reference": "50bb063a03c52b7b1f82cf232b5a9e99f230af26"
+                "reference": "ca6a7b81c6e1de73c22dab8ce48eabad6aedebc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/themes/zipball/50bb063a03c52b7b1f82cf232b5a9e99f230af26",
-                "reference": "50bb063a03c52b7b1f82cf232b5a9e99f230af26",
+                "url": "https://api.github.com/repos/saucebase-dev/themes/zipball/ca6a7b81c6e1de73c22dab8ce48eabad6aedebc6",
+                "reference": "ca6a7b81c6e1de73c22dab8ce48eabad6aedebc6",
                 "shasum": ""
             },
             "type": "saucebase-module",
@@ -6743,9 +6743,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/themes/issues",
-                "source": "https://github.com/saucebase-dev/themes/tree/v1.0.0"
+                "source": "https://github.com/saucebase-dev/themes/tree/v1.1.0"
             },
-            "time": "2026-04-09T19:40:16+00:00"
+            "time": "2026-04-10T20:09:48+00:00"
         },
         {
             "name": "scrivo/highlight.php",
@@ -10914,16 +10914,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v4.2.5",
+            "version": "v4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruitcake/laravel-debugbar.git",
-                "reference": "4f62913c865023ccd2c34d8d2d13916d2c5720f8"
+                "reference": "68c3de788feb7047bea547b51253e71a54e7936a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruitcake/laravel-debugbar/zipball/4f62913c865023ccd2c34d8d2d13916d2c5720f8",
-                "reference": "4f62913c865023ccd2c34d8d2d13916d2c5720f8",
+                "url": "https://api.github.com/repos/fruitcake/laravel-debugbar/zipball/68c3de788feb7047bea547b51253e71a54e7936a",
+                "reference": "68c3de788feb7047bea547b51253e71a54e7936a",
                 "shasum": ""
             },
             "require": {
@@ -10997,7 +10997,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fruitcake/laravel-debugbar/issues",
-                "source": "https://github.com/fruitcake/laravel-debugbar/tree/v4.2.5"
+                "source": "https://github.com/fruitcake/laravel-debugbar/tree/v4.2.6"
             },
             "funding": [
                 {
@@ -11009,7 +11009,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-08T09:39:15+00:00"
+            "time": "2026-04-10T07:24:18+00:00"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -11624,16 +11624,16 @@
         },
         {
             "name": "laravel/boost",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/boost.git",
-                "reference": "74fedf18048d382e04eded004abe2ad1ee1d9a97"
+                "reference": "841d52905728cfac9f93c778a1758e740ce9a367"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/boost/zipball/74fedf18048d382e04eded004abe2ad1ee1d9a97",
-                "reference": "74fedf18048d382e04eded004abe2ad1ee1d9a97",
+                "url": "https://api.github.com/repos/laravel/boost/zipball/841d52905728cfac9f93c778a1758e740ce9a367",
+                "reference": "841d52905728cfac9f93c778a1758e740ce9a367",
                 "shasum": ""
             },
             "require": {
@@ -11686,7 +11686,7 @@
                 "issues": "https://github.com/laravel/boost/issues",
                 "source": "https://github.com/laravel/boost"
             },
-            "time": "2026-04-07T14:34:49+00:00"
+            "time": "2026-04-10T15:59:10+00:00"
         },
         {
             "name": "laravel/mcp",

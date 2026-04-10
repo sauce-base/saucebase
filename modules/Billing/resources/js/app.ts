@@ -9,7 +9,7 @@ import '../css/style.css';
  * Called during app initialization before mounting
  */
 export function setup() {
-    console.log('Billing module loaded');
+    console.debug('Billing module loaded');
 
     registerIcon('billing', IconCreditCard);
     registerIcon('upgrade', IconSparkles);
@@ -20,5 +20,5 @@ export function setup() {
  * Called after the app has been mounted
  */
 export function afterMount() {
-    console.log('Billing module after mount logic executed');
+    console.debug('Billing module after mount logic executed');
 }

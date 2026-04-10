@@ -1090,7 +1090,7 @@ const dialogCommandOpen = ref(false);
                                     <IconSave class="size-4" />
                                     {{ $t('Save') }}
                                 </button>
-                                <DropdownMenu>
+                                <DropdownMenu :modal="false">
                                     <DropdownMenuTrigger as-child>
                                         <button
                                             data-testid="theme-panel-save-dropdown"

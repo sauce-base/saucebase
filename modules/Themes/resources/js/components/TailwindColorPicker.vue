@@ -66,7 +66,7 @@ const filtered = computed(() => {
 
 <template>
     <!-- Search + view toggle -->
-    <div class="border-border flex items-center gap-2 border-b px-3 py-2 bg-muted">
+    <div class="border-border flex items-center gap-2 border-b px-3 py-2 bg-card">
         <SearchInput
             v-model="search"
             class="flex-1"

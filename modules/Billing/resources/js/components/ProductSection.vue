@@ -134,9 +134,10 @@ function getToggleLabel(interval: string): string {
             }}
             <a
                 :href="route('filament.admin.pages.dashboard')"
-                class="font-medium text-primary hover:underline underline-offset-4"
-                >{{ $t('admin panel') }}</a
-            >.
+                class="text-primary font-medium underline-offset-4 hover:underline"
+            >
+                {{ $t('admin panel') }}
+            </a>
         </p>
 
         <div class="absolute top-30 -z-10 h-2/3 w-full opacity-50">

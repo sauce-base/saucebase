@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/popover';
 import { computed, onUnmounted, ref, watch } from 'vue';
 import IconChevronUpDown from '~icons/heroicons/chevron-up-down';
-import IconEyedropper from '~icons/heroicons/eye-dropper';
+import IconEyedropper from '~icons/fa-solid/eye-dropper';
 import IconPalette from '~icons/lucide/palette';
 import IconTailwind from '~icons/mdi/tailwind';
 import TailwindColorPicker from './TailwindColorPicker.vue';
@@ -313,11 +313,11 @@ function selectTailwind(hex: string) {
             <!-- Tab bar -->
             <div class="border-border flex border-b">
                 <button
-                    class="flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-xs font-medium transition-colors"
+                    class="flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-xs font-medium transition-colors bg-card"
                     :class="
                         activeTab === 'custom'
-                            ? 'text-foreground bg-muted -mb-px border-r'
-                            : 'text-muted-foreground hover:text-foreground opacity-50'
+                            ? 'text-foreground -mb-px border-r bg-card'
+                            : 'text-muted-foreground hover:text-foreground bg-muted'
                     "
                     @click="activeTab = 'custom'"
                 >
@@ -328,8 +328,8 @@ function selectTailwind(hex: string) {
                     class="flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-xs font-medium transition-colors"
                     :class="
                         activeTab === 'tailwind'
-                            ? 'text-foreground bg-muted -mb-px border-l'
-                            : 'text-muted-foreground hover:text-foreground opacity-50'
+                            ? 'text-foreground -mb-px border-l bg-card'
+                            : 'text-muted-foreground hover:text-foreground bg-muted'
                     "
                     @click="activeTab = 'tailwind'"
                 >

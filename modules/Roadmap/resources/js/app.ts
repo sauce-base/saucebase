@@ -8,7 +8,7 @@ import '../css/style.css';
  * Called during app initialization before mounting
  */
 export function setup() {
-    console.log('Roadmap module loaded');
+    console.debug('Roadmap module loaded');
 
     registerIcon('roadmap', IconMap);
 }
@@ -18,5 +18,5 @@ export function setup() {
  * Called after the app has been mounted
  */
 export function afterMount() {
-    console.log('Roadmap module after mount logic executed');
+    console.debug('Roadmap module after mount logic executed');
 }

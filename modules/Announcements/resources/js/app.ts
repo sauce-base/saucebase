@@ -5,7 +5,7 @@ import '../css/style.css';
  * Called during app initialization before mounting
  */
 export function setup() {
-    console.log('Announcements module loaded');
+    console.debug('Announcements module loaded');
 }
 
 /**
@@ -13,5 +13,5 @@ export function setup() {
  * Called after the app has been mounted
  */
 export function afterMount() {
-    console.log('Announcements module after mount logic executed');
+    console.debug('Announcements module after mount logic executed');
 }
