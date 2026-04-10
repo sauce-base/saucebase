@@ -152,7 +152,7 @@ const modules = [
                 <div
                     v-for="mod in modules"
                     :key="mod.id"
-                    class="group bg-card relative flex flex-col rounded-xl border p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+                    class="group bg-card relative flex flex-col rounded-xl border p-6 transition-all duration-200 hover:shadow-lg/90"
                     :class="
                         mod.badge === 'coming-soon'
                             ? 'border-border border-dashed opacity-60'
