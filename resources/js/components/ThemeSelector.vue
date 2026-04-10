@@ -154,7 +154,7 @@ function handleInlineClick(
     </ButtonGroup>
 
     <!-- Standalone Mode (Landing Page) -->
-    <DropdownMenu v-else-if="mode === 'standalone'">
+    <DropdownMenu v-else-if="mode === 'standalone'" :modal="false">
         <DropdownMenuTrigger as-child>
             <button
                 ref="triggerRef"

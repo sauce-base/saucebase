@@ -65,7 +65,7 @@ function handleClick(item: MenuItem, event: MouseEvent) {
 <template>
     <SidebarMenu>
         <SidebarMenuItem>
-            <DropdownMenu>
+            <DropdownMenu :modal="false">
                 <DropdownMenuTrigger as-child>
                     <SidebarMenuButton
                         data-testid="user-menu-trigger"
