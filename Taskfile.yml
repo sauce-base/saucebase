@@ -21,6 +21,9 @@ includes:
     themes:
         taskfile: ./modules/Themes/Taskfile.yml
         optional: true
+    demo:
+        taskfile: ./modules/Demo/Taskfile.yml
+        optional: true
     # ── END MODULES ──────────────────────────────────────────────────
 
 tasks:

@@ -16,7 +16,7 @@ import { Head } from '@inertiajs/vue3';
             "
         />
     </Head>
-    <div class="py-10">
+    <div class="pt-10">
         <Header />
 
         <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-16">
