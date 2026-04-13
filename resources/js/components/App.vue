@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import GlobalComponents from '@/components/GlobalComponents.vue';
 import DynamicDialog from '@/components/DynamicDialog.vue';
 import { Toaster } from '@/components/ui/sonner';
 </script>
 <template>
+    <GlobalComponents position="top" />
     <slot />
     <Toaster />
     <DynamicDialog />
-    <!-- Global components can be added here -->
+    <GlobalComponents position="bottom" />
 </template>
