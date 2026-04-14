@@ -106,7 +106,7 @@ onBeforeUnmount(() => {
                     <Link
                         v-if="modules().has('Auth') && !$page.props.auth?.user"
                         :href="route('register')"
-                        class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200  focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                        class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                     >
                         {{ $t('Get Started') }}
                     </Link>
@@ -116,7 +116,7 @@ onBeforeUnmount(() => {
                             route().has('dashboard') && $page.props.auth?.user
                         "
                         :href="route('dashboard')"
-                        class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200  focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                        class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                     >
                         {{ $t('Dashboard') }}
                     </Link>

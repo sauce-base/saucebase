@@ -4,7 +4,7 @@ import IconHeart from '~icons/heroicons/heart';
 </script>
 
 <template>
-    <footer class="mt-auto w-full">
+    <footer class="relative mt-auto w-full overflow-hidden pb-12 sm:pb-48">
         <div
             class="mx-4 py-8 min-[450px]:mx-auto min-[450px]:max-w-7xl min-[450px]:px-6"
         >
@@ -38,11 +38,22 @@ import IconHeart from '~icons/heroicons/heart';
                     </Link>
                 </div>
                 <div class="flex items-center gap-1">
-                    <span>{{ $t('Made with') }}</span>
+                    <span>{{ $t('Crafted with') }}</span>
                     <IconHeart class="h-4 w-4 text-red-500" />
                     <span>{{ $t('for developers') }}</span>
+                    <span>{{ $t('by :name', { name: 'Renan Roble' }) }}</span>
                 </div>
             </div>
+        </div>
+        <div
+            class="absolute bottom-0 -z-1 translate-y-[20%] scale-105 px-4 font-mono"
+        >
+            <p
+                class="text-center text-[21vw] leading-none font-black -tracking-widest select-none"
+            >
+                <span class="text-foreground/5">Sauce</span
+                ><span class="text-foreground/10">base</span>
+            </p>
         </div>
     </footer>
 </template>
