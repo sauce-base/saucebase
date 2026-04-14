@@ -10,9 +10,9 @@ import {
 } from '@/components/ui/card';
 import Separator from '@/components/ui/separator/Separator.vue';
 import { useDialog } from '@/composables/useDialog';
-import { trans } from 'laravel-vue-i18n';
 import SettingsLayout from '@/layouts/SettingsLayout.vue';
 import { router } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 import { CreditCard, Loader2 } from 'lucide-vue-next';
 import { ref } from 'vue';
 import type { Invoice, PaymentMethod, Subscription } from '../types';
@@ -357,7 +357,7 @@ function resumeSubscription() {
                                                 "
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="text-sm font-medium text-primary/70 hover:underline underline-offset-4"
+                                                class="text-primary/70 text-sm font-medium underline-offset-4 hover:underline"
                                             >
                                                 {{ $t('View') }}
                                             </a>
@@ -471,6 +471,5 @@ function resumeSubscription() {
                 </Button>
             </a>
         </div>
-
     </SettingsLayout>
 </template>

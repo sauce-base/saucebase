@@ -1,20 +1,187 @@
 [
-  { "family": "DM Sans", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Figtree", "category": "sans-serif", "variants": ["300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Geist", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Inter", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Lato", "category": "sans-serif", "variants": ["100", "300", "400", "700", "900"] },
-  { "family": "Manrope", "category": "sans-serif", "variants": ["200", "300", "400", "500", "600", "700", "800"], "variable": true },
-  { "family": "Montserrat", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Nunito", "category": "sans-serif", "variants": ["200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Open Sans", "category": "sans-serif", "variants": ["300", "400", "500", "600", "700", "800"], "variable": true },
-  { "family": "Outfit", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Plus Jakarta Sans", "category": "sans-serif", "variants": ["200", "300", "400", "500", "600", "700", "800"], "variable": true },
-  { "family": "Poppins", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"] },
-  { "family": "Raleway", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Roboto", "category": "sans-serif", "variants": ["100", "300", "400", "500", "700", "900"] },
-  { "family": "Satoshi", "category": "sans-serif", "variants": ["300", "400", "500", "700", "900"], "variable": true },
-  { "family": "Sora", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800"], "variable": true },
-  { "family": "Source Sans 3", "category": "sans-serif", "variants": ["200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Urbanist", "category": "sans-serif", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true }
+    {
+        "family": "DM Sans",
+        "category": "sans-serif",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ],
+        "variable": true
+    },
+    {
+        "family": "Figtree",
+        "category": "sans-serif",
+        "variants": ["300", "400", "500", "600", "700", "800", "900"],
+        "variable": true
+    },
+    {
+        "family": "Geist",
+        "category": "sans-serif",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ],
+        "variable": true
+    },
+    {
+        "family": "Inter",
+        "category": "sans-serif",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ],
+        "variable": true
+    },
+    {
+        "family": "Lato",
+        "category": "sans-serif",
+        "variants": ["100", "300", "400", "700", "900"]
+    },
+    {
+        "family": "Manrope",
+        "category": "sans-serif",
+        "variants": ["200", "300", "400", "500", "600", "700", "800"],
+        "variable": true
+    },
+    {
+        "family": "Montserrat",
+        "category": "sans-serif",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ],
+        "variable": true
+    },
+    {
+        "family": "Nunito",
+        "category": "sans-serif",
+        "variants": ["200", "300", "400", "500", "600", "700", "800", "900"],
+        "variable": true
+    },
+    {
+        "family": "Open Sans",
+        "category": "sans-serif",
+        "variants": ["300", "400", "500", "600", "700", "800"],
+        "variable": true
+    },
+    {
+        "family": "Outfit",
+        "category": "sans-serif",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ],
+        "variable": true
+    },
+    {
+        "family": "Plus Jakarta Sans",
+        "category": "sans-serif",
+        "variants": ["200", "300", "400", "500", "600", "700", "800"],
+        "variable": true
+    },
+    {
+        "family": "Poppins",
+        "category": "sans-serif",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ]
+    },
+    {
+        "family": "Raleway",
+        "category": "sans-serif",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ],
+        "variable": true
+    },
+    {
+        "family": "Roboto",
+        "category": "sans-serif",
+        "variants": ["100", "300", "400", "500", "700", "900"]
+    },
+    {
+        "family": "Satoshi",
+        "category": "sans-serif",
+        "variants": ["300", "400", "500", "700", "900"],
+        "variable": true
+    },
+    {
+        "family": "Sora",
+        "category": "sans-serif",
+        "variants": ["100", "200", "300", "400", "500", "600", "700", "800"],
+        "variable": true
+    },
+    {
+        "family": "Source Sans 3",
+        "category": "sans-serif",
+        "variants": ["200", "300", "400", "500", "600", "700", "800", "900"],
+        "variable": true
+    },
+    {
+        "family": "Urbanist",
+        "category": "sans-serif",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ],
+        "variable": true
+    }
 ]

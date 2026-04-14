@@ -29,10 +29,8 @@ const handleChange = (v: number | undefined) => {
 
 <template>
     <div class="flex items-center gap-3">
-        <span class="text-foreground min-w-12 shrink-0 text-sm ml-1">
-            {{
-            label
-        }}
+        <span class="text-foreground ml-1 min-w-12 shrink-0 text-sm">
+            {{ label }}
         </span>
         <Slider
             class="flex-1"

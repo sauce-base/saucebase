@@ -66,13 +66,17 @@ const filtered = computed(() => {
 
 <template>
     <!-- Search + view toggle -->
-    <div class="border-border flex items-center gap-2 border-b px-3 py-2 bg-card">
+    <div
+        class="border-border bg-card flex items-center gap-2 border-b px-3 py-2"
+    >
         <SearchInput
             v-model="search"
             class="flex-1"
             :placeholder="$t('Search Tailwind colors...')"
         />
-        <div class="border-border flex shrink-0 overflow-hidden rounded-md border">
+        <div
+            class="border-border flex shrink-0 overflow-hidden rounded-md border"
+        >
             <button
                 class="cursor-pointer px-2 py-1.5 transition-colors"
                 :class="

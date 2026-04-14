@@ -21,7 +21,9 @@ const props = defineProps<{
     themeId: string;
 }>();
 
-const command = computed(() => `php artisan saucebase:theme:apply ${props.themeId}`);
+const command = computed(
+    () => `php artisan saucebase:theme:apply ${props.themeId}`,
+);
 
 async function handleCopy() {
     navigator.clipboard
@@ -37,7 +39,11 @@ async function handleCopy() {
             <DialogHeader>
                 <DialogTitle>{{ $t('Use this theme') }}</DialogTitle>
                 <DialogDescription>
-                    {{ $t('Run this command to apply the theme to your project.') }}
+                    {{
+                        $t(
+                            'Run this command to apply the theme to your project.',
+                        )
+                    }}
                 </DialogDescription>
             </DialogHeader>
             <ButtonGroup class="w-full">

@@ -72,14 +72,14 @@ function getToggleLabel(interval: string): string {
             <h2
                 class="mt-2 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl dark:text-white"
             >
-                {{ $t('Build fast. Ship faster.') }}
+                {{ $t('Stripe integration') }}
             </h2>
             <p
                 class="mx-auto mt-6 max-w-2xl text-lg text-gray-600 dark:text-gray-400"
             >
                 {{
                     $t(
-                        'Skip months of setup and boilerplate. Start building real features today and ship your product in days.',
+                        'This is a live example using Stripe Sandbox, so you won\'t be charged. Feel free to test this beautiful checkout flow',
                     )
                 }}
             </p>

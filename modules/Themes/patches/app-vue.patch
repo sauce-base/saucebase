@@ -1,9 +1,0 @@
---- a/resources/js/components/App.vue
-+++ b/resources/js/components/App.vue
-@@ -8,1 +8,2 @@
-+import ThemePanel from '@modules/Themes/resources/js/components/ThemePanel.vue';
- import { watch } from 'vue';
-@@ -105,2 +106,3 @@
-     <ImpersonationAlert />
-+    <ThemePanel />
-     <slot />

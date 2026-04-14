@@ -3,7 +3,6 @@
 use App\Facades\Navigation;
 use App\Navigation\Section;
 use Illuminate\Support\Facades\Auth;
-use Modules\Billing\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +13,6 @@ use Modules\Billing\Models\Product;
 | These items will be loaded automatically when the module is enabled.
 |
 */
-
-// Landing Page Navigation
-Navigation::addWhen(fn () => Product::displayable()->exists(), 'Pricing', '/#pricing', function (Section $section) {
-    $section->attributes([
-        'group' => 'landing',
-        'slug' => 'pricing',
-        'external' => true,
-        'order' => 1,
-    ]);
-});
 
 // User menu - Upgrade
 Navigation::addWhen(fn () => ! Auth::user()?->isSubscriber(), 'Upgrade', '/#pricing', function (Section $section) {

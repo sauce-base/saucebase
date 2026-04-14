@@ -4,5 +4,6 @@
     "Billing": true,
     "Settings": true,
     "Roadmap": true,
-    "Themes": true
+    "Themes": true,
+    "Demo": true
 }

@@ -17,7 +17,16 @@ import { toast } from 'vue-sonner';
 const open = defineModel({ default: false });
 
 const props = defineProps<{
-    toJson: (name: string) => { name: string; title: string; description: string; cssVars: { theme?: Record<string, string>; light: Record<string, string>; dark: Record<string, string> } };
+    toJson: (name: string) => {
+        name: string;
+        title: string;
+        description: string;
+        cssVars: {
+            theme?: Record<string, string>;
+            light: Record<string, string>;
+            dark: Record<string, string>;
+        };
+    };
     onThemeSaved?: (id: string) => void;
 }>();
 
@@ -45,7 +54,9 @@ const handleSave = async () => {
                     props.onThemeSaved?.(payload.name);
                     open.value = false;
                     name.value = '';
-                    toast.success(trans('Theme saved successfully'), { testId: 'theme-saved-toast' });
+                    toast.success(trans('Theme saved successfully'), {
+                        testId: 'theme-saved-toast',
+                    });
                     loading.value = false;
                 },
             });
@@ -87,10 +98,18 @@ const handleSave = async () => {
                 @keydown.enter="handleSave"
             />
             <DialogFooter>
-                <Button variant="destructive" data-testid="save-theme-cancel" @click="handleCancel">
+                <Button
+                    variant="destructive"
+                    data-testid="save-theme-cancel"
+                    @click="handleCancel"
+                >
                     {{ $t('Cancel') }}
                 </Button>
-                <Button data-testid="save-theme-submit" :disabled="!name.trim() || isLoading" @click="handleSave">
+                <Button
+                    data-testid="save-theme-submit"
+                    :disabled="!name.trim() || isLoading"
+                    @click="handleSave"
+                >
                     {{ isLoading ? $t('Saving...') : $t('Save') }}
                 </Button>
             </DialogFooter>

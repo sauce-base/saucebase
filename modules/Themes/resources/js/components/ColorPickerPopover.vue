@@ -13,8 +13,8 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { computed, onUnmounted, ref, watch } from 'vue';
-import IconChevronUpDown from '~icons/heroicons/chevron-up-down';
 import IconEyedropper from '~icons/fa-solid/eye-dropper';
+import IconChevronUpDown from '~icons/heroicons/chevron-up-down';
 import IconPalette from '~icons/lucide/palette';
 import IconTailwind from '~icons/mdi/tailwind';
 import TailwindColorPicker from './TailwindColorPicker.vue';
@@ -307,16 +307,16 @@ function selectTailwind(hex: string) {
         <PopoverContent
             class="w-85 overflow-hidden p-0"
             :side-offset="6"
-            :class="{'opacity-0': isEyeDropperOpen}"
+            :class="{ 'opacity-0': isEyeDropperOpen }"
             align="start"
         >
             <!-- Tab bar -->
             <div class="border-border flex border-b">
                 <button
-                    class="flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-xs font-medium transition-colors bg-card"
+                    class="bg-card flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-xs font-medium transition-colors"
                     :class="
                         activeTab === 'custom'
-                            ? 'text-foreground -mb-px border-r bg-card'
+                            ? 'text-foreground bg-card -mb-px border-r'
                             : 'text-muted-foreground hover:text-foreground bg-muted'
                     "
                     @click="activeTab = 'custom'"
@@ -328,7 +328,7 @@ function selectTailwind(hex: string) {
                     class="flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-xs font-medium transition-colors"
                     :class="
                         activeTab === 'tailwind'
-                            ? 'text-foreground -mb-px border-l bg-card'
+                            ? 'text-foreground bg-card -mb-px border-l'
                             : 'text-muted-foreground hover:text-foreground bg-muted'
                     "
                     @click="activeTab = 'tailwind'"

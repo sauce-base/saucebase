@@ -3,7 +3,7 @@
   "alias": "billing",
   "description": "Billing module",
   "author": "Saucebase",
-  "version": "v1.6.1",
+  "version": "v1.6.2",
   "keywords": [
     "billing"
   ],

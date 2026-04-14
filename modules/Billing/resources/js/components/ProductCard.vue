@@ -87,7 +87,7 @@ watch(priceKey, () => {
             <!-- Original price + discount badge -->
             <div
                 v-if="price?.metadata?.original_price || price?.metadata?.badge"
-                class="mb-1 flex items-center gap-2 h-8"
+                class="mb-1 flex h-8 items-center gap-2"
             >
                 <span
                     v-if="price?.metadata?.original_price"
@@ -144,7 +144,7 @@ watch(priceKey, () => {
         <a
             v-if="product.metadata?.cta_url"
             :href="product.metadata.cta_url"
-            class="mt-8 block w-full cursor-pointer rounded-xl px-4 py-3 text-center font-semibold shadow-2xl transition-all duration-200  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2"
+            class="mt-8 block w-full cursor-pointer rounded-xl px-4 py-3 text-center font-semibold shadow-2xl transition-all duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2"
             :class="
                 product.metadata?.badge || product.is_highlighted
                     ? 'bg-primary hover:bg-primary/90 focus-visible:outline-primary text-white'
@@ -156,7 +156,7 @@ watch(priceKey, () => {
         <button
             v-else
             data-testid="get-started-button"
-            class="mt-8 w-full cursor-pointer rounded-xl px-4 py-3 font-semibold shadow-lg transition-all duration-200  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2"
+            class="mt-8 w-full cursor-pointer rounded-xl px-4 py-3 font-semibold shadow-lg transition-all duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2"
             :class="
                 product.metadata?.badge || product.is_highlighted
                     ? 'bg-primary hover:bg-primary/90 focus-visible:outline-primary text-white'

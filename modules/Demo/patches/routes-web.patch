@@ -1,0 +1,7 @@
+--- a/routes/web.php
++++ b/routes/web.php
+@@ -9,3 +9,3 @@
+
+-Route::get('/', IndexController::class)->name('index');
++Route::get('/', \Modules\Demo\Http\Controllers\DemoController::class)->name('index');
+

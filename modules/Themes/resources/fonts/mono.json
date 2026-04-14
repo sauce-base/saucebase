@@ -1,12 +1,68 @@
 [
-  { "family": "JetBrains Mono", "category": "monospace", "variants": ["100", "200", "300", "400", "500", "600", "700", "800"], "variable": true },
-  { "family": "Fira Code", "category": "monospace", "variants": ["300", "400", "500", "600", "700"], "variable": true },
-  { "family": "Source Code Pro", "category": "monospace", "variants": ["200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "Roboto Mono", "category": "monospace", "variants": ["100", "200", "300", "400", "500", "600", "700"], "variable": true },
-  { "family": "Space Mono", "category": "monospace", "variants": ["400", "700"] },
-  { "family": "IBM Plex Mono", "category": "monospace", "variants": ["100", "200", "300", "400", "500", "600", "700"] },
-  { "family": "Inconsolata", "category": "monospace", "variants": ["200", "300", "400", "500", "600", "700", "800", "900"], "variable": true },
-  { "family": "DM Mono", "category": "monospace", "variants": ["300", "400", "500"] },
-  { "family": "Courier Prime", "category": "monospace", "variants": ["400", "700"] },
-  { "family": "Noto Sans Mono", "category": "monospace", "variants": ["100", "200", "300", "400", "500", "600", "700", "800", "900"], "variable": true }
+    {
+        "family": "JetBrains Mono",
+        "category": "monospace",
+        "variants": ["100", "200", "300", "400", "500", "600", "700", "800"],
+        "variable": true
+    },
+    {
+        "family": "Fira Code",
+        "category": "monospace",
+        "variants": ["300", "400", "500", "600", "700"],
+        "variable": true
+    },
+    {
+        "family": "Source Code Pro",
+        "category": "monospace",
+        "variants": ["200", "300", "400", "500", "600", "700", "800", "900"],
+        "variable": true
+    },
+    {
+        "family": "Roboto Mono",
+        "category": "monospace",
+        "variants": ["100", "200", "300", "400", "500", "600", "700"],
+        "variable": true
+    },
+    {
+        "family": "Space Mono",
+        "category": "monospace",
+        "variants": ["400", "700"]
+    },
+    {
+        "family": "IBM Plex Mono",
+        "category": "monospace",
+        "variants": ["100", "200", "300", "400", "500", "600", "700"]
+    },
+    {
+        "family": "Inconsolata",
+        "category": "monospace",
+        "variants": ["200", "300", "400", "500", "600", "700", "800", "900"],
+        "variable": true
+    },
+    {
+        "family": "DM Mono",
+        "category": "monospace",
+        "variants": ["300", "400", "500"]
+    },
+    {
+        "family": "Courier Prime",
+        "category": "monospace",
+        "variants": ["400", "700"]
+    },
+    {
+        "family": "Noto Sans Mono",
+        "category": "monospace",
+        "variants": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900"
+        ],
+        "variable": true
+    }
 ]

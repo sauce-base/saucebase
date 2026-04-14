@@ -17,10 +17,10 @@ import { toast } from 'vue-sonner';
 
 import type { RoadmapItem } from '../types';
 
-import IconAltArrowDownBold from '~icons/solar/alt-arrow-down-bold';
-import IconAltArrowUpBold from '~icons/solar/alt-arrow-up-bold';
 import IconMap from '~icons/heroicons/map';
 import IconPlus from '~icons/heroicons/plus';
+import IconAltArrowDownBold from '~icons/solar/alt-arrow-down-bold';
+import IconAltArrowUpBold from '~icons/solar/alt-arrow-up-bold';
 
 const props = defineProps<{
     items: RoadmapItem[];
@@ -45,36 +45,47 @@ const STATUS_CONFIG = [
 
 // ── Sorting ──────────────────────────────────────────────────────────────────
 function changeSort(value: string) {
-    router.get(route('roadmap.index'), { sort: value }, {
-        preserveState: true,
-        replace: true,
-    });
+    router.get(
+        route('roadmap.index'),
+        { sort: value },
+        {
+            preserveState: true,
+            replace: true,
+        },
+    );
 }
 
 // ── Optimistic local state ────────────────────────────────────────────────────
-const localItems = ref(props.items.map(i => ({ ...i })));
+const localItems = ref(props.items.map((i) => ({ ...i })));
 
-watch(() => props.items, newItems => {
-    localItems.value = newItems.map(i => ({ ...i }));
-}, { deep: true });
+watch(
+    () => props.items,
+    (newItems) => {
+        localItems.value = newItems.map((i) => ({ ...i }));
+    },
+    { deep: true },
+);
 
 // ── Status grouping ───────────────────────────────────────────────────────────
 const groups = computed(() =>
-    STATUS_CONFIG
-        .map(({ value, label }) => ({
-            status: value,
-            label,
-            items: localItems.value
-                .filter(i => i.status === value)
-                .sort((a, b) => props.sort === 'top' ? b.net_score - a.net_score : 0),
-        }))
-        .filter(g => g.items.length > 0),
+    STATUS_CONFIG.map(({ value, label }) => ({
+        status: value,
+        label,
+        items: localItems.value
+            .filter((i) => i.status === value)
+            .sort((a, b) =>
+                props.sort === 'top' ? b.net_score - a.net_score : 0,
+            ),
+    })).filter((g) => g.items.length > 0),
 );
 
 // ── Vote class helpers ────────────────────────────────────────────────────────
 function buttonClass(userVote: 'up' | 'down' | null, type: 'up' | 'down') {
-    if (userVote !== type) return 'text-muted-foreground hover:bg-muted hover:text-foreground';
-    return type === 'up' ? 'bg-secondary text-white' : 'bg-destructive text-destructive-foreground';
+    if (userVote !== type)
+        return 'text-muted-foreground hover:bg-muted hover:text-foreground';
+    return type === 'up'
+        ? 'bg-secondary text-white'
+        : 'bg-destructive text-destructive-foreground';
 }
 
 function scoreClass(vote: 'up' | 'down' | null) {
@@ -86,12 +97,17 @@ function scoreClass(vote: 'up' | 'down' | null) {
 // ── Voting ────────────────────────────────────────────────────────────────────
 function showVoteToast(currentVote: 'up' | 'down' | null, type: 'up' | 'down') {
     if (currentVote === type) return toast.info(trans('Vote removed'));
-    if (currentVote === null) return type === 'up' ? toast.success(trans('Upvoted!')) : toast.info(trans('Downvoted'));
-    return type === 'up' ? toast.success(trans('Changed to upvote')) : toast.info(trans('Changed to downvote'));
+    if (currentVote === null)
+        return type === 'up'
+            ? toast.success(trans('Upvoted!'))
+            : toast.info(trans('Downvoted'));
+    return type === 'up'
+        ? toast.success(trans('Changed to upvote'))
+        : toast.info(trans('Changed to downvote'));
 }
 
 function vote(item: RoadmapItem, type: 'up' | 'down') {
-    const local = localItems.value.find(i => i.id === item.id);
+    const local = localItems.value.find((i) => i.id === item.id);
     if (!local) return;
 
     const currentVote = local.user_vote;
@@ -103,20 +119,25 @@ function vote(item: RoadmapItem, type: 'up' | 'down') {
         local.user_vote = null;
         local.net_score -= delta;
     } else {
-        if (currentVote !== null) local.net_score -= currentVote === 'up' ? 1 : -1;
+        if (currentVote !== null)
+            local.net_score -= currentVote === 'up' ? 1 : -1;
         local.net_score += delta;
         local.user_vote = type;
     }
 
-    router.post(route('roadmap.vote', item.id), { type }, {
-        preserveScroll: true,
-        only: ['items'],
-        onSuccess: () => showVoteToast(currentVote, type),
-        onError: () => {
-            local.net_score = originalScore;
-            local.user_vote = currentVote;
+    router.post(
+        route('roadmap.vote', item.id),
+        { type },
+        {
+            preserveScroll: true,
+            only: ['items'],
+            onSuccess: () => showVoteToast(currentVote, type),
+            onError: () => {
+                local.net_score = originalScore;
+                local.user_vote = currentVote;
+            },
         },
-    });
+    );
 }
 
 // ── Suggestion dialog ─────────────────────────────────────────────────────────
@@ -129,7 +150,10 @@ const form = useForm({
 });
 
 // ── Badge variant ─────────────────────────────────────────────────────────────
-const colorToVariant: Record<string, 'default' | 'destructive' | 'secondary' | 'outline'> = {
+const colorToVariant: Record<
+    string,
+    'default' | 'destructive' | 'secondary' | 'outline'
+> = {
     primary: 'default',
     secondary: 'secondary',
     danger: 'destructive',
@@ -139,8 +163,10 @@ const colorToVariant: Record<string, 'default' | 'destructive' | 'secondary' | '
     gray: 'outline',
 };
 
-function typeBadgeVariant(item: RoadmapItem): 'default' | 'destructive' | 'secondary' | 'outline' {
-    const found = props.types.find(t => t.value === item.type);
+function typeBadgeVariant(
+    item: RoadmapItem,
+): 'default' | 'destructive' | 'secondary' | 'outline' {
+    const found = props.types.find((t) => t.value === item.type);
     return colorToVariant[found?.color ?? 'primary'] ?? 'default';
 }
 
@@ -172,30 +198,46 @@ function formatDate(dateStr: string): string {
     <AppLayout :title="title" :breadcrumbs="[{ title }]">
         <div class="flex flex-1 flex-col gap-6 p-6 pt-2">
             <div class="w-full max-w-3xl space-y-6">
-
                 <!-- Header -->
-                <div class="flex flex-col gap-4 mt-6 mb-10 sm:flex-row sm:items-center sm:justify-between">
+                <div
+                    class="mt-6 mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+                >
                     <div class="flex items-center gap-3">
                         <div class="bg-primary/10 text-primary rounded-xl p-4">
                             <IconMap class="size-10" />
                         </div>
                         <div>
-                            <h1 class="text-2xl font-bold tracking-tight">{{ $t('Product Roadmap') }}</h1>
+                            <h1 class="text-2xl font-bold tracking-tight">
+                                {{ $t('Product Roadmap') }}
+                            </h1>
                             <p class="text-muted-foreground text-sm">
-                                {{ $t('Vote on features and suggest new ideas.') }}
+                                {{
+                                    $t(
+                                        'Vote on features and suggest new ideas.',
+                                    )
+                                }}
                             </p>
                         </div>
                     </div>
 
-                    <Button data-testid="suggest-btn" class="w-full sm:w-auto" @click="openDialog">
+                    <Button
+                        data-testid="suggest-btn"
+                        class="w-full sm:w-auto"
+                        @click="openDialog"
+                    >
                         <IconPlus class="size-5 text-white" />
                         {{ $t('Submit feedback') }}
                     </Button>
                 </div>
 
                 <!-- Sort controls -->
-                <div v-if="localItems.length > 0" class="flex items-center gap-1.5">
-                    <span class="text-muted-foreground text-xs mr-1">{{ $t('Sort:') }}</span>
+                <div
+                    v-if="localItems.length > 0"
+                    class="flex items-center gap-1.5"
+                >
+                    <span class="text-muted-foreground mr-1 text-xs">{{
+                        $t('Sort:')
+                    }}</span>
                     <button
                         v-for="opt in SORT_OPTIONS"
                         :key="opt.value"
@@ -215,31 +257,52 @@ function formatDate(dateStr: string): string {
                 <!-- Empty state -->
                 <div
                     v-if="localItems.length === 0"
-                    class="flex flex-col items-center justify-center py-20 gap-6 text-center bg-muted/30 rounded-lg"
+                    class="bg-muted/30 flex flex-col items-center justify-center gap-6 rounded-lg py-20 text-center"
                 >
-                    <IconMap class="text-muted-foreground size-14 " />
+                    <IconMap class="text-muted-foreground size-14" />
                     <p class="text-muted-foreground">
-                        {{ $t('No roadmap items yet. Be the first to suggest a feature!') }}
+                        {{
+                            $t(
+                                'No roadmap items yet. Be the first to suggest a feature!',
+                            )
+                        }}
                     </p>
-                    <button type="button" data-testid="suggest-btn-empty" class="rounded-md border border-primary px-4 py-1.5 text-sm text-primary hover:bg-primary hover:text-primary-foreground transition-colors" @click="openDialog">
+                    <button
+                        type="button"
+                        data-testid="suggest-btn-empty"
+                        class="border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-md border px-4 py-1.5 text-sm transition-colors"
+                        @click="openDialog"
+                    >
                         {{ $t('Submit feedback') }}
                     </button>
                 </div>
 
                 <!-- Grouped item list -->
-                <div v-for="group in groups" :key="group.status" class="space-y-2">
+                <div
+                    v-for="group in groups"
+                    :key="group.status"
+                    class="space-y-2"
+                >
                     <!-- Group header -->
-                    <p class="text-muted-foreground text-xs font-semibold uppercase tracking-wider px-1">
+                    <p
+                        class="text-muted-foreground px-1 text-xs font-semibold tracking-wider uppercase"
+                    >
                         {{ $t(group.label) }}
-                        <span class="ml-1 font-normal">({{ group.items.length }})</span>
+                        <span class="ml-1 font-normal"
+                            >({{ group.items.length }})</span
+                        >
                     </p>
 
                     <!-- Items -->
-                    <TransitionGroup tag="div" class="flex flex-col gap-2" move-class="transition-transform duration-500 ease-out">
+                    <TransitionGroup
+                        tag="div"
+                        class="flex flex-col gap-2"
+                        move-class="transition-transform duration-500 ease-out"
+                    >
                         <div
                             v-for="item in group.items"
                             :key="item.id"
-                            class="relative flex items-stretch gap-0 rounded border overflow-hidden transition-colors bg-muted/50 hover:bg-muted/80 dark:bg-muted/20 dark:hover:bg-muted/40"
+                            class="bg-muted/50 hover:bg-muted/80 dark:bg-muted/20 dark:hover:bg-muted/40 relative flex items-stretch gap-0 overflow-hidden rounded border transition-colors"
                         >
                             <!-- Vote box -->
                             <div
@@ -249,20 +312,29 @@ function formatDate(dateStr: string): string {
                             >
                                 <button
                                     :data-testid="`upvote-btn-${item.id}`"
-                                    :class="['flex cursor-pointer items-center justify-center py-3 transition-colors', buttonClass(item.user_vote, 'up')]"
+                                    :class="[
+                                        'flex cursor-pointer items-center justify-center py-3 transition-colors',
+                                        buttonClass(item.user_vote, 'up'),
+                                    ]"
                                     @click="vote(item, 'up')"
                                 >
                                     <IconAltArrowUpBold class="size-5" />
                                 </button>
                                 <span
                                     :data-testid="`vote-score-${item.id}`"
-                                    :class="['flex items-center justify-center py-2 text-sm font-semibold tabular-nums', scoreClass(item.user_vote)]"
+                                    :class="[
+                                        'flex items-center justify-center py-2 text-sm font-semibold tabular-nums',
+                                        scoreClass(item.user_vote),
+                                    ]"
                                 >
                                     {{ item.net_score }}
                                 </span>
                                 <button
                                     :data-testid="`downvote-btn-${item.id}`"
-                                    :class="['flex cursor-pointer items-center justify-center py-3 transition-colors', buttonClass(item.user_vote, 'down')]"
+                                    :class="[
+                                        'flex cursor-pointer items-center justify-center py-3 transition-colors',
+                                        buttonClass(item.user_vote, 'down'),
+                                    ]"
                                     @click="vote(item, 'down')"
                                 >
                                     <IconAltArrowDownBold class="size-5" />
@@ -270,8 +342,10 @@ function formatDate(dateStr: string): string {
                             </div>
 
                             <!-- Content -->
-                            <div class="flex flex-1 flex-col justify-center gap-1 px-4 py-3">
-                                <p class="font-semibold leading-snug">
+                            <div
+                                class="flex flex-1 flex-col justify-center gap-1 px-4 py-3"
+                            >
+                                <p class="leading-snug font-semibold">
                                     {{ item.title }}
                                 </p>
                                 <Badge
@@ -286,14 +360,14 @@ function formatDate(dateStr: string): string {
                                 >
                                     {{ item.description }}
                                 </p>
-                                <p class="text-muted-foreground text-xs mt-2">
-                                    {{ $t('Created on') }} {{ formatDate(item.created_at) }}
+                                <p class="text-muted-foreground mt-2 text-xs">
+                                    {{ $t('Created on') }}
+                                    {{ formatDate(item.created_at) }}
                                 </p>
                             </div>
                         </div>
                     </TransitionGroup>
                 </div>
-
             </div>
         </div>
 
@@ -303,14 +377,20 @@ function formatDate(dateStr: string): string {
                 <DialogHeader>
                     <DialogTitle>{{ $t('Submit feedback') }}</DialogTitle>
                     <DialogDescription>
-                        {{ $t('We review all submissions before publishing them to the roadmap.') }}
+                        {{
+                            $t(
+                                'We review all submissions before publishing them to the roadmap.',
+                            )
+                        }}
                     </DialogDescription>
                 </DialogHeader>
 
                 <form @submit.prevent="submitSuggestion" class="space-y-4">
                     <!-- Type toggle -->
                     <div class="space-y-1.5">
-                        <label class="text-sm font-medium">{{ $t('Type') }}</label>
+                        <label class="text-sm font-medium">{{
+                            $t('Type')
+                        }}</label>
                         <div class="flex gap-2">
                             <button
                                 v-for="t in types"
@@ -332,43 +412,76 @@ function formatDate(dateStr: string): string {
                     <!-- Title -->
                     <div class="space-y-1.5">
                         <label for="suggest-title" class="text-sm font-medium">
-                            {{ $t('Title') }} <span class="text-destructive">*</span>
+                            {{ $t('Title') }}
+                            <span class="text-destructive">*</span>
                         </label>
                         <input
                             id="suggest-title"
                             data-testid="suggest-title"
                             v-model="form.title"
                             type="text"
-                            :placeholder="$t('e.g. Dark mode, login bug, faster search…')"
+                            :placeholder="
+                                $t('e.g. Dark mode, login bug, faster search…')
+                            "
                             maxlength="255"
                             class="border-input bg-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:outline-none"
                         />
-                        <p v-if="form.errors.title" class="text-destructive text-xs">{{ form.errors.title }}</p>
+                        <p
+                            v-if="form.errors.title"
+                            class="text-destructive text-xs"
+                        >
+                            {{ form.errors.title }}
+                        </p>
                     </div>
 
                     <!-- Description -->
                     <div class="space-y-1.5">
-                        <label for="suggest-description" class="text-sm font-medium">
+                        <label
+                            for="suggest-description"
+                            class="text-sm font-medium"
+                        >
                             {{ $t('Description') }}
                         </label>
                         <textarea
                             id="suggest-description"
                             data-testid="suggest-description"
                             v-model="form.description"
-                            :placeholder="$t('What\'s the problem or idea? Any details help.')"
+                            :placeholder="
+                                $t(
+                                    'What\'s the problem or idea? Any details help.',
+                                )
+                            "
                             rows="3"
                             maxlength="2000"
-                            class="border-input bg-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:outline-none resize-none"
+                            class="border-input bg-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full resize-none rounded-md border px-3 py-2 text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:outline-none"
                         />
-                        <p v-if="form.errors.description" class="text-destructive text-xs">{{ form.errors.description }}</p>
+                        <p
+                            v-if="form.errors.description"
+                            class="text-destructive text-xs"
+                        >
+                            {{ form.errors.description }}
+                        </p>
                     </div>
 
                     <DialogFooter>
-                        <Button data-testid="suggest-cancel-btn" type="button" variant="outline" @click="dialogOpen = false">
+                        <Button
+                            data-testid="suggest-cancel-btn"
+                            type="button"
+                            variant="outline"
+                            @click="dialogOpen = false"
+                        >
                             {{ $t('Cancel') }}
                         </Button>
-                        <Button data-testid="suggest-submit-btn" type="submit" :disabled="form.processing">
-                            {{ form.processing ? $t('Submitting…') : $t('Submit') }}
+                        <Button
+                            data-testid="suggest-submit-btn"
+                            type="submit"
+                            :disabled="form.processing"
+                        >
+                            {{
+                                form.processing
+                                    ? $t('Submitting…')
+                                    : $t('Submit')
+                            }}
                         </Button>
                     </DialogFooter>
                 </form>
