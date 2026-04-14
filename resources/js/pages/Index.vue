@@ -214,11 +214,13 @@ function copyCommand() {
         .catch(() => toast.error(trans('Failed to copy')));
 }
 
-onUnmounted(() => { if (copyTimer) clearTimeout(copyTimer); });
+onUnmounted(() => {
+    if (copyTimer) clearTimeout(copyTimer);
+});
 
 const installCommand = (mod: Module) => {
     if (mod.badge === 'custom')
-        return 'php artisan saucebase:recipe ModuleName';
+        return 'php artisan saucebase:recipe MyAmazingModuleIdea';
     return `composer require saucebase/${mod.id}`;
 };
 </script>
@@ -276,99 +278,140 @@ const installCommand = (mod: Module) => {
                     class="relative z-10 mx-auto grid max-w-6xl rotate-[-5deg] skew-x-10 grid-cols-1 gap-8 gap-y-2 px-10 pb-16 has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-3 lg:grid-cols-4"
                 >
                     <div
-                        v-for="mod in modules"
+                        v-for="(mod, index) in modules"
                         :key="mod.id"
                         data-card
-                        class="group/card relative flex cursor-pointer flex-col pt-6 transition-opacity duration-200 hover:opacity-100!"
+                        class="relative cursor-pointer transition-opacity duration-200 hover:opacity-100!"
                         :class="mod.badge === 'coming-soon' ? 'opacity-50' : ''"
-                        :style="modStyle(mod)"
+                        :style="[
+                            modStyle(mod),
+                            { '--card-delay': `${400 + index * 120}ms` },
+                        ]"
                         @click="selectedMod = mod"
                     >
-                        <div class="relative flex-1">
-                            <!-- Diagonal stripe accent (behind card) -->
-                            <div
-                                class="stripe absolute inset-x-2 top-3 bottom-0 w-full -translate-x-5 translate-y-2.5 rounded-xl transition-opacity duration-200"
-                                :class="
-                                    mod.badge !== 'coming-soon'
-                                        ? 'opacity-90 group-hover/card:opacity-90'
-                                        : 'opacity-80'
-                                "
-                            />
+                        <!-- Diagonal stripe accent — stationary, fades in after card lands -->
+                        <div
+                            class="stripe stripe-appear absolute inset-x-2 top-9 bottom-0 w-full -translate-x-5 translate-y-2.5 rounded-xl transition-opacity duration-200"
+                            :class="
+                                mod.badge !== 'coming-soon'
+                                    ? 'opacity-90 group-hover/card:opacity-90'
+                                    : 'opacity-80'
+                            "
+                            :style="{
+                                animationDelay:
+                                    'calc(var(--card-delay) + 50ms)',
+                            }"
+                        />
 
-                            <!-- Card body -->
-                            <div
-                                class="bg-card relative z-10 flex h-full flex-col gap-2 rounded-xl p-4 pt-12 text-left shadow-[-1px_1px_0_0_color-mix(in_oklch,var(--color-white)_80%,black)] transition-all duration-200 group-hover/card:translate-x-1.5 group-hover/card:-translate-y-1.5 group-hover/card:shadow-[-5px_5px_0_0_color-mix(in_oklch,var(--mod-color)_85%,black)]/70 dark:shadow-[-2px_2px_0_0_color-mix(in_oklch,var(--color-muted)_90%,black)] group-hover/card:dark:shadow-[-5px_5px_0_0_color-mix(in_oklch,var(--color-muted)_90%,black)]"
-                                :class="
-                                    mod.badge === 'coming-soon'
-                                        ? 'border-dashed'
-                                        : ''
-                                "
-                            >
-                                <!-- Badge (stripe background + chip) -->
-                                <template
-                                    v-if="
-                                        mod.badge === 'coming-soon' ||
-                                        mod.badge === 'new'
+                        <!-- Projected Shadow -->
+                        <!-- <div
+                            class="stripe-appear bg-foreground -skew-3 blur-md m-2 absolute inset-x-2 top-9 bottom-0 w-full -translate-x-5 translate-y-2.5 rounded-xl transition-opacity duration-200"
+                            :class="
+                                mod.badge !== 'coming-soon'
+                                    ? 'opacity-90 group-hover/card:opacity-90'
+                                    : 'opacity-80'
+                            "
+                            :style="{
+                                animationDelay:
+                                    'calc(var(--card-delay) + 50ms)',
+                            }"
+                        /> -->
+
+                        <!-- Animated card (falls in) -->
+                        <div
+                            class="card-drop group/card relative flex flex-col pt-6"
+                            :style="{ animationDelay: 'var(--card-delay)' }"
+                        >
+                            <div class="relative flex-1">
+                                <!-- Card body -->
+                                <div
+                                    class="bg-card relative z-10 flex h-full flex-col gap-2 rounded-xl p-4 pt-12 text-left shadow-[-1px_1px_0_0_color-mix(in_oklch,var(--color-white)_80%,black)] transition-all duration-200 group-hover/card:translate-x-1.5 group-hover/card:-translate-y-1.5 group-hover/card:shadow-[-5px_5px_0_0_color-mix(in_oklch,var(--mod-color)_85%,black)]/70 dark:shadow-[-2px_2px_0_0_color-mix(in_oklch,var(--color-muted)_90%,black)] group-hover/card:dark:shadow-[-5px_5px_0_0_color-mix(in_oklch,var(--mod-color)_85%,black)]/70"
+                                    :class="
+                                        mod.badge === 'coming-soon'
+                                            ? 'border-dashed'
+                                            : ''
                                     "
                                 >
-                                    <div
-                                        class="badge-stripe stripe absolute top-3 right-0.5 min-w-12 rounded-full px-2.5 py-0.5 text-[10px] font-medium opacity-50"
-                                        aria-hidden="true"
-                                    >
-                                        <span class="invisible">{{ $t('Soon') }}</span>
-                                    </div>
-                                    <div
-                                        class="absolute top-1.5 -right-1.5 z-10 transition-all group-hover/card:translate-x-1 group-hover/card:-translate-y-0.5"
+                                    <!-- Badge (stripe background + chip) -->
+                                    <template
+                                        v-if="
+                                            mod.badge === 'coming-soon' ||
+                                            mod.badge === 'new'
+                                        "
                                     >
                                         <div
-                                            class="flex min-w-12 items-center justify-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium shadow-sm"
-                                            :class="
-                                                mod.badge === 'new'
-                                                    ? 'border-emerald-500 bg-emerald-100 text-emerald-600'
-                                                    : 'bg-muted text-foreground'
-                                            "
+                                            class="badge-stripe stripe absolute top-3 right-0.5 min-w-12 rounded-full px-2.5 py-0.5 text-[10px] font-medium opacity-50"
+                                            aria-hidden="true"
                                         >
-                                            {{
-                                                mod.badge === 'coming-soon'
-                                                    ? $t('Soon')
-                                                    : $t('New')
-                                            }}
+                                            <span class="invisible">
+                                                {{ $t('Soon') }}
+                                            </span>
                                         </div>
+                                        <div
+                                            class="bounce absolute top-1.5 -right-1.5 z-10 transition-all group-hover/card:translate-x-1 group-hover/card:-translate-y-0.5"
+                                            :style="{
+                                                animationDelay:
+                                                    'calc(var(--card-delay) + 280ms)',
+                                            }"
+                                        >
+                                            <div
+                                                class="flex min-w-12 items-center justify-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium shadow-sm"
+                                                :class="
+                                                    mod.badge === 'new'
+                                                        ? 'border-emerald-500 bg-emerald-100 text-emerald-600'
+                                                        : 'bg-muted text-foreground'
+                                                "
+                                            >
+                                                {{
+                                                    mod.badge === 'coming-soon'
+                                                        ? $t('Soon')
+                                                        : $t('New')
+                                                }}
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <!-- Floating icon -->
+                                    <div
+                                        class="bounce absolute -top-2 left-1/2 z-10 -ml-5 flex size-14 shrink-0 items-center justify-center rounded-full shadow-[-2px_2px_0_0_color-mix(in_oklch,var(--mod-color)_85%,black)] transition-all duration-200 group-hover/card:translate-x-1.5 group-hover/card:-translate-y-1.5 group-hover/card:shadow-[-5px_5px_0_0_color-mix(in_oklch,var(--mod-color)_85%,black)]"
+                                        :class="mod.bg"
+                                        :style="{
+                                            animationDelay:
+                                                'calc(var(--card-delay) + 280ms)',
+                                        }"
+                                    >
+                                        <component
+                                            :is="mod.icon"
+                                            class="absolute size-7 text-black/10 transition-all duration-200 group-hover/card:text-black/30 group-hover/card:blur-[1.5px]"
+                                            aria-hidden="true"
+                                        />
+                                        <component
+                                            :is="mod.icon"
+                                            class="bounce absolute size-7 translate-x-0.5 -translate-y-0.5 text-white transition-transform duration-200 group-hover/card:translate-x-1 group-hover/card:-translate-y-1.5"
+                                            :style="{
+                                                animationDelay:
+                                                    'calc(var(--card-delay) + 280ms)',
+                                            }"
+                                            aria-hidden="true"
+                                        />
                                     </div>
-                                </template>
 
-                                <!-- Floating icon -->
-                                <div
-                                    class="absolute -top-2 left-1/2 z-10 -ml-5 flex size-14 shrink-0 items-center justify-center rounded-full shadow-[-2px_2px_0_0_color-mix(in_oklch,var(--mod-color)_85%,black)] transition-all duration-200 group-hover/card:translate-x-1.5 group-hover/card:-translate-y-1.5 group-hover/card:shadow-[-5px_5px_0_0_color-mix(in_oklch,var(--mod-color)_85%,black)]"
-                                    :class="mod.bg"
-                                >
-                                    <component
-                                        :is="mod.icon"
-                                        class="absolute size-7 text-black/10 transition-all duration-200 group-hover/card:text-black/30 group-hover/card:blur-[1.5px]"
-                                        aria-hidden="true"
+                                    <!-- Stripe ring around icon -->
+                                    <div
+                                        class="stripe absolute top-0 left-1/2 -ml-7 size-14 rounded-full"
                                     />
-                                    <component
-                                        :is="mod.icon"
-                                        class="absolute size-7 translate-x-0.5 -translate-y-0.5 text-white transition-transform duration-200 group-hover/card:translate-x-1 group-hover/card:-translate-y-1.5"
-                                        aria-hidden="true"
-                                    />
+
+                                    <span
+                                        class="text-foreground mt-4 text-center text-base leading-tight font-semibold"
+                                    >
+                                        {{ $t(mod.title) }}
+                                    </span>
+                                    <p
+                                        class="text-muted-foreground line-clamp-2 text-center text-xs leading-snug"
+                                    >
+                                        {{ $t(mod.description) }}
+                                    </p>
                                 </div>
-
-                                <!-- Stripe ring around icon -->
-                                <div
-                                    class="stripe absolute top-0 left-1/2 -ml-7 size-14 rounded-full"
-                                />
-
-                                <span
-                                    class="text-foreground mt-4 text-center text-base leading-tight font-semibold"
-                                >
-                                    {{ $t(mod.title) }}
-                                </span>
-                                <p
-                                    class="text-muted-foreground line-clamp-2 text-center text-xs leading-snug"
-                                >
-                                    {{ $t(mod.description) }}
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -582,10 +625,95 @@ const installCommand = (mod: Module) => {
         transparent 5px
     );
     border: 1px solid color-mix(in oklch, var(--mod-color) 25%, transparent);
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        perspective-origin: bottom left;
+        width: 105%;
+        transform: translate(-4px, 6px) perspective(400px) rotateX(-25deg);
+        background-color: color-mix(
+            in oklch,
+            var(--color-foreground) 20%,
+            transparent
+        );
+        filter: blur(5px);
+        border-radius: 2rem;
+    }
+    .dark &::after {
+        background-color: color-mix(
+            in oklch,
+            var(--color-background) 50%,
+            transparent
+        );
+    }
 }
 
 /* Badge stripe uses foreground color regardless of module color */
 .badge-stripe {
     --mod-color: var(--color-foreground);
+}
+
+@keyframes bounce {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(-3px, 3px);
+    }
+    55% {
+        transform: translate(3px, -3px);
+    }
+    72% {
+        transform: translate(3px, -3px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.bounce {
+    animation: bounce 0.7s ease-in-out backwards;
+}
+
+@keyframes stripe-appear {
+    from {
+        opacity: 0;
+        scale: 0.5;
+        transform: translateY(24px);
+    }
+}
+
+.stripe-appear {
+    transform-origin: left center;
+    animation: stripe-appear 0.6s ease-out backwards;
+}
+
+@keyframes card-drop-move {
+    0% {
+        transform: translateY(-100%) translateX(30%) scale(1.25);
+    }
+    100% {
+        transform: translateY(0) translateX(0) scale(1);
+    }
+}
+
+@keyframes card-drop-fade {
+    0% {
+        opacity: 0;
+    }
+    35% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.card-drop {
+    animation:
+        card-drop-move 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+        card-drop-fade 0.4s ease-out both;
 }
 </style>
