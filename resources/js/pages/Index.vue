@@ -31,19 +31,19 @@ const selectedMod = ref<Module | null>(null);
         <main class="mx-auto w-full px-6 py-16 lg:px-8">
             <div class="py-16">
                 <h1
-                    class="text-primary text-center text-6xl font-bold tracking-tight [text-shadow:0_4px_25px_color-mix(in_oklch,var(--color-primary)_15%,var(--color-background))] sm:text-7xl"
+                    class="text-foreground/80 dark:text-muted-foreground text-center text-5xl font-bold [text-shadow:0_4px_25px_color-mix(in_oklch,var(--color-primary)_15%,var(--color-background))]"
                 >
-                    {{ $t("Let's get started") }}
+                    {{ $t('Your foundation is ready!') }}
                 </h1>
-                <h2 class="text-secondary mt-1 text-center text-3xl font-bold">
-                    {{ $t('Your foundation is ready') }}
+                <h2 class="text-secondary mt-1 text-center text-7xl font-bold">
+                    {{ $t("Let's get started") }}
                 </h2>
                 <p
-                    class="text-muted-foreground mt-3 text-center text-xl leading-7"
+                    class="text-muted-foreground mt-3 text-center text-3xl tracking-tighter"
                 >
                     {{
                         $t(
-                            'Focus on what makes your product unique, the modules handle the rest.',
+                            'Your magic first. Modules for everything else.',
                         )
                     }}
                 </p>
