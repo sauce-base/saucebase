@@ -6,7 +6,7 @@ import IconHeart from '~icons/heroicons/heart';
 <template>
     <footer class="relative mt-auto w-full overflow-hidden pb-12 sm:pb-48">
         <div
-            class="mx-4 py-8 min-[450px]:mx-auto min-[450px]:max-w-7xl min-[450px]:px-6"
+            class="mx-4 py-8 min-[450px]:mx-auto min-[450px]:max-w-7xl min-[450px]:px-6 z-10 relative"
         >
             <div
                 class="text-muted-foreground flex w-full flex-col items-center justify-between gap-4 text-sm md:flex-row"
@@ -46,7 +46,7 @@ import IconHeart from '~icons/heroicons/heart';
             </div>
         </div>
         <div
-            class="absolute bottom-0 -z-1 translate-y-[20%] scale-105 px-4 font-mono"
+            class="absolute bottom-0 z-0 translate-y-[20%] scale-105 px-4 font-mono"
         >
             <p
                 class="text-center text-[21vw] leading-none font-black -tracking-widest select-none"

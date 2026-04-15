@@ -5,8 +5,8 @@ import { Toaster } from '@/components/ui/sonner';
 </script>
 <template>
     <GlobalComponents position="top" />
-    <slot />
     <Toaster />
+    <slot />
     <DynamicDialog />
     <GlobalComponents position="bottom" />
 </template>

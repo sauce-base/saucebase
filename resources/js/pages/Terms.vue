@@ -1,24 +1,12 @@
 <script setup lang="ts">
-import Footer from '@/components/Footer.vue';
-import Header from '@/components/Header.vue';
-import { Head } from '@inertiajs/vue3';
+import SiteLayout from '@/layouts/SiteLayout.vue';
 </script>
 
 <template>
-    <Head>
-        <title>{{ $t('Terms of Service') }}</title>
-        <meta
-            name="description"
-            :content="
-                $t(
-                    'Read our Terms of Service to understand the rules and guidelines for using Saucebase.',
-                )
-            "
-        />
-    </Head>
-    <div class="pt-10">
-        <Header />
-
+    <SiteLayout
+        :title="$t('Terms of Service')"
+        :description="$t('Read our Terms of Service to understand the rules and guidelines for using Saucebase.')"
+    >
         <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-16">
             <h1 class="mb-2 text-4xl font-bold text-gray-900 dark:text-white">
                 {{ $t('Terms of Service') }}
@@ -169,7 +157,5 @@ import { Head } from '@inertiajs/vue3';
                 </section>
             </div>
         </main>
-
-        <Footer />
-    </div>
+    </SiteLayout>
 </template>

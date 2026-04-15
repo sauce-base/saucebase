@@ -8,7 +8,7 @@ const emit = defineEmits<{ select: [module: Module] }>();
 <template>
     <div
         data-card
-        class="relative cursor-pointer transition-opacity duration-200 hover:opacity-100!"
+        class="select-none relative cursor-pointer transition-opacity duration-200 hover:opacity-100!"
         :class="!module.href ? 'opacity-50' : ''"
         :style="{
             '--mod-color': `var(${module.color})`,
@@ -47,7 +47,7 @@ const emit = defineEmits<{ select: [module: Module] }>();
                             aria-hidden="true"
                         >
                             <span class="invisible">
-                                {{ $t(module.badge.label) }}
+                                {{ module.badge.label() }}
                             </span>
                         </div>
                         <div
@@ -61,7 +61,7 @@ const emit = defineEmits<{ select: [module: Module] }>();
                                 class="flex min-w-10 items-center justify-center rounded-full border px-1.5 py-0.5 text-[9px] font-bold shadow-sm"
                                 :class="module.badge.class"
                             >
-                                {{ $t(module.badge.label) }}
+                                {{ module.badge.label() }}
                             </div>
                         </div>
                     </template>
@@ -98,12 +98,12 @@ const emit = defineEmits<{ select: [module: Module] }>();
                     <span
                         class="text-foreground mt-6 text-center text-base leading-tight font-semibold"
                     >
-                        {{ $t(module.title) }}
+                        {{ module.title() }}
                     </span>
                     <p
                         class="text-muted-foreground line-clamp-3 text-center text-xs leading-snug"
                     >
-                        {{ $t(module.description) }}
+                        {{ module.description() }}
                     </p>
                 </div>
             </div>

@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import Footer from '@/components/Footer.vue';
-import Header from '@/components/Header.vue';
+import SiteLayout from '@/layouts/SiteLayout.vue';
 import { ModuleCard, ModuleModal, modules } from '@/components/ui/saucebase';
-import { Head } from '@inertiajs/vue3';
 import { BookOpen } from 'lucide-vue-next';
 import { ref } from 'vue';
 
@@ -12,44 +10,13 @@ const selectedMod = ref<Module | null>(null);
 </script>
 
 <template>
-    <Head>
-        <title>
-            {{ $t('Saucebase | The best modular Laravel SaaS Starter Kit') }}
-        </title>
-        <meta
-            name="description"
-            :content="
-                $t(
-                    'Free, open-source Laravel SaaS starter kit. Ships with auth, billing, admin panel, and a modular copy-and-own architecture.',
-                )
-            "
-        />
-    </Head>
-    <div class="bg-background relative isolate flex min-h-screen flex-col">
-        <Header />
-
+    <SiteLayout
+        :title="$t('Saucebase | The best modular Laravel SaaS Starter Kit')"
+        :description="$t('Free, open-source Laravel SaaS starter kit. Ships with auth, billing, admin panel, and a modular copy-and-own architecture.')"
+    >
         <main class="mx-auto w-full px-6 py-16 lg:px-8">
-            <div class="py-16">
-                <h1
-                    class="text-foreground/80 dark:text-muted-foreground text-center text-5xl font-bold [text-shadow:0_4px_25px_color-mix(in_oklch,var(--color-primary)_15%,var(--color-background))]"
-                >
-                    {{ $t('Your foundation is ready!') }}
-                </h1>
-                <h2 class="text-secondary mt-1 text-center text-7xl font-bold">
-                    {{ $t("Let's get started") }}
-                </h2>
-                <p
-                    class="text-muted-foreground mt-3 text-center text-3xl tracking-tighter"
-                >
-                    {{
-                        $t(
-                            'Your magic first. Modules for everything else.',
-                        )
-                    }}
-                </p>
-            </div>
             <div
-                class="relative -mt-25 overflow-hidden p-25 font-mono"
+                class="relative -mt-15 overflow-hidden p-25 pb-35"
                 style="
                     mask-image:
                         linear-gradient(to bottom, #000 90%, transparent 100%),
@@ -59,9 +26,28 @@ const selectedMod = ref<Module | null>(null);
                     mask-composite: intersect;
                 "
             >
+                <div class="py-16">
+                    <h1
+                        class="text-foreground/80 dark:text-muted-foreground text-center text-5xl font-bold [text-shadow:0_4px_25px_color-mix(in_oklch,var(--color-primary)_15%,var(--color-background))]"
+                    >
+                        {{ $t('Your foundation is ready!') }}
+                    </h1>
+                    <h2
+                        class="text-secondary mt-1 text-center text-7xl font-bold"
+                    >
+                        {{ $t("Let's get started") }}
+                    </h2>
+                    <p
+                        class="text-muted-foreground mt-3 text-center text-3xl tracking-tighter"
+                    >
+                        {{
+                            $t('Your magic first. Modules for everything else.')
+                        }}
+                    </p>
+                </div>
                 <!-- Module cards — grid is transformed as one unit for correct alignment -->
                 <div
-                    class="relative z-10 mx-auto grid max-w-6xl rotate-[-5deg] skew-x-10 grid-cols-1 gap-8 gap-y-2 px-10 pb-16 has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-3 lg:grid-cols-4"
+                    class="font-mono relative z-10 mx-auto grid max-w-6xl rotate-[-5deg] skew-x-10 grid-cols-1 gap-8 gap-y-2 px-10 pb-16 has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-3 lg:grid-cols-4"
                 >
                     <ModuleCard
                         v-for="(mod, index) in modules"
@@ -74,7 +60,7 @@ const selectedMod = ref<Module | null>(null);
 
                 <!-- Light mode pattern -->
                 <div
-                    class="absolute inset-0 -z-1 -m-5 rotate-[-5deg] skew-x-10 overflow-hidden dark:hidden"
+                    class="absolute inset-0 -z-1 -m-5 rotate-[-5deg] skew-x-10 overflow-hidden dark:hidden -left-20 -right-20"
                     style="
                         background-size: 24px;
                         background-position: top left;
@@ -83,7 +69,7 @@ const selectedMod = ref<Module | null>(null);
                 />
                 <!-- Dark mode pattern -->
                 <div
-                    class="absolute inset-0 -z-1 -m-5 hidden rotate-[-5deg] skew-x-10 overflow-hidden dark:block"
+                    class="absolute inset-0 -z-1 -m-5 hidden rotate-[-5deg] skew-x-10 overflow-hidden dark:block -left-20 -right-20"
                     style="
                         background-size: 24px;
                         background-position: top left;
@@ -109,9 +95,7 @@ const selectedMod = ref<Module | null>(null);
                 </div>
             </div>
         </main>
-
-        <Footer />
-    </div>
+    </SiteLayout>
 
     <ModuleModal :selected-mod="selectedMod" @close="selectedMod = null" />
 </template>

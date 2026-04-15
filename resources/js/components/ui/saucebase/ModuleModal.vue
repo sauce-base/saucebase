@@ -96,13 +96,13 @@ onUnmounted(() => {
                             <h2
                                 class="text-foreground flex-1 text-xl leading-tight font-bold"
                             >
-                                {{ $t(selectedMod.title) }}
+                                {{ selectedMod.title() }}
                             </h2>
                         </div>
 
                         <!-- Description -->
                         <p class="text-muted-foreground py-2 leading-relaxed">
-                            {{ $t(selectedMod.description) }}
+                            {{ selectedMod.description() }}
                         </p>
 
                         <!-- Features checklist -->
@@ -111,7 +111,7 @@ onUnmounted(() => {
                         >
                             <li
                                 v-for="feature in selectedMod.features"
-                                :key="feature"
+                                :key="feature()"
                                 class="text-foreground flex items-center gap-2 text-sm"
                             >
                                 <Check
@@ -119,7 +119,7 @@ onUnmounted(() => {
                                     style="color: var(--mod-color)"
                                     aria-hidden="true"
                                 />
-                                {{ $t(feature) }}
+                                {{ feature() }}
                             </li>
                         </ul>
 
