@@ -19,9 +19,8 @@
         "test:e2e:debug": "playwright test --debug",
         "test:e2e:report": "playwright show-report",
         "screenshots": "npm run build && tsx scripts/capture-screenshots.ts",
-        "prepare": "husky",
         "lint": "eslint ./resources ./modules/*/resources --fix --no-error-on-unmatched-pattern",
-        "saucebase": "tsx scripts/saucebase.ts"
+        "saucebase": "tsx saucebase.ts"
     },
     "devDependencies": {
         "@clack/prompts": "^1.0.1",
@@ -42,7 +41,6 @@
         "eslint": "^9.39.3",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-vue": "^9.33.0",
-        "husky": "^9.1.7",
         "laravel-vite-plugin": "^3.0.0",
         "lint-staged": "^16.2.7",
         "picocolors": "^1.1.1",
