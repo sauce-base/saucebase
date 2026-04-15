@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
 import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { Button } from '@/components/ui/button';
 import IconGithub from '~icons/simple-icons/github';
 import IconGoogle from '~icons/simple-icons/google';
 
@@ -32,7 +32,7 @@ const lastUsed = computed(() => usePage().props.auth.last_social_provider);
             <span
                 v-if="lastUsed === name"
                 :data-testid="`last-used-badge-${name}`"
-                class="absolute -top-2 -right-2 rounded-xl bg-muted/80 border px-2 py-0.5 text-xs text-muted-foreground drop-shadow-lg"
+                class="bg-muted/80 text-muted-foreground absolute -top-2 -right-2 rounded-xl border px-2 py-0.5 text-xs drop-shadow-lg"
             >
                 {{ $t('Last used') }}
             </span>

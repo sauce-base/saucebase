@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { trans } from 'laravel-vue-i18n';
 import {
     BookOpen,
     Braces,
@@ -14,53 +15,53 @@ import {
 
 const features = [
     {
-        name: 'One-command setup',
-        description: 'Docker, SSL, MySQL, Redis, Mailpit — one command and you\'re running.',
+        name: () => trans('One-command setup'),
+        description: () => trans('Docker, SSL, MySQL, Redis, Mailpit — one command and you\'re running.'),
         icon: Terminal,
     },
     {
-        name: 'Full TypeScript',
-        description: 'PHP enums and DTOs auto-generate .d.ts types. Type-safe routes via Ziggy.',
+        name: () => trans('Full TypeScript'),
+        description: () => trans('PHP enums and DTOs auto-generate .d.ts types. Type-safe routes via Ziggy.'),
         icon: Braces,
     },
     {
-        name: 'Theming system',
-        description: '15 built-in themes, a live visual editor, custom fonts, colors, and border radius.',
+        name: () => trans('Theming system'),
+        description: () => trans('15 built-in themes, a live visual editor, custom fonts, colors, and border radius.'),
         icon: Paintbrush,
     },
     {
-        name: 'Filament admin',
-        description: 'Auto-discovered module plugins. Tables, forms, actions, and widgets — no manual wiring.',
+        name: () => trans('Filament admin'),
+        description: () => trans('Auto-discovered module plugins. Tables, forms, actions, and widgets — no manual wiring.'),
         icon: LayoutDashboard,
     },
     {
-        name: 'PHPUnit test suite',
-        description: 'Feature and unit tests per module with factories, running in isolated in-memory SQLite.',
+        name: () => trans('PHPUnit test suite'),
+        description: () => trans('Feature and unit tests per module with factories, running in isolated in-memory SQLite.'),
         icon: FlaskConical,
     },
     {
-        name: 'Playwright E2E',
-        description: 'Per-module E2E test projects, auto-discovered and pre-configured for Chromium.',
+        name: () => trans('Playwright E2E'),
+        description: () => trans('Per-module E2E test projects, auto-discovered and pre-configured for Chromium.'),
         icon: TestTube2,
     },
     {
-        name: 'Module navigation',
-        description: 'Structured, module-aware navigation and breadcrumbs registered per module.',
+        name: () => trans('Module navigation'),
+        description: () => trans('Structured, module-aware navigation and breadcrumbs registered per module.'),
         icon: Navigation,
     },
     {
-        name: 'shadcn-vue UI',
-        description: '40+ accessible Tailwind 4 components, copy-and-own, dark mode built-in.',
+        name: () => trans('shadcn-vue UI'),
+        description: () => trans('40+ accessible Tailwind 4 components, copy-and-own, dark mode built-in.'),
         icon: Component,
     },
     {
-        name: 'Complete documentation',
-        description: 'Full docs site with module guides, architecture docs, and AI-optimized CLAUDE.md files.',
+        name: () => trans('Complete documentation'),
+        description: () => trans('Full docs site with module guides, architecture docs, and AI-optimized CLAUDE.md files.'),
         icon: BookOpen,
     },
     {
-        name: 'SSR opt-in',
-        description: 'Per-page server-side rendering for SEO. Public pages opt in, auth pages opt out.',
+        name: () => trans('SSR opt-in'),
+        description: () => trans('Per-page server-side rendering for SEO. Public pages opt in, auth pages opt out.'),
         icon: Globe,
     },
 ];
@@ -133,7 +134,7 @@ const features = [
                         >
                             <div
                                 v-for="feature in features"
-                                :key="feature.name"
+                                :key="feature.name()"
                                 class="flex items-start gap-3"
                             >
                                 <div
@@ -149,12 +150,12 @@ const features = [
                                     <p
                                         class="text-foreground text-base font-semibold"
                                     >
-                                        {{ $t(feature.name) }}
+                                        {{ feature.name() }}
                                     </p>
                                     <p
                                         class="text-muted-foreground mt-0.5 text-sm"
                                     >
-                                        {{ $t(feature.description) }}
+                                        {{ feature.description() }}
                                     </p>
                                 </div>
                             </div>

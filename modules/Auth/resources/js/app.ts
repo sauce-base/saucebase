@@ -1,9 +1,11 @@
 import { useDialog } from '@/composables/useDialog';
+import { registerGlobalComponent } from '@/lib/globalComponents';
 import { registerAction, registerIcon } from '@/lib/navigation';
 import { router } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { LogOut } from 'lucide-vue-next';
 import IconLogOut from '~icons/lucide/log-out';
+import ImpersonationAlert from './components/ImpersonationAlert.vue';
 
 import '../css/style.css';
 
@@ -12,10 +14,9 @@ import '../css/style.css';
  * Called during app initialization before mounting
  */
 export function setup() {
-    console.debug('Auth module loaded');
-
     registerIcon('logout', IconLogOut);
     registerAuthActions();
+    registerGlobalComponent('top', ImpersonationAlert);
 }
 
 /**

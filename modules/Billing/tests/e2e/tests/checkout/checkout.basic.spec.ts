@@ -16,7 +16,7 @@ test.describe.parallel('Checkout Basics', () => {
     }) => {
         await loginAs(credentials.admin);
 
-        await page.goto('/');
+        await page.goto('/pricing');
         await page
             .locator(
                 '[data-testid="product-card-pro"] [data-testid="get-started-button"]',
@@ -33,7 +33,7 @@ test.describe.parallel('Checkout Basics', () => {
     test('displays all billing form fields', async ({ page, loginAs, credentials }) => {
         await loginAs(credentials.admin);
 
-        await page.goto('/');
+        await page.goto('/pricing');
         await page
             .locator(
                 '[data-testid="product-card-pro"] [data-testid="get-started-button"]',
@@ -48,7 +48,7 @@ test.describe.parallel('Checkout Basics', () => {
     test('submits form and initiates Stripe redirect', async ({ page, loginAs, credentials }) => {
         await loginAs(credentials.admin);
 
-        await page.goto('/');
+        await page.goto('/pricing');
         await page
             .locator(
                 '[data-testid="product-card-pro"] [data-testid="get-started-button"]',

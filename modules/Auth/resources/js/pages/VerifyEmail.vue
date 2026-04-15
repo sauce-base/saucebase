@@ -31,7 +31,7 @@ import AuthCardLayout from '../layouts/AuthCardLayout.vue';
                     :href="route('logout')"
                     method="post"
                     as="button"
-                    class="cursor-pointer font-medium text-primary/70 hover:underline underline-offset-4"
+                    class="text-primary/70 cursor-pointer font-medium underline-offset-4 hover:underline"
                     data-testid="logout-link"
                 >
                     {{ $t('Log Out') }}

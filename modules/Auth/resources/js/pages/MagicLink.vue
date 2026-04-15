@@ -12,7 +12,9 @@ defineProps<{
 <template>
     <AuthCardLayout
         :title="$t('Magic Link Login')"
-        :description="$t('Enter your email to receive a secure, one-time login link.')"
+        :description="
+            $t('Enter your email to receive a secure, one-time login link.')
+        "
         :status="status"
     >
         <Form
@@ -33,7 +35,9 @@ defineProps<{
                 data-testid="magic-link-email"
             />
 
-            <div class="flex flex-col-reverse gap-2 pt-1 sm:flex-row sm:items-center sm:justify-between">
+            <div
+                class="flex flex-col-reverse gap-2 pt-1 sm:flex-row sm:items-center sm:justify-between"
+            >
                 <Link
                     :href="route('login')"
                     class="mt-4 text-center text-sm text-gray-600 hover:text-gray-900 sm:mt-0 sm:text-left dark:text-gray-400 dark:hover:text-gray-100"

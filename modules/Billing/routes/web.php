@@ -1,11 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Billing\Http\Controllers\BillingPlansController;
 use Modules\Billing\Http\Controllers\BillingPortalController;
 use Modules\Billing\Http\Controllers\CheckoutController;
 use Modules\Billing\Http\Controllers\SettingsBillingController;
 use Modules\Billing\Http\Controllers\SubscriptionController;
 use Modules\Billing\Http\Middleware\RedirectToRegister;
+
+Route::get('/pricing', BillingPlansController::class)->name('billing.plans');
 
 Route::post('/billing/checkout', [CheckoutController::class, 'create'])->middleware('throttle:10,1')->name('billing.checkout.create');
 

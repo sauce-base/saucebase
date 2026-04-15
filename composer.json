@@ -26,7 +26,7 @@
         "saucebase/auth": "*",
         "saucebase/billing": "*",
         "saucebase/breadcrumbs": "^1.0",
-        "saucebase/demo": "^0.1.0",
+        "saucebase/demo": "*",
         "saucebase/roadmap": "*",
         "saucebase/settings": "*",
         "saucebase/themes": "*",

@@ -29,29 +29,35 @@ defineProps<{
             </Link>
         </div>
 
-        <div class="grow flex w-full flex-col items-center">
-            <div class="w-full px-4 min-[450px]:w-auto min-[450px]:px-0 min-[450px]:min-w-md">
-            <Card :class="cardClass">
-                <CardHeader class="px-8 text-center">
-                    <CardTitle class="text-2xl">
-                        {{ title }}
-                    </CardTitle>
-                    <CardDescription>
-                        {{ description }}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent class="px-8">
-                    <PageTransition>
-                        <AlertMessage
-                            :message="$page.props.status || $page.props.error"
-                            :variant="$page.props.status ? 'success' : 'error'"
-                            class="mt-4"
-                            data-testid="alert"
-                        />
-                        <slot />
-                    </PageTransition>
-                </CardContent>
-            </Card>
+        <div class="flex w-full grow flex-col items-center">
+            <div
+                class="w-full px-4 min-[450px]:w-auto min-[450px]:min-w-md min-[450px]:px-0"
+            >
+                <Card :class="cardClass">
+                    <CardHeader class="px-8 text-center">
+                        <CardTitle class="text-2xl">
+                            {{ title }}
+                        </CardTitle>
+                        <CardDescription>
+                            {{ description }}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent class="px-8">
+                        <PageTransition>
+                            <AlertMessage
+                                :message="
+                                    $page.props.status || $page.props.error
+                                "
+                                :variant="
+                                    $page.props.status ? 'success' : 'error'
+                                "
+                                class="mt-4"
+                                data-testid="alert"
+                            />
+                            <slot />
+                        </PageTransition>
+                    </CardContent>
+                </Card>
             </div>
             <slot name="outside" />
         </div>
