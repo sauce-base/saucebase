@@ -29,7 +29,6 @@
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^4.0",
         "barryvdh/laravel-ide-helper": "^3.6",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.0",
@@ -45,8 +44,13 @@
         "symfony/filesystem": "^7.3"
     },
     "suggest": {
-        "saucebase/auth": "Authentication module with social login support",
-        "saucebase/settings": "Settings module to manage application settings"
+        "saucebase/announcements": "Site-wide announcement banners with scheduling, audience targeting, and cookie-based dismissal",
+        "saucebase/auth": "Complete authentication system with login, registration, magic link, password reset, email verification, and OAuth",
+        "saucebase/billing": "Subscription management and payment processing via Stripe with checkout, billing portal, and webhooks",
+        "saucebase/demo": "Demo module with a variety of example pages and components to jumpstart your development",
+        "saucebase/roadmap": "Public roadmap with feature requests, voting, moderation, and a Filament admin panel",
+        "saucebase/settings": "Account settings pages for managing profile info, avatar, password, and connected social accounts",
+        "saucebase/themes": "Visual theme editor for colors, fonts, radius, and shadows — baked into CSS with no runtime overhead"
     },
     "autoload": {
         "psr-4": {
