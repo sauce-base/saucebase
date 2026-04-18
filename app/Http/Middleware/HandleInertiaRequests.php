@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                 ->mapWithKeys(fn ($module, $key) => [$key => $module->getName()])
                 ->all(),
             'navigation' => fn () => app(Navigation::class)->treeGrouped(),
-            'breadcrumbs' => $this->getBreadcrumbs(),
+            'breadcrumbs' => fn () => $this->getBreadcrumbs(),
             'toast' => fn () => $request->session()->pull('toast'),
             // Ziggy data is computed lazily so it can be skipped on partial reloads
             'ziggy' => fn () => [
