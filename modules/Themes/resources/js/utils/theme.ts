@@ -1,20 +1,7 @@
-import { FIELD_DEFS } from '../fields';
+import { themeFields } from '../fields';
 import type { FieldState, Theme } from '../types';
 
 export const THEME_STORAGE_KEY = 'sb-theme-theme';
-
-// Allowlist derived from field definitions — only these vars are written as inline styles.
-const MANAGED_VARS_SET = new Set(FIELD_DEFS.flatMap((f) => f.vars));
-
-// Vars from non-color field types (font, unit/radius) are mode-agnostic.
-// Everything else in a theme JSON (colors, borders, cards, etc.) varies by mode.
-const NON_COLOR_FIELD_VARS = new Set(
-    FIELD_DEFS.filter((f) => f.type !== 'color').flatMap((f) => f.vars),
-);
-
-const FONT_FIELD_VARS = new Set(
-    FIELD_DEFS.filter((f) => f.type === 'font').flatMap((f) => f.vars),
-);
 
 function fontFallback(cssVar: string): string {
     if (cssVar.includes('mono')) return 'monospace';
@@ -64,7 +51,13 @@ export function applyThemeVars(theme: Theme | null, isDark: boolean): void {
     if (typeof document === 'undefined') {
         return;
     }
+
     const el = document.documentElement;
+    const themeFieldsList = themeFields();
+    const fontFieldVars = new Set(
+        themeFieldsList.filter((f) => f.type === 'font').flatMap((f) => f.vars),
+    );
+
 
     // Clear all inline CSS vars so stylesheet defaults can take over when theme is null
     const toRemove: string[] = [];
@@ -84,9 +77,13 @@ export function applyThemeVars(theme: Theme | null, isDark: boolean): void {
 
     // Apply only managed vars from the current mode — skip anything not in FIELD_DEFS
     Object.entries(modeVars).forEach(([key, value]) => {
-        if (!MANAGED_VARS_SET.has(key)) return;
+        const vars = new Set(themeFieldsList.flatMap((f) => f.vars));
+
+        if (!vars.has(key)) return;
+
         setProperty(key, value);
-        if (FONT_FIELD_VARS.has(key)) {
+
+        if (fontFieldVars.has(key)) {
             const name = parseFontName(value);
             loadGoogleFont(name);
             applyFontClass(key, name);
@@ -96,9 +93,15 @@ export function applyThemeVars(theme: Theme | null, isDark: boolean): void {
     // Override mode-agnostic vars (font, radius) with light values so they
     // remain consistent regardless of which mode is active
     Object.entries(lightVars).forEach(([key, value]) => {
-        if (!NON_COLOR_FIELD_VARS.has(key)) return;
+        const nonColorVars = new Set(
+            themeFieldsList.filter((f) => f.type !== 'color').flatMap((f) => f.vars),
+        );
+
+        if (!nonColorVars.has(key)) return;
+
         setProperty(key, value);
-        if (FONT_FIELD_VARS.has(key)) {
+
+        if (fontFieldVars.has(key)) {
             const name = parseFontName(value);
             loadGoogleFont(name);
             applyFontClass(key, name);
@@ -111,8 +114,8 @@ export function applyThemeVars(theme: Theme | null, isDark: boolean): void {
     if (shadowColor) {
         const opacity = parseFloat(
             modeVars['--shadow-opacity'] ??
-                lightVars['--shadow-opacity'] ??
-                '0.2',
+            lightVars['--shadow-opacity'] ??
+            '0.2',
         );
         const blur = parseFloat(lightVars['--shadow-blur'] ?? '30');
         const spread = parseFloat(lightVars['--shadow-spread'] ?? '-10');
@@ -233,9 +236,9 @@ export function computeRadiusScale(
             px === 0
                 ? [key, radiusValue]
                 : [
-                      key,
-                      `calc(${radiusValue} ${px > 0 ? '+' : '-'} ${Math.abs(px)}px)`,
-                  ],
+                    key,
+                    `calc(${radiusValue} ${px > 0 ? '+' : '-'} ${Math.abs(px)}px)`,
+                ],
         ),
     );
 }

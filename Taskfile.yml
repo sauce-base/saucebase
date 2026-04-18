@@ -94,10 +94,16 @@ tasks:
 
     db:reset:
         desc: Reset database (migrate:fresh + module seeds)
-        prompt: 'This will erase ALL data. Are you sure?'
+        prompt: This will erase ALL data. Are you sure?
         cmds:
             - docker compose exec app php artisan migrate:fresh --seed
             - docker compose exec app php artisan module:migrate-refresh --all --seed
+
+    # ── Translation ───────────────────────────────────────────────
+
+    translation:export:
+        desc: Export translations to JSON files for all languages
+        cmd: php artisan translatable:export en,pt_BR
 
     # ── Pipelines ─────────────────────────────────────────────────
 

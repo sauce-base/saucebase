@@ -60,7 +60,7 @@ import {
     setProperty,
 } from '../utils/theme';
 
-import { FIELD_DEFS } from '../fields';
+import { themeFields } from '../fields';
 
 // ── Page props ────────────────────────────────────────────────────────────────
 
@@ -172,10 +172,10 @@ async function selectTheme(id: string): Promise<void> {
 // ── Fields with values ────────────────────────────────────────────────────────
 
 const fields = reactive<FieldState[]>(
-    FIELD_DEFS.map((f) => ({ ...f, value: '' })),
+    themeFields().map((f) => ({ ...f, value: '' })),
 );
 
-const uniqueGroups = FIELD_DEFS.filter((f) => f.group)
+const uniqueGroups = themeFields().filter((f) => f.group)
     .map((f) => f.group!)
     .filter((g, i, arr) => arr.findIndex((x) => x.name === g.name) === i);
 
@@ -811,10 +811,10 @@ const dialogCommandOpen = ref(false);
         </Teleport>
 
         <!-- Sheet — DialogPortal inside SheetContent handles its own teleport to body -->
-        <Sheet v-model:open="sheetOpen">
+        <Sheet v-model:open="sheetOpen" :modal="false">
             <SheetContent
                 side="right"
-                class="flex flex-col gap-0 p-0 shadow-2xl sm:w-110 sm:max-w-none [&>button:last-child]:hidden"
+                class="flex flex-col gap-0 p-0 shadow-2xl sm:w-105 sm:max-w-none [&>button:last-child]:hidden"
                 overlay-class="bg-black/5 blur-sm"
             >
                 <TooltipProvider>

@@ -33,38 +33,32 @@ onUnmounted(() => {
 
 <template>
     <div class="bg-background relative isolate flex min-h-screen flex-col">
-        <main class="mx-auto w-full px-6 py-16 lg:px-8">
+        <main class="mx-auto w-full px-12 md:px-16 lg:px-8">
             <div
-                class="relative overflow-hidden p-18 pb-25"
-                style="
-                    mask-image:
-                        linear-gradient(to bottom, #000 90%, transparent 100%),
-                        linear-gradient(to right, #000 90%, transparent 100%),
-                        linear-gradient(to top, #000 90%, transparent 100%),
-                        linear-gradient(to left, #000 90%, transparent 100%);
-                    mask-composite: intersect;
-                "
+                class="relative overflow-hidden mask-t-from-95% mask-b-from-95% md:mask-r-from-95% md:mask-l-from-95%"
             >
-                <div class="py-14">
+                <div class="mt-6 pt-24 pb-12">
                     <h1
-                        class="text-primary text-center text-7xl font-bold [text-shadow:0_4px_25px_color-mix(in_oklch,var(--color-primary)_15%,var(--color-background))]"
+                        class="text-primary text-center text-5xl font-bold [text-shadow:0_4px_25px_color-mix(in_oklch,var(--color-primary)_15%,var(--color-background))] md:text-7xl"
                     >
                         {{ $t('With Saucebase') }}
                     </h1>
                     <h2
-                        class="text-secondary mt-1 text-center text-5xl font-bold tracking-tight"
+                        class="text-secondary mt-1 text-center text-4xl font-bold tracking-tight md:text-5xl"
                     >
                         {{ $t('Your foundation is ready!') }}
                     </h2>
                     <p
-                        class="text-muted-foreground mt-3 text-center text-2xl tracking-tighter"
+                        class="text-muted-foreground mt-4 text-center text-xl tracking-tighter md:text-2xl"
                     >
                         {{
-                            $t('Build production-ready Laravel apps faster than ever.')
+                            $t(
+                                'Build production-ready Laravel apps faster than ever.',
+                            )
                         }}
                     </p>
                     <p
-                        class="text-muted-foreground text-center text-2xl tracking-tighter"
+                        class="text-muted-foreground text-center text-xl tracking-tighter md:text-2xl"
                     >
                         {{
                             $t('Your recipe first. Modules for everything else')
@@ -80,7 +74,9 @@ onUnmounted(() => {
                                 class="size-5 shrink-0 text-gray-500"
                                 aria-hidden="true"
                             />
-                            <code class="flex-1 text-green-400">
+                            <code
+                                class="flex-1 text-xs text-green-400 md:text-sm lg:text-lg"
+                            >
                                 laravel new --using=saucebase/saucebase
                             </code>
                             <button
@@ -108,22 +104,23 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </div>
-                <!-- Module cards — grid is transformed as one unit for correct alignment -->
+                <!-- Module cards — rotate/skew styling is applied per card via `module-class` -->
                 <div
-                    class="relative z-10 mx-auto grid max-w-6xl rotate-[-5deg] skew-x-10 grid-cols-1 gap-8 gap-y-2 px-10 pt-8 pb-16 font-mono has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-3 lg:grid-cols-4"
+                    class="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-8 gap-y-2 px-20 pt-8 pb-16 font-mono has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 >
                     <ModuleCard
                         v-for="(mod, index) in modules"
                         :key="mod.id"
                         :module="mod"
                         :index="index"
+                        module-class="rotate-[-5deg] skew-x-10"
                         @select="selectedMod = $event"
                     />
                 </div>
 
                 <!-- Light mode pattern -->
                 <div
-                    class="absolute inset-0 -right-20 -left-20 -z-1 rotate-[-5deg] skew-x-10 overflow-hidden dark:hidden"
+                    class="absolute inset-0 -top-10 -right-20 -bottom-10 -left-20 -z-1 overflow-hidden md:rotate-[-5deg] md:skew-x-10 dark:hidden"
                     style="
                         background-size: 28px;
                         background-position: top left;
@@ -132,7 +129,7 @@ onUnmounted(() => {
                 />
                 <!-- Dark mode pattern -->
                 <div
-                    class="absolute inset-0 -right-20 -left-20 -z-1 hidden rotate-[-5deg] skew-x-10 overflow-hidden dark:block"
+                    class="absolute inset-0 -top-10 -right-20 -bottom-10 -left-20 -z-1 hidden overflow-hidden md:rotate-[-5deg] md:skew-x-10 dark:block"
                     style="
                         background-size: 28px;
                         background-position: top left;
@@ -140,7 +137,7 @@ onUnmounted(() => {
                     "
                 />
 
-                <div class="my-8 flex justify-center">
+                <div class="my-8 mb-36 flex justify-center">
                     <div class="relative inline-flex">
                         <!-- Stripe layer behind docs button -->
                         <div

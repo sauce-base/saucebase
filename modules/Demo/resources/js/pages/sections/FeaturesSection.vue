@@ -6,11 +6,11 @@ import {
     Component,
     FlaskConical,
     Globe,
+    Languages,
     LayoutDashboard,
     Navigation,
     Paintbrush,
     Terminal,
-    TestTube2,
 } from 'lucide-vue-next';
 
 const features = [
@@ -35,14 +35,14 @@ const features = [
         icon: LayoutDashboard,
     },
     {
-        name: () => trans('PHPUnit test suite'),
-        description: () => trans('Feature and unit tests per module with factories, running in isolated in-memory SQLite.'),
+        name: () => trans('Testing suite'),
+        description: () => trans('Per-module PHPUnit tests with factories on in-memory SQLite, plus auto-discovered Playwright E2E projects for Chromium.'),
         icon: FlaskConical,
     },
     {
-        name: () => trans('Playwright E2E'),
-        description: () => trans('Per-module E2E test projects, auto-discovered and pre-configured for Chromium.'),
-        icon: TestTube2,
+        name: () => trans('Multi-language'),
+        description: () => trans('Per-module translation files with async loading. Easily add any language with the built-in i18n system.'),
+        icon: Languages,
     },
     {
         name: () => trans('Module navigation'),
