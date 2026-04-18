@@ -1721,70 +1721,6 @@
             "time": "2026-04-03T15:40:06+00:00"
         },
         {
-            "name": "firebase/php-jwt",
-            "version": "v7.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/googleapis/php-jwt.git",
-                "reference": "47ad26bab5e7c70ae8a6f08ed25ff83631121380"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/47ad26bab5e7c70ae8a6f08ed25ff83631121380",
-                "reference": "47ad26bab5e7c70ae8a6f08ed25ff83631121380",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "^7.4",
-                "phpfastcache/phpfastcache": "^9.2",
-                "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.5",
-                "psr/cache": "^2.0||^3.0",
-                "psr/http-client": "^1.0",
-                "psr/http-factory": "^1.0"
-            },
-            "suggest": {
-                "ext-sodium": "Support EdDSA (Ed25519) signatures",
-                "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Firebase\\JWT\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Neuman Vong",
-                    "email": "neuman+pear@twilio.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Anant Narayanan",
-                    "email": "anant@php.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
-            "homepage": "https://github.com/firebase/php-jwt",
-            "keywords": [
-                "jwt",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/googleapis/php-jwt/issues",
-                "source": "https://github.com/googleapis/php-jwt/tree/v7.0.5"
-            },
-            "time": "2026-04-01T20:38:03+00:00"
-        },
-        {
             "name": "fruitcake/php-cors",
             "version": "v1.4.0",
             "source": {
@@ -2938,78 +2874,6 @@
             "time": "2026-04-14T13:33:34+00:00"
         },
         {
-            "name": "laravel/socialite",
-            "version": "v5.26.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/socialite.git",
-                "reference": "db6ec2ee967b7f06412c3a0cf1daaf072f4752a4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/db6ec2ee967b7f06412c3a0cf1daaf072f4752a4",
-                "reference": "db6ec2ee967b7f06412c3a0cf1daaf072f4752a4",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "firebase/php-jwt": "^6.4|^7.0",
-                "guzzlehttp/guzzle": "^6.0|^7.0",
-                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "league/oauth1-client": "^1.11",
-                "php": "^7.2|^8.0",
-                "phpseclib/phpseclib": "^3.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^4.18|^5.20|^6.47|^7.55|^8.36|^9.15|^10.8|^11.0",
-                "phpstan/phpstan": "^1.12.23",
-                "phpunit/phpunit": "^8.0|^9.3|^10.4|^11.5|^12.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
-                    },
-                    "providers": [
-                        "Laravel\\Socialite\\SocialiteServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laravel\\Socialite\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                }
-            ],
-            "description": "Laravel wrapper around OAuth 1 & OAuth 2 libraries.",
-            "homepage": "https://laravel.com",
-            "keywords": [
-                "laravel",
-                "oauth"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel/socialite/issues",
-                "source": "https://github.com/laravel/socialite"
-            },
-            "time": "2026-03-29T14:50:53+00:00"
-        },
-        {
             "name": "laravel/tinker",
             "version": "v3.0.0",
             "source": {
@@ -3545,82 +3409,6 @@
                 }
             ],
             "time": "2024-09-21T08:32:55+00:00"
-        },
-        {
-            "name": "league/oauth1-client",
-            "version": "v1.11.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/oauth1-client.git",
-                "reference": "f9c94b088837eb1aae1ad7c4f23eb65cc6993055"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/f9c94b088837eb1aae1ad7c4f23eb65cc6993055",
-                "reference": "f9c94b088837eb1aae1ad7c4f23eb65cc6993055",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-openssl": "*",
-                "guzzlehttp/guzzle": "^6.0|^7.0",
-                "guzzlehttp/psr7": "^1.7|^2.0",
-                "php": ">=7.1||>=8.0"
-            },
-            "require-dev": {
-                "ext-simplexml": "*",
-                "friendsofphp/php-cs-fixer": "^2.17",
-                "mockery/mockery": "^1.3.3",
-                "phpstan/phpstan": "^0.12.42",
-                "phpunit/phpunit": "^7.5||9.5"
-            },
-            "suggest": {
-                "ext-simplexml": "For decoding XML-based responses."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev",
-                    "dev-develop": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\OAuth1\\Client\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ben Corlett",
-                    "email": "bencorlett@me.com",
-                    "homepage": "http://www.webcomm.com.au",
-                    "role": "Developer"
-                }
-            ],
-            "description": "OAuth 1.0 Client Library",
-            "keywords": [
-                "Authentication",
-                "SSO",
-                "authorization",
-                "bitbucket",
-                "identity",
-                "idp",
-                "oauth",
-                "oauth1",
-                "single sign on",
-                "trello",
-                "tumblr",
-                "twitter"
-            ],
-            "support": {
-                "issues": "https://github.com/thephpleague/oauth1-client/issues",
-                "source": "https://github.com/thephpleague/oauth1-client/tree/v1.11.0"
-            },
-            "time": "2024-12-10T19:59:05+00:00"
         },
         {
             "name": "league/uri",
@@ -4938,128 +4726,6 @@
             "time": "2025-09-24T15:06:41+00:00"
         },
         {
-            "name": "paragonie/random_compat",
-            "version": "v9.99.100",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/996434e5492cb4c3edcb9168db6fbb1359ef965a",
-                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 7"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*|5.*",
-                "vimeo/psalm": "^1"
-            },
-            "suggest": {
-                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paragon Initiative Enterprises",
-                    "email": "security@paragonie.com",
-                    "homepage": "https://paragonie.com"
-                }
-            ],
-            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
-            "keywords": [
-                "csprng",
-                "polyfill",
-                "pseudorandom",
-                "random"
-            ],
-            "support": {
-                "email": "info@paragonie.com",
-                "issues": "https://github.com/paragonie/random_compat/issues",
-                "source": "https://github.com/paragonie/random_compat"
-            },
-            "time": "2020-10-15T08:29:30+00:00"
-        },
-        {
-            "name": "phpdocumentor/reflection",
-            "version": "6.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/Reflection.git",
-                "reference": "c8d36446027506a005103d57265ba5ea56beabfc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/Reflection/zipball/c8d36446027506a005103d57265ba5ea56beabfc",
-                "reference": "c8d36446027506a005103d57265ba5ea56beabfc",
-                "shasum": ""
-            },
-            "require": {
-                "composer-runtime-api": "^2",
-                "nikic/php-parser": "~4.18 || ^5.0",
-                "php": "8.1.*|8.2.*|8.3.*|8.4.*|8.5.*",
-                "phpdocumentor/reflection-common": "^2.1",
-                "phpdocumentor/reflection-docblock": "^5",
-                "phpdocumentor/type-resolver": "^1.4",
-                "symfony/polyfill-php80": "^1.28",
-                "webmozart/assert": "^1.7"
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-                "doctrine/coding-standard": "^13.0",
-                "eliashaeussler/phpunit-attributes": "^1.8",
-                "mikey179/vfsstream": "~1.2",
-                "mockery/mockery": "~1.6.0",
-                "phpspec/prophecy-phpunit": "^2.4",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.8",
-                "phpstan/phpstan-webmozart-assert": "^1.2",
-                "phpunit/phpunit": "^10.5.53",
-                "psalm/phar": "^6.0",
-                "rector/rector": "^1.0.0",
-                "squizlabs/php_codesniffer": "^3.8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-5.x": "5.3.x-dev",
-                    "dev-6.x": "6.0.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/php-parser/Modifiers.php"
-                ],
-                "psr-4": {
-                    "phpDocumentor\\": "src/phpDocumentor"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Reflection library to do Static Analysis for PHP Projects",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "phpDocumentor",
-                "phpdoc",
-                "reflection",
-                "static analysis"
-            ],
-            "support": {
-                "issues": "https://github.com/phpDocumentor/Reflection/issues",
-                "source": "https://github.com/phpDocumentor/Reflection/tree/6.6.0"
-            },
-            "time": "2026-04-12T18:07:10+00:00"
-        },
-        {
             "name": "phpdocumentor/reflection-common",
             "version": "2.2.0",
             "source": {
@@ -5111,70 +4777,6 @@
                 "source": "https://github.com/phpDocumentor/ReflectionCommon/tree/2.x"
             },
             "time": "2020-06-27T09:03:43+00:00"
-        },
-        {
-            "name": "phpdocumentor/reflection-docblock",
-            "version": "5.6.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "31a105931bc8ffa3a123383829772e832fd8d903"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/31a105931bc8ffa3a123383829772e832fd8d903",
-                "reference": "31a105931bc8ffa3a123383829772e832fd8d903",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/deprecations": "^1.1",
-                "ext-filter": "*",
-                "php": "^7.4 || ^8.0",
-                "phpdocumentor/reflection-common": "^2.2",
-                "phpdocumentor/type-resolver": "^1.7",
-                "phpstan/phpdoc-parser": "^1.7|^2.0",
-                "webmozart/assert": "^1.9.1 || ^2"
-            },
-            "require-dev": {
-                "mockery/mockery": "~1.3.5 || ~1.6.0",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.8",
-                "phpstan/phpstan-mockery": "^1.1",
-                "phpstan/phpstan-webmozart-assert": "^1.2",
-                "phpunit/phpunit": "^9.5",
-                "psalm/phar": "^5.26"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "phpDocumentor\\Reflection\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "me@mikevanriel.com"
-                },
-                {
-                    "name": "Jaap van Otterdijk",
-                    "email": "opensource@ijaap.nl"
-                }
-            ],
-            "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "support": {
-                "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.7"
-            },
-            "time": "2026-03-18T20:47:46+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -5308,116 +4910,6 @@
                 }
             ],
             "time": "2025-12-27T19:41:33+00:00"
-        },
-        {
-            "name": "phpseclib/phpseclib",
-            "version": "3.0.51",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "d59c94077f9c9915abb51ddb52ce85188ece1748"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d59c94077f9c9915abb51ddb52ce85188ece1748",
-                "reference": "d59c94077f9c9915abb51ddb52ce85188ece1748",
-                "shasum": ""
-            },
-            "require": {
-                "paragonie/constant_time_encoding": "^1|^2|^3",
-                "paragonie/random_compat": "^1.4|^2.0|^9.99.99",
-                "php": ">=5.6.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "suggest": {
-                "ext-dom": "Install the DOM extension to load XML formatted public keys.",
-                "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
-                "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
-                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
-                "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "phpseclib/bootstrap.php"
-                ],
-                "psr-4": {
-                    "phpseclib3\\": "phpseclib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jim Wigginton",
-                    "email": "terrafrost@php.net",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Patrick Monnerat",
-                    "email": "pm@datasphere.ch",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Andreas Fischer",
-                    "email": "bantu@phpbb.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Hans-Jürgen Petrich",
-                    "email": "petrich@tronic-media.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Graham Campbell",
-                    "email": "graham@alt-three.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
-            "homepage": "http://phpseclib.sourceforge.net",
-            "keywords": [
-                "BigInteger",
-                "aes",
-                "asn.1",
-                "asn1",
-                "blowfish",
-                "crypto",
-                "cryptography",
-                "encryption",
-                "rsa",
-                "security",
-                "sftp",
-                "signature",
-                "signing",
-                "ssh",
-                "twofish",
-                "x.509",
-                "x509"
-            ],
-            "support": {
-                "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.51"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/terrafrost",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/phpseclib",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpseclib/phpseclib",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-04-10T01:33:53+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -6757,88 +6249,6 @@
             "time": "2024-05-17T09:06:10+00:00"
         },
         {
-            "name": "spatie/laravel-data",
-            "version": "4.21.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-data.git",
-                "reference": "27ad502f84a684e1ec94ebee95c5adaea99bef96"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-data/zipball/27ad502f84a684e1ec94ebee95c5adaea99bef96",
-                "reference": "27ad502f84a684e1ec94ebee95c5adaea99bef96",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.1",
-                "phpdocumentor/reflection": "^6.0",
-                "spatie/laravel-package-tools": "^1.9.0",
-                "spatie/php-structure-discoverer": "^2.0"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.14",
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "inertiajs/inertia-laravel": "^2.0",
-                "livewire/livewire": "^3.0|^4.0",
-                "mockery/mockery": "^1.6",
-                "nesbot/carbon": "^2.63|^3.0",
-                "orchestra/testbench": "^8.37.0|^9.16|^10.9|^11.0",
-                "pestphp/pest": "^2.36|^3.8|^4.3",
-                "pestphp/pest-plugin-laravel": "^2.4|^3.0|^4.0",
-                "pestphp/pest-plugin-livewire": "^2.1|^3.0|^4.0",
-                "phpbench/phpbench": "^1.2",
-                "phpstan/extension-installer": "^1.1",
-                "spatie/invade": "^1.0",
-                "spatie/laravel-typescript-transformer": "^2.5",
-                "spatie/pest-plugin-snapshots": "^2.1",
-                "spatie/test-time": "^1.2"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Spatie\\LaravelData\\LaravelDataServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\LaravelData\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ruben Van Assche",
-                    "email": "ruben@spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Create unified resources and data transfer objects",
-            "homepage": "https://github.com/spatie/laravel-data",
-            "keywords": [
-                "laravel",
-                "laravel-data",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/laravel-data/issues",
-                "source": "https://github.com/spatie/laravel-data/tree/4.21.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/spatie",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-04-02T14:36:45+00:00"
-        },
-        {
             "name": "spatie/laravel-medialibrary",
             "version": "11.21.0",
             "source": {
@@ -7299,85 +6709,6 @@
             "time": "2026-01-30T17:13:34+00:00"
         },
         {
-            "name": "spatie/php-structure-discoverer",
-            "version": "2.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/php-structure-discoverer.git",
-                "reference": "9a53c79b48fca8b6d15faa8cbba47cc430355146"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/php-structure-discoverer/zipball/9a53c79b48fca8b6d15faa8cbba47cc430355146",
-                "reference": "9a53c79b48fca8b6d15faa8cbba47cc430355146",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/collections": "^11.0|^12.0|^13.0",
-                "php": "^8.3",
-                "spatie/laravel-package-tools": "^1.92.7",
-                "symfony/finder": "^6.0|^7.3.5|^8.0"
-            },
-            "require-dev": {
-                "amphp/parallel": "^2.3.2",
-                "illuminate/console": "^11.0|^12.0|^13.0",
-                "nunomaduro/collision": "^7.0|^8.8.3",
-                "orchestra/testbench": "^9.5|^10.8|^11.0",
-                "pestphp/pest": "^3.8|^4.0",
-                "pestphp/pest-plugin-laravel": "^3.2|^4.0",
-                "phpstan/extension-installer": "^1.4.3",
-                "phpstan/phpstan-deprecation-rules": "^1.2.1",
-                "phpstan/phpstan-phpunit": "^1.4.2",
-                "spatie/laravel-ray": "^1.43.1"
-            },
-            "suggest": {
-                "amphp/parallel": "When you want to use the Parallel discover worker"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Spatie\\StructureDiscoverer\\StructureDiscovererServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\StructureDiscoverer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ruben Van Assche",
-                    "email": "ruben@spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Automatically discover structures within your PHP application",
-            "homepage": "https://github.com/spatie/php-structure-discoverer",
-            "keywords": [
-                "discover",
-                "laravel",
-                "php",
-                "php-structure-discoverer"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/php-structure-discoverer/issues",
-                "source": "https://github.com/spatie/php-structure-discoverer/tree/2.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/LaravelAutoDiscoverer",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-02-21T15:57:15+00:00"
-        },
-        {
             "name": "spatie/shiki-php",
             "version": "2.3.3",
             "source": {
@@ -7636,111 +6967,6 @@
                 }
             ],
             "time": "2024-03-08T11:35:19+00:00"
-        },
-        {
-            "name": "stechstudio/filament-impersonate",
-            "version": "v5.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/stechstudio/filament-impersonate.git",
-                "reference": "00197ab5a7cbb18a2b8726a70eddefc943317794"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/stechstudio/filament-impersonate/zipball/00197ab5a7cbb18a2b8726a70eddefc943317794",
-                "reference": "00197ab5a7cbb18a2b8726a70eddefc943317794",
-                "shasum": ""
-            },
-            "require": {
-                "filament/filament": "^4.0|^5.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^10.0",
-                "pestphp/pest": "^3.0",
-                "pestphp/pest-plugin-laravel": "^3.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "STS\\FilamentImpersonate\\FilamentImpersonateServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "STS\\FilamentImpersonate\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A Filament package to impersonate your users.",
-            "support": {
-                "issues": "https://github.com/stechstudio/filament-impersonate/issues",
-                "source": "https://github.com/stechstudio/filament-impersonate/tree/v5.3.0"
-            },
-            "time": "2026-04-14T01:55:02+00:00"
-        },
-        {
-            "name": "stripe/stripe-php",
-            "version": "v19.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "095384404587d07de2ad1154c389c4051c5ed92f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/095384404587d07de2ad1154c389c4051c5ed92f",
-                "reference": "095384404587d07de2ad1154c389c4051c5ed92f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "php": ">=5.6.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.94.0",
-                "phpstan/phpstan": "^1.2",
-                "phpunit/phpunit": "^5.7 || ^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Stripe\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Stripe and contributors",
-                    "homepage": "https://github.com/stripe/stripe-php/contributors"
-                }
-            ],
-            "description": "Stripe PHP Library",
-            "homepage": "https://stripe.com/",
-            "keywords": [
-                "api",
-                "payment processing",
-                "stripe"
-            ],
-            "support": {
-                "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v19.4.1"
-            },
-            "time": "2026-03-06T22:53:13+00:00"
         },
         {
             "name": "symfony/clock",
@@ -10541,64 +9767,6 @@
             "time": "2024-11-21T01:49:47+00:00"
         },
         {
-            "name": "webmozart/assert",
-            "version": "1.12.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webmozarts/assert.git",
-                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9be6926d8b485f55b9229203f962b51ed377ba68",
-                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "ext-date": "*",
-                "ext-filter": "*",
-                "php": "^7.2 || ^8.0"
-            },
-            "suggest": {
-                "ext-intl": "",
-                "ext-simplexml": "",
-                "ext-spl": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.10-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webmozart\\Assert\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bernhard Schussek",
-                    "email": "bschussek@gmail.com"
-                }
-            ],
-            "description": "Assertions to validate method input/output with nice error messages.",
-            "keywords": [
-                "assert",
-                "check",
-                "validate"
-            ],
-            "support": {
-                "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/1.12.1"
-            },
-            "time": "2025-10-29T15:56:20+00:00"
-        },
-        {
             "name": "wikimedia/composer-merge-plugin",
             "version": "v2.1.0",
             "source": {
@@ -12227,16 +11395,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "12.5.5",
+            "version": "12.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "a25bde1f8f83849f441ef5713c6466e470872a71"
+                "reference": "876099a072646c7745f673d7aeab5382c4439691"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/a25bde1f8f83849f441ef5713c6466e470872a71",
-                "reference": "a25bde1f8f83849f441ef5713c6466e470872a71",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/876099a072646c7745f673d7aeab5382c4439691",
+                "reference": "876099a072646c7745f673d7aeab5382c4439691",
                 "shasum": ""
             },
             "require": {
@@ -12291,7 +11459,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.5"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.6"
             },
             "funding": [
                 {
@@ -12311,7 +11479,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-13T04:53:32+00:00"
+            "time": "2026-04-15T08:23:17+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -12572,16 +11740,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.19",
+            "version": "12.5.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "92f7744ca5f5701c9e4b4a60d9e143f2d84956da"
+                "reference": "e07667405f0f43317a1799d3907c43a123bc5587"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/92f7744ca5f5701c9e4b4a60d9e143f2d84956da",
-                "reference": "92f7744ca5f5701c9e4b4a60d9e143f2d84956da",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e07667405f0f43317a1799d3907c43a123bc5587",
+                "reference": "e07667405f0f43317a1799d3907c43a123bc5587",
                 "shasum": ""
             },
             "require": {
@@ -12595,15 +11763,15 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.3",
-                "phpunit/php-code-coverage": "^12.5.5",
+                "phpunit/php-code-coverage": "^12.5.6",
                 "phpunit/php-file-iterator": "^6.0.1",
                 "phpunit/php-invoker": "^6.0.0",
                 "phpunit/php-text-template": "^5.0.0",
                 "phpunit/php-timer": "^8.0.0",
                 "sebastian/cli-parser": "^4.2.0",
-                "sebastian/comparator": "^7.1.5",
+                "sebastian/comparator": "^7.1.6",
                 "sebastian/diff": "^7.0.0",
-                "sebastian/environment": "^8.0.4",
+                "sebastian/environment": "^8.1.0",
                 "sebastian/exporter": "^7.0.2",
                 "sebastian/global-state": "^8.0.2",
                 "sebastian/object-enumerator": "^7.0.0",
@@ -12650,7 +11818,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.19"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.22"
             },
             "funding": [
                 {
@@ -12658,7 +11826,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-04-13T05:38:19+00:00"
+            "time": "2026-04-17T12:51:04+00:00"
         },
         {
             "name": "saucebase/laravel-playwright",
@@ -13061,16 +12229,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "8.0.4",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "7b8842c2d8e85d0c3a5831236bf5869af6ab2a11"
+                "reference": "b121608b28a13f721e76ffbbd386d08eff58f3f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/7b8842c2d8e85d0c3a5831236bf5869af6ab2a11",
-                "reference": "7b8842c2d8e85d0c3a5831236bf5869af6ab2a11",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/b121608b28a13f721e76ffbbd386d08eff58f3f6",
+                "reference": "b121608b28a13f721e76ffbbd386d08eff58f3f6",
                 "shasum": ""
             },
             "require": {
@@ -13085,7 +12253,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "8.0-dev"
+                    "dev-main": "8.1-dev"
                 }
             },
             "autoload": {
@@ -13113,7 +12281,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/environment/issues",
                 "security": "https://github.com/sebastianbergmann/environment/security/policy",
-                "source": "https://github.com/sebastianbergmann/environment/tree/8.0.4"
+                "source": "https://github.com/sebastianbergmann/environment/tree/8.1.0"
             },
             "funding": [
                 {
@@ -13133,7 +12301,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-15T07:05:40+00:00"
+            "time": "2026-04-15T12:13:01+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -13927,5 +13095,5 @@
         "php": "^8.4"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
