@@ -14,31 +14,23 @@ const selectedMod = ref<Module | null>(null);
         :title="$t('Saucebase | The best modular Laravel SaaS Starter Kit')"
         :description="$t('Free, open-source Laravel SaaS starter kit. Ships with auth, billing, admin panel, and a modular copy-and-own architecture.')"
     >
-        <main class="mx-auto w-full px-6 py-16 lg:px-8">
+        <main class="mx-auto w-full ">
             <div
-                class="relative -mt-15 overflow-hidden p-25 pb-35"
-                style="
-                    mask-image:
-                        linear-gradient(to bottom, #000 90%, transparent 100%),
-                        linear-gradient(to right, #000 90%, transparent 100%),
-                        linear-gradient(to top, #000 90%, transparent 100%),
-                        linear-gradient(to left, #000 90%, transparent 100%);
-                    mask-composite: intersect;
-                "
+                class="px-6 md:px-16 lg:px-8 relative overflow-hidden mask-t-from-95% mask-b-from-95% md:mask-r-from-95% md:mask-l-from-95%"
             >
-                <div class="py-16">
+                <div class="mt-6 pt-24 pb-12">
                     <h1
-                        class="text-foreground/80 dark:text-muted-foreground text-center text-5xl font-bold [text-shadow:0_4px_25px_color-mix(in_oklch,var(--color-primary)_15%,var(--color-background))]"
+                        class="text-foreground/80 dark:text-muted-foreground text-center text-4xl font-bold [text-shadow:0_4px_25px_color-mix(in_oklch,var(--color-primary)_15%,var(--color-background))] md:text-5xl"
                     >
                         {{ $t('Your foundation is ready!') }}
                     </h1>
                     <h2
-                        class="text-secondary mt-1 text-center text-7xl font-bold"
+                        class="text-secondary mt-1 text-center text-5xl font-bold md:text-7xl"
                     >
                         {{ $t("Let's get started") }}
                     </h2>
                     <p
-                        class="text-muted-foreground mt-3 text-center text-3xl tracking-tighter"
+                        class="text-muted-foreground mt-3 text-center text-xl tracking-tighter md:text-3xl"
                     >
                         {{
                             $t('Your magic first. Modules for everything else.')
@@ -47,20 +39,21 @@ const selectedMod = ref<Module | null>(null);
                 </div>
                 <!-- Module cards — grid is transformed as one unit for correct alignment -->
                 <div
-                    class="font-mono relative z-10 mx-auto grid max-w-6xl rotate-[-5deg] skew-x-10 grid-cols-1 gap-8 gap-y-2 px-10 pb-16 has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-3 lg:grid-cols-4"
+                    class="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-8 gap-y-2 px-4 pt-8 pb-16 sm:px-10 lg:px-20 font-mono has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 >
                     <ModuleCard
                         v-for="(mod, index) in modules"
                         :key="mod.id"
                         :module="mod"
                         :index="index"
+                        module-class="rotate-[-5deg] skew-x-10"
                         @select="selectedMod = $event"
                     />
                 </div>
 
                 <!-- Light mode pattern -->
                 <div
-                    class="absolute inset-0 -z-1 -m-5 rotate-[-5deg] skew-x-10 overflow-hidden dark:hidden -left-20 -right-20"
+                    class="absolute inset-0 -top-10 -right-20 -bottom-10 -left-20 -z-1 overflow-hidden md:rotate-[-5deg] md:skew-x-10 dark:hidden"
                     style="
                         background-size: 24px;
                         background-position: top left;
@@ -69,7 +62,7 @@ const selectedMod = ref<Module | null>(null);
                 />
                 <!-- Dark mode pattern -->
                 <div
-                    class="absolute inset-0 -z-1 -m-5 hidden rotate-[-5deg] skew-x-10 overflow-hidden dark:block -left-20 -right-20"
+                    class="absolute inset-0 -top-10 -right-20 -bottom-10 -left-20 -z-1 hidden overflow-hidden md:rotate-[-5deg] md:skew-x-10 dark:block"
                     style="
                         background-size: 24px;
                         background-position: top left;
@@ -77,7 +70,7 @@ const selectedMod = ref<Module | null>(null);
                     "
                 />
 
-                <div class="mt-8 flex justify-center">
+                <div class="my-8 mb-36 flex justify-center">
                     <div class="relative inline-flex">
                         <!-- Stripe layer behind docs button -->
                         <div

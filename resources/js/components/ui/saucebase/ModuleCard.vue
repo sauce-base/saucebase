@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Module } from './index';
 
-const props = defineProps<{ module: Module; index: number }>();
+const props = defineProps<{ module: Module; index: number, moduleClass?: string }>();
 const emit = defineEmits<{ select: [module: Module] }>();
 </script>
 
@@ -9,7 +9,7 @@ const emit = defineEmits<{ select: [module: Module] }>();
     <div
         data-card
         class="select-none relative cursor-pointer transition-opacity duration-200 hover:opacity-100!"
-        :class="!module.href ? 'opacity-50' : ''"
+        :class="[!module.href ? 'opacity-50' : '', moduleClass]"
         :style="{
             '--mod-color': `var(${module.color})`,
             '--card-delay': `${400 + index * 150}ms`,
