@@ -17,7 +17,7 @@ import '../css/app.css';
 /**
  * Used as a wrapper to global components
  */
-import App from '@/components/App.vue';
+import AppWrapper from '@/components/App.vue';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Saucebase';
 const moduleSetups = discoverModuleSetups();
@@ -25,25 +25,26 @@ const moduleSetups = discoverModuleSetups();
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: resolveModularPageComponent,
-    setup({ el, App: InertiaApp, props, plugin }) {
+    setup({ el, App, props, plugin }) {
+        const { language } = useLocalization();
         const app = createApp({
-            render: () => h(App, {}, () => h(InertiaApp, props)),
+            render: () => h(AppWrapper, {}, () => h(App, props)),
         })
             .use(plugin)
             .use(ZiggyVue)
             .use(i18nVue, {
+                lang: language.value,
                 resolve: resolveLanguage,
             });
 
         // Execute module setup functions and collect afterMount callbacks
-        executeModuleSetups(app, moduleSetups).then((afterMountCallbacks) => {
+        executeModuleSetups(app, moduleSetups).then(async (afterMountCallbacks) => {
             // Initialize global theme persistence after mount for proper Vue reactivity
             useColorMode();
 
-            const { language } = useLocalization();
-            if (language.value !== 'en') {
-                loadLanguageAsync(language.value);
-            }
+            // Wait for translations to be applied before mounting to avoid
+            // a flash of untranslated keys on first render (issue: laravel-vue-i18n#189)
+            await loadLanguageAsync(language.value);
 
             // Mount the app
             app.mount(el);
