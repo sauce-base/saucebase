@@ -33,9 +33,9 @@ onUnmounted(() => {
 
 <template>
     <div class="bg-background relative isolate flex min-h-screen flex-col">
-        <main class="mx-auto w-full px-12 md:px-16 lg:px-8">
+        <main class="mx-auto w-full">
             <div
-                class="relative overflow-hidden mask-t-from-95% mask-b-from-95% md:mask-r-from-95% md:mask-l-from-95%"
+                class="px-6 md:px-16 lg:px-8 relative overflow-hidden mask-t-from-95% mask-b-from-95% md:mask-r-from-95% md:mask-l-from-95%"
             >
                 <div class="mt-6 pt-24 pb-12">
                     <h1
@@ -106,7 +106,7 @@ onUnmounted(() => {
                 </div>
                 <!-- Module cards — rotate/skew styling is applied per card via `module-class` -->
                 <div
-                    class="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-8 gap-y-2 px-20 pt-8 pb-16 font-mono has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                    class="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-8 gap-y-2 px-6 pt-8 pb-16 sm:px-10 lg:px-20 font-mono has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 >
                     <ModuleCard
                         v-for="(mod, index) in modules"

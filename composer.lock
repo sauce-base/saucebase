@@ -6627,16 +6627,16 @@
         },
         {
             "name": "saucebase/demo",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/demo.git",
-                "reference": "3d711408be3a55495b4c08fe64acceacca158ee8"
+                "reference": "b37c179de554485a4a6d8f74484dca83566783d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/demo/zipball/3d711408be3a55495b4c08fe64acceacca158ee8",
-                "reference": "3d711408be3a55495b4c08fe64acceacca158ee8",
+                "url": "https://api.github.com/repos/saucebase-dev/demo/zipball/b37c179de554485a4a6d8f74484dca83566783d7",
+                "reference": "b37c179de554485a4a6d8f74484dca83566783d7",
                 "shasum": ""
             },
             "type": "saucebase-module",
@@ -6662,9 +6662,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/demo/issues",
-                "source": "https://github.com/saucebase-dev/demo/tree/v0.4.0"
+                "source": "https://github.com/saucebase-dev/demo/tree/v0.4.1"
             },
-            "time": "2026-04-18T12:44:03+00:00"
+            "time": "2026-04-19T16:17:30+00:00"
         },
         {
             "name": "saucebase/roadmap",

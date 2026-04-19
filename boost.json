@@ -1,15 +1,22 @@
 {
-    "agents": ["claude_code", "copilot"],
+    "agents": [
+        "claude_code",
+        "copilot"
+    ],
     "guidelines": true,
     "mcp": true,
     "nightwatch_mcp": false,
-    "packages": ["filament/filament", "laravel/ai"],
+    "packages": [
+        "filament/filament"
+    ],
     "sail": false,
     "skills": [
+        "ai-sdk-development",
         "laravel-best-practices",
         "socialite-development",
         "inertia-vue-development",
         "tailwindcss-development",
-        "ai-sdk-development"
+        "saucebase-filament-development",
+        "saucebase-module-development"
     ]
 }
