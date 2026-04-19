@@ -33,13 +33,13 @@ const selectedMod = ref<Module | null>(null);
                         class="text-muted-foreground mt-3 text-center text-xl tracking-tighter md:text-3xl"
                     >
                         {{
-                            $t('Your magic first. Modules for everything else.')
+                            $t('Your recipe first. Modules for everything else')
                         }}
                     </p>
                 </div>
                 <!-- Module cards — grid is transformed as one unit for correct alignment -->
                 <div
-                    class="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-8 gap-y-2 px-4 pt-8 pb-16 sm:px-10 lg:px-20 font-mono has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                    class="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-8 gap-y-2 px-6 pt-8 pb-16 sm:px-10 lg:px-20 font-mono has-[[data-card]:hover]:*:data-card:opacity-40 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 >
                     <ModuleCard
                         v-for="(mod, index) in modules"
