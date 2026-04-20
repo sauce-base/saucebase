@@ -212,6 +212,12 @@ SSL: Auto-enforced HTTPS in production/staging. Wildcard cert (`*.localhost`) fo
 
 ## Workflow
 
+### Keeping CLAUDE.md Current
+
+When any architectural decision, convention, or reference documented here changes — new module patterns, stack upgrades, renamed providers, new environment variables, altered file paths — **update this file in the same commit**. Stale CLAUDE.md content causes Claude to give confidently wrong advice.
+
+Trigger: any change to stack versions, module structure, service providers, naming conventions, environment variables, or workflow commands.
+
 ### Code Review (on demand)
 
 Run `/code-review` to launch the code review agent (`feature-dev:code-reviewer`). Do not run it automatically.
