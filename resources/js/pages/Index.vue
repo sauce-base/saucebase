@@ -33,7 +33,7 @@ const selectedMod = ref<Module | null>(null);
                         class="text-muted-foreground mt-3 text-center text-xl tracking-tighter md:text-3xl"
                     >
                         {{
-                            $t('Your recipe first. Modules for everything else.')
+                            $t('Your recipe first. Modules for everything else')
                         }}
                     </p>
                 </div>
