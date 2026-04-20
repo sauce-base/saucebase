@@ -21,7 +21,31 @@ const BADGE_SOON = {
     class: 'bg-muted text-foreground',
 } as const;
 
+const NEW_BADGE = {
+    label: () => trans('NEW'),
+    class: 'border-emerald-600 bg-emerald-600 text-background',
+} as const;
+
 export const modules = [
+    {
+        id: 'custom',
+        title: () => trans('Your Module'),
+        description:
+            () => trans('Build and install your own modules with a single Artisan command. Full ownership, the scaffolded code lives in your repo and is yours to modify freely.'),
+        icon: Lightbulb,
+        color: '--secondary',
+        badge: {
+            label: () => trans('FOCUS HERE'),
+            class: 'bg-destructive text-destructive-foreground border-destructive',
+        },
+        href: 'https://saucebase-dev.github.io/docs/fundamentals/modules',
+        features: [
+            () => trans('Single Command'),
+            () => trans('Full Ownership'),
+            () => trans('Any Stack'),
+            () => trans('Copy & Own'),
+        ],
+    },
     {
         id: 'auth',
         title: () => trans('Auth'),
@@ -111,10 +135,7 @@ export const modules = [
             () => trans("Visual theme editor for designing your app's colors, fonts, radius, and shadows. Pick a built-in theme or build your own, then bake it into CSS - no runtime overhead."),
         icon: Palette,
         color: '--color-purple-500',
-        badge: {
-            label: () => trans('NEW'),
-            class: 'border-emerald-600 bg-emerald-600 text-background',
-        },
+        badge: NEW_BADGE,
         href: 'https://saucebase-dev.github.io/docs/modules/themes',
         features: [
             () => trans('15 Built-in Themes'),
@@ -123,37 +144,19 @@ export const modules = [
             () => trans('Baked CSS'),
         ],
     },
-    {
-        id: 'custom',
-        title: () => trans('Your Module'),
-        description:
-            () => trans('Build and install your own modules with a single Artisan command. Full ownership — the scaffolded code lives in your repo and is yours to modify freely.'),
-        icon: Lightbulb,
-        color: '--secondary',
-        badge: {
-            label: () => trans('FOCUS HERE'),
-            class: 'bg-destructive text-destructive-foreground border-destructive',
-        },
-        href: 'https://saucebase-dev.github.io/docs/fundamentals/modules',
-        features: [
-            () => trans('Single Command'),
-            () => trans('Full Ownership'),
-            () => trans('Any Stack'),
-            () => trans('Copy & Own'),
-        ],
-    },
+
     {
         id: 'blog',
         title: () => trans('Blog'),
         description:
-            () => trans('Full-featured blog with posts, categories, tags, and a Filament admin panel for content management.'),
+            () => trans('Full-featured blog with posts, categories, cover images, SEO metadata, and a Filament admin panel for content management.'),
         icon: Newspaper,
-        color: '--color-gray-500',
-        badge: BADGE_SOON,
-        href: null,
+        color: '--color-rose-500',
+        badge: NEW_BADGE,
+        href: 'https://saucebase-dev.github.io/docs/modules/blog',
         features: [
             () => trans('Posts'),
-            () => trans('Categories & Tags'),
+            () => trans('Categories'),
             () => trans('Admin Panel'),
             () => trans('SEO Optimized'),
         ],
