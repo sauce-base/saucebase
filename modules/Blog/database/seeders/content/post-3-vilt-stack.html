@@ -1,0 +1,31 @@
+<p>Modern web development has a tension at its core: server-side frameworks are productive but struggle with rich interactivity, while JavaScript SPAs offer great UX but introduce enormous complexity. The VILT stack resolves that tension elegantly — and Saucebase is built on it from the ground up.</p>
+
+<h2>Laravel — the foundation</h2>
+
+<p>Version 13, with PHP 8.4 constructor promotion, typed properties, Eloquent relationships, and a world-class ecosystem. Laravel handles routing, database access, authentication, queuing, broadcasting, and more — all with conventions that keep your codebase organised as it grows.</p>
+
+<h2>Inertia.js — the bridge</h2>
+
+<p>Version 3 replaces traditional Blade views with Vue components while keeping your server-side routing and controllers intact. No REST API, no GraphQL, no data-fetching layer to maintain. Your controller returns a component name and props. Inertia handles the rest.</p>
+
+<p>Version 3 brings deferred props, optimistic updates with automatic rollback, instant visits, and simplified SSR via the Vite plugin — all of which Saucebase uses by default.</p>
+
+<h2>Vue 3 — the UI layer</h2>
+
+<p>Composition API, <code>&lt;script setup&gt;</code>, and TypeScript throughout. Pages live in <code>resources/js/pages/</code>, components in <code>resources/js/components/</code>. Types are auto-generated from your PHP enums and DTOs via <code>php artisan module:generate-types</code> — your backend and frontend stay in sync without manual work.</p>
+
+<h2>Tailwind CSS 4 — the styling layer</h2>
+
+<p>The new CSS-first configuration approach means less boilerplate, more flexibility. Saucebase enforces dark mode support across every component — every background, text colour, and border ships with a <code>dark:</code> variant as a first-class requirement.</p>
+
+<h2>The full picture</h2>
+
+<ul>
+    <li><strong>Vite 6.4</strong> — HMR, SSR, and module-aware asset discovery</li>
+    <li><strong>Filament 5</strong> — admin panel</li>
+    <li><strong>Ziggy</strong> — named Laravel routes available in JavaScript</li>
+    <li><strong>Playwright</strong> — end-to-end tests, auto-discovered per module</li>
+    <li><strong>PHPStan level 5</strong> — static analysis via Larastan</li>
+</ul>
+
+<p>Every piece was chosen deliberately. Together, they let you move fast without fighting your tools — and Saucebase wires them all together so you don't have to.</p>

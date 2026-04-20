@@ -9,11 +9,13 @@ import { Head } from '@inertiajs/vue3';
 
 import ProductSection from '@modules/Billing/resources/js/components/ProductSection.vue';
 import type { Product } from '@modules/Billing/resources/js/types';
+import LatestPostsSection from '@modules/Blog/resources/js/components/LatestPostsSection.vue';
 import HeroSection from './sections/HeroSection.vue';
 import Testimonial from './sections/Testimonial.vue';
 
 defineProps<{
     products?: Product[];
+    latestPosts?: Modules.Blog.Data.PostData[];
 }>();
 </script>
 
@@ -81,6 +83,7 @@ defineProps<{
                 </div>
             </template>
         </ProductSection>
+        <LatestPostsSection v-if="latestPosts?.length" :posts="latestPosts" />
         <Footer />
     </div>
 </template>

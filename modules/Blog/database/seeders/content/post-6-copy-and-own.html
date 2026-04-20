@@ -1,0 +1,27 @@
+<p>Most software starter kits give you a locked box. You get the features, but you also get the constraints. Want to change how authentication works? Fork the package and maintain the fork yourself. Want to add a field to the billing model? Hope the package has an extension hook for that. Want to understand why something works the way it does? Read documentation, not source code.</p>
+
+<p>Saucebase takes the opposite approach: <strong>copy-and-own</strong>.</p>
+
+<h2>What copy-and-own means</h2>
+
+<p>When you install a Saucebase module, the source code lands in your repository under <code>modules/</code>. It's tracked in version control. It's yours to read, edit, extend, and break. There's no vendor lock-in, no abstraction layer between you and the code that runs your business logic.</p>
+
+<p>This isn't a new idea — it's how Laravel itself recommends building things. Publish vendor files, customise them, own them. Saucebase applies that philosophy at the module level.</p>
+
+<h2>The practical benefit</h2>
+
+<p>When a bug appears in your authentication flow, you look at <code>modules/Auth/app/Http/Controllers/</code>. When you want to add a field to the billing portal, you edit <code>modules/Billing/resources/js/pages/</code>. There's no mental overhead of figuring out which hook to use or which config key controls the behaviour you need. You find the code and change it.</p>
+
+<h2>The tradeoff</h2>
+
+<p>When Saucebase ships improvements to a module, you don't get them automatically. But this is the right tradeoff. A module that runs your business should be something you understand and control — not something you blindly upgrade and hope nothing breaks.</p>
+
+<h2>Building your own modules</h2>
+
+<p>The recipe system makes it trivial to scaffold new modules that follow the same conventions:</p>
+
+<pre><code>php artisan saucebase:recipe ModuleName</code></pre>
+
+<p>Your custom features get the same structure, the same patterns, the same copy-and-own philosophy. They feel like first-class citizens because they are.</p>
+
+<p><strong>This is the sauce. These are your recipes. Build on them.</strong></p>

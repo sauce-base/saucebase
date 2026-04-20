@@ -18,7 +18,7 @@ A developer-facing visual theming system for Saucebase. Lets the SaaS owner desi
 - Google Fonts — loaded on-demand via `<link>` injection; font classes injected per-var
 - Theme picker with animated ripple transition between themes
 - Theme persistence via `localStorage` key `sb-theme-theme`
-- Save button is a **dropdown**: "Save" (update existing custom theme) / "Save as new theme" (create new)
+- Save button is a **dropdown**: "Save" (update existing custom theme) / "Save as" (create new)
 
 ---
 

@@ -1,0 +1,15 @@
+{
+  "name": "Blog",
+  "alias": "blog",
+  "description": "Blog module",
+  "author": "Saucebase",
+  "version": "v0.1.0",
+  "keywords": [
+    "blog"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\Blog\\Providers\\BlogServiceProvider"
+  ],
+  "files": []
+}

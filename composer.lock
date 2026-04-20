@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2cd37c1a1b9b4d51af210a21e8798941",
+    "content-hash": "fcac0915d13fe6f3f7d25c13e18acdf3",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -2756,16 +2756,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.16",
+            "version": "v0.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "11e7d5f93803a2190b00e145142cb00a33d17ad2"
+                "reference": "6a82ac19a28b916ae0885828795dbd4c59d9a818"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/11e7d5f93803a2190b00e145142cb00a33d17ad2",
-                "reference": "11e7d5f93803a2190b00e145142cb00a33d17ad2",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/6a82ac19a28b916ae0885828795dbd4c59d9a818",
+                "reference": "6a82ac19a28b916ae0885828795dbd4c59d9a818",
                 "shasum": ""
             },
             "require": {
@@ -2809,9 +2809,9 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.16"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.17"
             },
-            "time": "2026-03-23T14:35:33+00:00"
+            "time": "2026-04-20T16:07:33+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -6474,16 +6474,16 @@
         },
         {
             "name": "saucebase/auth",
-            "version": "v1.8.0",
+            "version": "v1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/auth.git",
-                "reference": "81a30649cb438624c4ad54de84419275fd759253"
+                "reference": "8d1dbd5898b77678210fe4d5cc217552098ce8e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/auth/zipball/81a30649cb438624c4ad54de84419275fd759253",
-                "reference": "81a30649cb438624c4ad54de84419275fd759253",
+                "url": "https://api.github.com/repos/saucebase-dev/auth/zipball/8d1dbd5898b77678210fe4d5cc217552098ce8e6",
+                "reference": "8d1dbd5898b77678210fe4d5cc217552098ce8e6",
                 "shasum": ""
             },
             "require": {
@@ -6513,9 +6513,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/auth/issues",
-                "source": "https://github.com/saucebase-dev/auth/tree/v1.8.0"
+                "source": "https://github.com/saucebase-dev/auth/tree/v1.8.1"
             },
-            "time": "2026-04-15T20:00:10+00:00"
+            "time": "2026-04-20T20:05:20+00:00"
         },
         {
             "name": "saucebase/billing",
@@ -6564,6 +6564,47 @@
                 "source": "https://github.com/saucebase-dev/billing/tree/v1.7.0"
             },
             "time": "2026-04-15T20:03:24+00:00"
+        },
+        {
+            "name": "saucebase/blog",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saucebase-dev/blog.git",
+                "reference": "3b3552112658b0cffef463bda510fb308f3ccc64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saucebase-dev/blog/zipball/3b3552112658b0cffef463bda510fb308f3ccc64",
+                "reference": "3b3552112658b0cffef463bda510fb308f3ccc64",
+                "shasum": ""
+            },
+            "type": "saucebase-module",
+            "extra": {
+                "laravel": {
+                    "aliases": [],
+                    "providers": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Blog\\": "app/",
+                    "Modules\\Blog\\Database\\Seeders\\": "database/seeders/",
+                    "Modules\\Blog\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Saucebase",
+                    "email": "hello@saucebase.dev"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/saucebase-dev/blog/issues",
+                "source": "https://github.com/saucebase-dev/blog/tree/v0.1.0"
+            },
+            "time": "2026-04-20T20:12:10+00:00"
         },
         {
             "name": "saucebase/breadcrumbs",
@@ -6627,16 +6668,16 @@
         },
         {
             "name": "saucebase/demo",
-            "version": "v0.4.1",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/demo.git",
-                "reference": "b37c179de554485a4a6d8f74484dca83566783d7"
+                "reference": "5016ff5ed76e5a7347a5bc353acd09e45d8a61c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/demo/zipball/b37c179de554485a4a6d8f74484dca83566783d7",
-                "reference": "b37c179de554485a4a6d8f74484dca83566783d7",
+                "url": "https://api.github.com/repos/saucebase-dev/demo/zipball/5016ff5ed76e5a7347a5bc353acd09e45d8a61c7",
+                "reference": "5016ff5ed76e5a7347a5bc353acd09e45d8a61c7",
                 "shasum": ""
             },
             "type": "saucebase-module",
@@ -6662,9 +6703,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/demo/issues",
-                "source": "https://github.com/saucebase-dev/demo/tree/v0.4.1"
+                "source": "https://github.com/saucebase-dev/demo/tree/v0.5.0"
             },
-            "time": "2026-04-19T16:17:30+00:00"
+            "time": "2026-04-20T20:18:08+00:00"
         },
         {
             "name": "saucebase/roadmap",
@@ -6750,16 +6791,16 @@
         },
         {
             "name": "saucebase/themes",
-            "version": "v1.2.1",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saucebase-dev/themes.git",
-                "reference": "8df11387dcc0a3072b5e6ce009a9c9158655fb1b"
+                "reference": "31ca2a6c156a8e6faae407208978323827290c39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/themes/zipball/8df11387dcc0a3072b5e6ce009a9c9158655fb1b",
-                "reference": "8df11387dcc0a3072b5e6ce009a9c9158655fb1b",
+                "url": "https://api.github.com/repos/saucebase-dev/themes/zipball/31ca2a6c156a8e6faae407208978323827290c39",
+                "reference": "31ca2a6c156a8e6faae407208978323827290c39",
                 "shasum": ""
             },
             "type": "saucebase-module",
@@ -6785,9 +6826,9 @@
             ],
             "support": {
                 "issues": "https://github.com/saucebase-dev/themes/issues",
-                "source": "https://github.com/saucebase-dev/themes/tree/v1.2.1"
+                "source": "https://github.com/saucebase-dev/themes/tree/v1.2.2"
             },
-            "time": "2026-04-18T11:38:10+00:00"
+            "time": "2026-04-20T20:10:55+00:00"
         },
         {
             "name": "scrivo/highlight.php",
@@ -11861,16 +11902,16 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.29.0",
+            "version": "v1.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "bdec963f53172c5e36330f3a400604c69bf02d39"
+                "reference": "0770e9b7fafd50d4586881d456d6eb41c9247a80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/bdec963f53172c5e36330f3a400604c69bf02d39",
-                "reference": "bdec963f53172c5e36330f3a400604c69bf02d39",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/0770e9b7fafd50d4586881d456d6eb41c9247a80",
+                "reference": "0770e9b7fafd50d4586881d456d6eb41c9247a80",
                 "shasum": ""
             },
             "require": {
@@ -11881,14 +11922,14 @@
                 "php": "^8.2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.94.2",
-                "illuminate/view": "^12.54.1",
-                "larastan/larastan": "^3.9.3",
-                "laravel-zero/framework": "^12.0.5",
+                "friendsofphp/php-cs-fixer": "^3.95.1",
+                "illuminate/view": "^12.56.0",
+                "larastan/larastan": "^3.9.6",
+                "laravel-zero/framework": "^12.1.0",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/termwind": "^2.4.0",
                 "pestphp/pest": "^3.8.6",
-                "shipfastlabs/agent-detector": "^1.1.0"
+                "shipfastlabs/agent-detector": "^1.1.3"
             },
             "bin": [
                 "builds/pint"
@@ -11925,7 +11966,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2026-03-12T15:51:39+00:00"
+            "time": "2026-04-20T15:26:14+00:00"
         },
         {
             "name": "laravel/roster",

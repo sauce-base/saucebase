@@ -1,0 +1,32 @@
+<p>One of Saucebase's best ideas is the module scaffolding system. Instead of copy-pasting from a previous project or starting from a blank file, you run a single Artisan command and get a fully structured module with everything in the right place.</p>
+
+<pre><code>php artisan saucebase:recipe ModuleName</code></pre>
+
+<p>That's it. In seconds you have a module with a service provider, a controller, routes, Vue pages, migrations, a factory, a seeder, tests, and a Vite config — all following Saucebase conventions.</p>
+
+<h2>Enabling your module</h2>
+
+<p>After scaffolding, three more commands and your module is live:</p>
+
+<pre><code>composer dump-autoload
+php artisan module:enable ModuleName
+php artisan module:migrate ModuleName --seed</code></pre>
+
+<p>Then rebuild assets with <code>npm run build</code> or restart <code>npm run dev</code>.</p>
+
+<h2>What you get for free</h2>
+
+<ul>
+    <li>Service provider registered and booted automatically</li>
+    <li>Routes loaded and scoped to the module</li>
+    <li>Filament plugin ready for your admin resources</li>
+    <li>Vue pages discoverable by Inertia out of the box</li>
+    <li>TypeScript types generated via <code>php artisan module:generate-types</code></li>
+    <li>Playwright config auto-discovered by <code>module-loader.js</code></li>
+</ul>
+
+<h2>Built for teams</h2>
+
+<p>Modules are self-contained by design. One developer owns the billing module, another works on the blog, a third builds a new feature module. There's no shared global state to step on, no merge conflicts in a monolithic service class.</p>
+
+<p>The recipe system isn't just scaffolding — it's a statement about how features should be built. Modular, self-contained, copy-and-own. <strong>Add your Saucebase, make it yours.</strong></p>

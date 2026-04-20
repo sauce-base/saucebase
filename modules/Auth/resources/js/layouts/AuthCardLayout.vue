@@ -61,6 +61,6 @@ defineProps<{
             </div>
             <slot name="outside" />
         </div>
-        <Footer class="mt-6 w-full" />
+        <Footer class="mt-16 w-full pt-35" />
     </div>
 </template>

@@ -30,6 +30,7 @@
         "saucebase/roadmap": "*",
         "saucebase/settings": "*",
         "saucebase/themes": "*",
+        "saucebase/blog": "*",
         "spatie/laravel-navigation": "^1.3",
         "spatie/laravel-permission": "^6.25",
         "spatie/laravel-typescript-transformer": "^2.6",

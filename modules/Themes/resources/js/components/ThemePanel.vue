@@ -822,12 +822,12 @@ const dialogCommandOpen = ref(false);
                         {{ $t('Theme customizer') }}
                     </SheetTitle>
                     <SheetDescription class="sr-only">
-                        {{ $t('Adjust colors, font, and radius.') }}
+                        {{ $t('Add your own flavor') }}
                     </SheetDescription>
 
                     <!-- Header -->
                     <div
-                        class="border-border flex items-center gap-3 border-b px-4 py-3"
+                        class="border-border flex flex-wrap items-center gap-x-3 gap-y-2 border-b px-4 py-3"
                     >
                         <IconPalette
                             class="text-muted-foreground size-5 shrink-0"
@@ -839,13 +839,13 @@ const dialogCommandOpen = ref(false);
                                 {{ $t('Theme customizer') }}
                             </p>
                             <p class="text-muted-foreground mt-0.5 text-xs">
-                                {{ $t('Adjust colors, font, and radius.') }}
+                                {{ $t('Add your own flavor') }}
                             </p>
                         </div>
-                        <ThemeSelector inline hide-device />
+                        <ThemeSelector class="order-4 sm:order-3 w-full sm:w-auto" inline hide-device />
                         <button
                             data-testid="theme-panel-close"
-                            class="text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring rounded-md p-1 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                            class="order-3 sm:order-4 text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring rounded-md p-1 transition-colors focus-visible:ring-2 focus-visible:outline-none"
                             :aria-label="$t('Close theme panel')"
                             @click="sheetOpen = false"
                         >
@@ -1077,7 +1077,7 @@ const dialogCommandOpen = ref(false);
                                 <IconRotateCcw class="size-4" />
                                 {{ $t('Reset') }}
                             </button>
-                            <!-- Split button: custom theme → Save + dropdown; built-in → Save as new theme only -->
+                            <!-- Split button: custom theme → Save + dropdown; built-in → Save as only -->
                             <div
                                 v-if="currentTheme?.editable"
                                 class="border-border flex flex-1 overflow-hidden rounded-lg border"
@@ -1104,7 +1104,7 @@ const dialogCommandOpen = ref(false);
                                             data-testid="theme-panel-save-as"
                                             @click="dialogSaveOpen = true"
                                         >
-                                            {{ $t('Save as new theme') }}
+                                            {{ $t('Save as') }}
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
@@ -1116,7 +1116,7 @@ const dialogCommandOpen = ref(false);
                                 @click="dialogSaveOpen = true"
                             >
                                 <IconSave class="size-4" />
-                                {{ $t('Save as new theme') }}
+                                {{ $t('Save as') }}
                             </button>
                             <Tooltip>
                                 <TooltipTrigger as-child>

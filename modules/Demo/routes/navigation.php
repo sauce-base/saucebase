@@ -50,7 +50,7 @@ Navigation::add(
             'slug' => 'documentation',
             'external' => true,
             'newPage' => true,
-            'order' => 1,
+            'order' => 10,
         ]);
     }
 );
@@ -64,7 +64,7 @@ Navigation::add(
             'slug' => 'github',
             'external' => true,
             'newPage' => true,
-            'order' => 2,
+            'order' => 20,
         ]);
     }
 );
