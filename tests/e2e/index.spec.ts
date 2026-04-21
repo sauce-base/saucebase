@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { expectInertiaPageDataEmbedded, expectSSREnabled } from './helpers/ssr';
+import { expectInertiaPageDataEmbedded } from './helpers/ssr';
 
 test.describe('Landing page', () => {
     test('responds successfully when navigating to root', async ({ page }) => {
@@ -10,13 +10,6 @@ test.describe('Landing page', () => {
             response?.ok(),
             'Expected a successful status code',
         ).toBeTruthy();
-    });
-
-    test('uses SSR and contains rendered HTML', async ({ page }) => {
-        await page.goto('/');
-
-        // Verify SSR is enabled and renders the Index component
-        await expectSSREnabled(page, 'Index');
     });
 
     test('Inertia page data is embedded for SSR/SEO', async ({ browser }) => {

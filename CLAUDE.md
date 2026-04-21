@@ -120,6 +120,8 @@ export default {
 
 **Vite aliases:** `@` = `resources/js`, `@modules` = `modules/`, `ziggy-js` = vendor path
 
+**TypeScript path aliases** (`tsconfig.json`): `@` = `resources/js`, `@modules` = `modules/`, `@e2e` = `tests/e2e`. Always use these aliases — never use relative `../../..` paths. Module E2E tests import core helpers as `@e2e/helpers/ssr`, not `../../../../tests/e2e/helpers/ssr`.
+
 **Component library:** shadcn-vue style components in `resources/js/components/ui/` (copy-and-own, customizable)
 
 **Dark/light mode — REQUIRED for all components:**
