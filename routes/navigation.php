@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Navigation::add('Dashboard', route('dashboard'), function (Section $section) {
+Navigation::add('Dashboard', fn () => route('dashboard'), function (Section $section) {
     $section->attributes([
         'group' => 'main',
         'slug' => 'dashboard',
@@ -56,7 +56,7 @@ Navigation::add(
 Navigation::addWhen(
     fn () => Auth::check() && Auth::user()->isAdmin(),
     'Admin',
-    route('filament.admin.pages.dashboard'),
+    fn () => route('filament.admin.pages.dashboard'),
     function (Section $section) {
         $section->attributes([
             'group' => 'secondary',

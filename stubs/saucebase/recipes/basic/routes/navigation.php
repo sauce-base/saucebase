@@ -13,7 +13,7 @@ use App\Navigation\Section;
 |
 */
 
-Navigation::add('{Module}', route('{module-}.index'), function (Section $section) {
+Navigation::add('{Module}', fn () => route('{module-}.index'), function (Section $section) {
     $section->attributes([
         'group' => 'main',
         'slug' => '{module-}',
