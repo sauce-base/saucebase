@@ -16,7 +16,9 @@ export function cn(...inputs: ClassValue[]) {
 export const resolveModularPageComponent = (name: string) => {
     if (name.includes('::')) {
         const [moduleName, componentPath] = name.split('::', 2);
-        const moduleComponentPath = `../../../modules/${moduleName.toLowerCase()}/resources/js/pages/${componentPath}.vue`;
+
+        const moduleFolderName = moduleName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        const moduleComponentPath = `../../../modules/${moduleFolderName}/resources/js/pages/${componentPath}.vue`;
 
         const moduleGlobs = import.meta.glob<DefineComponent>(
             '../../../modules/*/resources/js/**/*.vue',
