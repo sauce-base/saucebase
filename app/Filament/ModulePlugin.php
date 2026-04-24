@@ -3,28 +3,16 @@
 namespace App\Filament;
 
 use Filament\Panel;
-use Nwidart\Modules\Facades\Module;
 
 trait ModulePlugin
 {
     abstract public function getModuleName(): string;
 
-    public function getModule(): \Nwidart\Modules\Module
-    {
-        return Module::findOrFail($this->getModuleName());
-    }
-
     public function register(Panel $panel): void
     {
-        $module = $this->getModule();
-
-        if (! $module->isEnabled()) {
-            return;
-        }
-
         // Build base paths and namespaces
-        $appPath = $module->getAppPath();
-        $baseNamespace = 'Modules\\'.$module->getStudlyName();
+        $appPath = module_path($this->getModuleName(), 'src');
+        $baseNamespace = 'Modules\\'.$this->getModuleName();
 
         $useClusters = config('filament.modules.clusters.enabled', false);
 

@@ -1,23 +1,23 @@
 ## Saucebase
 
-Saucebase is a modular Laravel SaaS starter kit (VILT stack). All features are encapsulated as **modules** under `modules/<ModuleName>/`. Modules are copy-and-own: once installed they live in the repo and can be edited freely.
+Saucebase is a modular Laravel SaaS starter kit (VILT stack). All features are encapsulated as **modules** under `modules/<modulename>/` (always lowercase). Modules are copy-and-own: once installed they live in the repo and can be edited freely.
 
 ### Module Creation
 
-Use `php artisan saucebase:recipe {ModuleName}` to scaffold a new module from stubs. After scaffolding: `composer dump-autoload` → `php artisan module:enable ModuleName` → rebuild assets.
+Use `php artisan saucebase:recipe {modulename}` to scaffold a new module from stubs. After scaffolding: `composer dump-autoload` → rebuild assets. There is no enable/disable toggle — a module is active when `composer require`-d.
 
 ### Module System
 
-Modules are managed by `nwidart/laravel-modules`. Enable state is tracked in `modules_statuses.json`.
+Modules are managed by `internachi/modular`. Module folder names are always lowercase (`modules/auth/`, `modules/billing/`). PHP namespaces remain TitleCase (`Modules\Auth\...`) per PSR-4. There is no `modules_statuses.json` — presence in `composer.json` determines active state.
 
 **Module discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from enabled modules. Never bypass it.
 
-**Inertia page resolution:**
+**Inertia page resolution** — namespace prefix is TitleCase (PHP namespace), folder path is lowercase:
 
 <code-snippet name="Inertia rendering" lang="php">
 return inertia('Dashboard');           // resources/js/pages/Dashboard.vue
-return inertia('Auth::Login');         // modules/Auth/resources/js/pages/Login.vue
-return inertia('Roadmap::Index');      // modules/Roadmap/resources/js/pages/Index.vue
+return inertia('Auth::Login');         // modules/auth/resources/js/pages/Login.vue
+return inertia('Roadmap::Index');      // modules/roadmap/resources/js/pages/Index.vue
 </code-snippet>
 
 **SSR control** — opt in per response, not globally:
@@ -100,8 +100,10 @@ Icons are registered in the module's `resources/js/app.ts` via `registerIcon()`.
 Module types are generated separately from the core app:
 
 ```bash
-php artisan module:generate-types FeatureName   # regenerate after PHP enum/DTO changes
+php artisan module:generate-types featurename   # regenerate after PHP enum/DTO changes
 ```
+
+**`modules().has()` in Vue/TS:** always use lowercase — `modules().has('auth')`, `modules().has('billing')`. The composable is case-insensitive but lowercase is the canonical form matching the registry.
 
 Never edit `resources/js/types/generated.d.ts` manually — it is auto-generated.
 

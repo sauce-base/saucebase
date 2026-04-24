@@ -294,7 +294,7 @@ The frontend uses a custom module resolution system that allows pages to be load
 // In routes: render module pages like this
 return inertia('Auth::Login', ['data' => $data]);
 
-// Resolves to: modules/Auth/resources/js/pages/Login.vue
+// Resolves to: modules/auth/resources/js/pages/Login.vue
 ```
 
 **Key Frontend Files:**
@@ -886,8 +886,8 @@ Pages can be rendered from core or modules:
 return inertia('Dashboard');  // resources/js/pages/Dashboard.vue
 
 // Module pages (namespace syntax)
-return inertia('Auth::Login');  // modules/Auth/resources/js/pages/Login.vue
-return inertia('Settings::Index');  // modules/Settings/resources/js/pages/Index.vue
+return inertia('Auth::Login');  // modules/auth/resources/js/pages/Login.vue
+return inertia('Settings::Index');  // modules/settings/resources/js/pages/Index.vue
 ```
 
 ### Translations
@@ -997,8 +997,8 @@ Modules are managed by `nwidart/laravel-modules`. Enable state is tracked in `mo
 
 <code-snippet name="Inertia rendering" lang="php">
 return inertia('Dashboard');           // resources/js/pages/Dashboard.vue
-return inertia('Auth::Login');         // modules/Auth/resources/js/pages/Login.vue
-return inertia('Roadmap::Index');      // modules/Roadmap/resources/js/pages/Index.vue
+return inertia('Auth::Login');         // modules/auth/resources/js/pages/Login.vue
+return inertia('Roadmap::Index');      // modules/roadmap/resources/js/pages/Index.vue
 </code-snippet>
 
 **SSR control** — opt in per response, not globally:

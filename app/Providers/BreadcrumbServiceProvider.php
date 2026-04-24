@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Nwidart\Modules\Facades\Module;
+use InterNACHI\Modular\Support\ModuleRegistry;
 
 class BreadcrumbServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class BreadcrumbServiceProvider extends ServiceProvider
     protected function loadBreadcrumbsFrom(string $path): void
     {
         if (file_exists($path)) {
-            require $path;
+            require_once $path;
         }
     }
 
@@ -34,11 +34,8 @@ class BreadcrumbServiceProvider extends ServiceProvider
      */
     protected function loadModuleBreadcrumbs(): void
     {
-        $modules = Module::allEnabled();
-
-        foreach ($modules as $module) {
-            $breadcrumbsPath = $module->getPath().'/routes/breadcrumbs.php';
-            $this->loadBreadcrumbsFrom($breadcrumbsPath);
-        }
+        app(ModuleRegistry::class)->modules()->each(function ($module): void {
+            $this->loadBreadcrumbsFrom($module->path('routes/breadcrumbs.php'));
+        });
     }
 }

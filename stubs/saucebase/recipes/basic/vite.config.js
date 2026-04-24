@@ -7,9 +7,9 @@
  *
  * Example:
  * export const paths = [
- *     'css/app.css',             // Becomes modules/ModuleName/resources/assets/css/app.css
- *     'js/app.ts',               // Becomes modules/ModuleName/resources/assets/js/app.ts
- *     'js/custom-feature.js',    // Becomes modules/ModuleName/resources/assets/js/custom-feature.js
+ *     'css/app.css',             // Becomes modules/module-name/resources/assets/css/app.css
+ *     'js/app.ts',               // Becomes modules/module-name/resources/assets/js/app.ts
+ *     'js/custom-feature.js',    // Becomes modules/module-name/resources/assets/js/custom-feature.js
  * ];
  */
 export const paths = ['css/style.css', 'js/app.ts'];

@@ -3,11 +3,8 @@
 namespace App\Providers;
 
 use App\Http\Middleware\SecureHeaders;
-use Illuminate\Foundation\Events\DiscoverEvents;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
-use Nwidart\Modules\Facades\Module;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,13 +17,6 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
-
-        /**
-         * Fix for event discovery paths in modules
-         *
-         * @link https://github.com/nWidart/laravel-modules/issues/2128#issuecomment-3515275319
-         */
-        $this->fixDiscoverEventsModulePathIssue();
     }
 
     /**
@@ -63,37 +53,5 @@ class AppServiceProvider extends ServiceProvider
         if ($enforceHttps) {
             $this->app['router']->pushMiddlewareToGroup('web', SecureHeaders::class);
         }
-    }
-
-    protected function fixDiscoverEventsModulePathIssue(): void
-    {
-        DiscoverEvents::guessClassNamesUsing(function (\SplFileInfo $file, $basePath) {
-            $pathname = $file->getRealPath() ?: $file->getPathname();
-            $class = trim(Str::replaceFirst($basePath, '', $pathname), DIRECTORY_SEPARATOR);
-
-            // Check if this is a module file and skip if module is disabled
-            $modulesPath = config('modules.paths.modules');
-
-            if ($modulesPath && str_starts_with($pathname, $modulesPath.DIRECTORY_SEPARATOR)) {
-                // Extract module name from path (e.g., "/path/to/modules/Auth/..." -> "Auth")
-                $relativePath = Str::after($pathname, $modulesPath.DIRECTORY_SEPARATOR);
-                $moduleName = Str::before($relativePath, DIRECTORY_SEPARATOR);
-
-                if ($moduleName && Module::find($moduleName)?->isEnabled() === false) { // @phpstan-ignore nullsafe.neverNull
-                    return null;
-                }
-            }
-
-            // Remove the "app" folder from the path if it exists (useful for module structures)
-            $appFolder = Str::of(config('modules.app_folder', 'app/'))
-                ->start(DIRECTORY_SEPARATOR)
-                ->finish(DIRECTORY_SEPARATOR);
-
-            return ucfirst(Str::camel(str_replace(
-                [$appFolder, DIRECTORY_SEPARATOR, ucfirst(basename(app()->path())).'\\'],
-                ['\\', '\\', app()->getNamespace(), ''],
-                ucfirst(Str::replaceLast('.php', '', $class))
-            )));
-        });
     }
 }

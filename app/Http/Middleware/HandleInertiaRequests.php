@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Inertia\Middleware;
-use Nwidart\Modules\Facades\Module;
+use InterNACHI\Modular\Support\ModuleRegistry;
 use Saucebase\Breadcrumbs\Breadcrumbs;
 use Symfony\Component\HttpFoundation\Response;
 use Tighten\Ziggy\Ziggy;
@@ -43,8 +43,8 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'locale' => app()->getLocale(),
-            'modules' => fn () => collect(Module::allEnabled())
-                ->mapWithKeys(fn ($module, $key) => [$key => $module->getName()])
+            'modules' => fn () => app(ModuleRegistry::class)->modules()
+                ->mapWithKeys(fn ($module) => [$module->name => $module->name])
                 ->all(),
             'navigation' => fn () => app(Navigation::class)->treeGrouped(),
             'breadcrumbs' => fn () => $this->getBreadcrumbs(),

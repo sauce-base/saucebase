@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Navigation\Section;
 use Illuminate\Support\Str;
+use InterNACHI\Modular\Support\ModuleRegistry;
 use Spatie\Navigation\Navigation as SpatieNavigation;
 
 /**
@@ -300,20 +301,13 @@ class Navigation extends SpatieNavigation
             require_once $coreNavigationPath;
         }
 
-        // Load module navigation
-        $modulesStatusPath = base_path('modules_statuses.json');
-        if (file_exists($modulesStatusPath)) {
-            $modulesStatus = json_decode(file_get_contents($modulesStatusPath), true);
-
-            foreach ($modulesStatus as $moduleName => $enabled) {
-                if ($enabled) {
-                    $moduleNavigationPath = base_path("modules/{$moduleName}/routes/navigation.php");
-                    if (file_exists($moduleNavigationPath)) {
-                        require_once $moduleNavigationPath;
-                    }
-                }
+        // Load navigation from all modules discovered by InterNACHI
+        app(ModuleRegistry::class)->modules()->each(function ($module): void {
+            $path = $module->path('routes/navigation.php');
+            if (file_exists($path)) {
+                require_once $path;
             }
-        }
+        });
 
         return $this;
     }

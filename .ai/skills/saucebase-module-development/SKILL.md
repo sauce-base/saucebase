@@ -34,7 +34,7 @@ The command prompts for a module name (PascalCase, no spaces or hyphens) and tem
 **What the Basic Recipe creates:**
 
 ```
-modules/<ModuleName>/
+modules/<modulename>/
   app/Providers/<Name>ServiceProvider.php
   app/Providers/RouteServiceProvider.php
   app/Http/Controllers/<Name>Controller.php
@@ -72,7 +72,7 @@ php artisan make:controller --module=Feature FeatureController
 ## Module Directory Structure
 
 ```
-modules/<ModuleName>/
+modules/<modulename>/
   app/
     Http/Controllers/
     Models/
@@ -173,7 +173,7 @@ class FeatureController
 }
 ```
 
-- `Feature::Index` resolves to `modules/Feature/resources/js/pages/Index.vue`
+- `Feature::Index` resolves to `modules/feature/resources/js/pages/Index.vue`
 - `.withSSR()` for public/SEO pages; `.withoutSSR()` for authenticated pages
 - Default (no macro) = SSR disabled
 
@@ -331,7 +331,7 @@ Then regenerate:
 php artisan module:generate-types Feature
 ```
 
-Output: `modules/Feature/resources/js/types/generated.d.ts` — **never edit this file manually**.
+Output: `modules/feature/resources/js/types/generated.d.ts` — **never edit this file manually**.
 
 ---
 

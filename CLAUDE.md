@@ -32,13 +32,15 @@ npm run build            # Production build (includes SSR)
 npm run dev              # Vite dev server with HMR
 
 # Modules
-php artisan saucebase:recipe ModuleName     # Scaffold a new module from a recipe (stubs)
-# After scaffolding: composer dump-autoload && php artisan module:enable ModuleName
-php artisan module:list
-php artisan module:enable ModuleName
-php artisan module:disable ModuleName
-php artisan module:migrate ModuleName --seed
-# After enable/disable: rebuild with `npm run build` or restart `npm run dev`
+php artisan saucebase:recipe ModuleName     # Scaffold a new module from stubs
+# After scaffolding: composer dump-autoload && php artisan package:discover
+php artisan modules:list                    # List all discovered modules
+php artisan modules:cache                   # Cache module discovery (production)
+php artisan modules:clear                   # Clear module cache
+# Installing a module (end-user workflow):
+composer require saucebase/auth             # Installs to modules/auth/ via module-installer
+composer remove saucebase/auth              # Removes module
+# After any module change: rebuild with `npm run build` or restart `npm run dev`
 
 # TypeScript types (per-module, generated from PHP enums/DTOs)
 php artisan module:generate-types ModuleName   # single module
@@ -49,12 +51,16 @@ php artisan module:generate-types              # all enabled modules
 
 ### Module System
 
-Uses `nwidart/laravel-modules`. Modules tracked in `modules_statuses.json` (`{"ModuleName": true}`).
+Uses `internachi/modular`. Modules are standard Composer packages installed into `modules/<modulename>/` (always lowercase) by the `saucebase/module-installer` Composer plugin. There is no enable/disable toggle — a module is active when it is `composer require`-d; removing it deactivates it.
 
-**Currently installed modules:** Auth, Settings, Billing
+**Module folder names are always lowercase** (`modules/auth/`, `modules/billing/`). PHP namespaces remain TitleCase (`Modules\Auth\...`) per PSR-4 convention. The `modules().has()` JS helper uses lowercase: `modules().has('auth')`.
+
+**Module PSR-4 root is `src/`** — Saucebase uses `internachi/modular` which defaults to `src/`. The stub `composer.json` and newly scaffolded modules use `"src/"`. Existing modules in `../modules/*/` (auth, billing, etc.) still use `"app/"` — they are pre-migration and should not be used as reference for new modules.
+
+**Module structure:**
 
 ```
-modules/<ModuleName>/
+modules/<modulename>/
   app/Http/Controllers/
   app/Models/
   app/Providers/          # Must extend App\Providers\ModuleServiceProvider
@@ -75,8 +81,14 @@ modules/<ModuleName>/
   tests/e2e/
   vite.config.js          # Module asset paths: { paths: ['css/app.css', 'js/app.ts'] }
   Taskfile.yml            # Module tasks (test:php, test:e2e, types:generate)
-  module.json
+  composer.json           # Module manifest — declares autoload, providers, and dependencies
 ```
+
+**Two distinct module contexts — understand which one applies:**
+
+**End users (open source consumers):** Modules are installed via `composer require saucebase/auth`. The `saucebase/module-installer` plugin places the module files in `modules/auth/`. These files should be committed to the user's own project repo. This is the copy-and-own model: once installed, the module lives in the repo and can be freely edited. To receive upstream updates, the user runs `composer update saucebase/auth`, which overwrites any local edits — so meaningful customisations should be committed before updating. Do NOT gitignore `modules/` for end-user projects.
+
+**Saucebase core team (module authors):** The core repo (`saucebase/saucebase`) ships with no modules committed. Module source repos live in `../modules/` (sibling of this repo) and are linked into the project via Composer path repositories (`"url": "../modules/*", "symlink": true` in `composer.json`). `composer require saucebase/auth` symlinks `../modules/auth` → `modules/auth`, giving instant feedback on edits. Symlinked directories are not git-tracked in the core repo. CI runs against the clean state (no modules required).
 
 **TypeScript type generation:** Each module generates its own `resources/js/types/generated.d.ts` from PHP classes annotated with `#[TypeScript]` (enums, Spatie Data objects). The core `config/typescript-transformer.php` only scans `app/`; module types are generated separately via `module:generate-types`. `tsconfig.json` includes `modules/**/resources/js/**/*.ts` so generated files are picked up automatically.
 
@@ -90,7 +102,7 @@ class AuthServiceProvider extends ModuleServiceProvider
 }
 ```
 
-**Module lifecycle hooks** (`modules/<Name>/resources/js/app.ts`):
+**Module lifecycle hooks** (`modules/<modulename>/resources/js/app.ts`):
 
 ```typescript
 export default {
@@ -102,10 +114,6 @@ export default {
     },
 };
 ```
-
-> **Clean state:** The main repository has no modules committed (`modules/` is empty except for `.gitkeep`).
-> Modules (Auth, Billing, Settings, etc.) are installed locally for development via Composer and owned in-repo,
-> but they are NOT tracked in version control. CI runs against the clean state.
 
 **Asset discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from enabled modules. Don't bypass it.
 
@@ -136,7 +144,7 @@ Common patterns:
 - Borders: `border-gray-200 dark:border-gray-800`
 - Links: `font-medium text-primary/70 hover:underline underline-offset-4`
 
-**Translations:** `laravel-vue-i18n` with async loading. Core in `lang/`, modules in `modules/<Name>/lang/`. Portuguese and English.
+**Translations:** `laravel-vue-i18n` with async loading. Core in `lang/`, modules in `modules/<modulename>/lang/`. Portuguese and English.
 
 ### Backend
 
@@ -172,8 +180,8 @@ Common patterns:
 
 ```php
 return inertia('Dashboard');          // resources/js/pages/Dashboard.vue
-return inertia('Auth::Login');        // modules/Auth/resources/js/pages/Login.vue
-return inertia('Settings::Index');    // modules/Settings/resources/js/pages/Index.vue
+return inertia('Auth::Login');        // modules/auth/resources/js/pages/Login.vue
+return inertia('Settings::Index');    // modules/settings/resources/js/pages/Index.vue
 ```
 
 ### SSR Control
@@ -279,8 +287,8 @@ Modules are managed by `nwidart/laravel-modules`. Enable state is tracked in `mo
 
 <code-snippet name="Inertia rendering" lang="php">
 return inertia('Dashboard');           // resources/js/pages/Dashboard.vue
-return inertia('Auth::Login');         // modules/Auth/resources/js/pages/Login.vue
-return inertia('Roadmap::Index');      // modules/Roadmap/resources/js/pages/Index.vue
+return inertia('Auth::Login');         // modules/auth/resources/js/pages/Login.vue
+return inertia('Roadmap::Index');      // modules/roadmap/resources/js/pages/Index.vue
 </code-snippet>
 
 **SSR control** — opt in per response, not globally:

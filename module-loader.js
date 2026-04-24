@@ -5,63 +5,43 @@ import { fileURLToPath, pathToFileURL } from 'url';
 /**
  * Module Asset Loader
  *
- * Automatically discovers and collects asset paths from enabled Laravel modules.
+ * Automatically discovers and collects asset paths from Laravel modules.
  * Integrates with the main Vite configuration to include module assets in the build process.
  *
- * @fileoverview This loader scans enabled modules and imports their vite.config.js files
- * to collect asset paths. Only modules marked as enabled in modules_statuses.json are processed.
+ * @fileoverview This loader scans the modules directory and imports vite.config.js files
+ * to collect asset paths. All directories containing a vite.config.js are treated as modules.
  */
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const STATUS_FILE = 'modules_statuses.json';
 const MODULES_PATH = 'modules';
 
-async function readJsonFile(filePath) {
-    try {
-        const content = await fs.readFile(filePath, 'utf-8');
-        return JSON.parse(content);
-    } catch (error) {
-        throw new Error(`Failed to read ${filePath}: ${error.message}`);
-    }
-}
+export async function loadEnabledModuleNames(baseDir) {
+    const modulesDir = path.join(baseDir, MODULES_PATH);
 
-async function loadModuleStatuses(baseDir) {
-    try {
-        return await readJsonFile(path.join(baseDir, STATUS_FILE));
-    } catch (error) {
-        console.error(error.message);
-        return null;
-    }
-}
-
-async function listModuleDirectories(modulesDir) {
     try {
         const entries = await fs.readdir(modulesDir, { withFileTypes: true });
-        return entries
-            .filter(
-                (entry) => entry.isDirectory() && !entry.name.startsWith('.'),
-            )
-            .map((entry) => entry.name);
+
+        const names = [];
+        for (const entry of entries) {
+            if (!entry.isDirectory() || entry.name.startsWith('.')) continue;
+            try {
+                await fs.access(
+                    path.join(modulesDir, entry.name, 'vite.config.js'),
+                );
+                names.push(entry.name);
+            } catch {
+                // no vite.config.js — not a module directory
+            }
+        }
+
+        return names;
     } catch (error) {
         console.error(
             `Failed to read modules directory at ${modulesDir}: ${error.message}`,
         );
         return [];
     }
-}
-
-export async function loadEnabledModuleNames(baseDir) {
-    const statuses = await loadModuleStatuses(baseDir);
-    if (!statuses) {
-        return [];
-    }
-
-    const directories = await listModuleDirectories(
-        path.join(baseDir, MODULES_PATH),
-    );
-
-    return directories.filter((name) => statuses[name] === true);
 }
 
 async function importModuleFile(filePath, moduleName, displayName) {
@@ -127,7 +107,7 @@ function extractModuleAssetPaths(moduleConfig, moduleName) {
  * @example
  * const initialPaths = ['resources/js/app.ts'];
  * const allPaths = await collectModuleAssetsPaths(initialPaths, 'modules');
- * // Returns: ['resources/js/app.ts', 'modules/Auth/resources/css/app.css', ...]
+ * // Returns: ['resources/js/app.ts', 'modules/auth/resources/css/app.css', ...]
  */
 export async function collectModuleAssetsPaths(paths = []) {
     const modulesDir = path.join(__dirname, MODULES_PATH);
@@ -219,7 +199,7 @@ export async function collectModulePlaywrightConfigs() {
  *
  * @example
  * const langPaths = await collectModuleLangPaths();
- * // Returns: ['modules/Auth/lang', 'modules/Settings/lang', ...]
+ * // Returns: ['modules/auth/lang', 'modules/settings/lang', ...]
  */
 export async function collectModuleLangPaths() {
     const langPaths = [];

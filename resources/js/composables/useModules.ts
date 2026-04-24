@@ -1,4 +1,3 @@
-import type { PageProps } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 
 /**
@@ -15,7 +14,7 @@ import { usePage } from '@inertiajs/vue3';
  * if (modules().has('Billing')) { ... }
  */
 export function useModules() {
-    const page = usePage<PageProps>();
+    const page = usePage();
 
     return {
         /**
@@ -23,7 +22,9 @@ export function useModules() {
          */
         has(name: string): boolean {
             const modules = page.props.modules ?? {};
-            return name in modules || Object.values(modules).includes(name);
+            const lower = name.toLowerCase();
+            return Object.keys(modules).some((k) => k.toLowerCase() === lower)
+                || Object.values(modules).some((v) => (v as string).toLowerCase() === lower);
         },
 
         /**

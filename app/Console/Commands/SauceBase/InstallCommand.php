@@ -176,26 +176,22 @@ class InstallCommand extends Command
             return $process->isSuccessful();
         });
 
-        // Phase 3: enable and migrate each module (subprocess for fresh autoloader + module status)
-        foreach ($selected as $package) {
-            $module = Str::studly(explode('/', $package)[1]);
+        // Phase 3: sync module configs, then migrate all in one pass
+        $this->components->task('Syncing modules', function () {
+            $process = new Process([PHP_BINARY, base_path('artisan'), 'modules:sync']);
+            $process->setTimeout(30);
+            $process->run();
 
-            $this->components->task("Enabling {$module} module", function () use ($module) {
-                $process = new Process([PHP_BINARY, base_path('artisan'), 'module:enable', $module]);
-                $process->setTimeout(30);
-                $process->run();
+            return $process->isSuccessful();
+        });
 
-                return $process->isSuccessful();
-            });
+        $this->components->task('Running module migrations', function () {
+            $process = new Process([PHP_BINARY, base_path('artisan'), 'migrate', '--seed', '--force']);
+            $process->setTimeout(120);
+            $process->run();
 
-            $this->components->task("Migrating {$module} module", function () use ($module) {
-                $process = new Process([PHP_BINARY, base_path('artisan'), 'module:migrate', $module, '--seed', '--force']);
-                $process->setTimeout(120);
-                $process->run();
-
-                return $process->isSuccessful();
-            });
-        }
+            return $process->isSuccessful();
+        });
     }
 
     /**

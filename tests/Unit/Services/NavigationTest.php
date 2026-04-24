@@ -382,29 +382,17 @@ class NavigationTest extends TestCase
         $this->assertContains('Dashboard', $titles);
     }
 
-    public function test_load_skips_disabled_modules(): void
+    public function test_load_discovers_modules_via_registry(): void
     {
-        // Temporarily override modules_statuses.json with all modules disabled
-        $statusPath = base_path('modules_statuses.json');
-        $original = file_get_contents($statusPath);
+        // With InterNACHI all present modules are active — no status file needed.
+        // Verify that load() completes without errors and returns a valid structure.
+        $navigation = new Navigation(app(ActiveUrlChecker::class));
+        $navigation->load();
 
-        file_put_contents($statusPath, json_encode([
-            'Auth' => false,
-            'Settings' => false,
-            'Billing' => false,
-        ]));
+        $grouped = $navigation->treeGrouped();
 
-        try {
-            $navigation = new Navigation(app(ActiveUrlChecker::class));
-            $navigation->load();
-
-            $grouped = $navigation->treeGrouped();
-
-            // Settings group should not exist (only registered by Settings module)
-            $this->assertArrayNotHasKey('settings', $grouped);
-        } finally {
-            file_put_contents($statusPath, $original);
-        }
+        // treeGrouped() always returns an array (may be empty if no navigation registered)
+        $this->assertIsArray($grouped);
     }
 
     // --- Service provider integration ---

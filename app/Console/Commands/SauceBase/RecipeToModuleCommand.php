@@ -40,7 +40,7 @@ class RecipeToModuleCommand extends Command
     {
         $this->moduleName = $this->getModuleName();
 
-        $moduleConfigPath = config('modules.paths.modules', 'Modules').'/';
+        $moduleConfigPath = base_path(config('app-modules.modules_directory', 'modules')).'/';
         $this->moduleConfigPath = Str::endsWith($moduleConfigPath, '/') ? $moduleConfigPath : $moduleConfigPath.'/';
 
         if (file_exists($this->moduleConfigPath.$this->moduleName)) {
@@ -63,8 +63,11 @@ class RecipeToModuleCommand extends Command
         $this->registerInTaskfile();
 
         info('Starter '.$this->moduleName.' module generated successfully.');
-        info('You need to run: composer dump-autoload');
-        info('To enable the module use: php artisan module:enable '.$this->moduleName);
+        info('Next steps:');
+        info('  composer update');
+        info('  php artisan migrate');
+        info('  php artisan modules:sync');
+        info('  npm run build');
 
         return true;
     }
@@ -329,8 +332,8 @@ class RecipeToModuleCommand extends Command
             '___module___' => strtolower($name),
 
             // MODULE_NAMESPACE
-            '{MODULE_NAMESPACE}' => config('modules.namespace', 'Modules'),
-            '___MODULE_NAMESPACE___' => config('modules.namespace', 'Modules'),
+            '{MODULE_NAMESPACE}' => config('app-modules.modules_namespace', 'Modules'),
+            '___MODULE_NAMESPACE___' => config('app-modules.modules_namespace', 'Modules'),
         ];
     }
 

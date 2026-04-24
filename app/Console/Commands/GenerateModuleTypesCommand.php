@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
-use Nwidart\Modules\Facades\Module;
+use InterNACHI\Modular\Support\ModuleRegistry;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -49,7 +49,7 @@ class GenerateModuleTypesCommand extends Command
     /** @return array<string> */
     private function resolveModules(): array
     {
-        $enabledModules = collect(Module::allEnabled())->map->getName()->values()->all();
+        $enabledModules = app(ModuleRegistry::class)->modules()->map->name->values()->all();
 
         if ($this->option('all')) {
             return $enabledModules;
@@ -79,7 +79,7 @@ class GenerateModuleTypesCommand extends Command
 
     private function generateForModule(string $name): int
     {
-        $appPath = base_path("modules/{$name}/app");
+        $appPath = base_path("modules/{$name}/src");
 
         if (! is_dir($appPath)) {
             $this->components->error("Module app path not found: {$appPath}");
