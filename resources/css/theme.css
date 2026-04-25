@@ -32,8 +32,8 @@
     --sidebar-border: oklch(0.9276 0.0058 264.5313);
     --sidebar-ring: oklch(0.4829 0.1749 272.2833);
     --font-sans: Outfit, sans-serif;
-    --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-    --font-mono: monospace;
+    --font-serif: Source Serif 4, serif;
+    --font-mono: JetBrains Mono, monospace;
     --font-body: var(--font-sans);
     --radius: 1.225rem;
     --shadow-offset-x: 0px;
