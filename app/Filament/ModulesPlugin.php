@@ -76,6 +76,10 @@ class ModulesPlugin implements Plugin
                 return class_exists($pluginClass) ? $pluginClass : null;
             })
             ->filter()
+            ->sortBy(fn (string $class) => method_exists($class, 'getNavigationGroupSort')
+                ? $class::getNavigationGroupSort()
+                : PHP_INT_MAX
+            )
             ->toArray();
     }
 }
