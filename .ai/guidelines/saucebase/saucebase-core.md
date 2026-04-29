@@ -10,7 +10,7 @@ Use `php artisan saucebase:recipe {modulename}` to scaffold a new module from st
 
 Modules are managed by `internachi/modular`. Module folder names are always lowercase (`modules/auth/`, `modules/billing/`). PHP namespaces remain TitleCase (`Modules\Auth\...`) per PSR-4. There is no `modules_statuses.json` — presence in `composer.json` determines active state.
 
-**Module discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from enabled modules. Never bypass it.
+**Module discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from installed modules. Never bypass it.
 
 **Inertia page resolution** — namespace prefix is TitleCase (PHP namespace), folder path is lowercase:
 
@@ -42,14 +42,11 @@ Always use `data-testid` attributes — never select by translated text, labels,
 
 ### Module Service Provider Pattern
 
-Every module's main service provider must extend `App\Providers\ModuleServiceProvider` and define `$name` and `$nameLower`. Both properties are required — the base class throws a `LogicException` if either is missing.
+Every module's main service provider must extend `App\Providers\ModuleServiceProvider`. No `$name` or `$nameLower` needed — InterNACHI derives the module name automatically via `ModuleRegistry::moduleForClass()`.
 
 <code-snippet name="Module service provider" lang="php">
 class FeatureServiceProvider extends ModuleServiceProvider
 {
-    protected string $name = 'Feature';
-    protected string $nameLower = 'feature';
-
     protected array $providers = [
         RouteServiceProvider::class,
     ];
