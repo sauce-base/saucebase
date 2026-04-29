@@ -55,15 +55,14 @@ Uses `internachi/modular`. Modules are standard Composer packages installed into
 
 **Module folder names are always lowercase** (`modules/auth/`, `modules/billing/`). PHP namespaces remain TitleCase (`Modules\Auth\...`) per PSR-4 convention. The `modules().has()` JS helper uses lowercase: `modules().has('auth')`.
 
-**Module PSR-4 root is `src/`** — Saucebase uses `internachi/modular` which defaults to `src/`. The stub `composer.json` and newly scaffolded modules use `"src/"`. Existing modules in `../modules/*/` (auth, billing, etc.) still use `"app/"` — they are pre-migration and should not be used as reference for new modules.
 
 **Module structure:**
 
 ```
 modules/<modulename>/
-  app/Http/Controllers/
-  app/Models/
-  app/Providers/          # Must extend App\Providers\ModuleServiceProvider
+  src/Http/Controllers/
+  src/Models/
+  src/Providers/          # Must extend App\Providers\ModuleServiceProvider
   config/
   database/migrations/
   database/seeders/
@@ -88,7 +87,7 @@ modules/<modulename>/
 
 **End users (open source consumers):** Modules are installed via `composer require saucebase/auth`. The `saucebase/module-installer` plugin places the module files in `modules/auth/`. These files should be committed to the user's own project repo. This is the copy-and-own model: once installed, the module lives in the repo and can be freely edited. To receive upstream updates, the user runs `composer update saucebase/auth`, which overwrites any local edits — so meaningful customisations should be committed before updating. Do NOT gitignore `modules/` for end-user projects.
 
-**Saucebase core team (module authors):** The core repo (`saucebase/saucebase`) ships with no modules committed. Module source repos live in `../modules/` (sibling of this repo) and are linked into the project via Composer path repositories (`"url": "../modules/*", "symlink": true` in `composer.json`). `composer require saucebase/auth` symlinks `../modules/auth` → `modules/auth`, giving instant feedback on edits. Symlinked directories are not git-tracked in the core repo. CI runs against the clean state (no modules required).
+**Saucebase core team (module authors):** The core repo (`saucebase/saucebase`) ships with no modules committed. Module source repos live in `modules/` (sibling of this repo) and are linked into the project via Composer path repositories (`"url": "modules/*", "symlink": true` in `composer.json`). `composer require saucebase/auth` symlinks `modules/auth` → `modules/auth`, giving instant feedback on edits. Symlinked directories are not git-tracked in the core repo. CI runs against the clean state (no modules required).
 
 **TypeScript type generation:** Each module generates its own `resources/js/types/generated.d.ts` from PHP classes annotated with `#[TypeScript]` (enums, Spatie Data objects). The core `config/typescript-transformer.php` only scans `app/`; module types are generated separately via `module:generate-types`. `tsconfig.json` includes `modules/**/resources/js/**/*.ts` so generated files are picked up automatically.
 
@@ -97,10 +96,19 @@ modules/<modulename>/
 ```php
 class AuthServiceProvider extends ModuleServiceProvider
 {
-    protected string $name = 'Auth';
-    protected string $nameLower = 'auth';
+    protected array $providers = [
+        RouteServiceProvider::class,
+    ];
+
+    // Optional: override shareInertiaData() to push data to every Inertia response
+    protected function shareInertiaData(): void
+    {
+        Inertia::share('auth.config', fn () => config('auth'));
+    }
 }
 ```
+
+No `$name` or `$nameLower` needed — InterNACHI derives the module name from the registry via `ModuleRegistry::moduleForClass()`.
 
 **Module lifecycle hooks** (`modules/<modulename>/resources/js/app.ts`):
 
@@ -115,7 +123,7 @@ export default {
 };
 ```
 
-**Asset discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from enabled modules. Don't bypass it.
+**Asset discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from installed modules. Don't bypass it.
 
 ### Frontend
 
@@ -150,9 +158,9 @@ Common patterns:
 
 **Service providers:**
 
-- `AppServiceProvider` — HTTPS enforcement, module event discovery fix
+- `AppServiceProvider` — HTTPS enforcement
 - `MacroServiceProvider` — All macros (`->withSSR()`, `->withoutSSR()`)
-- `ModuleServiceProvider` (abstract) — Base for module providers (translations, config, migrations, Inertia data)
+- `ModuleServiceProvider` (abstract) — Base for module providers (translations, config, Inertia data sharing; migrations auto-discovered by InterNACHI)
 - `NavigationServiceProvider` — Spatie navigation
 - `BreadcrumbServiceProvider` — Diglactic breadcrumbs
 - `Filament/AdminPanelProvider` — Filament admin panel config
@@ -275,13 +283,13 @@ Saucebase is a modular Laravel SaaS starter kit (VILT stack). All features are e
 
 ### Module Creation
 
-Use `php artisan saucebase:recipe {ModuleName}` to scaffold a new module from stubs. After scaffolding: `composer dump-autoload` → `php artisan module:enable ModuleName` → rebuild assets.
+Use `php artisan saucebase:recipe {ModuleName}` to scaffold a new module from stubs. After scaffolding: `composer dump-autoload && php artisan package:discover` → rebuild assets.
 
 ### Module System
 
-Modules are managed by `nwidart/laravel-modules`. Enable state is tracked in `modules_statuses.json`.
+Modules are managed by `internachi/modular`. A module is active when installed via `composer require`; `composer remove` deactivates it. There is no enable/disable toggle and no `modules_statuses.json`.
 
-**Module discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from enabled modules. Never bypass it.
+**Module discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from installed modules. Never bypass it.
 
 **Inertia page resolution:**
 
@@ -313,14 +321,11 @@ Always use `data-testid` attributes — never select by translated text, labels,
 
 ### Module Service Provider Pattern
 
-Every module's main service provider must extend `App\Providers\ModuleServiceProvider` and define `$name` and `$nameLower`. Both properties are required — the base class throws a `LogicException` if either is missing.
+Every module's main service provider must extend `App\Providers\ModuleServiceProvider`. No `$name` or `$nameLower` needed — InterNACHI derives the module name automatically via `ModuleRegistry::moduleForClass()`.
 
 <code-snippet name="Module service provider" lang="php">
 class FeatureServiceProvider extends ModuleServiceProvider
 {
-    protected string $name = 'Feature';
-    protected string $nameLower = 'feature';
-
     protected array $providers = [
         RouteServiceProvider::class,
     ];

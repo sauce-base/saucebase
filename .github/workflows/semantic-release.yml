@@ -4,12 +4,12 @@ on:
     workflow_call:
         inputs:
             version_file:
-                description: 'File to update with version (module.json, composer.json, package.json, or empty to skip)'
+                description: 'File to update with version (composer.json, package.json, or empty to skip)'
                 required: false
                 type: string
                 default: ''
             version_file_path:
-                description: 'JSON path to version field (e.g., .version for module.json)'
+                description: 'JSON path to version field (e.g., .version for composer.json)'
                 required: false
                 type: string
                 default: '.version'
