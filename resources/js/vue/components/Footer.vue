@@ -46,10 +46,10 @@ import IconHeart from '~icons/heroicons/heart';
             </div>
         </div>
         <div
-            class="absolute bottom-0 z-0 translate-y-[20%] scale-105 px-4 font-mono"
+            class="absolute inset-x-0 bottom-0 z-0 w-full translate-y-[20%] scale-105 px-4 font-mono"
         >
             <p
-                class="text-center text-[21vw] leading-none font-black -tracking-widest select-none"
+                class="text-center text-[min(21vw,400px)] leading-none font-black -tracking-widest select-none"
             >
                 <span class="text-foreground/5">Sauce</span
                 ><span class="text-foreground/10">base</span>

@@ -1,7 +1,7 @@
 // import { registerIcon } from '@/lib/navigation';
 // import IconExample from '~icons/lucide/example';
 
-import '../../css/style.css';
+import '@modules/{module}/resources/css/style.css';
 
 /**
  * {Module} module setup
