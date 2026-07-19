@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'name' => '{Module}',
+    // Add your configuration settings here
 ];
