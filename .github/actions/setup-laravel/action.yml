@@ -72,7 +72,18 @@ runs:
           if: inputs.framework != ''
           shell: bash
           working-directory: ${{ inputs.working-directory }}
-          run: php artisan saucebase:stack ${{ inputs.framework }} --dev --no-skip-worktree
+          # saucebase:stack was an in-app artisan command; the installer is now a
+          # standalone global CLI, so pull it and invoke its `stack` command instead.
+          #
+          # ── BUMP HERE ─────────────────────────────────────────────────────────
+          # Pinned to the installer's major so a bad publish can't redden CI.
+          # To move to a new major, change SAUCEBASE_INSTALLER_VERSION below.
+          # ──────────────────────────────────────────────────────────────────────
+          env:
+              SAUCEBASE_INSTALLER_VERSION: '^2'
+          run: |
+              composer global require "saucebase/installer:${SAUCEBASE_INSTALLER_VERSION}" --no-interaction
+              "$(composer global config bin-dir --absolute)/saucebase" stack ${{ inputs.framework }} --dev --no-skip-worktree --no-install
 
         - name: Install Node dependencies
           if: inputs.skip-build != 'true'
