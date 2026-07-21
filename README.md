@@ -28,7 +28,7 @@ Works with:<br/>
 The **recommended** way to install Saucebase is by running the command below:
 
 ```bash
-laravel new --using=saucebase/saucebase --phpunit --boost
+curl -fsSL https://install.saucebase.dev | bash
 ```
 
 The setup screen will guide you through choosing a frontend framework and installing your first modules.
