@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
-        "cviebrock/eloquent-sluggable": "^13.0",
+        "cviebrock/eloquent-sluggable": "^13.0.1",
         "filament/actions": "^5.7.1",
         "filament/filament": "^5.7.1",
         "filament/forms": "^5.7.1",
@@ -18,7 +18,7 @@
         "inertiajs/inertia-laravel": "^3.1.1",
         "internachi/modular": "^3.0.2",
         "laravel/ai": "^0.4.5",
-        "laravel/framework": "^13.20.0",
+        "laravel/framework": "^13.21.1",
         "laravel/sanctum": "^4.3.2",
         "laravel/tinker": "^3.0.2",
         "openplain/filament-shadcn-theme": "^1.1",
@@ -42,7 +42,6 @@
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.5",
         "phpunit/phpunit": "^12.5.31",
-        "saucebase/installer": "^1.8.0",
         "saucebase/laravel-playwright": "^1.1",
         "symfony/filesystem": "^7.4.11"
     },

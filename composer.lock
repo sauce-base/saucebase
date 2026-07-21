@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21f94c9f2cb301e60de3c123b3a8a014",
+    "content-hash": "ea011668fe624204c03da182306da73d",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1201,16 +1201,16 @@
         },
         {
             "name": "cviebrock/eloquent-sluggable",
-            "version": "13.0.0",
+            "version": "13.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cviebrock/eloquent-sluggable.git",
-                "reference": "0a023eed5bdc7da3aa9107cb2299757ce4a656e3"
+                "reference": "a0e2e342461ac04f5c41eb1c52f9bc77eafa6a03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/0a023eed5bdc7da3aa9107cb2299757ce4a656e3",
-                "reference": "0a023eed5bdc7da3aa9107cb2299757ce4a656e3",
+                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/a0e2e342461ac04f5c41eb1c52f9bc77eafa6a03",
+                "reference": "a0e2e342461ac04f5c41eb1c52f9bc77eafa6a03",
                 "shasum": ""
             },
             "require": {
@@ -1262,7 +1262,7 @@
             ],
             "support": {
                 "issues": "https://github.com/cviebrock/eloquent-sluggable/issues",
-                "source": "https://github.com/cviebrock/eloquent-sluggable/tree/13.0.0"
+                "source": "https://github.com/cviebrock/eloquent-sluggable/tree/13.0.1"
             },
             "funding": [
                 {
@@ -1270,7 +1270,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-19T14:42:10+00:00"
+            "time": "2026-07-20T13:44:42+00:00"
         },
         {
             "name": "danharrin/date-format-converter",
@@ -3270,16 +3270,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v13.20.0",
+            "version": "v13.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b9d1bccad5fbc32578dca22566bb11e7c0e545d7"
+                "reference": "303b5f8dc899f89e8c38c350b639b8fbd193ed16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b9d1bccad5fbc32578dca22566bb11e7c0e545d7",
-                "reference": "b9d1bccad5fbc32578dca22566bb11e7c0e545d7",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/303b5f8dc899f89e8c38c350b639b8fbd193ed16",
+                "reference": "303b5f8dc899f89e8c38c350b639b8fbd193ed16",
                 "shasum": ""
             },
             "require": {
@@ -3493,7 +3493,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-07-14T14:22:22+00:00"
+            "time": "2026-07-21T14:27:35+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -13351,57 +13351,6 @@
                 }
             ],
             "time": "2026-07-06T14:54:16+00:00"
-        },
-        {
-            "name": "saucebase/installer",
-            "version": "v1.8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/saucebase-dev/installer.git",
-                "reference": "98128f39d0ede6f0f8c59491876edc1480386a8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/saucebase-dev/installer/zipball/98128f39d0ede6f0f8c59491876edc1480386a8c",
-                "reference": "98128f39d0ede6f0f8c59491876edc1480386a8c",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/console": "^13.0",
-                "illuminate/filesystem": "^13.0",
-                "illuminate/http": "^13.0",
-                "illuminate/support": "^13.0",
-                "laravel/prompts": "^0.3",
-                "php": "^8.4",
-                "symfony/process": "^7.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^11.0",
-                "phpunit/phpunit": "^11.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Saucebase\\Installer\\InstallerServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Saucebase\\Installer\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Dev environment installer for Saucebase applications.",
-            "support": {
-                "issues": "https://github.com/saucebase-dev/installer/issues",
-                "source": "https://github.com/saucebase-dev/installer/tree/v1.8.0"
-            },
-            "time": "2026-07-16T19:04:02+00:00"
         },
         {
             "name": "saucebase/laravel-playwright",
