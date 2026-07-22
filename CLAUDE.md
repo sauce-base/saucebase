@@ -4,7 +4,7 @@
 
 Saucebase is a modular Laravel SaaS starter kit. Modules are installed via Composer and owned directly in the repository (copy-and-own).
 
-**Core message:** The foundation is built. Focus on your product. See [`docs/CLAUDE.md`](../docs/CLAUDE.md) → _Saucebase Philosophy_ for tone and value-proposition guidance.
+**Core message:** The foundation is built. Focus on your product. See the [Design Philosophy](https://saucebase-dev.github.io/docs/architecture/philosophy) doc for tone and value-proposition guidance.
 
 **Stack:** Laravel 13, PHP 8.4+, Vue 3 Composition API, TypeScript 5.8, Inertia.js 3, Tailwind CSS 4, Vite 6.4, Filament 5 admin panel, Docker (Nginx, MySQL 8, Redis, Mailpit)
 
@@ -45,9 +45,9 @@ composer remove saucebase/auth              # Removes module
 php artisan module:generate-types ModuleName   # single module
 php artisan module:generate-types              # all enabled modules
 
-# Framework selection (contributor dev workflow) — see Architecture > Frontend for gotchas
-php artisan saucebase:stack {vue|react} --dev    # Switch active framework in dev mode (keeps both dirs)
-php artisan saucebase:stack {vue|react} --reset  # Reset to clean state (removes frontend.json)
+# Framework selection (contributor dev workflow, via the global `saucebase` CLI) — see Architecture > Frontend for gotchas
+saucebase stack {vue|react} --dev    # Switch active framework in dev mode (keeps both dirs)
+saucebase stack {vue|react} --reset  # Reset to clean state (removes frontend.json)
 ```
 
 ## Architecture
@@ -89,7 +89,7 @@ Uses `internachi/modular`. Modules are Composer packages installed into `modules
 - `"dev": true` — contributor mode: both `vue/` and `react/` dirs kept, thin entry point passthroughs generated
 - `"dev"` absent — end-user install: selected framework flattened to `resources/js/`, other dir deleted (one-time)
 
-**`saucebase:stack` modes:**
+**`saucebase stack` modes:**
 - `--dev` — contributor workflow: copies config files, creates entry passthroughs, keeps both framework dirs
 - _(no flag)_ — end-user install: flattens one framework, deletes the other. Throws if `frontend.json` already exists
 - `--reset` — restores git-tracked files, removes `frontend.json`
