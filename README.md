@@ -31,7 +31,7 @@ The **recommended** way to install Saucebase is by running the command below:
 curl -fsSL https://install.saucebase.dev | bash
 ```
 
-The setup screen will guide you through choosing a frontend framework and installing your first modules.
+The CLI installs PHP/Composer if needed, then guides you through choosing a frontend framework and installing your first modules.
 
 Looking for help? Start with our [Getting Started](https://saucebase-dev.github.io/docs/) guide.
 

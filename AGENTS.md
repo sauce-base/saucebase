@@ -52,15 +52,20 @@ docker compose logs -f nginx
 
 ### Installation & Setup
 
-```bash
-# Quick install (recommended for new projects)
-php artisan saucebase:install
+Installation is handled by the `saucebase` global Composer CLI, not an in-app artisan command:
 
-# Advanced options
-php artisan saucebase:install --no-docker    # Skip Docker setup
-php artisan saucebase:install --no-ssl       # Skip SSL generation
-php artisan saucebase:install --force        # Force reinstallation
-php artisan saucebase:install --no-interaction  # CI/CD mode
+```bash
+# New project — installs PHP/Composer if missing, scaffolds, and installs
+curl -fsSL https://install.saucebase.dev | bash
+
+# Or, with PHP/Composer already installed
+composer global require saucebase/installer
+saucebase new my-app
+
+# Re-run install against an existing checkout
+saucebase install --driver=docker --ssl=no
+saucebase install --driver=native --force
+saucebase install --driver=native --modules=none --force   # CI/CD mode
 ```
 
 ### Module Management
