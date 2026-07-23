@@ -69,3 +69,4 @@ _ide_helper_models.php
 .phpstorm.meta.php
 
 .github/skills/*/*
+stubs/saucebase/stack/*/node_modules
