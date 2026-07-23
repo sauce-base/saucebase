@@ -23,6 +23,11 @@ const headerRef = ref<HTMLElement | null>(null);
 let lastScrollY = 0;
 
 const handleScroll = () => {
+    // Locking body scroll (e.g. ModuleModal) collapses the scrollable
+    // height, clamping window.scrollY to 0 and firing a spurious scroll
+    // event — ignore it so the header doesn't slide back into view.
+    if (document.body.style.overflow === 'hidden') return;
+
     const currentScrollY = window.scrollY;
     const headerHeight = headerRef.value?.offsetHeight ?? 80;
 
