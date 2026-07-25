@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { setCookie } from '@/lib/utils';
 import { useColorMode } from '@vueuse/core';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import IconAuto from '~icons/fluent/dark-theme-20-filled';
 import IconMoon from '~icons/heroicons/moon';
 import IconSun from '~icons/heroicons/sun';
@@ -55,8 +55,6 @@ const colorMode = useColorMode({
     storageKey: 'appearance',
 });
 
-const triggerRef = ref<HTMLElement | null>(null);
-
 const themes = [
     { code: 'light', name: 'Light', icon: IconSun },
     { code: 'dark', name: 'Dark', icon: IconMoon },
@@ -86,9 +84,8 @@ const switchTheme = async (
     let x = 0;
     let y = 0;
 
-    const el = triggerEl ?? triggerRef.value;
-    if (el && typeof el.getBoundingClientRect === 'function') {
-        const rect = el.getBoundingClientRect();
+    if (triggerEl && typeof triggerEl.getBoundingClientRect === 'function') {
+        const rect = triggerEl.getBoundingClientRect();
         x = rect.left + rect.width / 2;
         y = rect.top + rect.height / 2;
     }
@@ -116,8 +113,8 @@ const switchTheme = async (
             ],
         },
         {
-            duration: 500,
-            easing: 'ease-in-out',
+            duration: 400,
+            easing: 'cubic-bezier(0.4, 0, 1, 1)',
             pseudoElement: '::view-transition-new(root)',
         },
     );
@@ -127,10 +124,7 @@ const currentTheme = computed(
     () => themes.find((theme) => theme.code === colorMode.value) || themes[0],
 );
 
-function handleInlineClick(
-    themeCode: 'light' | 'dark' | 'auto',
-    event: MouseEvent,
-) {
+function handleItemClick(themeCode: 'light' | 'dark' | 'auto', event: Event) {
     switchTheme(themeCode, event.currentTarget as HTMLElement);
 }
 </script>
@@ -149,7 +143,7 @@ function handleInlineClick(
             ]"
             :data-testid="`color-mode-${theme.code}`"
             :aria-label="$t(theme.name)"
-            @click="handleInlineClick(theme.code, $event)"
+            @click="handleItemClick(theme.code, $event)"
         >
             <component :is="theme.icon" class="size-4" />
             {{ $t(theme.name) }}
@@ -160,7 +154,6 @@ function handleInlineClick(
     <DropdownMenu v-else-if="mode === 'standalone'" :modal="false">
         <DropdownMenuTrigger as-child>
             <button
-                ref="triggerRef"
                 :class="props.triggerClass"
                 :aria-label="$t('Toggle theme')"
             >
@@ -174,7 +167,7 @@ function handleInlineClick(
                 v-for="theme in visibleThemes"
                 :key="theme.code"
                 :data-testid="`color-mode-${theme.code}`"
-                @click="switchTheme(theme.code)"
+                @click="handleItemClick(theme.code, $event)"
                 :class="{
                     'bg-accent text-accent-foreground':
                         colorMode === theme.code,
@@ -189,7 +182,6 @@ function handleInlineClick(
     <!-- Submenu Mode (NavUser) -->
     <DropdownMenuSub v-else>
         <DropdownMenuSubTrigger
-            ref="triggerRef"
             data-testid="theme-selector-trigger"
             class="[&>svg]:text-muted-foreground [&>svg]:mr-2"
         >
@@ -203,7 +195,7 @@ function handleInlineClick(
                 v-for="theme in visibleThemes"
                 :key="theme.code"
                 :data-testid="`color-mode-${theme.code}`"
-                @click="switchTheme(theme.code)"
+                @click="handleItemClick(theme.code, $event)"
                 :class="{ 'bg-accent': colorMode === theme.code }"
             >
                 <component :is="theme.icon" class="size-4" />
