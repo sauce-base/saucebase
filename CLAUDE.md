@@ -1,398 +1,61 @@
-# CLAUDE.md
-
-## Project Overview
-
-Saucebase is a modular Laravel SaaS starter kit. Modules are installed via Composer and owned directly in the repository (copy-and-own).
-
-**Core message:** The foundation is built. Focus on your product. See the [Design Philosophy](https://saucebase-dev.github.io/docs/architecture/philosophy) doc for tone and value-proposition guidance.
-
-**Stack:** Laravel 13, PHP 8.4+, Vue 3 Composition API, TypeScript 5.8, Inertia.js 3, Tailwind CSS 4, Vite 6.4, Filament 5 admin panel, Docker (Nginx, MySQL 8, Redis, Mailpit)
-
-**Quality tools:** PHPStan level 5 (Larastan), Laravel Pint, ESLint, Prettier, PHPUnit 12, Playwright
-
-## Commands
-
-```bash
-# Development (starts server, queue, logs, vite in parallel)
-composer dev
-
-# Tests
-php artisan test                       # PHPUnit (all suites)
-php artisan test --testsuite=Modules   # Module tests only
-npm run test:e2e                       # Playwright E2E
-
-# Code quality
-composer analyse         # PHPStan level 5
-composer lint            # Laravel Pint (PHP formatting)
-npm run lint             # ESLint with auto-fix
-npm run format           # Prettier
-
-# Build
-npm run build            # Production build (includes SSR)
-npm run dev              # Vite dev server with HMR
-
-# Modules
-php artisan saucebase:recipe ModuleName     # Scaffold a new module from stubs
-php artisan modules:list                    # List all discovered modules
-php artisan modules:cache                   # Cache module discovery (production)
-php artisan modules:clear                   # Clear module cache
-# Installing a module (end-user workflow):
-composer require saucebase/auth             # Installs to modules/auth/ via module-installer
-composer remove saucebase/auth              # Removes module
-# After any module change: rebuild with `npm run build` or restart `npm run dev`
-
-# TypeScript types (per-module, generated from PHP enums/DTOs)
-php artisan module:generate-types ModuleName   # single module
-php artisan module:generate-types              # all enabled modules
-
-# Framework selection (contributor dev workflow, via the global `saucebase` CLI) — see Architecture > Frontend for gotchas
-saucebase stack {vue|react} --dev    # Switch active framework in dev mode (keeps both dirs)
-saucebase stack {vue|react} --reset  # Reset to clean state (removes frontend.json)
-```
-
-## Architecture
-
-### Module System
-
-Uses `internachi/modular`. Modules are Composer packages installed into `modules/<modulename>/` by the `saucebase/module-installer` plugin. No enable/disable toggle — a module is active when `composer require`-d.
-
-**Naming:** Folder names are always lowercase (`modules/auth/`, `modules/billing/`). PHP namespaces remain TitleCase (`Modules\Auth\...`) per PSR-4. The `modules().has()` JS helper uses lowercase: `modules().has('auth')`.
-
-**Every module must provide both `vue/` and `react/` implementations.** The root `resources/js/app.ts` is a generated re-export — never the real implementation. Real implementation lives in `vue/app.ts` or `react/app.tsx`.
-
-**Two distinct module contexts — understand which one applies:**
-
-- **End users:** `composer require saucebase/auth` places files in `modules/auth/`. Files are committed to the user's repo (copy-and-own). `composer update saucebase/auth` overwrites local edits — commit customisations before updating. Do NOT gitignore `modules/`.
-- **Core team:** The core repo ships with no modules committed. Module source repos in `modules/` (sibling dir) are linked via Composer path repositories (`"url": "modules/*", "symlink": true`). Symlinked dirs are not git-tracked. CI runs against the clean state.
-
-**Module service provider:** Extend `App\Providers\ModuleServiceProvider`. No `$name` or `$nameLower` needed — InterNACHI derives the module name automatically. See `saucebase-module-development` skill for the full pattern.
-
-**Asset discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from installed modules. Don't bypass it.
-
-**TypeScript types:** Each module generates its own `resources/js/types/generated.d.ts` from PHP classes annotated with `#[TypeScript]`. The core `config/typescript-transformer.php` only scans `app/`; module types use `module:generate-types`. Never edit `generated.d.ts` manually.
-
-### Frontend
-
-**Key files:**
-
-- `resources/js/app.ts` — Main Inertia entry point
-- `resources/js/ssr.ts` — SSR entry point
-- `resources/js/lib/utils.ts` — `resolveModularPageComponent()` for module page resolution
-- `resources/js/lib/moduleSetup.ts` — Module lifecycle management
-
-**Multi-framework architecture:**
-
-`frontend.json` at project root controls the active framework:
-```json
-{ "framework": "vue|react", "dev": true }
-```
-- `"dev": true` — contributor mode: both `vue/` and `react/` dirs kept, thin entry point passthroughs generated
-- `"dev"` absent — end-user install: selected framework flattened to `resources/js/`, other dir deleted (one-time)
-
-**`saucebase stack` modes:**
-- `--dev` — contributor workflow: copies config files, creates entry passthroughs, keeps both framework dirs
-- _(no flag)_ — end-user install: flattens one framework, deletes the other. Throws if `frontend.json` already exists
-- `--reset` — restores git-tracked files, removes `frontend.json`
-
-**End-user install (no `"dev"` key in `frontend.json`):**
-- Framework files are flattened directly into `resources/js/` — no `vue/` or `react/` subdirectories exist.
-- Write new pages to `resources/js/pages/`, components to `resources/js/components/`, etc.
-- Same applies to modules: `modules/auth/resources/js/pages/` (flat), not `modules/auth/resources/js/vue/pages/`.
-- `resources/js/app.ts` is the real entry point — edit it directly if needed.
-
-**Dev mode gotchas — contributor/core-team context only (`"dev": true` in `frontend.json`):**
-1. **Generated files** appear in `git status` but are passthroughs — never edit them directly:
-   - `resources/js/app.ts` / `app.tsx`, `resources/js/ssr.ts` / `ssr.tsx`, `modules/*/resources/js/app.ts`
-2. **Real edits go in `resources/js/vue/` or `resources/js/react/`** — never the root entry points.
-3. **Config files** (`package.json`, `vite.config.js`, `tsconfig.json`, `eslint.config.js`, `components.json`, `resources/views/app.blade.php`) appear modified — commit only when intentionally changed.
-4. **Can't run `--dev` twice** — use `--reset` first if switching frameworks.
-5. **Cross-framework consistency** — any change to shared infrastructure must be applied to both `vue/` and `react/`.
-
-**Vite aliases:** `@` = `resources/js/{framework}`, `@modules` = `modules/`, `@css` = `resources/css`, `ziggy-js` = vendor path
-
-**TypeScript path aliases** (`tsconfig.json`): `@` = `resources/js`, `@modules` = `modules/`, `@e2e` = `tests/e2e`. Always use these — never relative `../../..` paths. Module E2E tests import core helpers as `@e2e/helpers/ssr`.
-
-**Component library:** shadcn-vue style components in `resources/js/components/ui/` (copy-and-own, customizable)
-
-**Dark/light mode — REQUIRED for all components.** Always include `dark:` variants. See `tailwindcss-development` skill for standard patterns.
-
-**Translations:** `laravel-vue-i18n` with async loading. Core in `lang/`, modules in `modules/<modulename>/lang/`. Portuguese and English.
-
-### Backend
-
-**Key providers** (in `app/Providers/`): `MacroServiceProvider` (all macros incl. `withSSR`/`withoutSSR`), `ModuleServiceProvider` (abstract base for modules), `NavigationServiceProvider`, `BreadcrumbServiceProvider`, `Filament/AdminPanelProvider`.
-
-**Permissions:** Spatie Laravel Permission. Default roles: admin, user (seeded via `RolesDatabaseSeeder`). Middleware: `role:admin|user`
-
-**Admin panel:** Filament 5 at `/admin`. Default credentials (with Auth module): `chef@saucebase.dev` / `secretsauce`
-
-**Helpers:** Auto-loaded from `app/Helpers/helpers.php`
-
-### Testing
-
-**PHPUnit suites:** Unit (`tests/Unit/`), Feature (`tests/Feature/`), Modules (`modules/*/tests/`). SQLite in-memory. Always run with `php -d memory_limit=2048M` to avoid OOM in the Modules suite.
-
-**Playwright:** Auto-discovers module E2E tests. Projects prefixed `@ModuleName`, core as `@Core`. Default browser: Desktop Chrome.
-
-**Playwright MCP screenshots:** Always save to `.playwright-mcp/` (already in `.gitignore`). Never save to `public/`, `resources/`, or any tracked directory.
-
-**E2E selectors:** Always use `data-testid` — never select by translated text, labels, or role names. Item-specific testids: `{action}-${item.id}` (e.g. `upvote-btn-${item.id}`).
-
-## Patterns & Conventions
-
-### Inertia Page Resolution
-
-```php
-return inertia('Dashboard');          // resources/js/pages/Dashboard.vue
-return inertia('Auth::Login');        // modules/auth/resources/js/pages/Login.vue
-return inertia('Settings::Index');    // modules/settings/resources/js/pages/Index.vue
-```
-
-### SSR Control
-
-Two-level system: middleware disables SSR by default per request, controllers opt in/out.
-
-```php
-return Inertia::render('Index')->withSSR();       // Enable (public/SEO pages)
-return Inertia::render('Dashboard')->withoutSSR(); // Disable (authenticated pages)
-return Inertia::render('About');                   // Default: SSR disabled
-```
-
-`HandleInertiaRequests` middleware sets `Config::set('inertia.ssr.enabled', false)` per request. Macros in `MacroServiceProvider` override this per response.
-
-### Ziggy Routes
-
-`route()` available in JS/TS via ZiggyVue plugin. Routes shared via Inertia middleware for SSR compatibility. Config: `config/ziggy.php`.
-
-```typescript
-route('dashboard');
-route('user.show', { id: 1 });
-route().current('settings.*');
-```
-
-### Macros
-
-All macros in `MacroServiceProvider`. Add new macros there, organized by protected methods (e.g., `registerInertiaMacros()`).
-
-### Navigation
-
-Spatie Laravel Navigation, configured in `NavigationServiceProvider`. Module frontend navigation registered in `routes/navigation.php` per module (leave empty for admin-only modules).
-
-### Environment Variables
-
-Saucebase-specific: `APP_HOST`, `APP_URL`, `APP_SLUG`
-
-SSL: Auto-enforced HTTPS in production/staging. Wildcard cert (`*.localhost`) for multi-tenancy support.
-
-## Workflow
-
-### Keeping CLAUDE.md Current
-
-When any architectural decision, convention, or reference documented here changes — new module patterns, stack upgrades, renamed providers, new environment variables, altered file paths — **update this file in the same commit**. Stale CLAUDE.md content causes Claude to give confidently wrong advice.
-
-Trigger: any change to stack versions, module structure, service providers, naming conventions, environment variables, or workflow commands.
-
-### Testing CI Workflow Changes with act
-
-When any file under `.github/workflows/` or `.github/actions/` is modified, validate with `act` before finishing. Always pass `-P ubuntu-latest=catthehacker/ubuntu:act-22.04` — do not use `--container-architecture linux/amd64` (breaks Node on Apple Silicon).
-
-**Core workflow** (`test.yml` or `setup-laravel/action.yml` changed):
-
-```bash
-act workflow_dispatch --job phpunit --matrix framework:vue \
-  --workflows .github/workflows/test.yml \
-  -P ubuntu-latest=catthehacker/ubuntu:act-22.04
-
-act workflow_dispatch --job phpunit --matrix framework:react \
-  --workflows .github/workflows/test.yml \
-  -P ubuntu-latest=catthehacker/ubuntu:act-22.04
-```
-
-**Module workflow** (`test-module.yml` changed):
-
-```bash
-act workflow_call \
-  --workflows .github/workflows/test-module.yml \
-  -P ubuntu-latest=catthehacker/ubuntu:act-22.04 \
-  --input module=auth \
-  --input frameworks='["vue"]' \
-  --job phpunit
-```
-
-**Known act limitation:** SQLite env vars appended to `.env` do not persist between Docker exec steps in act, causing migrations to fail. This is a pre-existing act issue — not a regression. Real GitHub CI runs migrations correctly.
-
-If both core and module workflows changed, run both sets of commands.
-
-### Code Review (on demand)
-
-Run `/code-review` to launch the code review agent (`feature-dev:code-reviewer`). Do not run it automatically.
-
-### Moving Files Involving Modules
-
-Before using `git mv` or any git-level file operation that touches `modules/`, check whether the module directory is its own git repository (`git -C modules/<name> rev-parse --git-dir 2>/dev/null`). If it is, **never use `git mv` from the root repo** — the module's files must be tracked by its own repo, not the core. Use plain `mv` instead: the core repo will see a deletion, the module repo will see a new file.
-
-## Working Style
-
-**Ask before assuming.** When context is missing — a file path, a git repo URL, an install workflow, a third-party service — stop and ask rather than searching the entire codebase or inferring from adjacent projects. State clearly what you need and why, then wait for the answer.
-
-## Implementation Philosophy
-
-- **Minimum viable implementation** — simplest solution that solves the problem
-- Prefer fewer files, fewer abstractions, less code
-- If it can be done in 5 lines, don't write 50
-- A macro beats a middleware + gateway + config system
-- No new interfaces/abstractions for single implementations
-- No patterns (Factory, Strategy) for simple tasks
-- Plans should be explainable in one sentence
-
-## Commit Standards
-
-Format: `type(scope): subject` or `type: subject`
-
-All lowercase, single-line only, max 150 chars. Enforced by Husky (pre-commit only).
-
-**Pre-commit hooks:** `composer lint` (PHP), `lint-staged` (ESLint + Prettier on JS/TS/Vue).
-
-| Type       | Description                  |
-| ---------- | ---------------------------- |
-| `feat`     | New feature                  |
-| `fix`      | Bug fix                      |
-| `docs`     | Documentation                |
-| `style`    | Formatting (no logic change) |
-| `refactor` | Neither fix nor feature      |
-| `perf`     | Performance                  |
-| `test`     | Tests                        |
-| `chore`    | Build/tooling                |
-| `ci`       | CI config                    |
-| `build`    | Build system/deps            |
-| `revert`   | Revert previous commit       |
-
-===
-
 <laravel-boost-guidelines>
 === .ai/saucebase-core rules ===
 
 ## Saucebase
 
-Saucebase is a modular Laravel SaaS starter kit. All features are encapsulated as **modules** under `modules/<modulename>/` (always lowercase). Modules are copy-and-own: once installed they live in the repo and can be edited freely.
+Saucebase is a modular Laravel SaaS starter kit. Treat the implementation and
+manifests as authoritative; do not infer dependency versions or tool settings
+from prose.
 
-### Module Creation
+### Sources of Truth
 
-Use `php artisan saucebase:recipe {modulename}` to scaffold a new module from stubs. After scaffolding: `composer dump-autoload` → rebuild assets. There is no enable/disable toggle — a module is active when `composer require`-d.
+- Backend dependencies and constraints: `composer.json`
+- Static-analysis configuration: `phpstan.neon`
+- Vue stack: `stubs/saucebase/stack/vue/package.json`
+- React stack: `stubs/saucebase/stack/react/package.json`
+- Module behavior: `app/Providers/ModuleServiceProvider.php`,
+  `module-loader.js`, and the recipe stubs
 
-### Module System
+The root `package.json` is framework-neutral before stack selection. Do not use
+it alone to determine the supported Vue or React dependencies.
 
-Modules are managed by `internachi/modular`. Module folder names are always lowercase (`modules/auth/`, `modules/billing/`). PHP namespaces remain TitleCase (`Modules\Auth\...`) per PSR-4.
+### Module Conventions
 
-**Module discovery:** `module-loader.js` auto-collects assets, translations, and Playwright configs from installed modules. Never bypass it.
+Modules are copy-and-own Composer packages installed under lowercase
+`modules/<name>/` directories. PHP namespaces remain TitleCase.
 
-**Inertia page resolution** — namespace prefix is TitleCase (PHP namespace), folder path is lowercase:
+An installed Composer module is active; there is no enable/disable toggle.
+Never bypass `module-loader.js` for module assets, translations, or Playwright
+project discovery.
 
-<code-snippet name="Inertia rendering" lang="php">
-return inertia('Dashboard');           // resources/js/pages/Dashboard.vue
-return inertia('Auth::Login');         // modules/auth/resources/js/pages/Login.vue
-return inertia('Roadmap::Index');      // modules/roadmap/resources/js/pages/Index.vue
-</code-snippet>
+Every main module provider extends `App\Providers\ModuleServiceProvider`. Do not
+add `$name` or `$nameLower`: the base provider resolves the module name through
+`ModuleRegistry::moduleForClass()`.
 
-**SSR control** — opt in per response, not globally:
+Use lowercase module identifiers in frontend checks such as
+`modules().has('auth')`.
 
-<code-snippet name="SSR control macros" lang="php">
-return Inertia::render('Index')->withSSR();        // public/SEO pages
-return Inertia::render('Dashboard')->withoutSSR(); // authenticated pages
-</code-snippet>
+### Frontend Conventions
 
-### Required: Dark Mode
+Saucebase supports both Vue and React. Apply shared frontend infrastructure
+changes to both implementations.
 
-Every Vue component **must** include both light and dark variants using `dark:` prefix. Standard patterns:
+In contributor mode, edit the real sources under `resources/js/vue/` and
+`resources/js/react/`. Do not edit generated root entry-point passthroughs or
+generated TypeScript declarations.
 
-- Backgrounds: `bg-white dark:bg-gray-900`
-- Text primary: `text-gray-900 dark:text-white`
-- Text secondary: `text-gray-600 dark:text-gray-400`
-- Borders: `border-gray-200 dark:border-gray-800`
+All components must support light and dark themes. Use stable `data-testid`
+attributes for E2E selectors; never select translated text, labels, or role
+names. Item-specific selectors use `{action}-${item.id}`.
 
-### Required: E2E Selectors
+### Verification
 
-Always use `data-testid` attributes — never select by translated text, labels, or role names. Item-specific IDs: `{action}-${item.id}` (e.g. `upvote-btn-${item.id}`).
+Run the smallest relevant checks from `CONTRIBUTING.md`. Run module PHPUnit
+tests with a 2048 MB PHP memory limit.
 
-### Module Service Provider Pattern
-
-Every module's main service provider must extend `App\Providers\ModuleServiceProvider`. No `$name` or `$nameLower` needed — InterNACHI derives the module name automatically via `ModuleRegistry::moduleForClass()`.
-
-<code-snippet name="Module service provider" lang="php">
-class FeatureServiceProvider extends ModuleServiceProvider
-{
-    protected array $providers = [
-        RouteServiceProvider::class,
-    ];
-
-    // Optional: override to share data on every Inertia response
-    protected function shareInertiaData(): void
-    {
-        Inertia::share('key', fn () => ...);
-    }
-
-}
-</code-snippet>
-
-### Filament Plugin Pattern
-
-Every module that adds Filament resources must have a plugin class implementing `Filament\Contracts\Plugin` and using the `App\Filament\ModulePlugin` trait. The plugin is auto-discovered by convention: `Modules\{Name}\Filament\{Name}Plugin`.
-
-<code-snippet name="Filament module plugin" lang="php">
-class FeaturePlugin implements Plugin
-{
-    use ModulePlugin;
-
-    public function getModuleName(): string { return 'Feature'; }
-    public function getId(): string { return 'feature'; }
-    public function boot(Panel $panel): void { /* navigation groups, etc. */ }
-
-}
-</code-snippet>
-
-### Navigation
-
-Frontend navigation is registered in `routes/navigation.php` per module. If a module has no frontend pages (admin-only), leave this file empty.
-
-<code-snippet name="Module navigation registration" lang="php">
-Navigation::add('Feature', route('feature.index'), function (Section $section) {
-    $section->attributes([
-        'group' => 'main',
-        'slug' => 'feature',
-        'icon' => 'feature-icon-name',
-    ]);
-});
-</code-snippet>
-
-Icons are registered in the module's `resources/js/app.ts` via `registerIcon()`.
-
-### TypeScript Types
-
-Module types are generated separately from the core app:
-
-```bash
-php artisan module:generate-types featurename   # regenerate after PHP enum/DTO changes
-
-```
-
-**`modules().has()` in Vue/TS:** always use lowercase — `modules().has('auth')`, `modules().has('billing')`. The composable is case-insensitive but lowercase is the canonical form matching the registry.
-
-Never edit `resources/js/types/generated.d.ts` manually — it is auto-generated.
-
-### Testing Commands
-
-```bash
-
-# PHPUnit — single module
-
-php -d memory_limit=2048M artisan test --testsuite=Modules --filter='^Modules\\FeatureName\\Tests'
-
-# E2E — single module
-
-npx playwright test --project="@FeatureName*"
-```
-
-Always run with `php -d memory_limit=2048M` to avoid OOM errors in the Modules suite.
+Update these source guidelines when a durable project convention changes, then
+regenerate agent instructions with `composer boost:update`. Never edit the
+generated Laravel Boost blocks in `AGENTS.md` or `CLAUDE.md` directly.
 
 === foundation rules ===
 

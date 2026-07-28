@@ -109,6 +109,9 @@
         "analyse": [
             "vendor/bin/phpstan analyse --memory-limit=2G"
         ],
+        "boost:update": [
+            "@php artisan boost:update --no-interaction"
+        ],
         "ide-helper": [
             "@php artisan ide-helper:generate --ansi",
             "@php artisan ide-helper:meta --ansi"

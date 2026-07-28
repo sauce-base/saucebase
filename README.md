@@ -12,14 +12,16 @@
 
 [![Tests](https://github.com/saucebase-dev/saucebase/actions/workflows/test.yml/badge.svg)](https://github.com/saucebase-dev/saucebase/actions/workflows/test.yml)
 [![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.3-06B6D4?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Inertia.js](https://img.shields.io/badge/Inertia.js-3.0-9553E9)](https://inertiajs.com)
-[![Filament](https://img.shields.io/badge/Filament-5.0-10B981)](https://filamentphp.com)
-[![Playwright](https://img.shields.io/badge/Playwright-1.60-000000?logo=playwright&logoColor=white)](https://playwright.dev)
+[![PHP](https://img.shields.io/badge/PHP-8.4+-777BB4?logo=php&logoColor=white)](https://php.net)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.x-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-8.x-646CFF?logo=vite&logoColor=white)](https://vite.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.x-06B6D4?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Inertia.js](https://img.shields.io/badge/Inertia.js-3.x-9553E9)](https://inertiajs.com)
+[![Filament](https://img.shields.io/badge/Filament-5.x-10B981)](https://filamentphp.com)
+[![Playwright](https://img.shields.io/badge/Playwright-1.x-000000?logo=playwright&logoColor=white)](https://playwright.dev)
 
 Works with:<br/>
-[![Vue 3.5](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org) [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![Vue 3.5](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org) [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
 
 </div>
 
@@ -40,6 +42,10 @@ Want to see it live? [Try the online demo](https://demo.saucebase.dev/).
 ## Documentation
 
 Visit our [official documentation](https://saucebase-dev.github.io/docs/).
+
+The version badges above show the supported major (or minor, for Vue) lines
+declared by the project and stack manifests. Exact dependency constraints live
+in `composer.json`, `package.json`, and `stubs/saucebase/stack/*/package.json`.
 
 ## Support
 

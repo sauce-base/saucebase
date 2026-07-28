@@ -1,9 +1,6 @@
 ---
 name: saucebase-filament-development
-description: "Guides Filament resource development inside Saucebase modules. Activate when creating Filament resources, tables, forms, infolists, or pages inside a module, adding actions/filters/bulk actions, registering navigation groups, or testing Filament resources."
-license: MIT
-metadata:
-  author: saucebase
+description: Develop Filament resources inside Saucebase modules, including tables, forms, infolists, pages, actions, filters, navigation groups, and tests. Use whenever creating or changing module Filament functionality.
 ---
 
 # Saucebase Filament Development
