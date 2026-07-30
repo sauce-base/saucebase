@@ -15,6 +15,9 @@
     "skills": [
         "ai-sdk-development",
         "laravel-best-practices",
+        "socialite-development",
+        "inertia-vue-development",
+        "tailwindcss-development",
         "saucebase-filament-development",
         "saucebase-module-development"
     ]

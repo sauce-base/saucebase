@@ -74,6 +74,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - laravel/framework (LARAVEL) - v13
 - laravel/prompts (PROMPTS) - v0
 - laravel/sanctum (SANCTUM) - v4
+- laravel/socialite (SOCIALITE) - v5
 - livewire/livewire (LIVEWIRE) - v4
 - tightenco/ziggy (ZIGGY) - v2
 - larastan/larastan (LARASTAN) - v3
@@ -83,6 +84,11 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - laravel/pint (PINT) - v1
 - laravel/telescope (TELESCOPE) - v5
 - phpunit/phpunit (PHPUNIT) - v12
+- @inertiajs/vue3 (INERTIA_VUE) - v3
+- eslint (ESLINT) - v10
+- prettier (PRETTIER) - v3
+- tailwindcss (TAILWINDCSS) - v4
+- vue (VUE) - v3
 
 ## Skills Activation
 
@@ -184,6 +190,7 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Inertia creates fully client-side rendered SPAs without modern SPA complexity, leveraging existing server-side patterns.
 - Components live in `resources/js/pages` (unless specified in `vite.config.js`). Use `Inertia::render()` for server-side routing instead of Blade views.
 - ALWAYS use `search-docs` tool for version-specific Inertia documentation and updated code examples.
+- IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
 # Inertia v3
 
@@ -253,6 +260,13 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - To run all tests: `php artisan test --compact`.
 - To run all tests in a file: `php artisan test --compact tests/Feature/ExampleTest.php`.
 - To filter on a particular test name: `php artisan test --compact --filter=testName` (recommended after making a change to a related file).
+
+=== inertia-vue/core rules ===
+
+# Inertia + Vue
+
+Vue components must have a single root element.
+- IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
 === filament/filament rules ===
 
