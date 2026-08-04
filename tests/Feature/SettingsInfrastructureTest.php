@@ -1,0 +1,88 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Filament\Pages\SettingsPage;
+use Filament\Pages\SettingsPage as FilamentSettingsPage;
+use Filament\Support\Enums\Width;
+use Illuminate\Support\Facades\Schema;
+use ReflectionClass;
+use Tests\TestCase;
+
+class SettingsInfrastructureTest extends TestCase
+{
+    public function test_root_application_provides_settings_infrastructure_to_modules(): void
+    {
+        $rootComposer = json_decode(
+            file_get_contents(base_path('composer.json')),
+            true,
+            flags: JSON_THROW_ON_ERROR,
+        );
+
+        $this->assertSame(
+            '^5.0',
+            $rootComposer['require']['filament/spatie-laravel-settings-plugin'] ?? null,
+        );
+    }
+
+    public function test_root_application_migrations_create_the_settings_repository(): void
+    {
+        $this->artisan('migrate:fresh', [
+            '--path' => 'database/migrations',
+            '--no-interaction' => true,
+        ])->assertSuccessful();
+
+        $this->assertTrue(Schema::hasTable('settings'));
+    }
+
+    /**
+     * The base class exists so the constraint is set once rather than remembered three
+     * times. Without a width every settings page fills the viewport, which stretches a
+     * single-column form across a wide monitor.
+     */
+    public function test_the_shared_settings_page_constrains_its_width(): void
+    {
+        $width = (new ReflectionClass(SettingsPage::class))
+            ->getDefaultProperties()['maxContentWidth'] ?? null;
+
+        $this->assertInstanceOf(Width::class, $width);
+        $this->assertNotSame(Width::Full, $width);
+    }
+
+    /**
+     * Discovered rather than listed: a settings page added by a future module has to opt
+     * into the convention, and the only way this test notices is by finding it.
+     */
+    public function test_every_module_settings_page_extends_the_shared_base(): void
+    {
+        $pages = $this->moduleSettingsPages();
+
+        $this->assertNotEmpty($pages, 'No module settings pages were discovered.');
+
+        foreach ($pages as $page) {
+            $this->assertTrue(
+                is_subclass_of($page, SettingsPage::class),
+                $page.' extends Filament\Pages\SettingsPage directly. Extend '.SettingsPage::class.' instead.',
+            );
+        }
+    }
+
+    /**
+     * @return array<int, class-string>
+     */
+    private function moduleSettingsPages(): array
+    {
+        $pages = [];
+
+        foreach (glob(base_path('modules/*/src/Filament/Pages/*.php')) ?: [] as $file) {
+            $module = basename(dirname($file, 4));
+            $class = 'Modules\\'.str($module)->studly().'\\Filament\\Pages\\'.basename($file, '.php');
+
+            if (class_exists($class) && is_subclass_of($class, FilamentSettingsPage::class)) {
+                $pages[] = $class;
+            }
+        }
+
+        return $pages;
+    }
+}

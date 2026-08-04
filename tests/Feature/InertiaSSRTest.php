@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Services\FrontendConfig;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class InertiaSSRTest extends TestCase
@@ -136,14 +135,13 @@ class InertiaSSRTest extends TestCase
         // Verify SSR starts enabled in config (required for SSR server to run)
         $this->assertTrue(config('inertia.ssr.enabled'), 'SSR should be enabled in config at boot');
 
-        // Create a user for authentication with required role
-        /** @var User $user */
-        $user = User::factory()->create();
-        $role = Role::firstOrCreate(['name' => 'user']);
-        $user->assignRole($role);
+        // A route defined here rather than one of the application's own, so the test
+        // stays about SSR. Real routes accumulate guards from whichever modules are
+        // installed — /dashboard redirects once tenancy is present, for instance — and
+        // this test should not fail for reasons that have nothing to do with SSR.
+        Route::middleware('web')->get('/ssr-probe', fn () => Inertia::render('Index'));
 
-        // Make a request to a route that doesn't call ->withSSR()
-        $response = $this->actingAs($user)->get('/dashboard');
+        $response = $this->get('/ssr-probe');
 
         $response->assertOk();
 
