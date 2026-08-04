@@ -31,6 +31,9 @@ includes:
     blog:
         taskfile: ./modules/blog/Taskfile.yml
         optional: true
+    tenancy:
+        taskfile: ./modules/tenancy/Taskfile.yml
+        optional: true
     # ── END MODULES ──────────────────────────────────────────────────
 
 tasks:
