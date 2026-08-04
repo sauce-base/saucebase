@@ -102,7 +102,9 @@ onUnmounted(() => {
                                     aria-hidden="true"
                                 />
                             </div>
-                            <div class="flex flex-1 flex-wrap items-center gap-2">
+                            <div
+                                class="flex flex-1 flex-wrap items-center gap-2"
+                            >
                                 <h2
                                     class="text-foreground text-xl leading-tight font-bold"
                                 >
@@ -110,7 +112,7 @@ onUnmounted(() => {
                                 </h2>
                                 <span
                                     v-if="isInstalled(selectedMod.id)"
-                                    class="border-primary text-primary rounded-full border px-3 text-sm ml-2 py-1 font-semibold"
+                                    class="border-primary text-primary ml-2 rounded-full border px-3 py-1 text-sm font-semibold"
                                 >
                                     {{ $t('Installed') }}
                                 </span>
@@ -149,10 +151,15 @@ onUnmounted(() => {
                                 class="flex items-center gap-3 rounded-xl bg-gray-950 px-4 py-3 shadow-sm dark:bg-gray-900"
                             >
                                 <Terminal
-                                    class="size-4 shrink-0 self-start mt-0.5 text-gray-500"
+                                    class="mt-0.5 size-4 shrink-0 self-start text-gray-500"
                                     aria-hidden="true"
                                 />
-                                <code class="flex-1 whitespace-pre text-sm text-green-400">{{ installCommand(selectedMod) }}</code>
+                                <code
+                                    class="flex-1 text-sm whitespace-pre text-green-400"
+                                    >
+                                    {{ installCommand(selectedMod) }}
+                                    </code
+                                >
                                 <button
                                     class="cursor-pointer self-start text-gray-300 transition-colors hover:text-gray-300"
                                     @click="copyCommand"

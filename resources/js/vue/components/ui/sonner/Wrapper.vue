@@ -9,7 +9,9 @@ import { toast } from 'vue-sonner';
 import 'vue-sonner/style.css';
 
 const colorMode = useColorMode({ storageKey: 'appearance' });
-const theme = computed((): 'dark' | 'light' => (colorMode.value === 'dark' ? 'dark' : 'light'));
+const theme = computed((): 'dark' | 'light' =>
+    colorMode.value === 'dark' ? 'dark' : 'light',
+);
 
 const page = usePage();
 
