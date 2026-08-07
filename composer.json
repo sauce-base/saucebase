@@ -7,19 +7,20 @@
     "require": {
         "php": "^8.4",
         "cviebrock/eloquent-sluggable": "^13.0.1",
-        "filament/actions": "^5.7.1",
-        "filament/filament": "^5.7.1",
-        "filament/forms": "^5.7.1",
-        "filament/infolists": "^5.7.1",
-        "filament/notifications": "^5.7.1",
-        "filament/spatie-laravel-media-library-plugin": "^5.7.1",
-        "filament/tables": "^5.7.1",
-        "filament/widgets": "^5.7.1",
-        "inertiajs/inertia-laravel": "^3.1.1",
+        "filament/actions": "^5.7.6",
+        "filament/filament": "^5.7.6",
+        "filament/forms": "^5.7.6",
+        "filament/infolists": "^5.7.6",
+        "filament/notifications": "^5.7.6",
+        "filament/spatie-laravel-media-library-plugin": "^5.7.6",
+        "filament/spatie-laravel-settings-plugin": "^5.7.6",
+        "filament/tables": "^5.7.6",
+        "filament/widgets": "^5.7.6",
+        "inertiajs/inertia-laravel": "^3.3.1",
         "internachi/modular": "^3.0.2",
         "laravel/ai": "^0.4.5",
-        "laravel/framework": "^13.21.1",
-        "laravel/sanctum": "^4.3.2",
+        "laravel/framework": "^13.24.0",
+        "laravel/sanctum": "^4.3.3",
         "laravel/tinker": "^3.0.2",
         "openplain/filament-shadcn-theme": "^1.1",
         "saucebase/breadcrumbs": "^1.1",
@@ -35,15 +36,15 @@
         "fakerphp/faker": "^1.24.1",
         "kkomelin/laravel-translatable-string-exporter": "^1.26",
         "larastan/larastan": "^3.10",
-        "laravel/boost": "^2.4.13",
+        "laravel/boost": "^2.5.3",
         "laravel/pail": "^1.2.7",
-        "laravel/pint": "^1.29.3",
-        "laravel/telescope": "^5.20",
+        "laravel/pint": "^1.30.4",
+        "laravel/telescope": "^5.22",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.5",
-        "phpunit/phpunit": "^12.5.31",
+        "phpunit/phpunit": "^12.5.33",
         "saucebase/laravel-playwright": "^1.1",
-        "symfony/filesystem": "^7.4.11"
+        "symfony/filesystem": "^7.4.15"
     },
     "suggest": {
         "saucebase/announcements": "Site-wide announcement banners with scheduling, audience targeting, and cookie-based dismissal",
@@ -110,7 +111,7 @@
             "vendor/bin/phpstan analyse --memory-limit=2G"
         ],
         "boost:update": [
-            "@php artisan boost:update --no-interaction"
+            "@php artisan boost:update --discover --no-interaction"
         ],
         "ide-helper": [
             "@php artisan ide-helper:generate --ansi",
