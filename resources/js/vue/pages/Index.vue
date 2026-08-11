@@ -5,24 +5,19 @@ import {
     ModuleModal,
     useModuleList,
 } from '@/components/ui/saucebase';
+import { useSettings } from '@/composables/useSettings';
 import { BookOpen } from '@lucide/vue';
 import { ref } from 'vue';
 
 import type { Module } from '@/components/ui/saucebase';
 
+const settings = useSettings();
 const modules = useModuleList();
 const selectedMod = ref<Module | null>(null);
 </script>
 
 <template>
-    <SiteLayout
-        :title="$t('Saucebase | The best modular Laravel SaaS Starter Kit')"
-        :description="
-            $t(
-                'Free, open-source Laravel SaaS starter kit. Ships with auth, billing, admin panel, and a modular copy-and-own architecture.',
-            )
-        "
-    >
+    <SiteLayout :title="settings.general.site_tagline ?? undefined">
         <main class="mx-auto w-full">
             <div
                 class="relative overflow-hidden mask-t-from-95% mask-b-from-95% px-6 md:mask-r-from-95% md:mask-l-from-95% md:px-16 lg:px-8"

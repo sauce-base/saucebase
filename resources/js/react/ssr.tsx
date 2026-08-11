@@ -2,16 +2,15 @@ import App from '@/components/App';
 import { I18nProvider } from '@/i18n';
 import { createInertiaApp } from '@inertiajs/react';
 import createServer from '@inertiajs/react/server';
+import { siteTitle } from '@js/settings';
 import ReactDOMServer from 'react-dom/server';
 import { resolveModularPageComponent } from './lib/utils';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Saucebase';
-
-createServer((page) =>
-    createInertiaApp({
+createServer((page) => {
+    return createInertiaApp({
         page,
         render: ReactDOMServer.renderToString,
-        title: (title) => `${title} - ${appName}`,
+        title: siteTitle,
         resolve: resolveModularPageComponent,
         setup({
             App: InertiaApp,
@@ -30,5 +29,5 @@ createServer((page) =>
                 </I18nProvider>
             );
         },
-    }),
-);
+    });
+});

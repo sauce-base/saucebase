@@ -1,5 +1,6 @@
 import { useLocalization } from '@/composables/useLocalization';
 import { createInertiaApp } from '@inertiajs/vue3';
+import { siteTitle } from '@js/settings';
 import { useColorMode } from '@vueuse/core';
 import { i18nVue, loadLanguageAsync } from 'laravel-vue-i18n';
 import { createApp, h } from 'vue';
@@ -19,11 +20,10 @@ import '@css/app.css';
  */
 import AppWrapper from '@/components/App.vue';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Saucebase';
 const moduleSetups = discoverModuleSetups();
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: siteTitle,
     resolve: resolveModularPageComponent,
     setup({ el, App, props, plugin }) {
         const { language } = useLocalization();

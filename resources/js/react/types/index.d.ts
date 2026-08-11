@@ -1,3 +1,5 @@
+import type { Settings } from '@js/settings';
+
 export interface User {
     id: number;
     name: string;
@@ -47,6 +49,7 @@ export type PageProps<
     navigation?: Record<string, any>;
     breadcrumbs?: Breadcrumb[];
     toast?: Toast;
+    settings: Settings;
 };
 
 declare module '@inertiajs/core' {
@@ -57,5 +60,6 @@ declare module '@inertiajs/core' {
         navigation?: Record<string, any>;
         breadcrumbs?: Breadcrumb[];
         toast?: Toast;
+        settings: Settings;
     }
 }

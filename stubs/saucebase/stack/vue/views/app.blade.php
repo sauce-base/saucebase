@@ -1,10 +1,9 @@
+@inject('generalSettings', App\Settings\GeneralSettings::class)
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title data-inertia>{{ config('app.name', 'Saucebase') }}</title>
 
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
@@ -32,7 +31,14 @@
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.ts'])
-        <x-inertia::head />
+        {{-- Fallback head elements, rendered only when SSR is inactive. The client
+             <Head> component adopts them via the matching data-inertia keys. --}}
+        <x-inertia::head>
+            <title data-inertia>{{ $generalSettings->site_name }}</title>
+            @if ($generalSettings->site_description)
+                <meta data-inertia="description" name="description" content="{{ $generalSettings->site_description }}">
+            @endif
+        </x-inertia::head>
     </head>
     <body class="antialiased bg-background text-foreground dark:bg-background dark:text-foreground">
         <x-inertia::app />

@@ -76,6 +76,7 @@ function createConfig() {
         resolve: {
             alias: {
                 '@': path.resolve(__dirname, 'resources/js/react'),
+                '@js': path.resolve(__dirname, 'resources/js'),
                 '@css': path.resolve(__dirname, 'resources/css'),
                 '@modules': path.resolve(__dirname, 'modules'),
                 'ziggy-js': path.resolve(__dirname, 'vendor/tightenco/ziggy'),
