@@ -17,5 +17,19 @@ return new class extends SettingsMigration
         if (! $this->migrator->exists('general.site_description')) {
             $this->migrator->add('general.site_description', null);
         }
+
+        // Null by default, so an application with no brand images keeps rendering the
+        // mark that ships with it.
+        if (! $this->migrator->exists('general.site_icon')) {
+            $this->migrator->add('general.site_icon', null);
+        }
+
+        if (! $this->migrator->exists('general.site_logo')) {
+            $this->migrator->add('general.site_logo', null);
+        }
+
+        if (! $this->migrator->exists('general.prefer_logo')) {
+            $this->migrator->add('general.prefer_logo', false);
+        }
     }
 };

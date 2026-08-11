@@ -32,6 +32,11 @@ class GeneralSettingsTest extends TestCase
         $this->assertSame('Saucebase', $settings->site_name);
         $this->assertNull($settings->site_tagline);
         $this->assertNull($settings->site_description);
+
+        // No brand images, so the logo and the favicon both stay the ones that ship.
+        $this->assertNull($settings->site_icon);
+        $this->assertNull($settings->site_logo);
+        $this->assertFalse($settings->prefer_logo);
     }
 
     public function test_core_settings_migration_preserves_existing_values(): void
@@ -42,7 +47,7 @@ class GeneralSettingsTest extends TestCase
         $settings->site_description = 'Existing description.';
         $settings->save();
 
-        $migration = require database_path('settings/2026_08_07_165033_create_general_settings.php');
+        $migration = require database_path('settings/0001_01_01_000010_create_general_settings.php');
         $migration->up();
 
         $this->assertSame('Existing Platform', $settings->site_name);

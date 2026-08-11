@@ -189,11 +189,8 @@ export function ModuleModal({ selectedMod, onClose }: ModuleModalProps) {
                                         className="mt-0.5 size-4 shrink-0 self-start text-gray-500"
                                         aria-hidden="true"
                                     />
-                                    <code className="flex-1 text-sm whitespace-pre text-green-400">
-                                        {installCommand(
-                                            mod,
-                                            isInstalled(mod.id),
-                                        )}
+                                    <code className="flex-1 whitespace-pre text-sm text-green-400">
+                                        {installCommand(mod, isInstalled(mod.id))}
                                     </code>
                                     <button
                                         className="cursor-pointer self-start text-gray-300 transition-colors hover:text-gray-300"

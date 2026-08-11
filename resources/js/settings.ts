@@ -5,6 +5,9 @@ export type Settings = {
         site_name: string;
         site_tagline: string | null;
         site_description: string | null;
+        site_icon: string | null;
+        site_logo: string | null;
+        prefer_logo: boolean;
     };
     [domain: string]: unknown;
 };

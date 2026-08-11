@@ -56,6 +56,9 @@ class HandleInertiaRequests extends Middleware
                     'site_name',
                     'site_tagline',
                     'site_description',
+                    'site_icon',
+                    'site_logo',
+                    'prefer_logo',
                 ])
                 ->all(),
             // Ziggy data is computed lazily so it can be skipped on partial reloads

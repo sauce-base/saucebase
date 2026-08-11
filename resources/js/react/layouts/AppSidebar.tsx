@@ -1,4 +1,4 @@
-import TenantSwitcher from '@/components/TenantSwitcher';
+import AppBrand from '@/components/AppBrand';
 import NavGroup from '@/components/ui/navigation/NavGroup';
 import NavUser from '@/components/ui/navigation/NavUser';
 import {
@@ -7,6 +7,10 @@ import {
     SidebarFooter,
     SidebarHeader,
 } from '@/components/ui/sidebar';
+import {
+    getGlobalComponents,
+    hasGlobalComponent,
+} from '@/lib/globalComponents';
 import type { User } from '@/types';
 import type { Navigation } from '@/types/navigation';
 import { usePage } from '@inertiajs/react';
@@ -19,10 +23,20 @@ export default function AppSidebar() {
     const userItems = page.props.navigation?.user ?? [];
     const user = page.props.auth?.user;
 
+    // A module may own this block instead. Registration happens at import time, so this
+    // is settled before the first render.
+    const brandIsClaimed = hasGlobalComponent('sidebar-brand');
+
     return (
         <Sidebar variant="inset" collapsible="icon" className="bg-transparent">
             <SidebarHeader>
-                <TenantSwitcher />
+                {brandIsClaimed ? (
+                    getGlobalComponents('sidebar-brand').map((C, i) => (
+                        <C key={i} />
+                    ))
+                ) : (
+                    <AppBrand />
+                )}
             </SidebarHeader>
             <SidebarContent>
                 <NavGroup items={items} />

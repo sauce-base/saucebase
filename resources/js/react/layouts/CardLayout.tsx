@@ -40,8 +40,9 @@ interface CardLayoutProps {
 /**
  * A centred card on an otherwise empty page.
  *
- * Signing in, registering and naming a workspace are one flow to the person doing them,
- * so they share a layout rather than each module inventing its own. It lives in core for
+ * The short, self-contained pages several modules need — signing in, registering, a
+ * one-question form — are one flow to the person moving through them, so they share a
+ * layout rather than each module inventing its own. It lives in core for
  * the same reason `Card` and `Button` do: it is a presentational primitive, and a module
  * importing another module's layout is the coupling this avoids.
  */
