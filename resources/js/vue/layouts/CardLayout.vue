@@ -70,8 +70,11 @@ withDefaults(
                         <CardTitle class="text-2xl">
                             <slot name="heading">{{ title }}</slot>
                         </CardTitle>
+                        <!-- Same split as the heading: `description` stays a plain
+                             string, and the slot is for descriptions that need markup
+                             inside the sentence. -->
                         <CardDescription>
-                            {{ description }}
+                            <slot name="subheading">{{ description }}</slot>
                         </CardDescription>
                     </CardHeader>
                     <CardContent class="px-8">

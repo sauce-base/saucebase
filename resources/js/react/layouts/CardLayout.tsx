@@ -30,6 +30,11 @@ interface CardLayoutProps {
      * their own rather than plain text.
      */
     heading?: ReactNode;
+
+    /**
+     * The same split for the description: for sentences that need markup inside them.
+     */
+    subheading?: ReactNode;
 }
 
 /**
@@ -48,6 +53,7 @@ export default function CardLayout({
     outside,
     icon,
     heading,
+    subheading,
 }: CardLayoutProps) {
     const page = usePage();
     const status = page.props.status as string | undefined;
@@ -77,7 +83,9 @@ export default function CardLayout({
                             <CardTitle className="text-2xl">
                                 {heading ?? title}
                             </CardTitle>
-                            <CardDescription>{description}</CardDescription>
+                            <CardDescription>
+                                {subheading ?? description}
+                            </CardDescription>
                         </CardHeader>
                         <CardContent className="px-8">
                             <PageTransition>
