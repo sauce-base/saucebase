@@ -52,6 +52,7 @@ public/js/filament
 public/vendor/livewire/
 
 # Playwright
+/playwright/
 /test-results/
 /playwright-report/
 /playwright/.cache/
@@ -62,8 +63,9 @@ public/vendor/livewire/
 # Docker setup (published from saucebase/installer package)
 /docker/
 
-# Generated language files
+# Generated files
 lang/php_*.json
+/resources/js/types/generated.d.ts
 
 _ide_helper.php
 _ide_helper_models.php

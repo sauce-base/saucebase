@@ -55,7 +55,7 @@ Navigation::add(
 
 Navigation::add(
     'Discord',
-    'https://discord.gg/CuhSFA7qY',
+    'https://discord.gg/hCajBky39t',
     function (Section $section) {
         $section->attributes([
             'group' => 'secondary',
@@ -71,7 +71,7 @@ Navigation::add(
 
 Navigation::add(
     'Discord',
-    'https://discord.gg/CuhSFA7qY',
+    'https://discord.gg/hCajBky39t',
     function (Section $section) {
         $section->attributes([
             'group' => 'landing',

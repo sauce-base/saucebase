@@ -78,7 +78,7 @@ class ModulesPlugin implements Plugin
             ->filter()
             ->sortBy(fn (string $class) => method_exists($class, 'getNavigationGroupSort')
                 ? $class::getNavigationGroupSort()
-                : PHP_INT_MAX - 1
+                : PHP_INT_MAX
             )
             ->toArray();
     }
