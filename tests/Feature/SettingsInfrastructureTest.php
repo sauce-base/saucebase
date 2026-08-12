@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Filament\Pages\SettingsPage;
 use Filament\Pages\SettingsPage as FilamentSettingsPage;
+use Filament\SpatieLaravelSettingsPluginServiceProvider;
 use Filament\Support\Enums\Width;
 use Illuminate\Support\Facades\Schema;
 use ReflectionClass;
@@ -11,6 +12,12 @@ use Tests\TestCase;
 
 class SettingsInfrastructureTest extends TestCase
 {
+    /**
+     * Modules ship settings pages without requiring the plugin themselves, so root has to
+     * carry it. Presence is asserted, not the constraint: which version satisfies this is
+     * `composer.json`'s business, and pinning it here only breaks the test on a bump it
+     * has nothing to say about.
+     */
     public function test_root_application_provides_settings_infrastructure_to_modules(): void
     {
         $rootComposer = json_decode(
@@ -19,9 +26,15 @@ class SettingsInfrastructureTest extends TestCase
             flags: JSON_THROW_ON_ERROR,
         );
 
-        $this->assertSame(
-            '^5.0',
-            $rootComposer['require']['filament/spatie-laravel-settings-plugin'] ?? null,
+        $this->assertArrayHasKey(
+            'filament/spatie-laravel-settings-plugin',
+            $rootComposer['require'],
+            'The settings plugin must be required by the root application, not by a module.',
+        );
+
+        $this->assertTrue(
+            class_exists(SpatieLaravelSettingsPluginServiceProvider::class),
+            'The settings plugin is declared but not installed.',
         );
     }
 
