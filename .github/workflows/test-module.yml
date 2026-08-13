@@ -13,6 +13,11 @@ on:
                 type: string
                 default: ''
                 description: 'Space-separated Composer packages, e.g. saucebase/auth'
+            serve_port:
+                required: false
+                type: string
+                default: '8000'
+                description: 'Port the E2E server listens on. Use 80 for modules whose URLs are host-based (subdomains), since a host derived from APP_URL drops the port.'
 
 jobs:
     detect-frameworks:
@@ -148,6 +153,11 @@ jobs:
             matrix:
                 framework: ${{ fromJSON(needs.detect-frameworks.outputs.matrix) }}
         name: E2E ${{ inputs.module }} (${{ matrix.framework }})
+        env:
+            SERVE_PORT: ${{ inputs.serve_port }}
+            # The non-empty branch must sit on `true`: '' is falsy in GitHub
+            # expressions, so `cond && '' || format(...)` always falls through.
+            APP_URL: http://localhost${{ inputs.serve_port != '80' && format(':{0}', inputs.serve_port) || '' }}
 
         steps:
             - name: Download environment artifact
@@ -182,20 +192,25 @@ jobs:
 
             - name: Start Laravel server
               working-directory: saucebase
-              run: php artisan serve --host=0.0.0.0 --port=8000 &
+              run: |
+                  # Ports below 1024 need root, and sudo drops the setup-php PATH.
+                  if [ "$SERVE_PORT" -lt 1024 ] && [ "$(id -u)" -ne 0 ]; then
+                      sudo -E env PATH="$PATH" php artisan serve --host=0.0.0.0 --port="$SERVE_PORT" &
+                  else
+                      php artisan serve --host=0.0.0.0 --port="$SERVE_PORT" &
+                  fi
 
             - name: Wait for server
               run: |
-                  timeout 30 bash -c 'until curl -f http://localhost:8000 > /dev/null 2>&1; do
-                    echo "Waiting for server..."
+                  timeout 30 bash -c "until curl -f ${APP_URL} > /dev/null 2>&1; do
+                    echo 'Waiting for server...'
                     sleep 2
-                  done'
+                  done"
                   echo "Server is ready!"
 
             - name: Run E2E tests
               working-directory: saucebase
               env:
-                  APP_URL: http://localhost:8000
                   MODULE: ${{ inputs.module }}
               run: npx playwright test modules/$MODULE/tests/e2e --max-failures=2
 
