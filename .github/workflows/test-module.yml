@@ -193,12 +193,14 @@ jobs:
             - name: Start Laravel server
               working-directory: saucebase
               run: |
-                  # Ports below 1024 need root, and sudo drops the setup-php PATH.
+                  # Ports below 1024 are privileged by default. Lower the threshold
+                  # rather than serving as root, so the app never writes root-owned
+                  # logs, sessions, or SQLite files. Already root (act, containers)
+                  # can bind anything and may not have sysctl.
                   if [ "$SERVE_PORT" -lt 1024 ] && [ "$(id -u)" -ne 0 ]; then
-                      sudo -E env PATH="$PATH" php artisan serve --host=0.0.0.0 --port="$SERVE_PORT" &
-                  else
-                      php artisan serve --host=0.0.0.0 --port="$SERVE_PORT" &
+                      sudo sysctl -w "net.ipv4.ip_unprivileged_port_start=$SERVE_PORT"
                   fi
+                  php artisan serve --host=0.0.0.0 --port="$SERVE_PORT" &
 
             - name: Wait for server
               run: |
