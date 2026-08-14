@@ -19,7 +19,7 @@
         "inertiajs/inertia-laravel": "^3.3.1",
         "internachi/modular": "^3.0.2",
         "laravel/ai": "^0.4.5",
-        "laravel/framework": "^13.24.0",
+        "laravel/framework": "^13.25.0",
         "laravel/sanctum": "^4.3.3",
         "laravel/tinker": "^3.0.2",
         "openplain/filament-shadcn-theme": "^1.1",
@@ -38,8 +38,8 @@
         "larastan/larastan": "^3.10",
         "laravel/boost": "^2.5.3",
         "laravel/pail": "^1.2.7",
-        "laravel/pint": "^1.30.4",
-        "laravel/telescope": "^5.22",
+        "laravel/pint": "^1.30.5",
+        "laravel/telescope": "^5.22.1",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.5",
         "phpunit/phpunit": "^12.5.33",
@@ -97,7 +97,8 @@
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
             "@php artisan vendor:publish --tag=livewire:assets --ansi --force",
-            "@php artisan vendor:publish --tag=module-assets --ansi --force"
+            "@php artisan vendor:publish --tag=module-assets --ansi --force",
+            "@php artisan boost:update --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

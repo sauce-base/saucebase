@@ -21,11 +21,6 @@ jobs:
               with:
                   skip-build: 'true'
 
-            - name: Verify generated agent instructions
-              run: |
-                  composer boost:update
-                  git diff --exit-code -- AGENTS.md CLAUDE.md
-
             - name: Run tests
               run: php artisan test
 

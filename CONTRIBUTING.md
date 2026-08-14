@@ -105,21 +105,30 @@ Documentation changes must be checked against implementation and manifests:
 - `CONTRIBUTING.md` owns contributor setup and verification workflows.
 - `.ai/guidelines/` owns always-loaded agent conventions.
 - `.ai/skills/` owns task-specific agent workflows.
-- `AGENTS.md` and `CLAUDE.md` are generated Laravel Boost outputs.
+- `AGENTS.md`, `CLAUDE.md`, and `boost.json` are local Laravel Boost outputs
+  and are not tracked. Run `php artisan boost:install` once after cloning.
 
 Avoid repeating version tables across these files. When a dependency changes,
 update its manifest first and adjust only documentation that describes the
 affected supported version line.
 
-Change agent instructions in `.ai/`, then regenerate the committed outputs:
+Change agent instructions in `.ai/`, then regenerate your local outputs:
 
 ```bash
 composer boost:update
-git diff -- AGENTS.md CLAUDE.md
 ```
 
 Never edit the `<laravel-boost-guidelines>` blocks in `AGENTS.md` or
-`CLAUDE.md` directly. A second `composer boost:update` must produce no diff.
+`CLAUDE.md` directly — they are overwritten on every regeneration, and they
+are not tracked, so the edit reaches nobody. `.ai/` is the only source.
+
+To pick up guidelines newly shipped by a package or module, run the Artisan
+command directly. Composer sets `COMPOSER_DEV_MODE`, which suppresses the
+discovery prompt, so `composer boost:update` cannot add new packages:
+
+```bash
+php artisan boost:update
+```
 
 ## Commits and pull requests
 
