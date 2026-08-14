@@ -1,8 +1,19 @@
 <script setup lang="ts">
+import { useSettings } from '@/composables/useSettings';
 import { useColorMode } from '@vueuse/core';
 import { computed } from 'vue';
 
 const colorMode = useColorMode({ storageKey: 'appearance' });
+
+/**
+ * The application's identity, and the only thing this component reads.
+ *
+ * Anything may stand behind it — the settings a self-hosted install configures, or a
+ * module that resolves them per request — so the logo never learns which of those is
+ * answering.
+ */
+const settings = useSettings();
+const brand = computed(() => settings.value.general);
 
 const primaryFill = computed(() =>
     colorMode.value === 'dark'
@@ -15,7 +26,24 @@ const secondaryFill = computed(() =>
         : 'url(#logo-secondary-grad)',
 );
 
-defineProps<{
+const sizeClasses = {
+    sm: 'h-8 w-8',
+    md: 'h-12 w-12',
+    lg: 'h-16 w-16',
+    xl: 'h-20 w-20',
+    xxl: 'h-30 w-30',
+};
+
+// A wordmark is wide, so it keeps the height and drops the square width.
+const wordmarkSizeClasses = {
+    sm: 'h-8',
+    md: 'h-12',
+    lg: 'h-16',
+    xl: 'h-20',
+    xxl: 'h-30',
+};
+
+const props = defineProps<{
     size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
     showText?: boolean;
     centered?: boolean;
@@ -24,13 +52,48 @@ defineProps<{
     subtitleSize?: 'xs' | 'sm' | 'md' | 'xl' | 'xxl';
 }>();
 
-const sizeClasses = {
-    sm: 'h-8 w-8',
-    md: 'h-12 w-12',
-    lg: 'h-16 w-16',
-    xl: 'h-20 w-20',
-    xxl: 'h-30 w-30',
-};
+/**
+ * A wordmark replaces the mark and the name together, but only where there is room for
+ * one. In a collapsed sidebar it would be illegible, so the icon wins there regardless
+ * of the preference.
+ *
+ * A brand with only a wordmark still gets it used, since the alternative is showing
+ * somebody else's mark.
+ */
+const useWordmark = computed(
+    () =>
+        Boolean(props.showText) &&
+        Boolean(brand.value.site_logo) &&
+        (brand.value.prefer_logo || !brand.value.site_icon),
+);
+
+/**
+ * The square slot: the icon by preference, the wordmark squeezed in if that is all
+ * there is, and otherwise the mark that ships with the application.
+ */
+const markSrc = computed(
+    () => brand.value.site_icon ?? brand.value.site_logo ?? null,
+);
+
+/**
+ * The shipped name is drawn in two tones, which is the mark's other half. An install
+ * that has renamed itself gets its own name rendered plainly — colouring somebody
+ * else's word on a seam we chose would read as a bug.
+ */
+const isShippedName = computed(
+    () => brand.value.site_name.toLowerCase() === 'saucebase',
+);
+
+/**
+ * The configured tagline, falling back to the shipped one only while the shipped name
+ * is still in place. An install that renamed itself and set no tagline gets none, rather
+ * than our slogan under its own name.
+ */
+const subtitle = computed(
+    () =>
+        brand.value.site_tagline ??
+        (isShippedName.value ? 'the recipe that works' : null),
+);
 
 const textSizeClasses = {
     sm: 'text-xl',
@@ -49,7 +112,7 @@ const subtitleSizeClasses = {
     xxl: 'text-2xl',
 };
 
-const logoAlt = 'Saucebase logo';
+const logoAlt = computed(() => `${brand.value.site_name} logo`);
 </script>
 
 <template>
@@ -60,8 +123,32 @@ const logoAlt = 'Saucebase logo';
                 : 'flex items-center gap-1'
         "
     >
+        <!-- A brand with a wordmark and room to show it is named by the image. -->
+        <img
+            v-if="useWordmark && brand.site_logo"
+            :src="brand.site_logo"
+            :alt="brand.site_name"
+            :class="[
+                wordmarkSizeClasses[size || 'md'],
+                'w-auto max-w-full object-contain',
+            ]"
+        />
+
+        <!-- The square slot: the configured icon, or the mark that ships. -->
+        <div
+            v-else-if="markSrc"
+            class="relative"
+            :class="sizeClasses[size || 'md']"
+        >
+            <img
+                :src="markSrc"
+                :alt="logoAlt"
+                class="h-full w-full object-contain"
+            />
+        </div>
+
         <!-- SVG Logo -->
-        <div class="relative" :class="sizeClasses[size || 'md']">
+        <div v-else class="relative" :class="sizeClasses[size || 'md']">
             <svg
                 class="h-full w-full"
                 viewBox="0 0 568 568"
@@ -227,9 +314,9 @@ const logoAlt = 'Saucebase logo';
             </svg>
         </div>
 
-        <!-- Text Logo -->
+        <!-- Text Logo. Skipped when a wordmark is already showing the name. -->
         <div
-            v-if="showText"
+            v-if="showText && !useWordmark"
             :class="
                 centered
                     ? 'flex flex-col items-center text-center'
@@ -244,13 +331,18 @@ const logoAlt = 'Saucebase logo';
                         : 'leading-none font-bold text-gray-900 dark:text-white',
                 ]"
             >
-                <span class="text-secondary dark:text-muted-foreground"
-                    >sauce</span
-                >
-                <span class="text-primary dark:text-foreground">base</span>
+                <!-- The two tones belong to the shipped name. Anything else is the
+                     install's own, and is rendered as written. -->
+                <template v-if="isShippedName">
+                    <span class="text-secondary dark:text-muted-foreground"
+                        >sauce</span
+                    >
+                    <span class="text-primary dark:text-foreground">base</span>
+                </template>
+                <template v-else>{{ brand.site_name }}</template>
             </h1>
             <p
-                v-if="showSubtitle"
+                v-if="showSubtitle && subtitle"
                 :class="[
                     subtitleSizeClasses[subtitleSize || size || 'sm'],
                     'leading-tight',
@@ -259,7 +351,7 @@ const logoAlt = 'Saucebase logo';
                         : 'text-muted-foreground',
                 ]"
             >
-                the recipe that works
+                {{ subtitle }}
             </p>
         </div>
     </div>

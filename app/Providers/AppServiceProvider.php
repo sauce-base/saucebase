@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Http\Middleware\SecureHeaders;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -27,7 +29,28 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureSecureUrls();
+        $this->configureFilamentDefaults();
         $this->addCommandAboutInfo();
+    }
+
+    /**
+     * How Filament components look before anybody asks.
+     *
+     * A toggle that is on is reporting a state, not offering the primary action on the
+     * page, and `primary` is the brand colour every button already wears. Green says
+     * "enabled" without competing with them.
+     *
+     * `configureUsing` runs at `make()`, so it is a default rather than an override: any
+     * component that names its own `onColor` still wins. Registered here rather than in a
+     * panel provider because these closures are recorded against the component class and
+     * apply to every panel regardless of where they are declared — putting them in one
+     * panel would only disguise that.
+     */
+    protected function configureFilamentDefaults(): void
+    {
+        Toggle::configureUsing(fn (Toggle $toggle) => $toggle->onColor('success'));
+
+        ToggleColumn::configureUsing(fn (ToggleColumn $column) => $column->onColor('success'));
     }
 
     protected function configureSecureUrls(): void

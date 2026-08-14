@@ -1,6 +1,7 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import { Head, usePage } from '@inertiajs/react';
+import { useSettings } from '@/hooks/useSettings';
+import { Head } from '@inertiajs/react';
 import type { ReactNode } from 'react';
 
 interface SiteLayoutProps {
@@ -20,33 +21,42 @@ export default function SiteLayout({
     type = 'website',
     children,
 }: SiteLayoutProps) {
-    const page = usePage();
-    const appName =
-        ((page.props as Record<string, unknown>).appName as string) ??
-        'Saucebase';
+    const settings = useSettings();
+    const pageDescription = description ?? settings.general.site_description;
 
     return (
         <>
             <Head title={title}>
-                {description && (
-                    <meta name="description" content={description} />
+                {pageDescription && (
+                    <meta
+                        head-key="description"
+                        data-testid="app-description"
+                        name="description"
+                        content={pageDescription}
+                    />
                 )}
                 {canonical && <link rel="canonical" href={canonical} />}
                 <meta property="og:type" content={type} />
                 {title && <meta property="og:title" content={title} />}
-                {description && (
-                    <meta property="og:description" content={description} />
+                {pageDescription && (
+                    <meta property="og:description" content={pageDescription} />
                 )}
                 {image && <meta property="og:image" content={image} />}
                 {canonical && <meta property="og:url" content={canonical} />}
-                <meta property="og:site_name" content={appName} />
+                <meta
+                    property="og:site_name"
+                    content={settings.general.site_name}
+                />
                 <meta
                     name="twitter:card"
                     content={image ? 'summary_large_image' : 'summary'}
                 />
                 {title && <meta name="twitter:title" content={title} />}
-                {description && (
-                    <meta name="twitter:description" content={description} />
+                {pageDescription && (
+                    <meta
+                        name="twitter:description"
+                        content={pageDescription}
+                    />
                 )}
                 {image && <meta name="twitter:image" content={image} />}
             </Head>

@@ -1,5 +1,6 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import createServer from '@inertiajs/vue3/server';
+import { siteTitle } from '@js/settings';
 import { i18nVue } from 'laravel-vue-i18n';
 import { createSSRApp, h } from 'vue';
 import { renderToString } from 'vue/server-renderer';
@@ -14,14 +15,12 @@ import {
  */
 import App from '@/components/App.vue';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Saucebase';
-
 createServer(
-    (page) =>
-        createInertiaApp({
+    (page) => {
+        return createInertiaApp({
             page,
             render: renderToString,
-            title: (title) => `${title} - ${appName}`,
+            title: siteTitle,
             resolve: resolveModularPageComponent,
             setup({ App: InertiaApp, props, plugin }) {
                 (globalThis as any).Ziggy = page.props.ziggy;
@@ -41,7 +40,8 @@ createServer(
 
                 return app;
             },
-        }),
+        });
+    },
     {
         cluster: true,
     },

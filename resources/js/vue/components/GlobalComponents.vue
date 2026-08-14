@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { getGlobalComponents } from '@/lib/globalComponents';
+import {
+    getGlobalComponents,
+    type GlobalComponentSlot,
+} from '@/lib/globalComponents';
 
-const { position } = defineProps<{ position: 'top' | 'bottom' }>();
+const { position } = defineProps<{ position: GlobalComponentSlot }>();
 const components = getGlobalComponents(position);
 </script>
 <template>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
-import { Head, usePage } from '@inertiajs/vue3';
+import { useSettings } from '@/composables/useSettings';
+import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -12,11 +13,9 @@ const props = defineProps<{
     type?: 'website' | 'article';
 }>();
 
-const page = usePage();
-const appName = computed(
-    () =>
-        ((page.props as Record<string, unknown>).appName as string) ??
-        'Saucebase',
+const settings = useSettings();
+const pageDescription = computed(
+    () => props.description ?? settings.value.general.site_description,
 );
 const ogType = computed(() => props.type ?? 'website');
 </script>
@@ -24,20 +23,26 @@ const ogType = computed(() => props.type ?? 'website');
 <template>
     <Head :title="title">
         <!-- Basic -->
-        <meta v-if="description" name="description" :content="description" />
+        <meta
+            v-if="pageDescription"
+            head-key="description"
+            data-testid="app-description"
+            name="description"
+            :content="pageDescription"
+        />
         <link v-if="canonical" rel="canonical" :href="canonical" />
 
         <!-- Open Graph -->
         <meta property="og:type" :content="ogType" />
         <meta v-if="title" property="og:title" :content="title" />
         <meta
-            v-if="description"
+            v-if="pageDescription"
             property="og:description"
-            :content="description"
+            :content="pageDescription"
         />
         <meta v-if="image" property="og:image" :content="image" />
         <meta v-if="canonical" property="og:url" :content="canonical" />
-        <meta property="og:site_name" :content="appName" />
+        <meta property="og:site_name" :content="settings.general.site_name" />
 
         <!-- Twitter Card -->
         <meta
@@ -46,9 +51,9 @@ const ogType = computed(() => props.type ?? 'website');
         />
         <meta v-if="title" name="twitter:title" :content="title" />
         <meta
-            v-if="description"
+            v-if="pageDescription"
             name="twitter:description"
-            :content="description"
+            :content="pageDescription"
         />
         <meta v-if="image" name="twitter:image" :content="image" />
     </Head>

@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useSettings } from '@/composables/useSettings';
 import { Link } from '@inertiajs/vue3';
 import IconHeart from '~icons/heroicons/heart';
+
+const settings = useSettings();
 </script>
 
 <template>
@@ -14,7 +17,10 @@ import IconHeart from '~icons/heroicons/heart';
                 <div
                     class="flex flex-col items-center gap-y-1 md:flex-row md:items-center md:gap-x-6 md:gap-y-0"
                 >
-                    <span>© {{ new Date().getFullYear() }} Saucebase</span>
+                    <span data-testid="footer-app-name">
+                        © {{ new Date().getFullYear() }}
+                        {{ settings.general.site_name }}
+                    </span>
                     <a
                         href="https://github.com/saucebase-dev/saucebase"
                         class="hover:text-foreground"
@@ -50,9 +56,15 @@ import IconHeart from '~icons/heroicons/heart';
         >
             <p
                 class="text-center text-[min(21vw,400px)] leading-none font-black -tracking-widest select-none"
+                data-testid="footer-watermark"
             >
-                <span class="text-foreground/5">Sauce</span
-                ><span class="text-foreground/10">base</span>
+                <template v-if="settings.general.site_name === 'Saucebase'">
+                    <span class="text-foreground/5">Sauce</span
+                    ><span class="text-foreground/10">base</span>
+                </template>
+                <span v-else class="text-foreground/10">
+                    {{ settings.general.site_name }}
+                </span>
             </p>
         </div>
     </footer>

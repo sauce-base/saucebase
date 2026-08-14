@@ -28,7 +28,6 @@ abstract class ModuleServiceProvider extends ServiceProvider
         // TODO: remove once https://github.com/InterNACHI/modular/pull/117 is merged —
         // internachi currently only discovers lang/ inside resources/, but modules keep it at root.
         $this->registerTranslations();
-        $this->registerConfig();
         $this->registerPublicAssets();
         $this->shareInertiaData();
     }
@@ -38,6 +37,12 @@ abstract class ModuleServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Config is merged here rather than in boot() because every register() runs
+        // before any boot(): a provider that reads a module's config while booting —
+        // Filament resolving its panels, for one — would otherwise race the merge and
+        // see nothing.
+        $this->registerConfig();
+
         foreach ($this->providers as $provider) {
             $this->app->register($provider);
         }

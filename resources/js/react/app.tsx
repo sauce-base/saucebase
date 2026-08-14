@@ -4,17 +4,17 @@ import { I18nProvider } from '@/i18n';
 import { getGlobalComponents } from '@/lib/globalComponents';
 import '@css/app.css';
 import { createInertiaApp } from '@inertiajs/react';
+import { siteTitle } from '@js/settings';
 import { createRoot } from 'react-dom/client';
 import { discoverModuleSetups, executeModuleSetups } from './lib/moduleSetup';
 import { resolveModularPageComponent } from './lib/utils';
 
 initializeTheme();
 
-const appName = import.meta.env.VITE_APP_NAME || 'Saucebase';
 const moduleSetups = discoverModuleSetups();
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: siteTitle,
     resolve: resolveModularPageComponent,
     setup({ el, App: InertiaApp, props }) {
         const locale = (props.initialPage.props?.locale as string) || 'en';

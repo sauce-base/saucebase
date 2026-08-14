@@ -1,5 +1,10 @@
 import type { Module } from '@/components/ui/saucebase';
-import { ModuleCard, ModuleModal, useModuleList } from '@/components/ui/saucebase';
+import {
+    ModuleCard,
+    ModuleModal,
+    useModuleList,
+} from '@/components/ui/saucebase';
+import { useSettings } from '@/hooks/useSettings';
 import { useT } from '@/i18n';
 import SiteLayout from '@/layouts/SiteLayout';
 import { BookOpen } from 'lucide-react';
@@ -7,16 +12,12 @@ import { useState } from 'react';
 
 export default function Index() {
     const t = useT();
+    const settings = useSettings();
     const modules = useModuleList();
     const [selectedMod, setSelectedMod] = useState<Module | null>(null);
 
     return (
-        <SiteLayout
-            title={t('Saucebase | The best modular Laravel SaaS Starter Kit')}
-            description={t(
-                'Free, open-source Laravel SaaS starter kit. Ships with auth, billing, admin panel, and a modular copy-and-own architecture.',
-            )}
-        >
+        <SiteLayout title={settings.general.site_tagline ?? undefined}>
             <main className="mx-auto w-full">
                 <div className="relative overflow-hidden mask-t-from-95% mask-b-from-95% px-6 md:mask-r-from-95% md:mask-l-from-95% md:px-16 lg:px-8">
                     <div className="mt-6 pt-24 pb-12">

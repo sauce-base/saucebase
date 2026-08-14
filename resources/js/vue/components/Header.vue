@@ -23,6 +23,11 @@ const headerRef = ref<HTMLElement | null>(null);
 let lastScrollY = 0;
 
 const handleScroll = () => {
+    // Locking body scroll (e.g. ModuleModal) collapses the scrollable
+    // height, clamping window.scrollY to 0 and firing a spurious scroll
+    // event — ignore it so the header doesn't slide back into view.
+    if (document.body.style.overflow === 'hidden') return;
+
     const currentScrollY = window.scrollY;
     const headerHeight = headerRef.value?.offsetHeight ?? 80;
 
@@ -79,7 +84,12 @@ onBeforeUnmount(() => {
                         :key="item.slug"
                         :href="item.url"
                         :target="item.newPage ? '_blank' : '_self'"
-                        :class="cn('after:bg-primary text-muted-foreground hover:text-foreground relative px-4 py-2 text-sm font-semibold transition-all duration-300 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:rounded-xl after:transition-all after:duration-300 hover:after:w-3/4', item.class)"
+                        :class="
+                            cn(
+                                'after:bg-primary text-muted-foreground hover:text-foreground relative px-4 py-2 text-sm font-semibold transition-all duration-300 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:rounded-xl after:transition-all after:duration-300 hover:after:w-3/4',
+                                item.class,
+                            )
+                        "
                     >
                         {{ $t(item.title) }}
                         <ExternalLink
@@ -170,7 +180,12 @@ onBeforeUnmount(() => {
                             :key="item.slug"
                             :href="item.url"
                             :target="item.newPage ? '_blank' : '_self'"
-                            :class="cn('after:bg-primary hover:text-primary text-foreground relative px-4 py-3 text-base font-semibold transition-all duration-300 after:absolute after:bottom-1 after:left-4 after:h-0.5 after:w-0 after:rounded-xl after:transition-all after:duration-300 hover:after:w-1/2', item.class)"
+                            :class="
+                                cn(
+                                    'after:bg-primary hover:text-primary text-foreground relative px-4 py-3 text-base font-semibold transition-all duration-300 after:absolute after:bottom-1 after:left-4 after:h-0.5 after:w-0 after:rounded-xl after:transition-all after:duration-300 hover:after:w-1/2',
+                                    item.class,
+                                )
+                            "
                             @click="mobileMenuOpen = false"
                         >
                             {{ $t(item.title) }}

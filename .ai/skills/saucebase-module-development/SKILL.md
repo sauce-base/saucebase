@@ -1,20 +1,19 @@
 ---
 name: saucebase-module-development
-description: "Guides Saucebase module creation and development. Activate when scaffolding a new module, adding controllers/pages/migrations to a module, working with module service providers, Filament module plugins, or when user mentions saucebase:recipe, modules:list, or asks about module structure."
-license: MIT
-metadata:
-  author: saucebase
+description: Create and develop Saucebase modules across Vue and React, including scaffolding, controllers, pages, migrations, service providers, Filament plugins, navigation, types, and tests. Use when working under modules/, running saucebase:recipe or modules:list, or changing module structure.
 ---
 
 # Saucebase Module Development
 
-Before writing any code, run the pre-flight interview below. Ask questions one at a time. Questions marked *(if frontend)* are only asked when question 1 is answered with "frontend pages".
+Before writing code, run the pre-flight interview. Ask one question at a time.
+Ask frontend-only questions only when the module has frontend pages.
 
 ---
 
 ## Pre-Flight Interview
 
-**Q1. Does this module have frontend pages (Inertia/Vue) or is it admin-only (Filament)?**
+**Q1. Does this module have frontend pages (Inertia with Vue and React) or is
+it admin-only (Filament)?**
 → Answer gates the rest of the interview.
 
 **Q2. Does it need models and migrations?**
@@ -57,7 +56,8 @@ npm run build   # or restart `npm run dev`
 Then apply answers from the pre-flight:
 
 - **Admin-only module** → clear `routes/navigation.php` completely (never leave a `route()` call to a non-existent route)
-- **No frontend pages** → delete the scaffolded Vue page and skip E2E setup
+- **No frontend pages** → delete scaffolded Vue and React pages and skip E2E setup
+- **Frontend pages** → implement equivalent behavior in both framework source trees
 - **Has seeder** → add `db:seed` task to `Taskfile.yml` (`php artisan modules:seed --module=<name>`)
 - **Has E2E tests** → scaffold `tests/e2e/index.spec.ts` using `data-testid` selectors only
 - **Uses TDD** → write failing tests before any implementation; activate `/tdd`

@@ -61,4 +61,15 @@ trait ModulePlugin
     {
         // override this to implement additional logic
     }
+
+    /**
+     * `Filament\Contracts\Plugin` requires this, and most modules have nothing to put in
+     * it — it is where navigation groups get registered, and a module with a single
+     * top-level page needs no group. Defaulting it here means dropping a group is a
+     * deletion rather than a swap for an empty method.
+     */
+    public function boot(Panel $panel): void
+    {
+        // override this to implement additional logic
+    }
 }

@@ -12,6 +12,12 @@
 /.vscode
 /.zed
 /.claude
+/.agents
+
+# Laravel Boost generated output — run `php artisan boost:install` to create
+/AGENTS.md
+/CLAUDE.md
+/boost.json
 /auth.json
 /node_modules
 /public/build
@@ -51,6 +57,7 @@ public/js/filament
 public/vendor/livewire/
 
 # Playwright
+/playwright/
 /test-results/
 /playwright-report/
 /playwright/.cache/
@@ -61,11 +68,13 @@ public/vendor/livewire/
 # Docker setup (published from saucebase/installer package)
 /docker/
 
-# Generated language files
+# Generated files
 lang/php_*.json
+/resources/js/types/generated.d.ts
 
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
 
 .github/skills/*/*
+stubs/saucebase/stack/*/node_modules

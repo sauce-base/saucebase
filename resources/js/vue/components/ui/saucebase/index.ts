@@ -1,6 +1,6 @@
-import { computed } from 'vue';
-import { trans } from 'laravel-vue-i18n';
 import { useModules } from '@/composables/useModules';
+import { trans } from 'laravel-vue-i18n';
+import { computed } from 'vue';
 
 import {
     BarChart3,

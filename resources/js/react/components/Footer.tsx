@@ -1,16 +1,21 @@
+import { useSettings } from '@/hooks/useSettings';
 import { useT } from '@/i18n';
 import { Link } from '@inertiajs/react';
 import { Heart } from 'lucide-react';
 
 export default function Footer() {
     const t = useT();
+    const settings = useSettings();
 
     return (
         <footer className="relative mt-auto w-full overflow-hidden pb-12 sm:pb-48">
             <div className="relative z-10 mx-4 py-8 min-[450px]:mx-auto min-[450px]:max-w-7xl min-[450px]:px-6">
                 <div className="text-muted-foreground flex w-full flex-col items-center justify-between gap-4 text-sm md:flex-row">
                     <div className="flex flex-col items-center gap-y-1 md:flex-row md:items-center md:gap-x-6 md:gap-y-0">
-                        <span>© {new Date().getFullYear()} Saucebase</span>
+                        <span data-testid="footer-app-name">
+                            © {new Date().getFullYear()}{' '}
+                            {settings.general.site_name}
+                        </span>
                         <a
                             href="https://github.com/saucebase-dev/saucebase"
                             className="hover:text-foreground"
@@ -49,9 +54,20 @@ export default function Footer() {
                 </div>
             </div>
             <div className="absolute bottom-0 z-0 translate-y-[20%] scale-105 px-4 font-mono">
-                <p className="text-center text-[21vw] leading-none font-black -tracking-widest select-none">
-                    <span className="text-foreground/5">Sauce</span>
-                    <span className="text-foreground/10">base</span>
+                <p
+                    className="text-center text-[21vw] leading-none font-black -tracking-widest select-none"
+                    data-testid="footer-watermark"
+                >
+                    {settings.general.site_name === 'Saucebase' ? (
+                        <>
+                            <span className="text-foreground/5">Sauce</span>
+                            <span className="text-foreground/10">base</span>
+                        </>
+                    ) : (
+                        <span className="text-foreground/10">
+                            {settings.general.site_name}
+                        </span>
+                    )}
                 </p>
             </div>
         </footer>
