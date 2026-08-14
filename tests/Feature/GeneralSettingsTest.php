@@ -235,6 +235,16 @@ class GeneralSettingsTest extends TestCase
                 ->where('settings.general.site_logo', 'https://cdn.example.com/logo.svg'));
     }
 
+    public function test_root_relative_branding_urls_are_not_resolved_as_storage_paths(): void
+    {
+        $settings = app(GeneralSettings::class);
+        $settings->site_icon = '/storage/tenant-logos/icon.png';
+        $settings->site_logo = '/storage/tenant-logos/logo.png';
+
+        $this->assertSame('/storage/tenant-logos/icon.png', $settings->siteIconUrl());
+        $this->assertSame('/storage/tenant-logos/logo.png', $settings->siteLogoUrl());
+    }
+
     public function test_frontend_stack_views_render_settings_driven_metadata(): void
     {
         foreach (['vue', 'react'] as $stack) {

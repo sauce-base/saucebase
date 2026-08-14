@@ -58,6 +58,8 @@ class GeneralSettings extends Settings
             return null;
         }
 
-        return Str::isUrl($path) ? $path : Storage::disk('public')->url($path);
+        return Str::startsWith($path, '/') || Str::isUrl($path)
+            ? $path
+            : Storage::disk('public')->url($path);
     }
 }
