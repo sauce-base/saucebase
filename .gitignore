@@ -13,6 +13,11 @@
 /.zed
 /.claude
 /.agents
+
+# Laravel Boost generated output — run `php artisan boost:install` to create
+/AGENTS.md
+/CLAUDE.md
+/boost.json
 /auth.json
 /node_modules
 /public/build
