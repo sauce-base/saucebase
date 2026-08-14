@@ -8,9 +8,9 @@
         {{-- A configured icon replaces the shipped set outright. Sizes are omitted
              deliberately: one uploaded image is not a size variant of anything, and
              claiming 32x32 for a 512px file makes the browser scale the wrong one. --}}
-        @if ($generalSettings->site_icon)
-            <link rel="icon" href="{{ $generalSettings->site_icon }}">
-            <link rel="apple-touch-icon" href="{{ $generalSettings->site_icon }}">
+        @if ($generalSettings->siteIconUrl())
+            <link rel="icon" href="{{ $generalSettings->siteIconUrl() }}">
+            <link rel="apple-touch-icon" href="{{ $generalSettings->siteIconUrl() }}">
         @else
             <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
             <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">

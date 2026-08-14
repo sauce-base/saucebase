@@ -45,7 +45,9 @@ class SettingsInfrastructureTest extends TestCase
             '--no-interaction' => true,
         ])->assertSuccessful();
 
-        $this->assertTrue(Schema::hasTable('settings'));
+        $settingsTable = config('settings.repositories.database.table') ?? 'settings';
+
+        $this->assertTrue(Schema::hasTable($settingsTable));
     }
 
     /**
@@ -60,6 +62,22 @@ class SettingsInfrastructureTest extends TestCase
 
         $this->assertInstanceOf(Width::class, $width);
         $this->assertNotSame(Width::Full, $width);
+    }
+
+    public function test_settings_navigation_sort_is_bounded_at_the_integer_limit(): void
+    {
+        $navigationSort = new ReflectionClass(SettingsPage::class)->getProperty('navigationSort');
+        $originalNavigationSort = $navigationSort->getValue();
+
+        try {
+            $navigationSort->setValue(null, 1000);
+            $this->assertSame(PHP_INT_MAX, SettingsPage::getNavigationSort());
+
+            $navigationSort->setValue(null, 1001);
+            $this->assertSame(PHP_INT_MAX, SettingsPage::getNavigationSort());
+        } finally {
+            $navigationSort->setValue(null, $originalNavigationSort);
+        }
     }
 
     /**

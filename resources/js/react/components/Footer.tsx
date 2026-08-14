@@ -1,5 +1,5 @@
-import { useT } from '@/i18n';
 import { useSettings } from '@/hooks/useSettings';
+import { useT } from '@/i18n';
 import { Link } from '@inertiajs/react';
 import { Heart } from 'lucide-react';
 
@@ -54,9 +54,20 @@ export default function Footer() {
                 </div>
             </div>
             <div className="absolute bottom-0 z-0 translate-y-[20%] scale-105 px-4 font-mono">
-                <p className="text-center text-[21vw] leading-none font-black -tracking-widest select-none">
-                    <span className="text-foreground/5">Sauce</span>
-                    <span className="text-foreground/10">base</span>
+                <p
+                    className="text-center text-[21vw] leading-none font-black -tracking-widest select-none"
+                    data-testid="footer-watermark"
+                >
+                    {settings.general.site_name === 'Saucebase' ? (
+                        <>
+                            <span className="text-foreground/5">Sauce</span>
+                            <span className="text-foreground/10">base</span>
+                        </>
+                    ) : (
+                        <span className="text-foreground/10">
+                            {settings.general.site_name}
+                        </span>
+                    )}
                 </p>
             </div>
         </footer>

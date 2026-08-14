@@ -7,7 +7,9 @@ use App\Filament\Admin\Pages\GeneralSettings as GeneralSettingsPage;
 use App\Models\User;
 use App\Settings\GeneralSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Testing\AssertableInertia;
 use Livewire\Livewire;
@@ -50,9 +52,12 @@ class GeneralSettingsTest extends TestCase
         $migration = require database_path('settings/0001_01_01_000010_create_general_settings.php');
         $migration->up();
 
-        $this->assertSame('Existing Platform', $settings->site_name);
-        $this->assertSame('Existing tagline', $settings->site_tagline);
-        $this->assertSame('Existing description.', $settings->site_description);
+        app()->forgetInstance(GeneralSettings::class);
+        $reloadedSettings = app(GeneralSettings::class);
+
+        $this->assertSame('Existing Platform', $reloadedSettings->site_name);
+        $this->assertSame('Existing tagline', $reloadedSettings->site_tagline);
+        $this->assertSame('Existing description.', $reloadedSettings->site_description);
     }
 
     public function test_administrator_can_load_general_settings_form(): void
@@ -67,11 +72,16 @@ class GeneralSettingsTest extends TestCase
                 'site_name' => 'Saucebase',
                 'site_tagline' => null,
                 'site_description' => null,
+                'site_icon' => null,
+                'site_logo' => null,
+                'prefer_logo' => false,
             ]);
     }
 
     public function test_administrator_can_save_general_settings(): void
     {
+        Storage::fake('public');
+
         $admin = User::factory()->create();
         $admin->assignRole(Role::ADMIN);
 
@@ -82,16 +92,27 @@ class GeneralSettingsTest extends TestCase
                 'site_name' => 'Acme Platform',
                 'site_tagline' => 'The modular SaaS starter kit',
                 'site_description' => 'The Acme customer platform.',
+                'site_icon' => UploadedFile::fake()->image('icon.png', 512, 512),
+                'site_logo' => UploadedFile::fake()->image('logo.png', 1200, 400),
+                'prefer_logo' => true,
             ])
             ->call('save')
             ->assertHasNoFormErrors()
             ->assertNotified();
 
+        app()->forgetInstance(GeneralSettings::class);
         $settings = app(GeneralSettings::class);
 
         $this->assertSame('Acme Platform', $settings->site_name);
         $this->assertSame('The modular SaaS starter kit', $settings->site_tagline);
         $this->assertSame('The Acme customer platform.', $settings->site_description);
+        $this->assertStringStartsWith('site-branding/', $settings->site_icon);
+        $this->assertStringStartsWith('site-branding/', $settings->site_logo);
+        $this->assertTrue($settings->prefer_logo);
+        Storage::disk('public')->assertExists($settings->site_icon);
+        Storage::disk('public')->assertExists($settings->site_logo);
+        $this->assertSame(Storage::disk('public')->url($settings->site_icon), $settings->siteIconUrl());
+        $this->assertSame(Storage::disk('public')->url($settings->site_logo), $settings->siteLogoUrl());
     }
 
     public function test_site_name_is_required_without_changing_persisted_settings(): void
@@ -114,6 +135,46 @@ class GeneralSettingsTest extends TestCase
 
         $this->assertSame('Saucebase', $settings->site_name);
         $this->assertNull($settings->site_description);
+    }
+
+    #[DataProvider('brandImageFieldsProvider')]
+    public function test_branding_uploads_must_be_images(string $field): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->create();
+        $admin->assignRole(Role::ADMIN);
+
+        $this->actingAs($admin);
+
+        Livewire::test(GeneralSettingsPage::class)
+            ->fillForm([
+                'site_name' => 'Saucebase',
+                $field => UploadedFile::fake()->create('document.pdf', 100, 'application/pdf'),
+            ])
+            ->call('save')
+            ->assertHasFormErrors([$field])
+            ->assertNotNotified();
+    }
+
+    #[DataProvider('brandImageFieldsProvider')]
+    public function test_branding_uploads_must_not_exceed_one_megabyte(string $field): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->create();
+        $admin->assignRole(Role::ADMIN);
+
+        $this->actingAs($admin);
+
+        Livewire::test(GeneralSettingsPage::class)
+            ->fillForm([
+                'site_name' => 'Saucebase',
+                $field => UploadedFile::fake()->image('large.png')->size(1025),
+            ])
+            ->call('save')
+            ->assertHasFormErrors([$field])
+            ->assertNotNotified();
     }
 
     #[DataProvider('invalidSettingsProvider')]
@@ -154,17 +215,24 @@ class GeneralSettingsTest extends TestCase
 
     public function test_general_settings_are_shared_with_inertia(): void
     {
+        Storage::fake('public');
+        Storage::disk('public')->put('site-branding/icon.png', 'icon');
+
         $settings = app(GeneralSettings::class);
         $settings->site_name = 'Acme Platform';
         $settings->site_tagline = 'The modular SaaS starter kit';
         $settings->site_description = 'The Acme customer platform.';
+        $settings->site_icon = 'site-branding/icon.png';
+        $settings->site_logo = 'https://cdn.example.com/logo.svg';
         $settings->save();
 
         $this->get('/general-settings-probe')
             ->assertInertia(fn (AssertableInertia $page): AssertableInertia => $page
                 ->where('settings.general.site_name', 'Acme Platform')
                 ->where('settings.general.site_tagline', 'The modular SaaS starter kit')
-                ->where('settings.general.site_description', 'The Acme customer platform.'));
+                ->where('settings.general.site_description', 'The Acme customer platform.')
+                ->where('settings.general.site_icon', Storage::disk('public')->url('site-branding/icon.png'))
+                ->where('settings.general.site_logo', 'https://cdn.example.com/logo.svg'));
     }
 
     public function test_root_view_renders_settings_driven_title_and_description(): void
@@ -212,6 +280,17 @@ class GeneralSettingsTest extends TestCase
                 'value' => str_repeat('a', 501),
                 'rule' => 'max',
             ],
+        ];
+    }
+
+    /**
+     * @return array<string, array{field: string}>
+     */
+    public static function brandImageFieldsProvider(): array
+    {
+        return [
+            'site icon' => ['field' => 'site_icon'],
+            'site logo' => ['field' => 'site_logo'],
         ];
     }
 }

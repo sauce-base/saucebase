@@ -50,17 +50,20 @@ class HandleInertiaRequests extends Middleware
             'navigation' => fn () => app(Navigation::class)->treeGrouped(),
             'breadcrumbs' => fn () => $this->getBreadcrumbs(),
             'toast' => fn () => $request->session()->pull('toast'),
-            'settings.general' => fn (): array => app(GeneralSettings::class)
-                ->toCollection()
-                ->only([
-                    'site_name',
-                    'site_tagline',
-                    'site_description',
-                    'site_icon',
-                    'site_logo',
-                    'prefer_logo',
-                ])
-                ->all(),
+            'settings.general' => function (): array {
+                $settings = app(GeneralSettings::class);
+
+                return [
+                    ...$settings->toCollection()->only([
+                        'site_name',
+                        'site_tagline',
+                        'site_description',
+                        'prefer_logo',
+                    ])->all(),
+                    'site_icon' => $settings->siteIconUrl(),
+                    'site_logo' => $settings->siteLogoUrl(),
+                ];
+            },
             // Ziggy data is computed lazily so it can be skipped on partial reloads
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

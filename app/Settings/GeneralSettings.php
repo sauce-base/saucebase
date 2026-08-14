@@ -2,6 +2,8 @@
 
 namespace App\Settings;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\LaravelSettings\Settings;
 
 /**
@@ -35,8 +37,27 @@ class GeneralSettings extends Settings
      */
     public bool $prefer_logo;
 
+    public function siteIconUrl(): ?string
+    {
+        return $this->publicFileUrl($this->site_icon);
+    }
+
+    public function siteLogoUrl(): ?string
+    {
+        return $this->publicFileUrl($this->site_logo);
+    }
+
     public static function group(): string
     {
         return 'general';
+    }
+
+    private function publicFileUrl(?string $path): ?string
+    {
+        if (! $path) {
+            return null;
+        }
+
+        return Str::isUrl($path) ? $path : Storage::disk('public')->url($path);
     }
 }

@@ -13,7 +13,9 @@ use Filament\Support\Enums\Width;
  */
 abstract class SettingsPage extends BaseSettingsPage
 {
-    private const int NAVIGATION_SORT_OFFSET = PHP_INT_MAX - 1000;
+    private const int MAX_NAVIGATION_SORT = 1000;
+
+    private const int NAVIGATION_SORT_OFFSET = PHP_INT_MAX - self::MAX_NAVIGATION_SORT;
 
     /**
      * Filament pages fill the viewport, which on a wide monitor stretches a single-column
@@ -28,6 +30,6 @@ abstract class SettingsPage extends BaseSettingsPage
 
     public static function getNavigationSort(): ?int
     {
-        return self::NAVIGATION_SORT_OFFSET + (static::$navigationSort ?? 0);
+        return self::NAVIGATION_SORT_OFFSET + min(static::$navigationSort ?? 0, self::MAX_NAVIGATION_SORT);
     }
 }

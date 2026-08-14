@@ -6,9 +6,9 @@ Saucebase uses a restricted form of Conventional Commits:
 type(scope): subject
 ```
 
-The scope is optional. The type and subject must be lowercase, the commit must
-be a single line with no body or footer, and the complete header must not exceed
-150 characters.
+The scope is optional. The type, scope, and subject must be lowercase, the
+commit must be a single line with no body or footer, and the complete header
+must not exceed 150 characters.
 
 Allowed types:
 
