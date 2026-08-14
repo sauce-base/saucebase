@@ -24,8 +24,8 @@ class AgentConversationsMigrationTest extends TestCase
 
             $this->assertTrue(Schema::hasTable('agent_conversations'));
             $this->assertTrue(Schema::hasTable('agent_conversation_messages'));
-            $this->assertTrue($this->columnIsNullable('agent_conversations', 'user_id'));
-            $this->assertTrue($this->columnIsNullable('agent_conversation_messages', 'user_id'));
+            $this->assertFalse($this->columnIsNullable('agent_conversations', 'user_id'));
+            $this->assertFalse($this->columnIsNullable('agent_conversation_messages', 'user_id'));
 
             $this->assertTrue(Schema::hasIndex('agent_conversations', ['id'], 'primary'));
             $this->assertTrue(Schema::hasIndex('agent_conversation_messages', ['id'], 'primary'));
