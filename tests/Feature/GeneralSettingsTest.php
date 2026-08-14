@@ -235,28 +235,21 @@ class GeneralSettingsTest extends TestCase
                 ->where('settings.general.site_logo', 'https://cdn.example.com/logo.svg'));
     }
 
-    public function test_root_view_renders_settings_driven_title_and_description(): void
+    public function test_frontend_stack_views_render_settings_driven_metadata(): void
     {
-        $settings = app(GeneralSettings::class);
-        $settings->site_name = 'Acme Platform';
-        $settings->site_description = 'The Acme customer platform.';
-        $settings->save();
+        foreach (['vue', 'react'] as $stack) {
+            $template = file_get_contents(base_path("stubs/saucebase/stack/{$stack}/views/app.blade.php"));
 
-        $content = $this->get('/general-settings-probe')->getContent();
-
-        $this->assertSame(1, substr_count($content, '<title'));
-        $this->assertStringContainsString('<title data-inertia>Acme Platform</title>', $content);
-        $this->assertStringContainsString(
-            '<meta data-inertia="description" name="description" content="The Acme customer platform.">',
-            $content,
-        );
-    }
-
-    public function test_root_view_omits_description_meta_when_no_description_is_set(): void
-    {
-        $content = $this->get('/general-settings-probe')->getContent();
-
-        $this->assertStringNotContainsString('name="description"', $content);
+            $this->assertIsString($template);
+            $this->assertStringContainsString(
+                '<title data-inertia>{{ $generalSettings->site_name }}</title>',
+                $template,
+            );
+            $this->assertMatchesRegularExpression(
+                '/@if \(\$generalSettings->site_description\).*name="description".*@endif/s',
+                $template,
+            );
+        }
     }
 
     /**

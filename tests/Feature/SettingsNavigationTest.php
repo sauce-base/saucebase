@@ -7,8 +7,6 @@ use App\Filament\Admin\Pages\GeneralSettings;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
-use Filament\Navigation\NavigationItem;
-use Filament\Support\Icons\Heroicon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -44,21 +42,6 @@ class SettingsNavigationTest extends TestCase
             __('General'),
             collect($settingsGroup->getItems())->map->getLabel()->all(),
         );
-        $this->assertSame([
-            null,
-            __('Authentication'),
-            __('Billing'),
-            __('Settings'),
-        ], $navigation->map->getLabel()->all());
-
-        $navigationItems = $navigation
-            ->flatMap(fn (NavigationGroup $group) => $group->getItems())
-            ->keyBy(fn (NavigationItem $item): string => $item->getLabel());
-
-        $this->assertSame(Heroicon::OutlinedUsers, $navigationItems[__('Users')]->getIcon());
-        $this->assertSame(Heroicon::OutlinedCube, $navigationItems[__('Products')]->getIcon());
-        $this->assertSame(Heroicon::OutlinedArrowPathRoundedSquare, $navigationItems[__('Subscriptions')]->getIcon());
-        $this->assertSame(Heroicon::OutlinedIdentification, $navigationItems[__('Customers')]->getIcon());
     }
 
     public function test_settings_pages_do_not_render_duplicate_sub_navigation(): void

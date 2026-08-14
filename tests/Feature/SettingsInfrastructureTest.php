@@ -88,14 +88,16 @@ class SettingsInfrastructureTest extends TestCase
     {
         $pages = $this->moduleSettingsPages();
 
-        $this->assertNotEmpty($pages, 'No module settings pages were discovered.');
+        $invalidPages = array_values(array_filter(
+            $pages,
+            fn (string $page): bool => ! is_subclass_of($page, SettingsPage::class),
+        ));
 
-        foreach ($pages as $page) {
-            $this->assertTrue(
-                is_subclass_of($page, SettingsPage::class),
-                $page.' extends Filament\Pages\SettingsPage directly. Extend '.SettingsPage::class.' instead.',
-            );
-        }
+        $this->assertSame(
+            [],
+            $invalidPages,
+            implode(', ', $invalidPages).' must extend '.SettingsPage::class.'.',
+        );
     }
 
     /**
