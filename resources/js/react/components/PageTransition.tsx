@@ -13,7 +13,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     pendingChildren.current = children;
 
     useEffect(() => {
-        if (page.url === prevUrl.current) return;
+        if (page.url === prevUrl.current) {
+            setDisplayedChildren(children);
+
+            return;
+        }
+
         prevUrl.current = page.url;
 
         const prefersReducedMotion =
@@ -31,7 +36,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             setVisible(true);
         }, DURATION);
         return () => clearTimeout(t);
-    }, [page.url]);
+    }, [children, page.url]);
 
     return (
         <div
