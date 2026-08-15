@@ -6,7 +6,11 @@ import '@css/app.css';
 import { createInertiaApp } from '@inertiajs/react';
 import { siteTitle } from '@js/settings';
 import { createRoot } from 'react-dom/client';
-import { discoverModuleSetups, executeModuleSetups } from './lib/moduleSetup';
+import {
+    discoverModuleSetups,
+    executeAfterMountCallbacks,
+    executeModuleSetups,
+} from './lib/moduleSetup';
 import { resolveModularPageComponent } from './lib/utils';
 
 initializeTheme();
@@ -43,6 +47,8 @@ createInertiaApp({
                     </App>
                 </I18nProvider>,
             );
+
+            executeAfterMountCallbacks(moduleSetups);
         });
     },
     progress: {
