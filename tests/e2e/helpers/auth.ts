@@ -66,11 +66,14 @@ async function currentAuthUser(page: Page): Promise<unknown> {
 // `expect.poll` rather than a single check: right after an in-page action
 // (e.g. clicking "log in") the redirect chain that follows — POST, then
 // possibly another server-side redirect from a module reacting to the new
-// session — may still be in flight, so the first reload can race it.
+// session — may still be in flight, so the first reload can race it. Each
+// attempt does a real network round trip (reload), not a cheap DOM check, so
+// the default 5s budget is tight under local multi-worker parallelism —
+// give it more room.
 export async function expectAuthenticated(page: Page): Promise<void> {
-    await expect.poll(() => currentAuthUser(page)).not.toBeNull();
+    await expect.poll(() => currentAuthUser(page), { timeout: 15_000 }).not.toBeNull();
 }
 
 export async function expectGuest(page: Page): Promise<void> {
-    await expect.poll(() => currentAuthUser(page)).toBeNull();
+    await expect.poll(() => currentAuthUser(page), { timeout: 15_000 }).toBeNull();
 }
