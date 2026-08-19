@@ -23,33 +23,35 @@ createInertiaApp({
     setup({ el, App: InertiaApp, props }) {
         const locale = (props.initialPage.props?.locale as string) || 'en';
 
-        executeModuleSetups(moduleSetups).then(() => {
-            createRoot(el).render(
-                <I18nProvider initialLocale={locale}>
-                    <App>
-                        <InertiaApp {...props}>
-                            {({ Component, props: pageProps, key }) => (
-                                <>
-                                    {getGlobalComponents('top').map(
-                                        (TopComponent, i) => (
-                                            <TopComponent key={i} />
-                                        ),
-                                    )}
-                                    <Component key={key} {...pageProps} />
-                                    {getGlobalComponents('bottom').map(
-                                        (BottomComponent, i) => (
-                                            <BottomComponent key={i} />
-                                        ),
-                                    )}
-                                </>
-                            )}
-                        </InertiaApp>
-                    </App>
-                </I18nProvider>,
-            );
+        executeModuleSetups(moduleSetups)
+            .then(() => {
+                createRoot(el).render(
+                    <I18nProvider initialLocale={locale}>
+                        <App>
+                            <InertiaApp {...props}>
+                                {({ Component, props: pageProps, key }) => (
+                                    <>
+                                        {getGlobalComponents('top').map(
+                                            (TopComponent, i) => (
+                                                <TopComponent key={i} />
+                                            ),
+                                        )}
+                                        <Component key={key} {...pageProps} />
+                                        {getGlobalComponents('bottom').map(
+                                            (BottomComponent, i) => (
+                                                <BottomComponent key={i} />
+                                            ),
+                                        )}
+                                    </>
+                                )}
+                            </InertiaApp>
+                        </App>
+                    </I18nProvider>,
+                );
 
-            executeAfterMountCallbacks(moduleSetups);
-        });
+                return executeAfterMountCallbacks(moduleSetups);
+            })
+            .catch(console.error);
     },
     progress: {
         color:
