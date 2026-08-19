@@ -38,8 +38,8 @@ createInertiaApp({
             });
 
         // Execute module setup functions and collect afterMount callbacks
-        executeModuleSetups(app, moduleSetups).then(
-            async (afterMountCallbacks) => {
+        executeModuleSetups(app, moduleSetups)
+            .then(async (afterMountCallbacks) => {
                 // Initialize global theme persistence after mount for proper Vue reactivity
                 useColorMode({ storageKey: 'appearance' });
 
@@ -51,9 +51,9 @@ createInertiaApp({
                 app.mount(el);
 
                 // Execute module afterMount callbacks
-                executeAfterMountCallbacks(afterMountCallbacks, app);
-            },
-        );
+                return executeAfterMountCallbacks(afterMountCallbacks, app);
+            })
+            .catch(console.error);
     },
     progress: {
         color:

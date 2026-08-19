@@ -1,7 +1,6 @@
 import AlertMessage from '@/components/AlertMessage';
 import AppLogo from '@/components/AppLogo';
 import Footer from '@/components/Footer';
-import PageTransition from '@/components/PageTransition';
 import {
     Card,
     CardContent,
@@ -89,19 +88,15 @@ export default function CardLayout({
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="px-8">
-                            <PageTransition>
-                                {status || error ? (
-                                    <div data-testid="alert">
-                                        <AlertMessage
-                                            message={status || error}
-                                            variant={
-                                                status ? 'success' : 'error'
-                                            }
-                                        />
-                                    </div>
-                                ) : null}
-                                {children}
-                            </PageTransition>
+                            {status || error ? (
+                                <div data-testid="alert">
+                                    <AlertMessage
+                                        message={status || error}
+                                        variant={status ? 'success' : 'error'}
+                                    />
+                                </div>
+                            ) : null}
+                            {children}
                         </CardContent>
                     </Card>
                 </div>
