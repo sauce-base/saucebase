@@ -107,6 +107,63 @@ class LocalizationSettingsTest extends TestCase
         $this->assertNull(session('locale'));
     }
 
+    public function test_switching_stores_the_language_on_the_signed_in_user(): void
+    {
+        $this->setEnabledLocales(['en', 'pt_BR'], 'en');
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post('/locale/pt_BR')->assertOk();
+
+        $this->assertSame('pt_BR', $user->fresh()->locale);
+    }
+
+    public function test_a_stored_user_language_survives_a_new_session(): void
+    {
+        $this->setEnabledLocales(['en', 'pt_BR'], 'en');
+
+        $user = User::factory()->create(['locale' => 'pt_BR']);
+
+        // No session locale at all: a different browser, or a session that has expired.
+        $this->actingAs($user)->get('/localization-probe')->assertOk();
+
+        $this->assertSame('pt_BR', app()->getLocale());
+    }
+
+    public function test_a_stored_user_language_outranks_the_session(): void
+    {
+        $this->setEnabledLocales(['en', 'pt_BR'], 'en');
+
+        $user = User::factory()->create(['locale' => 'pt_BR']);
+
+        $this->actingAs($user)
+            ->withSession(['locale' => 'en'])
+            ->get('/localization-probe')
+            ->assertOk();
+
+        $this->assertSame('pt_BR', app()->getLocale());
+    }
+
+    public function test_a_stored_user_language_that_is_no_longer_enabled_falls_back(): void
+    {
+        $user = User::factory()->create(['locale' => 'pt_BR']);
+
+        $this->setEnabledLocales(['en'], 'en');
+
+        $this->actingAs($user)->get('/localization-probe')->assertOk();
+
+        $this->assertSame('en', app()->getLocale());
+    }
+
+    public function test_a_user_language_drives_notifications(): void
+    {
+        $user = User::factory()->create(['locale' => 'pt_BR']);
+
+        // The contract Laravel reads when sending, which is what carries the choice
+        // beyond the request it was made in.
+        $this->assertSame('pt_BR', $user->preferredLocale());
+    }
+
     public function test_enabled_never_resolves_to_no_language(): void
     {
         $this->setEnabledLocales([], 'en');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Settings\LocalizationSettings;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
@@ -15,8 +16,12 @@ class LocalizationController extends Controller
      * The trust boundary for the setting: the selector only offers enabled languages, but
      * nothing stops a client from posting any code, so the check happens here rather than
      * in the UI.
+     *
+     * A signed-in user's choice is written to their record as well as the session, so it
+     * follows them to another browser. Assigned rather than mass-assigned, which keeps
+     * `locale` off `$fillable` until something actually needs to fill it from input.
      */
-    public function __invoke(string $locale): JsonResponse
+    public function __invoke(Request $request, string $locale): JsonResponse
     {
         $enabledLocales = array_keys(app(LocalizationSettings::class)->enabled());
 
@@ -26,6 +31,11 @@ class LocalizationController extends Controller
 
         App::setLocale($locale);
         Session::put('locale', $locale);
+
+        if ($user = $request->user()) {
+            $user->locale = $locale;
+            $user->save();
+        }
 
         return new JsonResponse(['locale' => App::getLocale()]);
     }

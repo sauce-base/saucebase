@@ -20,9 +20,9 @@ class HandleLocalization
      * than config. A locale the admin has since turned off is ignored, which is what stops
      * a stale session from pinning a visitor to a retired language.
      *
-     * ponytail: web requests only, which covers the Inertia app and the Filament panel.
-     * Queued jobs and mail still resolve `config('app.locale')`; wire them through the
-     * setting when that becomes a real complaint.
+     * This covers web requests, which is the Inertia app and the Filament panel. Mail and
+     * notifications are handled elsewhere, by `User::preferredLocale()` — Laravel reads
+     * that contract itself, including for queued sends.
      *
      * @param  Closure(Request): (Response)  $next
      */
@@ -33,7 +33,10 @@ class HandleLocalization
 
         Inertia::share('locales', $enabledLocales);
 
-        $locale = Session::get('locale');
+        // A signed-in user's stored choice outranks the session, so logging in somewhere
+        // new brings their language with them rather than inheriting whatever that browser
+        // last looked at. Switching writes both, so the two rarely disagree.
+        $locale = $request->user()->locale ?? Session::get('locale');
 
         App::setLocale(
             is_string($locale) && array_key_exists($locale, $enabledLocales)

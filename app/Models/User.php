@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Role;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable implements FilamentUser, HasMedia
+class User extends Authenticatable implements FilamentUser, HasLocalePreference, HasMedia
     // , MustVerifyEmail
 {
     use HasFactory;
@@ -96,6 +97,18 @@ class User extends Authenticatable implements FilamentUser, HasMedia
 
         // Final fallback: Default avatar
         return asset('images/default-avatar.jpg');
+    }
+
+    /**
+     * The language to address this user in.
+     *
+     * Laravel reads this contract itself when sending mail and notifications, including
+     * queued ones, which is what makes a user's choice outlive the request they made it
+     * in. Null means they have never chosen, so they follow the application default.
+     */
+    public function preferredLocale(): ?string
+    {
+        return $this->locale;
     }
 
     /**
