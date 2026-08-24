@@ -1,5 +1,3 @@
-![Saucebase](.github/assets/banner.jpg 'Saucebase')
-
 <p align="center">
   <br/>
   <a href="https://saucebase-dev.github.io/docs/">Saucebase</a> is a modular Laravel SaaS starter kit for the modern web &mdash;
