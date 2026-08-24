@@ -33,16 +33,18 @@ class PasswordChangedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $changedAt = now()->format('F j, Y, g:i a');
+        // isoFormat rather than format: the latter hardcodes English month and meridiem
+        // names no matter what locale the mail is being rendered in.
+        $changedAt = now()->isoFormat('LLL');
 
         return (new MailMessage)
-            ->subject('Password Changed Successfully')
-            ->greeting('Hello '.$notifiable->name.',')
-            ->line('Your password was successfully changed.')
-            ->line('Change time: '.$changedAt)
-            ->line('If you did not make this change, please contact us immediately.')
-            ->action('View Profile', route('settings.profile'))
-            ->line('Thank you for using our application!');
+            ->subject(__('Password Changed Successfully'))
+            ->greeting(__('Hello :name,', ['name' => $notifiable->name]))
+            ->line(__('Your password was successfully changed.'))
+            ->line(__('Change time: :time', ['time' => $changedAt]))
+            ->line(__('If you did not make this change, please contact us immediately.'))
+            ->action(__('View Profile'), route('settings.profile'))
+            ->line(__('Thank you for using our application!'));
     }
 
     /**

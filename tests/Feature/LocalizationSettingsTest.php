@@ -185,15 +185,13 @@ class LocalizationSettingsTest extends TestCase
     {
         $this->actingAsAdmin();
 
-        // One toggle per language, so the form speaks booleans while the setting stores
-        // a list of codes.
         Livewire::test(LocalizationSettingsPage::class)
             ->assertSchemaStateSet([
-                'enabled_locales' => ['en' => true, 'pt_BR' => true],
+                'enabled_locales' => ['en', 'pt_BR'],
                 'default_locale' => 'en',
             ])
             ->fillForm([
-                'enabled_locales' => ['en' => false, 'pt_BR' => true],
+                'enabled_locales' => ['pt_BR'],
                 'default_locale' => 'pt_BR',
             ])
             ->call('save')
@@ -213,11 +211,11 @@ class LocalizationSettingsTest extends TestCase
 
         Livewire::test(LocalizationSettingsPage::class)
             ->fillForm([
-                'enabled_locales' => ['en' => false, 'pt_BR' => false],
+                'enabled_locales' => [],
                 'default_locale' => 'en',
             ])
             ->call('save')
-            ->assertHasFormErrors(['default_locale']);
+            ->assertHasFormErrors(['enabled_locales']);
 
         app()->forgetInstance(LocalizationSettings::class);
 

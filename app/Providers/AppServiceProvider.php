@@ -6,6 +6,9 @@ use App\Http\Middleware\SecureHeaders;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Foundation\Events\LocaleUpdated;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use InterNACHI\Modular\Support\ModuleRegistry;
@@ -31,6 +34,25 @@ class AppServiceProvider extends ServiceProvider
         $this->configureSecureUrls();
         $this->configureFilamentDefaults();
         $this->addCommandAboutInfo();
+        $this->keepDatesInTheApplicationLanguage();
+    }
+
+    /**
+     * Teach Carbon which language the application is currently speaking.
+     *
+     * Laravel does not do this itself: `App::setLocale()` moves the translator and leaves
+     * Carbon behind, so a date rendered with `isoFormat()` keeps its English month names
+     * in a Portuguese email. Listening for the event rather than setting it in middleware
+     * covers the paths a request never touches — queued mail and notifications, which set
+     * the locale themselves from the recipient's `preferredLocale()`.
+     */
+    private function keepDatesInTheApplicationLanguage(): void
+    {
+        Carbon::setLocale($this->app->getLocale());
+
+        Event::listen(LocaleUpdated::class, function (LocaleUpdated $event): void {
+            Carbon::setLocale($event->locale);
+        });
     }
 
     /**
