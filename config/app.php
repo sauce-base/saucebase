@@ -89,7 +89,16 @@ return [
     | Available locales
     |--------------------------------------------------------------------------
     |
-    | List all locales that your application works with
+    | What each locale is called in the language selector. Names are written as a
+    | speaker of that language would write them ("Português", not "Portuguese"),
+    | which is why they live here rather than being derived.
+    |
+    | This list does not decide which languages the application offers. A locale
+    | is discovered from its "lang/" directory, in the application or in any
+    | installed module, whether or not it is named here; a discovered locale with
+    | no entry falls back to its own code. Which of them visitors can switch
+    | between, and which one is the default, are set in the admin panel under
+    | Settings, and stored via App\Settings\LocalizationSettings.
     |
     */
     'available_locales' => [
