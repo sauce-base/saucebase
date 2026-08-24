@@ -44,10 +44,15 @@ class NotificationTranslatabilityTest extends TestCase
 
         $mail = (new PasswordChangedNotification)->toMail($user);
 
+        // Merged, because MailMessage sorts lines into intro or outro depending on whether
+        // an action came before them — and the action here is absent without the settings
+        // module. Which bucket a line lands in is not what this test is about.
+        $lines = [...$mail->introLines, ...$mail->outroLines];
+
         $this->assertSame('ALTERADA', $mail->subject);
-        $this->assertContains('TROCADA', $mail->introLines);
-        $this->assertContains('CONTATE', $mail->introLines);
-        $this->assertContains('OBRIGADO', $mail->outroLines);
+        $this->assertContains('TROCADA', $lines);
+        $this->assertContains('CONTATE', $lines);
+        $this->assertContains('OBRIGADO', $lines);
     }
 
     public function test_the_recipient_name_is_a_placeholder_not_a_concatenation(): void
