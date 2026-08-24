@@ -23,14 +23,9 @@ use Spatie\LaravelSettings\Settings;
  */
 class LocalizationSettings extends Settings
 {
-    /**
-     * The locales the admin has turned on, as codes.
-     *
-     * @var list<string>
-     */
+    /** @var list<string> */
     public array $enabled_locales;
 
-    /** The locale a visitor gets before they have chosen one. */
     public string $default_locale;
 
     public static function group(): string
@@ -48,7 +43,6 @@ class LocalizationSettings extends Settings
      */
     public function available(): array
     {
-        // ponytail: two globs per request, cache it if it ever shows up in a profile.
         $paths = [
             ...glob(lang_path('*'), GLOB_ONLYDIR) ?: [],
             ...glob(base_path('modules/*/lang/*'), GLOB_ONLYDIR) ?: [],

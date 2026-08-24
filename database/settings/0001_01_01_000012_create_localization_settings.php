@@ -6,8 +6,7 @@ return new class extends SettingsMigration
 {
     public function up(): void
     {
-        // Seeded from the config that used to be the whole answer, so an existing
-        // installation keeps offering exactly the languages it offered before.
+        // Seeded from config so an existing installation keeps the languages it had.
         if (! $this->migrator->exists('localization.enabled_locales')) {
             $this->migrator->add(
                 'localization.enabled_locales',

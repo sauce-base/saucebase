@@ -34,8 +34,6 @@ class PasswordChangedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // isoFormat rather than format: the latter hardcodes English month and meridiem
-        // names no matter what locale the mail is being rendered in.
         $changedAt = now()->isoFormat('LLL');
 
         $mail = (new MailMessage)
@@ -45,9 +43,8 @@ class PasswordChangedNotification extends Notification
             ->line(__('Change time: :time', ['time' => $changedAt]))
             ->line(__('If you did not make this change, please contact us immediately.'));
 
-        // The profile page belongs to the settings module, and this notification does not.
-        // The auth module sends it too, and auth installs without settings — so the button
-        // is a courtesy that disappears rather than a dependency that throws.
+        // The auth module sends this too, and auth installs without settings — so the
+        // button disappears rather than throwing RouteNotFoundException.
         if (Route::has('settings.profile')) {
             $mail->action(__('View Profile'), route('settings.profile'));
         }

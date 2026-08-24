@@ -65,11 +65,8 @@ const currentLanguage = computed(() => {
 </script>
 
 <template>
-    <!--
-        Nothing to choose between is nothing to show. Wrapping rather than folding the
-        condition into the v-if below, which would leave the v-else rendering the submenu
-        in the single-language case.
-    -->
+    <!-- Wrapped rather than folded into the v-if below, whose v-else would otherwise
+         render the submenu in the single-language case. -->
     <template v-if="languages.length > 1">
         <!-- Standalone Mode (Landing Page) -->
         <DropdownMenu v-if="mode === 'standalone'" :modal="false">

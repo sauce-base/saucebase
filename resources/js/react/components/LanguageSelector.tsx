@@ -39,7 +39,6 @@ export default function LanguageSelector({
         Icon: iconMap[code] ?? null,
     }));
 
-    // Nothing to choose between is nothing to show.
     if (languages.length <= 1) {
         return null;
     }

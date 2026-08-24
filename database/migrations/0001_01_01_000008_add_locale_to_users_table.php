@@ -13,8 +13,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Null until the user picks one, which is what lets them keep inheriting the
-            // application default rather than being frozen to whatever it was at signup.
             $table->string('locale')->nullable()->after('avatar');
         });
     }

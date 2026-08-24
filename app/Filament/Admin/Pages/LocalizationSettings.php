@@ -51,8 +51,6 @@ class LocalizationSettings extends SettingsPage
                     Select::make('default_locale')
                         ->label(__('Default language'))
                         ->extraAttributes(['data-testid' => 'admin-default-locale'])
-                        // Sourced from what is currently ticked, so the default can never
-                        // be a language the application no longer offers.
                         ->options(fn (Get $get): array => array_intersect_key(
                             app(LocalizationSettingsData::class)->available(),
                             array_flip((array) $get('enabled_locales')),

@@ -14,12 +14,10 @@ class LocalizationController extends Controller
      * Switch the session to another language.
      *
      * The trust boundary for the setting: the selector only offers enabled languages, but
-     * nothing stops a client from posting any code, so the check happens here rather than
-     * in the UI.
+     * nothing stops a client from posting any code, so the check happens here.
      *
-     * A signed-in user's choice is written to their record as well as the session, so it
-     * follows them to another browser. Assigned rather than mass-assigned, which keeps
-     * `locale` off `$fillable` until something actually needs to fill it from input.
+     * Assigned rather than mass-assigned, which keeps `locale` off `$fillable` until
+     * something actually needs to fill it from input.
      */
     public function __invoke(Request $request, string $locale): JsonResponse
     {
