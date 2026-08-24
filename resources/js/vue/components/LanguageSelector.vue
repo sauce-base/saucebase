@@ -65,54 +65,65 @@ const currentLanguage = computed(() => {
 </script>
 
 <template>
-    <!-- Standalone Mode (Landing Page) -->
-    <DropdownMenu v-if="mode === 'standalone'" :modal="false">
-        <DropdownMenuTrigger as-child>
-            <button
-                :class="props.triggerClass"
-                :aria-label="$t('Language Selector')"
-            >
-                <slot name="trigger" :current-language="currentLanguage">
-                    <component :is="currentLanguage.icon" class="size-4.5" />
-                </slot>
-            </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" class="min-w-40">
-            <DropdownMenuItem
-                v-for="lang in languages"
-                :key="lang.code"
-                @click="switchLanguage(lang.code)"
-                :class="{
-                    'bg-accent text-accent-foreground': language === lang.code,
-                }"
-            >
-                <component :is="lang.icon" class="size-4" />
-                {{ lang.name }}
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
+    <!-- Wrapped rather than folded into the v-if below, whose v-else would otherwise
+         render the submenu in the single-language case. -->
+    <template v-if="languages.length > 1">
+        <!-- Standalone Mode (Landing Page) -->
+        <DropdownMenu v-if="mode === 'standalone'" :modal="false">
+            <DropdownMenuTrigger as-child>
+                <button
+                    :class="props.triggerClass"
+                    :aria-label="$t('Language Selector')"
+                >
+                    <slot name="trigger" :current-language="currentLanguage">
+                        <component
+                            :is="currentLanguage.icon"
+                            class="size-4.5"
+                        />
+                    </slot>
+                </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" class="min-w-40">
+                <DropdownMenuItem
+                    v-for="lang in languages"
+                    :key="lang.code"
+                    @click="switchLanguage(lang.code)"
+                    :class="{
+                        'bg-accent text-accent-foreground':
+                            language === lang.code,
+                    }"
+                >
+                    <component :is="lang.icon" class="size-4" />
+                    {{ lang.name }}
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
 
-    <!-- Submenu Mode (NavUser) -->
-    <DropdownMenuSub v-else>
-        <DropdownMenuSubTrigger
-            data-testid="language-selector-trigger"
-            class="[&>svg]:text-muted-foreground [&>svg]:mr-2"
-        >
-            <slot name="submenu-trigger" :current-language="currentLanguage">
-                <Globe class="size-3.5" />
-                {{ $t('Language') }}
-            </slot>
-        </DropdownMenuSubTrigger>
-        <DropdownMenuSubContent>
-            <DropdownMenuItem
-                v-for="lang in languages"
-                :key="lang.code"
-                @click="switchLanguage(lang.code)"
-                :class="{ 'bg-accent': language === lang.code }"
+        <!-- Submenu Mode (NavUser) -->
+        <DropdownMenuSub v-else>
+            <DropdownMenuSubTrigger
+                data-testid="language-selector-trigger"
+                class="[&>svg]:text-muted-foreground [&>svg]:mr-2"
             >
-                <component :is="lang.icon" class="h-4 w-4" />
-                {{ lang.name }}
-            </DropdownMenuItem>
-        </DropdownMenuSubContent>
-    </DropdownMenuSub>
+                <slot
+                    name="submenu-trigger"
+                    :current-language="currentLanguage"
+                >
+                    <Globe class="size-3.5" />
+                    {{ $t('Language') }}
+                </slot>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+                <DropdownMenuItem
+                    v-for="lang in languages"
+                    :key="lang.code"
+                    @click="switchLanguage(lang.code)"
+                    :class="{ 'bg-accent': language === lang.code }"
+                >
+                    <component :is="lang.icon" class="h-4 w-4" />
+                    {{ lang.name }}
+                </DropdownMenuItem>
+            </DropdownMenuSubContent>
+        </DropdownMenuSub>
+    </template>
 </template>

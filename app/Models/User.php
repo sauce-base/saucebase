@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Enums\Role;
+use App\Settings\LocalizationSettings;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable implements FilamentUser, HasMedia
+class User extends Authenticatable implements FilamentUser, HasLocalePreference, HasMedia
     // , MustVerifyEmail
 {
     use HasFactory;
@@ -96,6 +98,27 @@ class User extends Authenticatable implements FilamentUser, HasMedia
 
         // Final fallback: Default avatar
         return asset('images/default-avatar.jpg');
+    }
+
+    /**
+     * The language to address this user in.
+     *
+     * Laravel reads this contract itself when sending mail and notifications, including
+     * queued ones, which is what makes a user's choice outlive the request they made it in.
+     *
+     * Null for a language the admin has since turned off, rather than a substitute one:
+     * `withLocale()` then leaves the ambient locale alone, which the middleware has already
+     * resolved against the enabled set.
+     */
+    public function preferredLocale(): ?string
+    {
+        if ($this->locale === null) {
+            return null;
+        }
+
+        $enabled = app(LocalizationSettings::class)->enabled();
+
+        return array_key_exists($this->locale, $enabled) ? $this->locale : null;
     }
 
     /**

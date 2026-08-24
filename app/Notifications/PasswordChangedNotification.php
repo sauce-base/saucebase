@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Route;
 
 class PasswordChangedNotification extends Notification
 {
@@ -33,16 +34,22 @@ class PasswordChangedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $changedAt = now()->format('F j, Y, g:i a');
+        $changedAt = now()->isoFormat('LLL');
 
-        return (new MailMessage)
-            ->subject('Password Changed Successfully')
-            ->greeting('Hello '.$notifiable->name.',')
-            ->line('Your password was successfully changed.')
-            ->line('Change time: '.$changedAt)
-            ->line('If you did not make this change, please contact us immediately.')
-            ->action('View Profile', route('settings.profile'))
-            ->line('Thank you for using our application!');
+        $mail = (new MailMessage)
+            ->subject(__('Password Changed Successfully'))
+            ->greeting(__('Hello :name,', ['name' => $notifiable->name]))
+            ->line(__('Your password was successfully changed.'))
+            ->line(__('Change time: :time', ['time' => $changedAt]))
+            ->line(__('If you did not make this change, please contact us immediately.'));
+
+        // The auth module sends this too, and auth installs without settings — so the
+        // button disappears rather than throwing RouteNotFoundException.
+        if (Route::has('settings.profile')) {
+            $mail->action(__('View Profile'), route('settings.profile'));
+        }
+
+        return $mail->line(__('Thank you for using our application!'));
     }
 
     /**

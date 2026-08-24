@@ -39,6 +39,10 @@ export default function LanguageSelector({
         Icon: iconMap[code] ?? null,
     }));
 
+    if (languages.length <= 1) {
+        return null;
+    }
+
     const currentLanguage =
         languages.find((l) => l.code === language) ?? languages[0];
     const CurrentIcon = currentLanguage?.Icon ?? null;
