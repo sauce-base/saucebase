@@ -8,16 +8,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
-use Modules\Auth\Notifications\WelcomeNotification;
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 /**
  * Every line a user reads has to reach them through the translator.
  *
  * A hardcoded string is invisible until somebody installs a language and finds half the
- * email still in English, so these tests render each notification under a fake locale
- * whose every string is replaced. Anything that comes back in English was concatenated
- * rather than translated.
+ * email still in English, so these tests render the notification under a fake locale whose
+ * every string is replaced. Anything that comes back in English was concatenated rather
+ * than translated.
+ *
+ * Only core notifications belong here. A module's own are covered inside that module, so
+ * this suite keeps passing on an installation that does not have it.
  */
 class NotificationTranslatabilityTest extends TestCase
 {
@@ -42,25 +45,9 @@ class NotificationTranslatabilityTest extends TestCase
         $mail = (new PasswordChangedNotification)->toMail($user);
 
         $this->assertSame('ALTERADA', $mail->subject);
-        $this->assertSame('PERFIL', $mail->actionText);
         $this->assertContains('TROCADA', $mail->introLines);
         $this->assertContains('CONTATE', $mail->introLines);
         $this->assertContains('OBRIGADO', $mail->outroLines);
-    }
-
-    public function test_welcome_notification_translates_every_line(): void
-    {
-        $user = User::factory()->create(['name' => 'Ana']);
-
-        App::setLocale('xx');
-
-        $mail = (new WelcomeNotification)->toMail($user);
-
-        $this->assertStringStartsWith('BEMVINDO', $mail->subject);
-        $this->assertSame('PAINEL', $mail->actionText);
-        $this->assertContains('CRIADA', $mail->introLines);
-        $this->assertContains('EXPLORE', $mail->introLines);
-        $this->assertContains('GRATO', $mail->outroLines);
     }
 
     public function test_the_recipient_name_is_a_placeholder_not_a_concatenation(): void
@@ -71,7 +58,25 @@ class NotificationTranslatabilityTest extends TestCase
 
         // Building the greeting with "." would leave "Hello" permanently English.
         $this->assertSame('OLA Ana,', (new PasswordChangedNotification)->toMail($user)->greeting);
-        $this->assertSame('OLA Ana,', (new WelcomeNotification)->toMail($user)->greeting);
+    }
+
+    /**
+     * The profile button points into the settings module, which core installs without.
+     */
+    public function test_the_profile_button_appears_only_where_the_route_exists(): void
+    {
+        $user = User::factory()->create();
+
+        App::setLocale('xx');
+
+        if (Route::has('settings.profile')) {
+            $this->assertSame('PERFIL', (new PasswordChangedNotification)->toMail($user)->actionText);
+
+            return;
+        }
+
+        // Without the settings module the mail still sends, minus the button.
+        $this->assertNull((new PasswordChangedNotification)->toMail($user)->actionText);
     }
 
     /**
