@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Role;
+use App\Settings\LocalizationSettings;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -103,12 +104,21 @@ class User extends Authenticatable implements FilamentUser, HasLocalePreference,
      * The language to address this user in.
      *
      * Laravel reads this contract itself when sending mail and notifications, including
-     * queued ones, which is what makes a user's choice outlive the request they made it
-     * in. Null means they have never chosen, so they follow the application default.
+     * queued ones, which is what makes a user's choice outlive the request they made it in.
+     *
+     * Null for a language the admin has since turned off, rather than a substitute one:
+     * `withLocale()` then leaves the ambient locale alone, which the middleware has already
+     * resolved against the enabled set.
      */
     public function preferredLocale(): ?string
     {
-        return $this->locale;
+        if ($this->locale === null) {
+            return null;
+        }
+
+        $enabled = app(LocalizationSettings::class)->enabled();
+
+        return array_key_exists($this->locale, $enabled) ? $this->locale : null;
     }
 
     /**

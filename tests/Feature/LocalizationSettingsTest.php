@@ -157,11 +157,32 @@ class LocalizationSettingsTest extends TestCase
 
     public function test_a_user_language_drives_notifications(): void
     {
+        $this->setEnabledLocales(['en', 'pt_BR'], 'en');
+
         $user = User::factory()->create(['locale' => 'pt_BR']);
 
         // The contract Laravel reads when sending, which is what carries the choice
         // beyond the request it was made in.
         $this->assertSame('pt_BR', $user->preferredLocale());
+    }
+
+    public function test_a_user_who_never_chose_expresses_no_preference(): void
+    {
+        $user = User::factory()->create(['locale' => null]);
+
+        // Null leaves withLocale() alone, so a notification sent mid-request stays in the
+        // language the visitor is actually reading.
+        $this->assertNull($user->preferredLocale());
+    }
+
+    public function test_a_user_language_that_is_no_longer_enabled_expresses_no_preference(): void
+    {
+        $user = User::factory()->create(['locale' => 'pt_BR']);
+
+        $this->setEnabledLocales(['en'], 'en');
+
+        // Otherwise the browser would say English and the email would still say Portuguese.
+        $this->assertNull($user->fresh()->preferredLocale());
     }
 
     public function test_enabled_never_resolves_to_no_language(): void
