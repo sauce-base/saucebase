@@ -221,7 +221,7 @@ class RecipeToModuleCommandTest extends TestCase
         $this->writeFrontendJson(['framework' => null]);
 
         $this->artisan('saucebase:recipe', ['module' => 'TestExit'])
-            ->expectsOutputToContain('No frontend framework selected');
+            ->expectsPromptsError('No frontend framework selected. Run `saucebase stack vue` or `saucebase stack react` first.');
 
         $this->assertDirectoryDoesNotExist($this->tmpDir.'/modules/test-exit');
     }
