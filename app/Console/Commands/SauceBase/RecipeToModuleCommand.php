@@ -67,7 +67,7 @@ class RecipeToModuleCommand extends Command
         $framework = $frontendConfig->getFramework();
 
         if ($framework === null) {
-            error('No frontend framework selected. Run `php artisan saucebase:stack vue` or `php artisan saucebase:stack react` first.');
+            error('No frontend framework selected. Run `saucebase stack vue` or `saucebase stack react` first.');
 
             return true;
         }

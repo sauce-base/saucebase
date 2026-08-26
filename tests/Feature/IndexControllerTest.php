@@ -59,7 +59,8 @@ class IndexControllerTest extends TestCase
         $this->bindFramework(null);
 
         $this->get('/')
-            ->assertSeeText('saucebase:install vue')
-            ->assertSeeText('saucebase:install react');
+            ->assertSeeText('saucebase stack vue')
+            ->assertSeeText('saucebase stack react')
+            ->assertDontSeeText('php artisan saucebase:install');
     }
 }
