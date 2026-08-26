@@ -37,19 +37,6 @@ includes:
     # ── END MODULES ──────────────────────────────────────────────────
 
 tasks:
-    # ── Installation ──────────────────────────────────────────────
-
-    install:docker:
-        desc: Fresh install — Docker + Node required
-        cmd: bash bin/setup-env {{.CLI_ARGS}}
-
-    install:
-        desc: Fresh install (PHP, Composer, Node required)
-        cmds:
-            - composer install
-            - '{{.APP}} php artisan saucebase:install --all-modules'
-            - npm install
-
     # ── Development ───────────────────────────────────────────────
 
     dev:
