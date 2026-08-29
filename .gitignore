@@ -12,12 +12,15 @@
 /.vscode
 /.zed
 /.claude
+/.codex
 /.agents
+/.ai
 
 # Laravel Boost generated output — run `php artisan boost:install` to create
 /AGENTS.md
 /CLAUDE.md
 /boost.json
+/opencode.json
 /auth.json
 /node_modules
 /public/build
@@ -78,3 +81,4 @@ _ide_helper_models.php
 
 .github/skills/*/*
 stubs/saucebase/stack/*/node_modules
+

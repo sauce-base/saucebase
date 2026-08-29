@@ -20,7 +20,6 @@ This file lists the production Composer (PHP) dependencies used by Saucebase and
 | filament/widgets                             | ^5.0    | MIT     | https://github.com/filamentphp/filament            |
 | inertiajs/inertia-laravel                    | ^3.0    | MIT     | https://github.com/inertiajs/inertia-laravel       |
 | internachi/modular                           | ^2.0    | MIT     | https://github.com/InterNACHI/modular              |
-| laravel/ai                                   | ^0.1.2  | MIT     | https://github.com/laravel/ai                      |
 | laravel/framework                            | ^12.0   | MIT     | https://github.com/laravel/framework               |
 | laravel/sanctum                              | ^4.0    | MIT     | https://github.com/laravel/sanctum                 |
 | laravel/tinker                               | ^2.10.1 | MIT     | https://github.com/laravel/tinker                  |
