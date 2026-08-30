@@ -21,9 +21,12 @@ export default function Header() {
 
     const landingNav = ((page.props.navigation as Record<string, unknown>)
         ?.landing ?? []) as MenuItem[];
-    const auth = page.props.auth as { user?: unknown } | undefined;
+    const auth = page.props.auth as
+        | { user?: unknown; registration_enabled?: boolean }
+        | undefined;
     const isLoggedIn = auth?.user != null;
     const isGuest = has('auth') && !isLoggedIn;
+    const canRegister = isGuest && auth?.registration_enabled === true;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -102,12 +105,14 @@ export default function Header() {
                                 >
                                     {t('Sign In')}
                                 </Link>
-                                <Link
-                                    href={route('register')}
-                                    className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
-                                >
-                                    {t('Get Started')}
-                                </Link>
+                                {canRegister && (
+                                    <Link
+                                        href={route('register')}
+                                        className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                                    >
+                                        {t('Get Started')}
+                                    </Link>
+                                )}
                             </>
                         )}
                         {route().has('dashboard') && isLoggedIn && (
@@ -182,16 +187,18 @@ export default function Header() {
                                         >
                                             {t('Sign In')}
                                         </Link>
-                                        <Link
-                                            href={route('register')}
-                                            className="bg-primary text-primary-foreground hover:bg-primary/90 flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200"
-                                            onClick={() =>
-                                                setMobileMenuOpen(false)
-                                            }
-                                        >
-                                            {t('Get Started')}
-                                            <ArrowRight className="h-3.5 w-3.5" />
-                                        </Link>
+                                        {canRegister && (
+                                            <Link
+                                                href={route('register')}
+                                                className="bg-primary text-primary-foreground hover:bg-primary/90 flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200"
+                                                onClick={() =>
+                                                    setMobileMenuOpen(false)
+                                                }
+                                            >
+                                                {t('Get Started')}
+                                                <ArrowRight className="h-3.5 w-3.5" />
+                                            </Link>
+                                        )}
                                     </div>
                                 )}
                                 {isLoggedIn && (

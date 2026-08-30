@@ -115,7 +115,11 @@ onBeforeUnmount(() => {
                     </Link>
 
                     <Link
-                        v-if="modules().has('Auth') && !$page.props.auth?.user"
+                        v-if="
+                            modules().has('Auth') &&
+                            !$page.props.auth?.user &&
+                            $page.props.auth?.registration_enabled
+                        "
                         :href="route('register')"
                         class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                     >
@@ -209,6 +213,9 @@ onBeforeUnmount(() => {
                                     {{ $t('Sign In') }}
                                 </Link>
                                 <Link
+                                    v-if="
+                                        $page.props.auth?.registration_enabled
+                                    "
                                     :href="route('register')"
                                     class="bg-primary text-primary-foreground hover:bg-primary/90 flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200"
                                     @click="mobileMenuOpen = false"
