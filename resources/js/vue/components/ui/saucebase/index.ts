@@ -6,6 +6,7 @@ import {
     BarChart3,
     Bell,
     Blocks,
+    Building2,
     CreditCard,
     Lightbulb,
     Lock,
@@ -183,6 +184,25 @@ export const modules = [
             () => trans('Categories'),
             () => trans('Admin Panel'),
             () => trans('SEO Optimized'),
+        ],
+    },
+    {
+        id: 'tenancy',
+        title: () => trans('Tenancy'),
+        description: () =>
+            trans(
+                'Subdomain-based workspaces with isolated data, member roles, email invitations, and joining by email domain.',
+            ),
+        icon: Building2,
+        color: '--color-gray-500',
+        badge: BADGE_SOON,
+        href: null,
+        frameworks: ['vue', 'react'] as const,
+        features: [
+            () => trans('Workspaces'),
+            () => trans('Data Isolation'),
+            () => trans('Roles & Invites'),
+            () => trans('Custom Domains'),
         ],
     },
     {

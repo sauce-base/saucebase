@@ -4,6 +4,7 @@ import {
     BarChart3,
     Bell,
     Blocks,
+    Building2,
     CreditCard,
     Lightbulb,
     Lock,
@@ -168,6 +169,23 @@ export const modules: Module[] = [
         href: null,
         frameworks: ['vue'] as const,
         features: ['Posts', 'Categories', 'Admin Panel', 'SEO Optimized'],
+    },
+    {
+        id: 'tenancy',
+        title: 'Tenancy',
+        description:
+            'Subdomain-based workspaces with isolated data, member roles, email invitations, and joining by email domain.',
+        icon: Building2,
+        color: '--color-gray-500',
+        badge: BADGE_SOON,
+        href: null,
+        frameworks: ['vue', 'react'] as const,
+        features: [
+            'Workspaces',
+            'Data Isolation',
+            'Roles & Invites',
+            'Custom Domains',
+        ],
     },
     {
         id: 'webhooks',
