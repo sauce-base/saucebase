@@ -13,7 +13,6 @@ import {
     Megaphone,
     Newspaper,
     Palette,
-    Settings2,
     Webhook,
 } from '@lucide/vue';
 
@@ -84,25 +83,8 @@ export const modules = [
             () => trans('Social Login'),
             () => trans('Email Verification'),
             () => trans('Impersonation'),
-        ],
-    },
-    {
-        id: 'settings',
-        title: () => trans('Settings'),
-        description: () =>
-            trans(
-                'Account settings pages for managing profile info, avatar, password, and connected social accounts.',
-            ),
-        icon: Settings2,
-        color: '--color-sky-500',
-        badge: null,
-        href: 'https://saucebase-dev.github.io/docs/modules/settings',
-        frameworks: ['vue'] as const,
-        features: [
-            () => trans('Profile Info'),
-            () => trans('Avatar Upload'),
+            () => trans('Profile & Avatar'),
             () => trans('Password Change'),
-            () => trans('Connected Accounts'),
         ],
     },
     {

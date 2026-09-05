@@ -52,7 +52,6 @@
         "saucebase/billing": "Subscription management and payment processing via Stripe with checkout, billing portal, and webhooks",
         "saucebase/demo": "Demo module with a variety of example pages and components to jumpstart your development",
         "saucebase/roadmap": "Public roadmap with feature requests, voting, moderation, and a Filament admin panel",
-        "saucebase/settings": "Account settings pages for managing profile info, avatar, password, and connected social accounts",
         "saucebase/themes": "Visual theme editor for colors, fonts, radius, and shadows — baked into CSS with no runtime overhead",
         "saucebase/blog": "Full-featured blog with posts, categories, cover images, SEO metadata, and a Filament admin panel for content management"
     },

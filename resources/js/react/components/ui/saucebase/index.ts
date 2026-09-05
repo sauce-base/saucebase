@@ -11,7 +11,6 @@ import {
     Megaphone,
     Newspaper,
     Palette,
-    Settings2,
     Webhook,
 } from 'lucide-react';
 
@@ -94,23 +93,8 @@ export const modules: Module[] = [
             'Social Login',
             'Email Verification',
             'Impersonation',
-        ],
-    },
-    {
-        id: 'settings',
-        title: 'Settings',
-        description:
-            'Account settings pages for managing profile info, avatar, password, and connected social accounts.',
-        icon: Settings2,
-        color: '--color-gray-500',
-        badge: BADGE_SOON,
-        href: null,
-        frameworks: ['vue'] as const,
-        features: [
-            'Profile Info',
-            'Avatar Upload',
+            'Profile & Avatar',
             'Password Change',
-            'Connected Accounts',
         ],
     },
     {
