@@ -58,7 +58,6 @@ Having trouble? Get help in the official [Saucebase Discord](https://discord.gg/
 | Module | Version | Description |
 | ------ | ------- | ----------- |
 | [auth](https://github.com/saucebase-dev/auth) | [![auth version](https://img.shields.io/packagist/v/saucebase/auth.svg?label=%20)](https://github.com/saucebase-dev/auth) | Authentication, social login, email verification, and admin impersonation |
-| [settings](https://github.com/saucebase-dev/settings) | [![settings version](https://img.shields.io/packagist/v/saucebase/settings.svg?label=%20)](https://github.com/saucebase-dev/settings) | User profile management, avatar uploads, and password changes |
 | [billing](https://github.com/saucebase-dev/billing) | [![billing version](https://img.shields.io/packagist/v/saucebase/billing.svg?label=%20)](https://github.com/saucebase-dev/billing) | Subscriptions, checkout sessions, and payment processing |
 | [announcements](https://github.com/saucebase-dev/announcements) | [![announcements version](https://img.shields.io/packagist/v/saucebase/announcements.svg?label=%20)](https://github.com/saucebase-dev/announcements) | Site-wide announcement banners with scheduling and dismissal support |
 | [roadmap](https://github.com/saucebase-dev/roadmap) | [![roadmap version](https://img.shields.io/packagist/v/saucebase/roadmap.svg?label=%20)](https://github.com/saucebase-dev/roadmap) | Feature requests, voting, and public product roadmap |

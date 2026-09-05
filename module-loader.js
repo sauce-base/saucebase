@@ -134,7 +134,7 @@ export async function collectModulePlaywrightConfigs() {
  *
  * @example
  * const langPaths = await collectModuleLangPaths();
- * // Returns: ['modules/auth/lang', 'modules/settings/lang', ...]
+ * // Returns: ['modules/auth/lang', 'modules/billing/lang', ...]
  */
 export async function collectModuleLangPaths() {
     const langPaths = [];

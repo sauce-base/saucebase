@@ -10,9 +10,6 @@ includes:
     auth:
         taskfile: ./modules/auth/Taskfile.yml
         optional: true
-    settings:
-        taskfile: ./modules/settings/Taskfile.yml
-        optional: true
     billing:
         taskfile: ./modules/billing/Taskfile.yml
         optional: true
