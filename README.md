@@ -73,9 +73,17 @@ Several official packages are maintained outside of this repo:
 
 ## Links
 
-- [License (MIT)](LICENSE)
 - [Contributing](CONTRIBUTING.md)
 - [Documentation](https://saucebase-dev.github.io/docs/)
 - [Demo](https://demo.saucebase.dev/)
-- [Third-party PHP / Composer licenses](THIRD_PARTY_LICENSES.md)
-- [Third-party JavaScript / npm licenses](THIRD_PARTY_PACKAGE_LICENSES.md)
+
+## License
+
+Saucebase is [MIT licensed](LICENSE).
+
+Third-party dependencies keep their own licenses. To list them:
+
+```bash
+composer licenses
+npx license-checker --production
+```
