@@ -16,6 +16,8 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar';
+import { useSettings } from '@/hooks/useSettings';
+import { settingsHref } from '@/hooks/useSettingsModal';
 import { useT } from '@/i18n';
 import { handleAction } from '@/lib/navigation';
 import type { User } from '@/types';
@@ -32,6 +34,14 @@ interface NavUserProps {
 export default function NavUser({ user, items }: NavUserProps) {
     const { isMobile } = useSidebar();
     const t = useT();
+    const settings = useSettings();
+
+    /**
+     * Every section is contributed by a module, so an installation with none has
+     * an empty settings modal and no reason to offer the entry. The `settings`
+     * route itself is core and always exists, so its presence proves nothing.
+     */
+    const hasSettingsSections = (settings.sections?.length ?? 0) > 0;
 
     const userInitials = user.name
         .split(' ')
@@ -97,14 +107,18 @@ export default function NavUser({ user, items }: NavUserProps) {
                             </div>
                         </DropdownMenuLabel>
 
-                        {route().has('settings.profile') && (
+                        {hasSettingsSections && (
                             <>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <Link href={route('settings.profile')}>
+                                    {/* A fragment, so settings open over the current page. */}
+                                    <a
+                                        href={settingsHref('profile')}
+                                        data-testid="open-settings"
+                                    >
                                         <UserCircle className="size-4" />
                                         {t('Profile')}
-                                    </Link>
+                                    </a>
                                 </DropdownMenuItem>
                             </>
                         )}

@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import DynamicDialog from './DynamicDialog';
+import SettingsModal from './SettingsModal';
 import { Toaster } from './ui/sonner';
 
 function fireToast(toastProp: Toast) {
@@ -54,6 +55,7 @@ export default function App({ children }: AppProps) {
         <>
             <Toaster />
             <DynamicDialog />
+            <SettingsModal />
             {children}
         </>
     );
