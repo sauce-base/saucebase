@@ -2,7 +2,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { type VariantProps, cva } from 'class-variance-authority';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, LabelHTMLAttributes, ReactNode } from 'react';
 
 export const fieldVariants = cva(
     'group/field flex w-full gap-3 data-[invalid=true]:text-destructive',
@@ -48,7 +48,7 @@ export function FieldLabel({
     className,
     children,
     ...props
-}: HTMLAttributes<HTMLLabelElement> & { children?: ReactNode }) {
+}: LabelHTMLAttributes<HTMLLabelElement> & { children?: ReactNode }) {
     return (
         <Label
             data-slot="field-label"

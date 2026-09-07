@@ -1,3 +1,4 @@
+import type { PageProps as InertiaPageProps } from '@inertiajs/core';
 import type { Settings } from '@js/settings';
 
 export interface User {
@@ -40,17 +41,16 @@ export interface Toast {
     duration?: number;
 }
 
+/**
+ * A page's own props on top of every shared prop.
+ *
+ * Built from the augmented Inertia interface rather than a second copy of the
+ * list below, so a module that contributes a shared prop (auth's `auth`, for
+ * one) is covered here without core having to know the module exists.
+ */
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
-> = T & {
-    locale?: string;
-    locales?: Record<string, string>;
-    modules?: Record<string, string>;
-    navigation?: Record<string, any>;
-    breadcrumbs?: Breadcrumb[];
-    toast?: Toast;
-    settings: Settings;
-};
+> = T & InertiaPageProps;
 
 declare module '@inertiajs/core' {
     interface PageProps {

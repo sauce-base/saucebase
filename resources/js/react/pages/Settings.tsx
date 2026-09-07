@@ -2,6 +2,7 @@ import { useSettings } from '@/hooks/useSettings';
 import { useSettingsModal } from '@/hooks/useSettingsModal';
 import { useT } from '@/i18n';
 import { resolveIcon } from '@/lib/navigation';
+import { OverlayContainerProvider } from '@/lib/overlayContainer';
 import { cn, resolveModularPageComponent } from '@/lib/utils';
 import { router } from '@inertiajs/react';
 import { Modal, useModal } from '@inertiaui/modal-react';
@@ -35,6 +36,7 @@ export default function Settings({
     const component = current?.component;
 
     const [panel, setPanel] = useState<ComponentType | null>(null);
+    const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
 
     useEffect(() => {
         if (!component) {
@@ -124,90 +126,93 @@ export default function Settings({
                 keeps a focus ring off whichever control happens to come first.
             */}
             <div
+                ref={setModalRoot}
                 tabIndex={0}
                 className="flex h-[80vh] outline-none"
                 data-testid="settings-modal"
             >
-                {/* Section navigation */}
-                <nav
-                    className="bg-muted/40 w-56 shrink-0 overflow-y-auto border-r p-3"
-                    data-testid="settings-sidebar"
-                >
-                    <p className="text-muted-foreground px-3 pt-2 pb-3 text-xs font-medium tracking-wide uppercase">
-                        {t('Settings')}
-                    </p>
-                    <ul className="space-y-1">
-                        {sections.map((item) => {
-                            const Icon = item.icon
-                                ? resolveIcon(item.icon)
-                                : undefined;
+                <OverlayContainerProvider container={modalRoot}>
+                    {/* Section navigation */}
+                    <nav
+                        className="bg-muted/40 w-56 shrink-0 overflow-y-auto border-r p-3"
+                        data-testid="settings-sidebar"
+                    >
+                        <p className="text-muted-foreground px-3 pt-2 pb-3 text-xs font-medium tracking-wide uppercase">
+                            {t('Settings')}
+                        </p>
+                        <ul className="space-y-1">
+                            {sections.map((item) => {
+                                const Icon = item.icon
+                                    ? resolveIcon(item.icon)
+                                    : undefined;
 
-                            return (
-                                <li key={item.slug}>
-                                    <button
-                                        type="button"
-                                        data-testid={`settings-section-${item.slug}`}
-                                        aria-current={
-                                            slug === item.slug
-                                                ? 'page'
-                                                : undefined
-                                        }
-                                        className={cn(
-                                            'flex w-full cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors',
-                                            slug === item.slug
-                                                ? 'bg-accent text-accent-foreground font-medium'
-                                                : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
-                                        )}
-                                        onClick={() => open(item.slug)}
-                                    >
-                                        {Icon && (
-                                            <Icon className="size-4 shrink-0" />
-                                        )}
-                                        {t(item.title)}
-                                    </button>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </nav>
+                                return (
+                                    <li key={item.slug}>
+                                        <button
+                                            type="button"
+                                            data-testid={`settings-section-${item.slug}`}
+                                            aria-current={
+                                                slug === item.slug
+                                                    ? 'page'
+                                                    : undefined
+                                            }
+                                            className={cn(
+                                                'flex w-full cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors',
+                                                slug === item.slug
+                                                    ? 'bg-accent text-accent-foreground font-medium'
+                                                    : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
+                                            )}
+                                            onClick={() => open(item.slug)}
+                                        >
+                                            {Icon && (
+                                                <Icon className="size-4 shrink-0" />
+                                            )}
+                                            {t(item.title)}
+                                        </button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </nav>
 
-                {/* Active section */}
-                <div className="flex min-w-0 flex-1 flex-col">
-                    {/* Fixed header: the close control must not scroll away with
+                    {/* Active section */}
+                    <div className="flex min-w-0 flex-1 flex-col">
+                        {/* Fixed header: the close control must not scroll away with
                         the section, and only the section below it scrolls. */}
-                    <div className="flex shrink-0 justify-end p-3">
-                        <button
-                            type="button"
-                            className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring cursor-pointer rounded-md p-1.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
-                            data-testid="settings-close"
-                            aria-label={t('Close')}
-                            onClick={() => modal?.close()}
-                        >
-                            <X className="size-4" />
-                        </button>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto px-6 pb-6">
-                        {isPanelReady ? (
-                            <Panel key={slug} {...panelProps} />
-                        ) : current ? (
-                            /* Section data still loading */
-                            <div
-                                className="space-y-4"
-                                aria-busy="true"
-                                data-testid="settings-panel-loading"
+                        <div className="flex shrink-0 justify-end p-3">
+                            <button
+                                type="button"
+                                className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring cursor-pointer rounded-md p-1.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                                data-testid="settings-close"
+                                aria-label={t('Close')}
+                                onClick={() => modal?.close()}
                             >
-                                <div className="bg-muted h-6 w-40 animate-pulse rounded" />
-                                <div className="bg-muted h-4 w-64 animate-pulse rounded" />
-                                <div className="bg-muted h-32 w-full animate-pulse rounded-lg" />
-                            </div>
-                        ) : (
-                            <div className="text-muted-foreground flex h-full items-center justify-center text-sm">
-                                {t('Select a section')}
-                            </div>
-                        )}
+                                <X className="size-4" />
+                            </button>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto px-6 pb-6">
+                            {isPanelReady ? (
+                                <Panel key={slug} {...panelProps} />
+                            ) : current ? (
+                                /* Section data still loading */
+                                <div
+                                    className="space-y-4"
+                                    aria-busy="true"
+                                    data-testid="settings-panel-loading"
+                                >
+                                    <div className="bg-muted h-6 w-40 animate-pulse rounded" />
+                                    <div className="bg-muted h-4 w-64 animate-pulse rounded" />
+                                    <div className="bg-muted h-32 w-full animate-pulse rounded-lg" />
+                                </div>
+                            ) : (
+                                <div className="text-muted-foreground flex h-full items-center justify-center text-sm">
+                                    {t('Select a section')}
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
+                </OverlayContainerProvider>
             </div>
         </Modal>
     );
