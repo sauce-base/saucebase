@@ -23,12 +23,58 @@ import { handleAction } from '@/lib/navigation';
 import type { User } from '@/types';
 import type { MenuItem } from '@/types/navigation';
 import { Link } from '@inertiajs/react';
+import type { ComponentProps } from 'react';
 import { ChevronsUpDown, UserCircle } from 'lucide-react';
 import NavIcon from './NavIcon';
 
 interface NavUserProps {
     user: User;
     items: MenuItem[];
+}
+
+/**
+ * A menu entry's destination.
+ *
+ * A fragment-only URL stays a plain anchor. Inertia's `Link` calls
+ * `preventDefault()` and writes history itself, so the browser never fires
+ * `hashchange` — and anything listening for a fragment (the settings modal) would
+ * never hear the URL change. It also spares a visit to a page we are already on.
+ */
+function NavLink({
+    url,
+    icon,
+    title,
+    ...props
+}: ComponentProps<'a'> & {
+    url?: string | null;
+    icon?: string | null;
+    title: string;
+}) {
+    const children = (
+        <>
+            <NavIcon icon={icon} />
+            <span>{title}</span>
+        </>
+    );
+
+    // Spread what the menu item passes down. `DropdownMenuItem asChild` clones
+    // this element to hand it the item's styling and behaviour, and a component
+    // that keeps those props to itself renders unstyled.
+    if (url?.startsWith('#')) {
+        return (
+            <a href={url} {...props}>
+                {children}
+            </a>
+        );
+    }
+
+    // Cast: Inertia types `onClick` against `Element` where the anchor props say
+    // `HTMLAnchorElement`. Same event, narrower target.
+    return (
+        <Link href={url ?? '#'} {...(props as ComponentProps<typeof Link>)}>
+            {children}
+        </Link>
+    );
 }
 
 export default function NavUser({ user, items }: NavUserProps) {
@@ -158,10 +204,11 @@ export default function NavUser({ user, items }: NavUserProps) {
                                                     <span>{t(item.title)}</span>
                                                 </>
                                             ) : (
-                                                <Link href={item.url ?? '#'}>
-                                                    <NavIcon icon={item.icon} />
-                                                    <span>{t(item.title)}</span>
-                                                </Link>
+                                                <NavLink
+                                                    url={item.url}
+                                                    icon={item.icon}
+                                                    title={t(item.title)}
+                                                />
                                             )}
                                         </DropdownMenuItem>
                                     ))}
