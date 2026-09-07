@@ -62,6 +62,7 @@
         "@fontsource-variable/outfit": "^5.2.8",
         "@fontsource-variable/source-serif-4": "^5.2.9",
         "@inertiajs/vite": "^3.2.0",
+        "@inertiaui/modal-vue": "^3.1.2",
         "@lucide/vue": "^1.18.0",
         "@vue/server-renderer": "^3.5.34",
         "@vueuse/core": "^14.3.0",

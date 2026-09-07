@@ -41,7 +41,7 @@ const brandIsClaimed = hasGlobalComponent('sidebar-brand');
         :collapsible="collapsible"
         data-sidebar="sidebar"
     >
-        <SidebarHeader>
+        <SidebarHeader data-testid="sidebar-header">
             <GlobalComponents v-if="brandIsClaimed" position="sidebar-brand" />
             <AppBrand v-else />
         </SidebarHeader>

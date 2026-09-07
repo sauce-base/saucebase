@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Services\Navigation;
 use App\Settings\GeneralSettings;
+use App\Settings\SectionRegistry;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -48,6 +49,9 @@ class HandleInertiaRequests extends Middleware
                 ->mapWithKeys(fn ($module) => [$module->name => $module->name])
                 ->all(),
             'navigation' => fn () => app(Navigation::class)->treeGrouped(),
+
+            // The settings modal's sidebar: discovered sections, not a nav group.
+            'settings.sections' => fn () => app(SectionRegistry::class)->forFrontend(),
             'breadcrumbs' => fn () => $this->getBreadcrumbs(),
             'toast' => fn () => $request->session()->pull('toast'),
             'settings.general' => function (): array {

@@ -108,6 +108,51 @@
     --react-color: #0ea5e9;
 }
 
+/* Inertia Modal ships its layout classes (max-widths, backdrop, positioning)
+   inside its own bundle, so Tailwind has to scan it or the modal renders
+   unstyled. The glob matches whichever stack's package is installed. */
+@source '../../node_modules/@inertiaui/*/dist/*.js';
+
+/* Scrollbars, themed: a transparent track so the trough blends into whatever it
+   sits on, and a thumb drawn from the border token so it follows light/dark. */
+html {
+    scrollbar-color: var(--border) transparent;
+}
+
+@layer base {
+    html {
+        /* Tells the browser which palette to draw the chrome it owns and CSS
+           cannot reach: the `<option>` popup of a native `<select>`, date and
+           time pickers, the scrollbar corner. Not scrollbars — `scrollbar-color`
+           above sets those explicitly and wins. */
+        color-scheme: light;
+    }
+
+    html.dark,
+    html[data-theme='dark'] {
+        color-scheme: dark;
+    }
+}
+
+/* Inertia Modal's backdrop, softened from its own opaque `bg-black/75`. */
+.im-backdrop {
+    background-color: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(5px);
+}
+
+/*
+ * Tint the canvas while a modal is open.
+ *
+ * The modal's scroll lock reserves a scrollbar gutter on `html` so the page does
+ * not jump. That gutter lies outside the backdrop's containing block — no width
+ * can reach it, `100vw` included — so it would otherwise stay a bright strip
+ * down the edge of a dimmed page. Painting the canvas to the same value the
+ * backdrop produces makes the two read as one surface.
+ */
+html:has(.im-backdrop) {
+    background-color: color-mix(in srgb, var(--background) 60%, black);
+}
+
 /* Reka UI sets pointer-events: none on <body> for scroll-lock when modals open.
    Modal content must opt back in — overlays get this from Reka's own styles,
    but content elements need it explicitly. Targeting data-slot survives shadcn-vue CLI updates. */
