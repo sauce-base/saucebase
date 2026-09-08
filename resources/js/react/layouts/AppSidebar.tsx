@@ -11,12 +11,13 @@ import {
     getGlobalComponents,
     hasGlobalComponent,
 } from '@/lib/globalComponents';
-import type { User } from '@/types';
+import type { PageProps, User } from '@/types';
 import type { Navigation } from '@/types/navigation';
 import { usePage } from '@inertiajs/react';
 
 export default function AppSidebar() {
-    const page = usePage<{ navigation: Navigation; auth: { user: User } }>();
+    const page =
+        usePage<PageProps<{ navigation: Navigation; auth: { user: User } }>>();
 
     const items = page.props.navigation?.main ?? [];
     const secondaryItems = page.props.navigation?.secondary ?? [];
@@ -29,7 +30,7 @@ export default function AppSidebar() {
 
     return (
         <Sidebar variant="inset" collapsible="icon" className="bg-transparent">
-            <SidebarHeader>
+            <SidebarHeader data-testid="sidebar-header">
                 {brandIsClaimed ? (
                     getGlobalComponents('sidebar-brand').map((C, i) => (
                         <C key={i} />

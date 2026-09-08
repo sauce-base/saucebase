@@ -3,6 +3,7 @@ import { useT } from '@/i18n';
 import { cn } from '@/lib/utils';
 import type { MenuItem } from '@/types/navigation';
 import { Link, usePage } from '@inertiajs/react';
+import { ModalLink } from '@inertiaui/modal-react';
 import { ArrowRight, ExternalLink, Menu, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import AppLogo from './AppLogo';
@@ -22,11 +23,26 @@ export default function Header() {
     const landingNav = ((page.props.navigation as Record<string, unknown>)
         ?.landing ?? []) as MenuItem[];
     const auth = page.props.auth as
-        | { user?: unknown; registration_enabled?: boolean }
+        | {
+              user?: unknown;
+              registration_enabled?: boolean;
+              modal_enabled?: boolean;
+          }
         | undefined;
     const isLoggedIn = auth?.user != null;
     const isGuest = has('auth') && !isLoggedIn;
     const canRegister = isGuest && auth?.registration_enabled === true;
+
+    /**
+     * How the sign-in and registration entry points render.
+     *
+     * A modal over the current page when the site has that switched on, an
+     * ordinary page link when it has not. `navigate` puts the auth route in the
+     * address bar while the modal is open, so Back closes it and a refresh or
+     * shared link lands on the full page.
+     */
+    const AuthLink = auth?.modal_enabled ? ModalLink : Link;
+    const authLinkProps = auth?.modal_enabled ? { navigate: true } : {};
 
     useEffect(() => {
         const handleScroll = () => {
@@ -99,19 +115,23 @@ export default function Header() {
                         </div>
                         {isGuest && (
                             <>
-                                <Link
+                                <AuthLink
+                                    {...authLinkProps}
                                     href={route('login')}
-                                    className="text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200"
+                                    className="text-muted-foreground hover:bg-accent hover:text-accent-foreground cursor-pointer rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200"
+                                    data-testid="header-sign-in"
                                 >
                                     {t('Sign In')}
-                                </Link>
+                                </AuthLink>
                                 {canRegister && (
-                                    <Link
+                                    <AuthLink
+                                        {...authLinkProps}
                                         href={route('register')}
-                                        className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                                        className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex cursor-pointer items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                                        data-testid="header-get-started"
                                     >
                                         {t('Get Started')}
-                                    </Link>
+                                    </AuthLink>
                                 )}
                             </>
                         )}
@@ -178,26 +198,30 @@ export default function Header() {
                             <div className="border-border/60 mt-2 border-t pt-4">
                                 {isGuest && (
                                     <div className="flex gap-3">
-                                        <Link
+                                        <AuthLink
+                                            {...authLinkProps}
                                             href={route('login')}
-                                            className="border-border text-foreground hover:bg-accent flex-1 rounded-xl border px-4 py-2.5 text-center text-sm font-medium transition-all duration-200"
+                                            className="border-border text-foreground hover:bg-accent flex-1 cursor-pointer rounded-xl border px-4 py-2.5 text-center text-sm font-medium transition-all duration-200"
+                                            data-testid="header-sign-in-mobile"
                                             onClick={() =>
                                                 setMobileMenuOpen(false)
                                             }
                                         >
                                             {t('Sign In')}
-                                        </Link>
+                                        </AuthLink>
                                         {canRegister && (
-                                            <Link
+                                            <AuthLink
+                                                {...authLinkProps}
                                                 href={route('register')}
-                                                className="bg-primary text-primary-foreground hover:bg-primary/90 flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200"
+                                                className="bg-primary text-primary-foreground hover:bg-primary/90 flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200"
+                                                data-testid="header-get-started-mobile"
                                                 onClick={() =>
                                                     setMobileMenuOpen(false)
                                                 }
                                             >
                                                 {t('Get Started')}
                                                 <ArrowRight className="h-3.5 w-3.5" />
-                                            </Link>
+                                            </AuthLink>
                                         )}
                                     </div>
                                 )}

@@ -3,6 +3,7 @@ import { Dialog as DialogPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
+import { useOverlayContainer } from '@/lib/overlayContainer';
 import { cn } from '@/lib/utils';
 
 function Dialog({
@@ -53,8 +54,10 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
     showCloseButton?: boolean;
 }) {
+    const overlayContainer = useOverlayContainer();
+
     return (
-        <DialogPortal data-slot="dialog-portal">
+        <DialogPortal data-slot="dialog-portal" container={overlayContainer}>
             <DialogOverlay />
             <DialogPrimitive.Content
                 data-slot="dialog-content"

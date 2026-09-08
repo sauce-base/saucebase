@@ -1,6 +1,15 @@
 import type { Page } from '@inertiajs/core';
 
+/** One section of the settings modal, contributed by core or by a module. */
+export type SettingsSection = {
+    slug: string;
+    title: string;
+    icon: string | null;
+    component: string;
+};
+
 export type Settings = {
+    sections: SettingsSection[];
     general: {
         site_name: string;
         site_tagline: string | null;

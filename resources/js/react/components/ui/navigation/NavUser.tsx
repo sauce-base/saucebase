@@ -16,11 +16,14 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar';
+import { useSettings } from '@/hooks/useSettings';
+import { settingsHref } from '@/hooks/useSettingsModal';
 import { useT } from '@/i18n';
 import { handleAction } from '@/lib/navigation';
 import type { User } from '@/types';
 import type { MenuItem } from '@/types/navigation';
 import { Link } from '@inertiajs/react';
+import type { ComponentProps } from 'react';
 import { ChevronsUpDown, UserCircle } from 'lucide-react';
 import NavIcon from './NavIcon';
 
@@ -29,9 +32,62 @@ interface NavUserProps {
     items: MenuItem[];
 }
 
+/**
+ * A menu entry's destination.
+ *
+ * A fragment-only URL stays a plain anchor. Inertia's `Link` calls
+ * `preventDefault()` and writes history itself, so the browser never fires
+ * `hashchange` — and anything listening for a fragment (the settings modal) would
+ * never hear the URL change. It also spares a visit to a page we are already on.
+ */
+function NavLink({
+    url,
+    icon,
+    title,
+    ...props
+}: ComponentProps<'a'> & {
+    url?: string | null;
+    icon?: string | null;
+    title: string;
+}) {
+    const children = (
+        <>
+            <NavIcon icon={icon} />
+            <span>{title}</span>
+        </>
+    );
+
+    // Spread what the menu item passes down. `DropdownMenuItem asChild` clones
+    // this element to hand it the item's styling and behaviour, and a component
+    // that keeps those props to itself renders unstyled.
+    if (url?.startsWith('#')) {
+        return (
+            <a href={url} {...props}>
+                {children}
+            </a>
+        );
+    }
+
+    // Cast: Inertia types `onClick` against `Element` where the anchor props say
+    // `HTMLAnchorElement`. Same event, narrower target.
+    return (
+        <Link href={url ?? '#'} {...(props as ComponentProps<typeof Link>)}>
+            {children}
+        </Link>
+    );
+}
+
 export default function NavUser({ user, items }: NavUserProps) {
     const { isMobile } = useSidebar();
     const t = useT();
+    const settings = useSettings();
+
+    /**
+     * Every section is contributed by a module, so an installation with none has
+     * an empty settings modal and no reason to offer the entry. The `settings`
+     * route itself is core and always exists, so its presence proves nothing.
+     */
+    const hasSettingsSections = (settings.sections?.length ?? 0) > 0;
 
     const userInitials = user.name
         .split(' ')
@@ -97,14 +153,18 @@ export default function NavUser({ user, items }: NavUserProps) {
                             </div>
                         </DropdownMenuLabel>
 
-                        {route().has('settings.profile') && (
+                        {hasSettingsSections && (
                             <>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <Link href={route('settings.profile')}>
+                                    {/* A fragment, so settings open over the current page. */}
+                                    <a
+                                        href={settingsHref('profile')}
+                                        data-testid="open-settings"
+                                    >
                                         <UserCircle className="size-4" />
                                         {t('Profile')}
-                                    </Link>
+                                    </a>
                                 </DropdownMenuItem>
                             </>
                         )}
@@ -144,10 +204,11 @@ export default function NavUser({ user, items }: NavUserProps) {
                                                     <span>{t(item.title)}</span>
                                                 </>
                                             ) : (
-                                                <Link href={item.url ?? '#'}>
-                                                    <NavIcon icon={item.icon} />
-                                                    <span>{t(item.title)}</span>
-                                                </Link>
+                                                <NavLink
+                                                    url={item.url}
+                                                    icon={item.icon}
+                                                    title={t(item.title)}
+                                                />
                                             )}
                                         </DropdownMenuItem>
                                     ))}

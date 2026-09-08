@@ -19,6 +19,8 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar';
+import { useSettings } from '@/composables/useSettings';
+import { settingsHref } from '@/composables/useSettingsModal';
 import { handleAction } from '@/lib/navigation';
 import type { User } from '@/types';
 import type { MenuBadge, MenuItem } from '@/types/navigation';
@@ -33,6 +35,16 @@ const props = defineProps<{
 }>();
 
 const { isMobile } = useSidebar();
+const settings = useSettings();
+
+/**
+ * Every section is contributed by a module, so an installation with none has an
+ * empty settings modal and no reason to offer the entry. The `settings` route
+ * itself is core and always exists, so its presence proves nothing.
+ */
+const hasSettingsSections = computed(
+    () => (settings.value.sections?.length ?? 0) > 0,
+);
 
 const userInitials = computed(() => {
     return props.user.name
@@ -123,13 +135,17 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                         </div>
                     </DropdownMenuLabel>
 
-                    <template v-if="route().has('settings.profile')">
+                    <template v-if="hasSettingsSections">
                         <DropdownMenuSeparator />
                         <DropdownMenuItem as-child>
-                            <Link :href="route('settings.profile')">
+                            <!-- A fragment, so settings open over the current page. -->
+                            <a
+                                :href="settingsHref('profile')"
+                                data-testid="open-settings"
+                            >
                                 <IconUserCircle class="size-4" />
                                 {{ $t('Profile') }}
-                            </Link>
+                            </a>
                         </DropdownMenuItem>
                     </template>
 
@@ -184,9 +200,16 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                         </template>
                                     </Badge>
                                 </div>
-                                <!-- External link (regular anchor) -->
+                                <!--
+                                    External links, and fragments: `Link` writes
+                                    history itself, so no `hashchange` fires and
+                                    the settings modal never hears the change.
+                                -->
                                 <a
-                                    v-else-if="item.external === true"
+                                    v-else-if="
+                                        item.external === true ||
+                                        item.url?.startsWith('#')
+                                    "
                                     :href="item.url || '#'"
                                     :target="
                                         item.newPage ? '_blank' : undefined

@@ -50,6 +50,8 @@ class TestFixtures
             );
 
             $account->syncRoles([Role::USER->value]);
+
+            ModuleSupport::prepareUser($account);
         }
     }
 
@@ -77,6 +79,10 @@ class TestFixtures
             'email_verified_at' => now(),
         ]);
         $user->syncRoles([Role::USER->value]);
+
+        // Installed modules get the accounts into a usable state — see prepareUser().
+        ModuleSupport::prepareUser($admin);
+        ModuleSupport::prepareUser($user);
 
         return [
             'admin' => ['email' => $admin->email, 'password' => $password],
