@@ -1,4 +1,5 @@
-import { computed, ref } from 'vue';
+import { visitModal, type ModalInstance } from '@inertiaui/modal-vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 /**
  * Whether the settings modal is open, which section it shows, and how to change
@@ -29,7 +30,7 @@ function readFragment() {
 
 /**
  * Bound once for the lifetime of the app rather than per component. Both the
- * opener and the modal itself read the fragment, and the modal unmounts every
+ * sync below and the modal itself read the fragment, and the modal unmounts every
  * time it closes — tearing the listener down with it would leave the fragment
  * unwatched and settings unable to reopen.
  */
@@ -104,4 +105,74 @@ export function useSettingsModal() {
         close,
         restore,
     };
+}
+
+/**
+ * Drives the modal itself from the fragment the rest of this file reads.
+ *
+ * Unlike {@see useSettingsModal}, this has two constraints the call site has to
+ * respect: it must be called **once**, from the app root — a second call opens a
+ * second modal — and it must be called **inside setup**, because of the
+ * `onMounted` below.
+ *
+ * A composable rather than a component, even though it only runs effects: Vue
+ * has no such component. A template-less SFC warns about its missing render
+ * function, and `vue/valid-template-root` refuses the empty template that would
+ * silence it. React keeps a `SettingsModal` component because there the same
+ * code is hooks returning `null`, which React accepts.
+ */
+export function useSettingsModalSync(): void {
+    const { isOpen, section, close } = useSettingsModal();
+
+    let modal: ModalInstance | null = null;
+    let opening = false;
+
+    async function openModal(activeSection: string | null) {
+        if (modal || opening) {
+            return;
+        }
+
+        opening = true;
+
+        try {
+            modal = await visitModal(
+                route(
+                    'settings',
+                    activeSection ? { section: activeSection } : {},
+                ),
+                {
+                    // Closing from inside the modal (escape, backdrop, close
+                    // button) has to clear the fragment too, or it could not be
+                    // reopened.
+                    onClose: () => {
+                        modal = null;
+                        close();
+                    },
+                },
+            );
+        } finally {
+            opening = false;
+        }
+    }
+
+    /**
+     * Deferred to mount, not started in setup. A deep link to `#settings/...`
+     * would otherwise visit before Inertia has settled and take a 409 back,
+     * leaving the modal closed. This is what being a child component used to buy
+     * implicitly.
+     */
+    onMounted(() => {
+        watch(
+            isOpen,
+            (open) => {
+                if (open) {
+                    openModal(section.value);
+                } else {
+                    modal?.close();
+                    modal = null;
+                }
+            },
+            { immediate: true },
+        );
+    });
 }
