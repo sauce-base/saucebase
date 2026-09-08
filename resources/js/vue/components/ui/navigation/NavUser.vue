@@ -200,9 +200,16 @@ function handleClick(item: MenuItem, event: MouseEvent) {
                                         </template>
                                     </Badge>
                                 </div>
-                                <!-- External link (regular anchor) -->
+                                <!--
+                                    External links, and fragments: `Link` writes
+                                    history itself, so no `hashchange` fires and
+                                    the settings modal never hears the change.
+                                -->
                                 <a
-                                    v-else-if="item.external === true"
+                                    v-else-if="
+                                        item.external === true ||
+                                        item.url?.startsWith('#')
+                                    "
                                     :href="item.url || '#'"
                                     :target="
                                         item.newPage ? '_blank' : undefined
